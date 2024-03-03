@@ -1,9 +1,11 @@
-import { ButtonProps } from "@material-tailwind/react";
+import { ButtonProps } from '@material-tailwind/react';
 
 interface ButtonWithLinkProps extends ButtonProps {
-    to?: string
+  to?: string
 }
 
-export default function ButtonWithLink({}: ButtonWithLinkProps) {
+export default function ButtonWithLink(buttonWithProps: ButtonWithLinkProps) {
+  const { to } = buttonWithProps;
 
+  return <div>{to ?? 'to'}</div>;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Navbar,
   Collapse,
@@ -6,34 +6,33 @@ import {
   Button,
   IconButton,
   Input,
-} from "@material-tailwind/react";
+} from '@material-tailwind/react';
 import {
   Bars3Icon,
   XMarkIcon,
-} from "@heroicons/react/24/outline";
+} from '@heroicons/react/24/outline';
 
 import {
   Squares2X2Icon,
   BellIcon,
-} from "@heroicons/react/24/solid";
-import NavList from "../molecule/NavList";
-import ProfileMenu from "../molecule/ProfileMenu";
-
+} from '@heroicons/react/24/solid';
+import NavList from '../molecule/NavList';
+import ProfileMenu from '../molecule/ProfileMenu';
 
 export function NavbarWithIcons() {
   const [open, setOpen] = React.useState(false);
-  const [isLogin, setLogin] = React.useState(false);
+  const [isLogin] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
   React.useEffect(() => {
     window.addEventListener(
-      "resize",
+      'resize',
       () => window.innerWidth >= 960 && setOpen(false),
     );
   }, []);
 
   return (
-    <Navbar className='' color="white" shadow={false} fullWidth>
+    <Navbar className="" color="white" shadow={false} fullWidth>
       <div className="container mx-auto flex items-center justify-between">
         <div>
           <Typography color="blue-gray" className="font-bold pl-4 text-4xl">
@@ -43,7 +42,7 @@ export function NavbarWithIcons() {
             <NavList />
           </div>
         </div>
-        <div></div>
+        <div />
         <div className="grid gap-4">
           <div className="lg:flex hidden items-center gap-2">
             {/* <IconButton variant="text">
@@ -53,12 +52,14 @@ export function NavbarWithIcons() {
               <Squares2X2Icon className="h-5 w-5 text-gray-400" />
             </IconButton> */}
 
-            {isLogin 
-            ? <ProfileMenu /> 
-            : <>
-              <Button variant="text" className="text-sm font-medium">로그인</Button>
-              <Button variant="text" className="text-sm font-medium">회원가입</Button>
-            </>}
+            {isLogin
+              ? <ProfileMenu />
+              : (
+                <>
+                  <Button variant="text" className="text-sm font-medium">로그인</Button>
+                  <Button variant="text" className="text-sm font-medium">회원가입</Button>
+                </>
+              )}
           </div>
           <div className="w-60 lg:flex hidden h-10">
             {/* <Input icon={<i className="fas fa-search" />} label="Search" /> */}
