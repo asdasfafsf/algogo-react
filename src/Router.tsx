@@ -1,21 +1,18 @@
 import {
-    createBrowserRouter
+  createBrowserRouter,
 } from 'react-router-dom';
-import App from './App';
-import NotFound from '../template/NotFound';
-
-
+import App from './page/App';
+import NotFound from './template/NotFound';
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-    },
-    {
-        path: '/*',
-        element: <NotFound />
-    }
-].sort(a => a.path === '/*' ? -1 : 1));
-
+  {
+    path: '/',
+    element: <App />,
+  },
+  {
+    path: '/*',
+    element: <NotFound />,
+  },
+].sort((a) => (a.path === '/*' ? -1 : 1)));
 
 export default router;
