@@ -130,7 +130,7 @@ const TABLE_ROW = [
   },
 ];
 
-const TABLE_HEAD = ['Name', 'Function', 'Status', 'Employed', ' '];
+const TABLE_HEAD = ['제목', '난이도', '상태', '유형', '출처'];
 
 export default function ProblemTable() {
   return (
@@ -143,23 +143,23 @@ export default function ProblemTable() {
         >
           <div>
             <Typography variant="h6" color="blue-gray">
-              Members List
+              문제 목록
             </Typography>
             <Typography
               variant="small"
               className="text-gray-600 font-normal"
             >
-              See information about all members
+              원하는 문제를 선택해서 푸세요!(멘트 추천좀)
             </Typography>
           </div>
           <div className="flex flex-wrap items-center w-full shrink-0 gap-4 md:w-max">
             <div className="w-full md:w-72">
               <Input
-                label="Search"
+                label="제목"
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
             </div>
-            <Button className="md:max-w-fit w-full">add member</Button>
+            {/* <Button className="md:max-w-fit w-full">add member</Button> */}
           </div>
         </CardHeader>
         <CardBody className="overflow-scroll !p-0">

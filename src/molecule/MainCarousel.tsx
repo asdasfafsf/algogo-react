@@ -14,7 +14,7 @@ export default function MainCarousel() {
             <Typography
               variant="h1"
               color="white"
-              className="mb-4 text-xl md:text-4xl lg:text-2xl"
+              className="mb-4 text-xl md:text-2xl lg:text-2xl"
             >
               계정 연동 관련 멘트를 넣고싶은데 적당한게 생각이 안나요
             </Typography>
