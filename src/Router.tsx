@@ -3,11 +3,21 @@ import {
 } from 'react-router-dom';
 import App from './page/App';
 import NotFound from './template/NotFound';
+import SignUp from './page/SignUp';
+import Login from './page/Login';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
   {
     path: '/*',

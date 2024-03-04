@@ -1,7 +1,4 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React from 'react';
-
-// @material-tailwind/react
 import {
   Chip,
   Avatar,
@@ -134,23 +131,23 @@ const TABLE_HEAD = ['제목', '난이도', '상태', '유형', '출처'];
 
 export default function ProblemTable() {
   return (
-    <section className="container">
+    <section className="container mt-8">
       <Card className="h-full w-full">
         <CardHeader
           floated={false}
           shadow={false}
           className="rounded-none flex flex-wrap gap-4 justify-between mb-4 p-2"
         >
-          <div>
-            <Typography variant="h6" color="blue-gray">
-              문제 목록
+          <div className="flex items-center justify-center">
+            <Typography variant="h5" color="blue-gray">
+              모든 문제
             </Typography>
-            <Typography
+            {/* <Typography
               variant="small"
               className="text-gray-600 font-normal"
             >
               원하는 문제를 선택해서 푸세요!(멘트 추천좀)
-            </Typography>
+            </Typography> */}
           </div>
           <div className="flex flex-wrap items-center w-full shrink-0 gap-4 md:w-max">
             <div className="w-full md:w-72">

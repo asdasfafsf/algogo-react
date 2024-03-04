@@ -16,13 +16,15 @@ import {
   Squares2X2Icon,
   BellIcon,
 } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 import NavList from '../molecule/NavList';
 import ProfileMenu from '../molecule/ProfileMenu';
 
 export function NavbarWithIcons() {
   const [open, setOpen] = React.useState(false);
-  const [isLogin] = React.useState(false);
+  const [isLogin] = React.useState(true);
   const handleOpen = () => setOpen((cur) => !cur);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     window.addEventListener(
@@ -56,8 +58,8 @@ export function NavbarWithIcons() {
               ? <ProfileMenu />
               : (
                 <>
-                  <Button variant="text" className="text-sm font-medium">로그인</Button>
-                  <Button variant="text" className="text-sm font-medium">회원가입</Button>
+                  <Button variant="text" className="text-sm font-medium" onClick={() => navigate('/login')}>로그인</Button>
+                  <Button variant="text" className="text-sm font-medium" onClick={() => navigate('/signup')}>회원가입</Button>
                 </>
               )}
           </div>
