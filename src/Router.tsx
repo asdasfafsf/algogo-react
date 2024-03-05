@@ -5,6 +5,7 @@ import App from './page/App';
 import NotFound from './template/NotFound';
 import SignUp from './page/SignUp';
 import Login from './page/Login';
+import Problem from './page/Problem';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/problem',
+    element: <Problem />,
   },
   {
     path: '/*',

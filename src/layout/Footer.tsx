@@ -3,7 +3,7 @@ import { Typography, IconButton } from '@material-tailwind/react';
 
 export default function Footer() {
   return (
-    <footer className="px-8 py-24">
+    <footer className="px-8 py-16">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
           <Typography className="!text-sm font-medium text-gray-500 lg:text-left text-center">
