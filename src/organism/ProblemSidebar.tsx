@@ -1,6 +1,7 @@
 import Typography from '@material-tailwind/react/components/Typography';
 import Line from '../atom/Line';
 import ClipboardWithTooltip from '../atom/ClipboardWithTooltip';
+import ProblemImage from '../atom/ProblemImage';
 
 export default function ProblemSidebar() {
   const sample = '1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1\n끝';
@@ -20,6 +21,12 @@ export default function ProblemSidebar() {
       </Typography>
       <Typography variant="small" className="font-medium">
         아니오를 선택 시 프로그램을 종료한다는 문구를 출력한다
+      </Typography>
+
+      <ProblemImage src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/upload/201003/dfcmhrjj_142c3w76qg8_b.jpg" alt="테스트1" />
+
+      <Typography variant="small" className="font-medium">
+        위와 같을 경우에는 아무렇게나 출력한다 아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??
       </Typography>
 
       <Line className="my-4 opacity-0" />
