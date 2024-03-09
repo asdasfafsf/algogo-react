@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Typography, Button, Tooltip } from '@material-tailwind/react';
 import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import Line from './Line';
@@ -10,10 +10,18 @@ interface ClipboardWithTooltipProps {
 export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipProps) {
   const [copied, setCopied] = React.useState(false);
 
+  const handleMouseLeave = useCallback((e: React.MouseEvent) => {
+    setCopied(false);
+    if (e.target) {
+      const target = e.target as HTMLButtonElement;
+      target.blur();
+    }
+  }, []);
+
   return (
     <Tooltip content={copied ? '복사됨' : '복사'}>
       <Button
-        onMouseLeave={() => setCopied(false)}
+        onMouseLeave={handleMouseLeave}
         onClick={async () => {
           await navigator.clipboard.writeText(content);
           setCopied(true);
