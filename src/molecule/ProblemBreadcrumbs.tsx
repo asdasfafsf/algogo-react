@@ -18,7 +18,7 @@ export default function ProblemBreadcrumbs(props: ProblemBreadCrumbsProps) {
     >
       <a
         href="#"
-        className="opacity-60 hover:opacity-100 text-white pb-1"
+        className="opacity-60 hover:opacity-100 text-white pb-0.5"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
