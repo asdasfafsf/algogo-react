@@ -12,9 +12,10 @@ export default function ProblemBreadcrumbs(props: ProblemBreadCrumbsProps) {
 
   return (
     <Breadcrumbs
-      color="black"
-      separator=">"
       className="bg-gray-900 text-white"
+      color="black"
+      fullWidth
+      separator=">"
     >
       <a
         href="#"
@@ -34,7 +35,7 @@ export default function ProblemBreadcrumbs(props: ProblemBreadCrumbsProps) {
           <div className="h-full">{elem}</div>
         </a>
       )) }
-      <a href="#" className="text-white font-bold">{current}</a>
+      <a href="#" className="text-white font-bold w-auto">{current}</a>
     </Breadcrumbs>
   );
 }

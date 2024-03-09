@@ -9,11 +9,14 @@ export default function ProblemSection() {
   const editorRef = useRef<unknown>(null);
 
   return (
-    <section className="row-span-1">
+    <section style={{
+      width: 'calc(100vw - 500px)',
+    }}
+    >
       <nav className="h-8 bg-pink-300">여기는 컨트롤 패널입니다</nav>
       <Editor
-        height="80vh"
-        width="100%"
+        height="calc(100vh - 80px)"
+        width="calc(100vw - 500px)"
         defaultLanguage="javascript"
         defaultValue={defaultValue}
         theme="vs-dark"

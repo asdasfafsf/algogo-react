@@ -7,10 +7,7 @@ export default function ProblemLayout() {
     <div className="grid">
       <ProblemHeader />
       <div
-        className="grid"
-        style={{
-          gridTemplateColumns: '500px 1fr',
-        }}
+        className="flex"
       >
         <ProblemSidebar />
         <ProblemSection />

@@ -4,9 +4,11 @@ import ProblemNavbar from '../molecule/ProblemNavbar';
 export default function ProblemHeader() {
   return (
     <header
-      className="h-12 bg-gray-900 grid grid-cols-2 items-center"
+      className="h-12 flex bg-gray-900 items-center w-screen"
     >
-      <ProblemBreadcrumbs path={['문제']} current="문제이름" />
+      <div className="flex">
+        <ProblemBreadcrumbs path={['문제']} current="문제이름이 존나길면 어떻게 됩니까????????????????" />
+      </div>
       <ProblemNavbar />
     </header>
   );
