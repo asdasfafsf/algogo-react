@@ -8,8 +8,9 @@ module.exports = {
       "airbnb/hooks",
       "airbnb-typescript"
   ],
+  "ignorePatterns": ['vite.config.ts', "postcss.config.js"],
   "parserOptions": {
-      "project": "./tsconfig.json"
+      "project": "./tsconfig.json",
   },
   "rules": {
       "react/react-in-jsx-scope": 'off',
