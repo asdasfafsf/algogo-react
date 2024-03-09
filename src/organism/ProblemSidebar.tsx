@@ -8,7 +8,7 @@ export default function ProblemSidebar() {
   return (
     // eslint-disable-next-line react/style-prop-object
     <aside
-      className="max-w-[500px] w-[500px] px-5 py-10 overflow-y-scroll h-screen"
+      className="max-w-[500px] px-5 py-8 overflow-y-auto w-[500px] h-[calc(100vh-48px)]"
     >
       <Typography variant="h5">문제이름</Typography>
       <Line className="my-4" />

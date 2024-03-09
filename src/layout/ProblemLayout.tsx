@@ -4,7 +4,7 @@ import ProblemSidebar from '../organism/ProblemSidebar';
 
 export default function ProblemLayout() {
   return (
-    <div className="grid">
+    <div className="grid overflow-x-hidden">
       <ProblemHeader />
       <div
         className="flex"
