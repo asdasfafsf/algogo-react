@@ -1,12 +1,17 @@
-import ProblemHeader from '../molecule/ProblemHeader';
-import ProblemSection from '../molecule/ProblemSection';
-import ProblemSidebar from '../molecule/ProblemSidebar';
+import ProblemHeader from '../organism/ProblemHeader';
+import ProblemSection from '../organism/ProblemSection';
+import ProblemSidebar from '../organism/ProblemSidebar';
 
 export default function ProblemLayout() {
   return (
     <div className="grid">
       <ProblemHeader />
-      <div className="grid">
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: '500px 1fr',
+        }}
+      >
         <ProblemSidebar />
         <ProblemSection />
       </div>
