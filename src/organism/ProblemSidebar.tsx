@@ -2,6 +2,8 @@ import Typography from '@material-tailwind/react/components/Typography';
 import Line from '../atom/Line';
 import ClipboardWithTooltip from '../atom/ClipboardWithTooltip';
 import ProblemImage from '../atom/ProblemImage';
+import EnterIcon from '/public/assets/enter.svg?react'
+import SpaceIcon from '/public/assets/space.svg?react'
 
 export default function ProblemSidebar() {
   const sample = '1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1\n끝';
@@ -10,7 +12,7 @@ export default function ProblemSidebar() {
     <aside
       className="max-w-[500px] px-5 py-8 overflow-y-auto w-[500px] h-[calc(100vh-48px)]"
     >
-      <Typography variant="h5">문제이름</Typography>
+      <Typography variant="h5">포물선의 방정식</Typography>
       <Line className="my-4" />
 
       <Typography variant="small" className="font-medium">
@@ -31,7 +33,26 @@ export default function ProblemSidebar() {
 
       <Line className="my-4 opacity-0" />
       <Typography variant="h6">입출력 예시</Typography>
-      <Line className="my-2" />
+      <Line className="mt-2 mb-4" />
+
+      <div className='flex items-center gap-4'>
+          <div className='flex justify-center items-center'>
+              <div className='flex justify-center items-center bg-black rounded-sm text-blue-500 h-6 w-6'>
+                <EnterIcon />
+              </div>
+              &nbsp;
+              <Typography variant='small' className='font-medium'>: 다음 줄</Typography>
+          </div>
+          <div className='flex justify-center items-center'>
+              <div className='flex justify-center items-center bg-black rounded-sm text-blue-500 h-6 w-6'>
+                <SpaceIcon />
+              </div>
+              &nbsp;
+              <Typography variant='small' className='font-medium'>: 스페이스</Typography>
+          </div>
+      </div>
+      <Line className="my-4 opacity-0" />
+
       <Typography variant="small" className="font-bold pt-2">예시1</Typography>
       <Typography variant="small" className="font-medium">입력</Typography>
       <ClipboardWithTooltip content="1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5" />
@@ -49,6 +70,10 @@ export default function ProblemSidebar() {
       <ClipboardWithTooltip content="1 2 3 4" />
       <Typography variant="small" className="font-medium">출력</Typography>
       <ClipboardWithTooltip content="1 2 3 4" />
+
+      <Line className="my-4 opacity-0" />
+      <Typography variant="h6">출처</Typography>
+      <Line className="my-2" />
     </aside>
   );
 }

@@ -1,7 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { Typography, Button, Tooltip } from '@material-tailwind/react';
 import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import Line from './Line';
+import EnterIcon from '/public/assets/enter.svg?react'
+import SpaceIcon from '/public/assets/space.svg?react'
 
 interface ClipboardWithTooltipProps {
   content: string;
@@ -10,12 +11,9 @@ interface ClipboardWithTooltipProps {
 export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipProps) {
   const [copied, setCopied] = React.useState(false);
 
-  const handleMouseLeave = useCallback((e: React.MouseEvent) => {
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setCopied(false);
-    if (e.target) {
-      const target = e.target as HTMLButtonElement;
-      target.blur();
-    }
+    e.currentTarget.blur();
   }, []);
 
   return (
@@ -48,17 +46,17 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
 
                         {index < arr.length - 1
                           ? (
-                            <Typography
-                              className="font-thin text-orange-500"
-                              variant="small"
-                            >
-                              ■
-                            </Typography>
+                            <div className=' text-blue-500'>
+                                <SpaceIcon />
+                            </div>
                           )
                           : ''}
                       </>
                     ))}
-                  {contentIndex < contentArr.length - 1 ? <Line className="opacity-0 py-1" /> : ''}
+                  {contentIndex < contentArr.length - 1 
+                        ? (<div className='w-4 h-4 text-blue-500'>
+                                <EnterIcon />
+                            </div>) : ''}
 
                 </div>
               ))
