@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 import { Typography, Button, Tooltip } from '@material-tailwind/react';
 import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import EnterIcon from '/public/assets/enter.svg?react'
-import SpaceIcon from '/public/assets/space.svg?react'
+/* eslint-disable-next-line */
+import EnterIcon from '/public/assets/enter.svg?react';
+/* eslint-disable-next-line */
+import SpaceIcon from '/public/assets/space.svg?react';
 
 interface ClipboardWithTooltipProps {
   content: string;
@@ -46,17 +48,19 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
 
                         {index < arr.length - 1
                           ? (
-                            <div className=' text-blue-500'>
-                                <SpaceIcon />
+                            <div className=" text-blue-500">
+                              <SpaceIcon />
                             </div>
                           )
                           : ''}
                       </>
                     ))}
-                  {contentIndex < contentArr.length - 1 
-                        ? (<div className='w-4 h-4 text-blue-500'>
-                                <EnterIcon />
-                            </div>) : ''}
+                  {contentIndex < contentArr.length - 1
+                    ? (
+                      <div className="w-4 h-4 text-blue-500">
+                        <EnterIcon />
+                      </div>
+                    ) : ''}
 
                 </div>
               ))
