@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import {
   Menu,
   MenuHandler,
@@ -5,9 +7,11 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 
 export default function Dropdown() {
   const LanguageList = ['C++', 'Java 11', 'Python3', 'Node.js'];
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const openMenu = false;
   return (
     <div className="relative flex max-w-[24rem]">
@@ -23,7 +27,7 @@ export default function Dropdown() {
               className="font-bold text-gray-400 relative top-[1px]"
             >
               {' '}
-              {LanguageList[0]}
+              {LanguageList[selectedIndex]}
             </Typography>
             &nbsp;
             <ChevronDownIcon
@@ -41,6 +45,7 @@ export default function Dropdown() {
           {LanguageList.map((language, index) => (
             <div
               key={language}
+              onClick={(e) => setSelectedIndex(index)}
               className="bg-gray flex items-center p-1 hover:bg-blue-gray-700 rounded-md cursor-poiner"
             >
               <Typography
