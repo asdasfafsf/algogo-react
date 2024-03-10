@@ -21,7 +21,7 @@ export default function ProblemSidebar() {
 
       <div className="h-4 my-2">
         <div className="flex flex-wrap items-center gap-4 jus">
-          <ProblemLevelViewer />
+          <ProblemLevelViewer intialState={'hide'} level={'알 수 없음'} />
           <div className="flex flex-wrap items-center">
             <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;

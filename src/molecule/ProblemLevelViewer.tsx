@@ -1,15 +1,28 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Tooltip, Typography } from '@material-tailwind/react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
+import useProblemLevelViewer from '../hook/useProblemLevelViewer';
 
-export default function ProblemLevelViewer() {
+interface ProblemLevelViewerProps {
+  intialState: ProblemCategoryState;
+  level: ProblemLevel
+}
+
+export default function ProblemLevelViewer({ intialState, level }: ProblemLevelViewerProps) {
+  const [levelState, tooltipContent, handleClick] = useProblemLevelViewer(intialState);
   return (
     <Tooltip
-      content="난이도 보기"
+      content={tooltipContent}
     >
-      <div className="flex flex-wrap items-center cursor-pointer w-28">
+      <div
+        onClick={handleClick}
+        className="flex flex-wrap items-center cursor-pointer w-28"
+      >
         <Typography variant="small" className="font-bold">난이도 : </Typography>
   &nbsp;
-        <ProblemLevelChip />
+        {levelState === 'hide' ? <ProblemLevelChip level="숨김" /> : <ProblemLevelChip level={level} />}
+
       </div>
     </Tooltip>
   );
