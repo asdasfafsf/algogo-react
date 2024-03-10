@@ -16,16 +16,17 @@ export default function ProblemCategoryViewer(
 
   return (
 
-    <div className="min-h-12 my-4">
-      <div className="lex items-center flex-wrap">
-        {/* <Typography variant="small" className="font-bold mx-2 h-full w-8">유형 </Typography> */}
-        <Tooltip
-          content={tooltipContent}
-          placement="left"
-        >
+    <div className="min-h-12 my-4 max-w-[calc(100%-48px)] ">
+      <Tooltip
+        content={tooltipContent}
+        placement="top"
+      >
+        <div className="lex items-center flex-wrap max-w-[calc(100%-48px)] ">
+          {/* <Typography variant="small" className="font-bold mx-2 h-full w-8">유형 </Typography> */}
+
           <div
             onClick={handleClick}
-            className="flex flex-wrap gap-1 w-[calc(100%-48px)] cursor-pointer"
+            className="flex flex-wrap gap-1 w-full cursor-pointer"
           >
             {categoryState === 'hide'
               ? <ProblemCategoryChip category="숨김" />
@@ -33,8 +34,8 @@ export default function ProblemCategoryViewer(
                 ? <ProblemCategoryChip category="알 수 없음" />
                 : categoryList.map((category) => <ProblemCategoryChip category={category} />)}
           </div>
-        </Tooltip>
-      </div>
+        </div>
+      </Tooltip>
     </div>
 
   );

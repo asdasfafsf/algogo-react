@@ -7,10 +7,11 @@ import Line from '../atom/Line';
 import ClipboardWithTooltip from '../atom/ClipboardWithTooltip';
 import ProblemImage from '../atom/ProblemImage';
 import ProblemCategoryViewer from '../molecule/ProblemCategoryViewer';
+import ProblemLevelViewer from '../molecule/ProblemLevelViewer';
 
 export default function ProblemSidebar() {
   const sample = '1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1\n끝';
-  const categoryList: ProblemCategory[] = ['구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현'];
+  const categoryList: ProblemCategory[] = ['구현', '그래프 이론', '다이나믹 프로그래밍'];
   return (
     <aside
       className="px-5 py-8 overflow-y-auto w-[500px] h-[calc(100vh-48px)]"
@@ -20,6 +21,7 @@ export default function ProblemSidebar() {
 
       <div className="h-4 my-2">
         <div className="flex flex-wrap items-center gap-4 jus">
+          <ProblemLevelViewer />
           <div className="flex flex-wrap items-center">
             <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;

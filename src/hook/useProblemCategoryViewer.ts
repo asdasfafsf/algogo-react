@@ -15,9 +15,9 @@ export default function useCategoryViewer(initialState: ProblemCategoryState = '
 
   useEffect(() => {
     if (categoryState === 'hide') {
-      setTootipContent('보기');
+      setTootipContent('유형 보기');
     } else if (categoryState === 'view') {
-      setTootipContent('숨기기');
+      setTootipContent('유형 숨기기');
     } else if (categoryState === 'none') {
       setTootipContent('알 수 없음');
     }
