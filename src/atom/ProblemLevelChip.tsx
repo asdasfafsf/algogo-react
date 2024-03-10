@@ -11,7 +11,6 @@ export function getBackgroundClassName(level: ProblemLevel) {
   if (level.indexOf('실버') > -1) {
     return 'bg-silver';
   }
-
   if (level.indexOf('골드') > -1) {
     return 'bg-gold';
   }
@@ -35,8 +34,7 @@ export default function ProblemLevelChip({ level }: ProblemLevelChipProps) {
   return (
     <Chip
       variant="ghost"
-      className={`text-white ${getBackgroundClassName(level)}`}
-    //   color="#624637"
+      className={`${'text-white'} ${getBackgroundClassName(level)}`}
       size="sm"
       value={level}
     />
