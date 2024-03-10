@@ -6,7 +6,7 @@ export default function CodeEditor() {
 
   return (
     <Editor
-      height="calc(100vh - 80px)"
+      height="calc(100% - 48px)"
       width="calc(100vw - 500px)"
       defaultLanguage="javascript"
       defaultValue=""

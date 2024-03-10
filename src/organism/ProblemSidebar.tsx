@@ -14,7 +14,7 @@ export default function ProblemSidebar() {
   const categoryList: ProblemCategory[] = ['구현', '그래프 이론', '다이나믹 프로그래밍'];
   return (
     <aside
-      className="px-5 py-8 overflow-y-auto w-[500px] h-[calc(100vh-48px)]"
+      className="px-5 py-8 overflow-y-auto w-[500px]"
     >
       <Typography variant="h4">포물선의 방정식</Typography>
       <Line className="my-2" />
