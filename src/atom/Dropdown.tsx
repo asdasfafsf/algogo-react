@@ -45,7 +45,7 @@ export default function Dropdown() {
           {LanguageList.map((language, index) => (
             <div
               key={language}
-              onClick={(e) => setSelectedIndex(index)}
+              onClick={() => setSelectedIndex(index)}
               className="bg-gray flex items-center p-1 hover:bg-blue-gray-700 rounded-md cursor-poiner"
             >
               <Typography
