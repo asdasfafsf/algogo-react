@@ -15,6 +15,7 @@ module.exports = {
   "rules": {
       "react/react-in-jsx-scope": 'off',
       "react/destructuring-assignment": "off",
-      "react/require-default-props": "off"
+      "react/require-default-props": "off",
+      "no-nested-ternary": "off"
   }
 }
