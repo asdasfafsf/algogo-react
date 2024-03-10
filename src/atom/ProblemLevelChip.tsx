@@ -36,7 +36,7 @@ export default function ProblemLevelChip({ level }: ProblemLevelChipProps) {
       variant="ghost"
       className={`${'text-white'} ${getBackgroundClassName(level)}`}
       size="sm"
-      value={level}
+      value={level === '숨김' ? '난이도 숨김' : level}
     />
   );
 }
