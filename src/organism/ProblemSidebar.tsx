@@ -54,6 +54,23 @@ export default function ProblemSidebar() {
       </Typography>
 
       <Line className="my-4 opacity-0" />
+      <Typography variant="h5">입력</Typography>
+      <Line className="mt-2 mb-4" />
+
+      <Typography variant="paragraph" className="font-normal">
+        입력은 요러케 저러케 조로케 한다
+      </Typography>
+
+      <Line className="my-4 opacity-0" />
+      <Typography variant="h5">출력</Typography>
+      <Line className="mt-2 mb-4" />
+
+      <Typography variant="paragraph" className="font-normal">
+        출력도 요로케 저러케 이렇게 한다
+      </Typography>
+
+
+      <Line className="my-4 opacity-0" />
       <Typography variant="h5">입출력 예시</Typography>
       <Line className="mt-2 mb-4" />
 
@@ -94,7 +111,7 @@ export default function ProblemSidebar() {
       <ClipboardWithTooltip content="1 2 3 4" />
 
       <Line className="my-4 opacity-0" />
-      <Typography variant="h6">출처</Typography>
+      <Typography variant="h5">출처</Typography>
       <Line className="my-2" />
     </aside>
   );
