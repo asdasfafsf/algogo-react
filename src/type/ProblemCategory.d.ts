@@ -2,7 +2,7 @@ type ProblemCategoryState = 'hide' | 'none' | 'view';
 
 type ProblemCategory
     = '알 수 없음'
-    | '숨김'
+    | '알고리즘 유형 숨김'
     | '그래프 이론'
     | '다이나믹 프로그래밍'
     | '그래프 탐색'

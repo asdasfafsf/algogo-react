@@ -29,7 +29,7 @@ export default function ProblemCategoryViewer(
             className="flex flex-wrap gap-1 w-full cursor-pointer"
           >
             {categoryState === 'hide'
-              ? <ProblemCategoryChip category="숨김" />
+              ? <ProblemCategoryChip category="알고리즘 유형 숨김" />
               : categoryState === 'none'
                 ? <ProblemCategoryChip category="알 수 없음" />
                 : categoryList.map((category) => <ProblemCategoryChip category={category} />)}
