@@ -1,5 +1,4 @@
 import ProblemControlPanel from '../molecule/ProblemControlPanel';
-import Line from '../atom/Line';
 import CodeEditor from '../molecule/CodeEditor';
 
 
