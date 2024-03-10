@@ -16,6 +16,8 @@ module.exports = {
       "react/react-in-jsx-scope": 'off',
       "react/destructuring-assignment": "off",
       "react/require-default-props": "off",
-      "no-nested-ternary": "off"
+      "no-nested-ternary": "off",
+      "import/no-extraneous-dependencies": "off",
+      "react-hooks/exhaustive-deps": "off"
   }
 }
