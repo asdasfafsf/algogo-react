@@ -7,7 +7,7 @@ export default function ProblemHeader() {
       className="h-12 flex bg-gray-900 items-center w-screen"
     >
       <div className="flex">
-        <ProblemBreadcrumbs path={['문제']} current="문제이름이 존나길면 어떻게 됩니까????????????????" />
+        <ProblemBreadcrumbs pathList={[{path: '문제', to: '/'}]} current="문제이름이 존나길면 어떻게 됩니까????????????????" />
       </div>
       <ProblemNavbar />
     </header>
