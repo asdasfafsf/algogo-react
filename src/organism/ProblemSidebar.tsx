@@ -1,24 +1,39 @@
+/* eslint-disable-next-line */
+import EnterIcon from '/public/assets/enter.svg?react';
+/* eslint-disable-next-line */
+import SpaceIcon from '/public/assets/space.svg?react';
 import Typography from '@material-tailwind/react/components/Typography';
 import Line from '../atom/Line';
 import ClipboardWithTooltip from '../atom/ClipboardWithTooltip';
 import ProblemImage from '../atom/ProblemImage';
-/* eslint-disable */
-import EnterIcon from '/public/assets/enter.svg?react';
-/* eslint-disable */
-import SpaceIcon from '/public/assets/space.svg?react';
+import ProblemCategoryViewer from '../molecule/ProblemCategoryViewer';
 
 export default function ProblemSidebar() {
   const sample = '1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1 1 1 1\n끝';
+  const categoryList: ProblemCategory[] = ['구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현', '구현'];
   return (
     <aside
-      className="max-w-[500px] px-5 py-8 overflow-y-auto w-[500px] h-[calc(100vh-48px)]"
+      className="px-5 py-8 overflow-y-auto w-[500px] h-[calc(100vh-48px)]"
     >
       <Typography variant="h5">포물선의 방정식</Typography>
-      <Line className="my-4" />
+      <Line className="my-2" />
 
-      <div>
-        문제에 대한 간략한 정보들을 담자!
+      <div className="h-4 my-2">
+        <div className="flex flex-wrap items-center gap-4 jus">
+          <div className="flex flex-wrap items-center">
+            <Typography variant="small" className="font-bold">제출 : </Typography>
+              &nbsp;
+            <Typography variant="small">6554231</Typography>
+          </div>
+          <div className="flex flex-wrap items-center">
+            <Typography variant="small" className="font-bold">정답률 : </Typography>
+            &nbsp;
+            <Typography variant="small">33.12%</Typography>
+          </div>
+        </div>
       </div>
+
+      <ProblemCategoryViewer initialState={categoryList.length === 0 ? 'none' : 'hide'} categoryList={categoryList} />
 
       <Typography variant="small" className="font-medium">
         포물선의 방정식을 구할 지 물어보고
