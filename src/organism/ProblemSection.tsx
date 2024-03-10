@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Editor from '@monaco-editor/react';
 import { useRef } from 'react';
+import ProblemControlPanel from '../molecule/ProblemControlPanel';
+import Line from '../atom/Line';
 
 const defaultValue = `
 
@@ -13,7 +15,9 @@ export default function ProblemSection() {
       width: 'calc(100vw - 500px)',
     }}
     >
-      <nav className="h-8 bg-pink-300">여기는 컨트롤 패널입니다</nav>
+      <Line className='bg-gray-800'/>
+      <ProblemControlPanel />
+      <Line className='bg-gray-800'/>
       <Editor
         height="calc(100vh - 80px)"
         width="calc(100vw - 500px)"
