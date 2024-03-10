@@ -8,7 +8,7 @@ export default function ProblemCategoryChip({ category } : ProblemCategoryChipPr
   return (
     <Chip
       variant="ghost"
-      color={(category === '알 수 없음' || category === '숨김') ? 'gray' : 'red'}
+      color={(category === '알 수 없음') ? 'red' : category === '숨김' ? 'gray' : 'green'}
       size="sm"
       value={category}
     />
