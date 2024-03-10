@@ -1,6 +1,5 @@
 import { Typography, Button } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
 
 export default function NotFound() {
   const navigate = useNavigate();
