@@ -25,12 +25,12 @@ export default function ProblemSidebar() {
           <div className="flex flex-wrap items-center">
             <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;
-            <Typography variant="small">6554231</Typography>
+            <Typography variant="small" className='font-medium'>6554231</Typography>
           </div>
           <div className="flex flex-wrap items-center">
             <Typography variant="small" className="font-bold">정답률 : </Typography>
             &nbsp;
-            <Typography variant="small">33.12%</Typography>
+            <Typography variant="small" className='font-medium'>33.12%</Typography>
           </div>
         </div>
       </div>
