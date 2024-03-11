@@ -18,6 +18,7 @@ module.exports = {
       "react/require-default-props": "off",
       "no-nested-ternary": "off",
       "import/no-extraneous-dependencies": "off",
-      "react-hooks/exhaustive-deps": "off"
+      "react-hooks/exhaustive-deps": "off",
+      "jsx-a11y/no-static-element-interactions": 'off'
   }
 }
