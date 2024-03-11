@@ -1,4 +1,4 @@
-import ProblemControlPanel from '../molecule/ProblemControlPanel';
+import CodeControlPanel from '../molecule/CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../molecule/CodeResultPannel';
 
@@ -9,7 +9,7 @@ export default function ProblemSection() {
         width: 'calc(100vw - 500px)',
       }}
     >
-      <ProblemControlPanel />
+      <CodeControlPanel />
       <CodeEditor />
       <CodeResultPannel />
     </section>
