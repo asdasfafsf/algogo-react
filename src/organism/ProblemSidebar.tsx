@@ -21,16 +21,16 @@ export default function ProblemSidebar() {
 
       <div className="h-4 my-2">
         <div className="flex flex-wrap items-center gap-4 jus">
-          <ProblemLevelViewer intialState={'hide'} level={'알 수 없음'} />
+          <ProblemLevelViewer intialState="hide" level="알 수 없음" />
           <div className="flex flex-wrap items-center">
             <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;
-            <Typography variant="small" className='font-medium'>6554231</Typography>
+            <Typography variant="small" className="font-medium">6554231</Typography>
           </div>
           <div className="flex flex-wrap items-center">
             <Typography variant="small" className="font-bold">정답률 : </Typography>
             &nbsp;
-            <Typography variant="small" className='font-medium'>33.12%</Typography>
+            <Typography variant="small" className="font-medium">33.12%</Typography>
           </div>
         </div>
       </div>
@@ -68,7 +68,6 @@ export default function ProblemSidebar() {
       <Typography variant="paragraph" className="font-normal">
         출력도 요로케 저러케 이렇게 한다
       </Typography>
-
 
       <Line className="my-4 opacity-0" />
       <Typography variant="h5">입출력 예시</Typography>
