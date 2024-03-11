@@ -1,4 +1,4 @@
-import ProblemLayout from '../layout/ProblemLayout';
+import ProblemLayout from '../template/ProblemTemplate';
 
 export default function Problem() {
   return (
