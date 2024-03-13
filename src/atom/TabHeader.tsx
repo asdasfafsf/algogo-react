@@ -11,7 +11,7 @@ interface TabHeaderProps {
 export default function TabHeader({ headerList, selectedIndex, handleClick }: TabHeaderProps) {
   return (
     <ul
-      className="list-none flex items-center h-10 bg-gray-900"
+      className="list-none flex items-center h-10 bg-gray-900 min-w-full"
     >
       {headerList.map((elem, index) => (
         <li

@@ -1,19 +1,26 @@
+import useCodeResultPanel from '../hook/useCodeResultPanel';
 import CodeControlPanel from '../molecule/CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../molecule/CodeResultPannel';
+import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 
 export default function ProblemSection() {
+  const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
+  const [codeResultHeight, handleMouseDown] = useCodeResultPanel();
   return (
     <section
-      className='grid gap-0 m-0 p-0 h-[calc(100vh-48px)] min-w-[800px]'
+      className="grid gap-0 m-0 p-0 h-[calc(100vh-48px)]"
       style={{
-        width: 'calc(100vw - 500px)',
-        gridTemplateRows: "48px auto 300px",
-        gridTemplateColumns : "100%"
+        gridTemplateRows: `48px ${codeResultHeight}px 5px auto`,
+        gridTemplateColumns: `calc(100vw - ${problemWidth}px)`,
       }}
     >
       <CodeControlPanel />
       <CodeEditor />
+      <div
+        onMouseDown={handleMouseDown}
+        className="bg-white cursor-row-resize"
+      />
       <CodeResultPannel />
     </section>
   );

@@ -9,8 +9,9 @@ import ProblemImage from '../atom/ProblemImage';
 import ProblemCategoryViewer from '../molecule/ProblemCategoryViewer';
 import ProblemLevelViewer from '../molecule/ProblemLevelViewer';
 import {
-  useCallback, useEffect, useRef, useState,
+  useRef,
 } from 'react';
+import useProblemSidebar from '../hook/useProblemSidebar';
 
 export default function ProblemSidebar() {
   const sample = `1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
@@ -18,49 +19,14 @@ export default function ProblemSidebar() {
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1 1 1 1 1
 끝`;
-  const categoryList: ProblemCategory[] = ['구현', '그래프 이론', '다이나믹 프로그래밍'];
+  const categoryList: ProblemCategory[] = ['구현', '그래프 이론', '다이나믹 프로그래밍', '그리디 알고리즘', '누적 합', '데이크스트라', '문자열'];
   const draggableRef = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState(500);
-  const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {
-    clickEvent.stopPropagation();
-    let currentSize = size;
-    const screenWidth = (window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth);
 
-    console.log(`start SX ${clickEvent.screenX}`);
-    const mouseMoveHandler = (moveEvent: MouseEvent) => {
-      // 4️⃣
-      console.log('start\n\n');
-      console.log(`size : ${size}`);
-      console.log(`currentSize : ${currentSize}`);
-      const deltaX = moveEvent.screenX - (currentSize + 40);
-      console.log(`deltaX : ${deltaX}`);
-      console.log(`sX ${moveEvent.screenX}`);
-      // setSize(clickEvent.screenX)
-      if ((deltaX > 0 && (deltaX + currentSize) < screenWidth - 100)
-        || (deltaX < 0 && (deltaX + currentSize) > 100)) {
-        currentSize += deltaX;
-        setSize(currentSize);
-        console.log(`newSize : ${currentSize}`);
-      }
-      console.log('end\n\n');
-    };
-
-    // 5️⃣
-    const mouseUpHandler = () => {
-      document.removeEventListener('mousemove', mouseMoveHandler);
-    };
-
-    // 1️⃣
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler, { once: true });
-  }, [size]);
-
+  const [problemWidth, handleMouseDown] = useProblemSidebar();
   return (
     <aside
       style={{
-        width: `${size}px`,
+        width: `${problemWidth}px`,
       }}
       className="relative flex"
     >
@@ -68,9 +34,9 @@ export default function ProblemSidebar() {
         <Typography variant="h4">포물선의 방정식</Typography>
         <Line className="my-2" />
 
-        <div className="h-4 my-2">
+        <div className="min-h-4 my-2">
           <div className="flex flex-wrap items-center gap-4 jus">
-            <ProblemLevelViewer intialState="hide" level="알 수 없음" />
+            <ProblemLevelViewer intialState="hide" level="브론즈 5" />
             <div className="flex flex-wrap items-center">
               <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;
@@ -169,7 +135,7 @@ export default function ProblemSidebar() {
       <div
         ref={draggableRef}
         onMouseDown={handleMouseDown}
-        className="z-10 h-[calc(100vh-48px)]  text-white -right-5 absolute w-5 bg-pink cursor-col-resize bg-pink"
+        className="z-10 h-[calc(100vh-48px)]  text-white -right-5 absolute w-5 cursor-col-resize"
       >
         드래그 영역이에용
       </div>
