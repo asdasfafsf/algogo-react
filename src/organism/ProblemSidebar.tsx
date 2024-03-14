@@ -136,9 +136,7 @@ export default function ProblemSidebar() {
         ref={draggableRef}
         onMouseDown={handleMouseDown}
         className="z-10 h-[calc(100vh-48px)]  text-white -right-5 absolute w-5 cursor-col-resize"
-      >
-        드래그 영역이에용
-      </div>
+      />
     </aside>
   );
 }

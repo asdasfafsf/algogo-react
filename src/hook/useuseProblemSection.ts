@@ -2,7 +2,7 @@
 import { useCallback } from 'react';
 import { useCodeResultHeightStore } from '../zustand/CodeResultHeightStore';
 
-export default function useCodeResultPanel() {
+export default function useProblemSection() {
   const { codeResultHeight, setCodeResultHeight } = useCodeResultHeightStore(({ codeResultHeight, setCodeResultHeight }) => ({ codeResultHeight, setCodeResultHeight }));
 
   const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {

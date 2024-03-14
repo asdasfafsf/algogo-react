@@ -1,4 +1,4 @@
-import useCodeResultPanel from '../hook/useCodeResultPanel';
+import useCodeResultPanel from '../hook/useuseProblemSection';
 import CodeControlPanel from '../molecule/CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../molecule/CodeResultPannel';
@@ -19,7 +19,7 @@ export default function ProblemSection() {
       <CodeEditor />
       <div
         onMouseDown={handleMouseDown}
-        className="bg-white cursor-row-resize"
+        className="bg-gray-900 cursor-row-resize"
       />
       <CodeResultPannel />
     </section>
