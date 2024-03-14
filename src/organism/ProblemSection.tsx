@@ -1,12 +1,12 @@
-import useCodeResultPanel from '../hook/useuseProblemSection';
 import CodeControlPanel from '../molecule/CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../molecule/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
+import useProblemSection from '../hook/useProblemSection';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
-  const [codeResultHeight, handleMouseDown] = useCodeResultPanel();
+  const [codeResultHeight, handleMouseDown] = useProblemSection();
   return (
     <section
       className="grid gap-0 m-0 p-0 h-[calc(100vh-48px)]"
