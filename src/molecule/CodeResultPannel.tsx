@@ -11,7 +11,7 @@ import TabBody from '../atom/TabBody';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <div
@@ -35,12 +35,28 @@ export default function CodeResultPannel() {
                 </IconButton>
               </Tooltip>
               <Tooltip content="붙여넣기">
-                <IconButton className="h-8 w-8">
+                <IconButton
+                  onClick={async () => {
+                    const pastedValue = await navigator.clipboard.readText();
+
+                    if (textAreaRef.current) {
+                      textAreaRef.current.value = pastedValue;
+                    }
+                  }}
+                  className="h-8 w-8"
+                >
                   <ClipboardDocumentListIcon className="text-white w-6 h-6" />
                 </IconButton>
               </Tooltip>
               <Tooltip content="지우기">
-                <IconButton className="h-8 w-8">
+                <IconButton
+                  onClick={() => {
+                    if (textAreaRef.current) {
+                      textAreaRef.current.value = '';
+                    }
+                  }}
+                  className="h-8 w-8"
+                >
                   <TrashIcon className="text-red-500 w-6 h-6" />
                 </IconButton>
               </Tooltip>
