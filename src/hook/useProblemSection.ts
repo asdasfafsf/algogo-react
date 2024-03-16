@@ -17,11 +17,11 @@ export default function useProblemSection() {
     document.body.style.cursor = 'row-resize';
 
     const mouseMoveHandler = (moveEvent: MouseEvent) => {
-      const deltaY = moveEvent.screenY - clickEvent.screenY;
+      const deltaY = moveEvent.clientY - clickEvent.clientY;
       currentSize = codeResultHeight + deltaY;
 
       if (screenHeight - currentSize > 200 && currentSize > 50) {
-        setCodeResultHeight(currentSize);
+        setCodeResultHeight(codeResultHeight + deltaY);
       }
     };
 
