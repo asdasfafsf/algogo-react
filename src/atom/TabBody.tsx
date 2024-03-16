@@ -1,3 +1,8 @@
-export default function TabBody() {
-  return <div>저는 몸통이에용</div>;
+interface TabBodyProps {
+  children: React.ReactNode[];
+  className?: string;
+}
+
+export default function TabBody({ children, className = 'h-full bg-gray-900' }: TabBodyProps) {
+  return <div className={className}>{children}</div>;
 }
