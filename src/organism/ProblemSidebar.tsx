@@ -28,7 +28,7 @@ export default function ProblemSidebar() {
       style={{
         width: `${problemWidth}px`,
       }}
-      className="relative flex"
+      className="relative flex z-30 bg-white"
     >
       <div className="px-5 py-8 overflow-y-auto w-full">
         <Typography variant="h4">포물선의 방정식</Typography>

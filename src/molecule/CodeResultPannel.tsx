@@ -6,29 +6,32 @@ import Tab from '../atom/Tab';
 import TabPanel from '../atom/TabPanel';
 import TooltipIconButton from '../atom/TooptipIconButton';
 import TabBody from '../atom/TabBody';
+import { useCodeResultHeightStore } from '../zustand/CodeResultHeightStore';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const codeResultHeight = useCodeResultHeightStore((state) => state.codeResultHeight);
 
   return (
     <div
-      style={{
-        gridTemplateRows: '40px auto',
-      }}
-      className="grid"
+      className="h-full"
     >
-      <TabHeader className="min-w-[360px] overflow-hidden">
+      <TabHeader className="h-10 min-w-[360px] overflow-hidden">
         <Tab text="입력" isSelected={selectedIndex === 0} handleClick={() => { setSelectedIndex(0); }} />
         <Tab text="실행 결과" isSelected={selectedIndex === 1} handleClick={() => { setSelectedIndex(1); }} />
         <Tab text="테스트 케이스" isSelected={selectedIndex === 2} handleClick={() => { setSelectedIndex(2); }} />
       </TabHeader>
-      <TabBody className="w-full">
+      <TabBody
+        style={{
+          height: `calc(100vh - ${codeResultHeight + 48 + 48 + 40 + 5}px)`,
+        }}
+      >
         <TabPanel isSelected={selectedIndex === 0}>
-          <div className="-top-6 relative h-[calc(100%-20px)]">
+          <div className="h-full">
             <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
-              <div className="flex right-5 relative z-10 overflow-x-hidden bg-gray-900">
+              <div className="absolute flex right-6 z-10 overflow-x-hidden bg-gray-900">
                 <TooltipIconButton
                   className="h-8 w-8"
                   content="실행"
@@ -63,14 +66,14 @@ export default function CodeResultPannel() {
             <textarea
               ref={inputTextAreaRef}
               placeholder="테스트 입력"
-              className="-top-5 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+              className="h-full focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
             />
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 1}>
-          <div className="-top-6 relative h-[calc(100%-20px)]">
+          <div className="h-full">
             <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
-              <div className="flex right-5 relative z-10 overflow-x-hidden bg-gray-900">
+              <div className="absolute flex right-6 z-10 overflow-x-hidden bg-gray-900">
                 <TooltipIconButton
                   onClick={async () => {
                     if (outputTextAreaRef.current) {
@@ -100,7 +103,7 @@ export default function CodeResultPannel() {
               readOnly
               ref={outputTextAreaRef}
               placeholder="실행 결과가 출력됩니다"
-              className="-top-5 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+              className="h-full focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
             />
           </div>
         </TabPanel>
