@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
 import { useCallback } from 'react';
-import { useCodeResultHeightStore } from '../zustand/CodeResultHeightStore';
+import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 
 export default function useProblemSection() {
-  const { codeResultHeight, setCodeResultHeight } = useCodeResultHeightStore(({ codeResultHeight, setCodeResultHeight }) => ({ codeResultHeight, setCodeResultHeight }));
+  const { codeEditorHeight, setCodeEditorHeight } = useCodeEditorHeightStore(({ codeEditorHeight, setCodeEditorHeight }) => ({ codeEditorHeight, setCodeEditorHeight }));
 
   const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {
-    clickEvent.stopPropagation();
-    let currentSize = codeResultHeight;
+    // clickEvent.stopPropagation();
+    let currentSize = codeEditorHeight;
     const screenHeight = (window.innerHeight
       || document.documentElement.clientHeight
       || document.body.clientHeight);
@@ -18,10 +18,10 @@ export default function useProblemSection() {
 
     const mouseMoveHandler = (moveEvent: MouseEvent) => {
       const deltaY = moveEvent.clientY - clickEvent.clientY;
-      currentSize = codeResultHeight + deltaY;
+      currentSize = codeEditorHeight + deltaY;
 
       if (screenHeight - currentSize > 200 && currentSize > 50) {
-        setCodeResultHeight(codeResultHeight + deltaY);
+        setCodeEditorHeight(codeEditorHeight + deltaY);
       }
     };
 
@@ -36,7 +36,7 @@ export default function useProblemSection() {
     // 1️⃣
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler, { once: true });
-  }, [codeResultHeight]);
+  }, [codeEditorHeight]);
 
-  return [codeResultHeight, handleMouseDown] as const;
+  return [codeEditorHeight, handleMouseDown] as const;
 }

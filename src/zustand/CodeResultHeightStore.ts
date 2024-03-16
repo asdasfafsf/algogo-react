@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { createSelectors } from './selector';
 
-type CodeResultHeight = {
-  codeResultHeight: number;
-  setCodeResultHeight: (height: number) => void;
+type CodeEditorHeight = {
+  codeEditorHeight: number;
+  setCodeEditorHeight: (height: number) => void;
 };
 
-export const useCodeResultHeightStore = create<CodeResultHeight>((set) => ({
-  codeResultHeight: 600,
-  setCodeResultHeight: (height: number) => set(() => ({ codeResultHeight: height })),
+export const useCodeEditorHeightStore = create<CodeEditorHeight>((set) => ({
+  codeEditorHeight: 1000,
+  setCodeEditorHeight: (height: number) => set(() => ({ codeEditorHeight: height })),
 }));
 
-export const ProblemWidthSelectors = createSelectors(useCodeResultHeightStore);
+export const ProblemWidthSelectors = createSelectors(useCodeEditorHeightStore);

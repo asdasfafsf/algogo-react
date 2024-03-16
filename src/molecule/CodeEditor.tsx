@@ -1,11 +1,18 @@
 import Editor from '@monaco-editor/react';
 import { useRef } from 'react';
+import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 
 export default function CodeEditor() {
   const editorRef = useRef<unknown>(null);
+  const codeEditorHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
 
   return (
-    <div className="bg-gray-900">
+    <div
+      style={{
+        height: `${codeEditorHeight}px`,
+      }}
+      className="bg-gray-900"
+    >
       <Editor
         height="100%"
         width="100%"
