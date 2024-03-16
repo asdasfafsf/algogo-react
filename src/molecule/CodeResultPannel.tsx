@@ -28,7 +28,7 @@ export default function CodeResultPannel() {
       <TabBody className="w-full">
         <TabPanel isSelected={selectedIndex === 0}>
           <div className="-top-4 relative h-full">
-            <nav className="relative flex w-full justify-end gap-1">
+            <nav className="top-5 absolute flex w-full justify-end gap-1">
               <Tooltip content="실행">
                 <IconButton className="h-8 w-8 z-500 absolute">
                   <PlayIcon className="w-6 h-6 text-green-500" />
@@ -79,8 +79,9 @@ export default function CodeResultPannel() {
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
-          <div>
-            3번!!
+          <div className="max-w-md mx-auto mt-5 relative">
+            <button className="absolute top-0 right-0 mt-2 mr-2 bg-blue-500 text-white px-4 py-2 rounded">버튼</button>
+            <textarea className="w-full h-40 resize-none border rounded-md py-2 px-3" />
           </div>
         </TabPanel>
       </TabBody>
