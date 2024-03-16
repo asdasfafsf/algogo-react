@@ -4,11 +4,11 @@ interface TabProps {
   text: string;
   isSelected: boolean;
   handleClick: (e: React.MouseEvent) => Promise<void> | void;
-  className: string
+  className?: string
 }
 
 export default function Tab({
-  text, isSelected, handleClick, className,
+  text, isSelected, handleClick, className = '',
 }: TabProps) {
   return (
     <li
