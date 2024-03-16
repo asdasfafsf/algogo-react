@@ -17,9 +17,9 @@ export default function CodeResultPannel() {
   return (
     <div
       style={{
-        height: `calc(100vh - ${codeEditorHeight + 48 + 48 + 5}px)`,
+        height: `calc(100vh - ${codeEditorHeight + 48 + 48 + 10}px)`,
       }}
-      className="h-full"
+      className="h-full overflow-y-hidden"
     >
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
         <Tab text="입력" isSelected={selectedIndex === 0} handleClick={() => { setSelectedIndex(0); }} />
@@ -28,12 +28,12 @@ export default function CodeResultPannel() {
       </TabHeader>
       <TabBody
         style={{
-          height: `calc(100vh - ${codeEditorHeight + 48 + 48 + 40 + 5}px)`,
+          height: `calc(100vh - ${codeEditorHeight + 48 + 48 + 40 + 10}px)`,
         }}
       >
         <TabPanel isSelected={selectedIndex === 0}>
-          <div className="h-full">
-            <nav className="flex w-full justify-end gap-1 overflow-hidden">
+          <div className="h-full relative">
+            <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
               <div className="absolute flex right-6 z-10 overflow-x-hidden bg-gray-900">
                 <TooltipIconButton
                   className="h-8 w-8"
@@ -74,7 +74,7 @@ export default function CodeResultPannel() {
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 1}>
-          <div className="h-full">
+          <div className="h-full relative">
             <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
               <div className="absolute flex right-6 z-10 overflow-x-hidden bg-gray-900">
                 <TooltipIconButton

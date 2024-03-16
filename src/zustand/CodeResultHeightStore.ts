@@ -7,7 +7,7 @@ type CodeEditorHeight = {
 };
 
 export const useCodeEditorHeightStore = create<CodeEditorHeight>((set) => ({
-  codeEditorHeight: 1000,
+  codeEditorHeight: 1019,
   setCodeEditorHeight: (height: number) => set(() => ({ codeEditorHeight: height })),
 }));
 

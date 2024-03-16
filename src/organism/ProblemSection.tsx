@@ -1,4 +1,4 @@
-// import { ArrowUpIcon } from '@heroicons/react/24/outline';
+import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import CodeControlPanel from '../molecule/CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../molecule/CodeResultPannel';
@@ -18,13 +18,13 @@ export default function ProblemSection() {
       <CodeControlPanel />
       <CodeEditor />
       <div
-        className="h-[5px] bg-gray-900 cursor-row-resize flex items-center justify-center group/size1"
+        className="h-[10px] bg-gray-900 cursor-row-resize flex items-center justify-center group/size1"
       >
-        {/* <div
-          className="fixed rounded-xl group-hover/size1:visible invisible w-8 h-8 bg-gray-900"
+        <div
+          className="fixed rounded-xl group-hover/size1:visible invisible w-12 h-12 bg-gray-900 flex justify-center"
         >
           <ArrowUpIcon className="w-4 h-4 text-white" />
-        </div> */}
+        </div>
         <div
           onMouseDown={handleMouseDown}
           className="w-full h-full"
