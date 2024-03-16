@@ -74,7 +74,7 @@ export default function CodeResultPannel() {
             <textarea
               readOnly
               ref={textAreaRef}
-              className="bg-gray-900 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+              className="focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
             />
           </div>
         </TabPanel>
