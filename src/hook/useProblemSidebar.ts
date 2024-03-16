@@ -18,7 +18,7 @@ export default function useProblemSidebar() {
     document.body.style.cursor = 'col-resize';
 
     const mouseMoveHandler = (moveEvent: MouseEvent) => {
-      const deltaX = moveEvent.screenX - clickEvent.screenX;
+      const deltaX = moveEvent.clientX - clickEvent.clientX;
       currentSize = problemWidth + deltaX;
       if ((deltaX > 0 && (currentSize) < screenWidth - 100)
         || (deltaX < 0 && (currentSize) > 100)) {
