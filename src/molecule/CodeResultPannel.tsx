@@ -1,17 +1,16 @@
 import { useRef, useState } from 'react';
-import {
-  IconButton, Tooltip,
-} from '@material-tailwind/react';
-import { ClipboardDocumentListIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { ClipboardDocumentListIcon, TrashIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
 import TabPanel from '../atom/TabPanel';
+import TooltipIconButton from '../atom/TooptipIconButton';
 import TabBody from '../atom/TabBody';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <div
@@ -27,61 +26,87 @@ export default function CodeResultPannel() {
       </TabHeader>
       <TabBody className="w-full">
         <TabPanel isSelected={selectedIndex === 0}>
-          <div className="-top-4 relative h-full">
-            <nav className="top-5 absolute flex w-full justify-end gap-1">
-              <Tooltip content="실행">
-                <IconButton className="h-8 w-8 z-500 absolute">
+          <div className="-top-6 relative h-[calc(100%-20px)]">
+            <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
+              <div className="flex right-5 relative z-10 overflow-x-hidden bg-gray-900">
+                <TooltipIconButton
+                  className="h-8 w-8"
+                  content="실행"
+                >
                   <PlayIcon className="w-6 h-6 text-green-500" />
-                </IconButton>
-              </Tooltip>
-              <Tooltip content="붙여넣기">
-                <IconButton
+                </TooltipIconButton>
+                <TooltipIconButton
                   onClick={async () => {
-                    const pastedValue = await navigator.clipboard.readText();
-
-                    if (textAreaRef.current) {
-                      textAreaRef.current.value = pastedValue;
+                    const copiedValue = await navigator.clipboard.readText();
+                    if (inputTextAreaRef.current) {
+                      inputTextAreaRef.current.value = copiedValue;
                     }
                   }}
                   className="h-8 w-8"
+                  content="붙여넣기"
                 >
                   <ClipboardDocumentListIcon className="text-white w-6 h-6" />
-                </IconButton>
-              </Tooltip>
-              <Tooltip content="지우기">
-                <IconButton
+                </TooltipIconButton>
+                <TooltipIconButton
                   onClick={() => {
-                    if (textAreaRef.current) {
-                      textAreaRef.current.value = '';
+                    if (inputTextAreaRef.current) {
+                      inputTextAreaRef.current.value = '';
                     }
                   }}
                   className="h-8 w-8"
+                  content="지우기"
                 >
                   <TrashIcon className="text-red-500 w-6 h-6" />
-                </IconButton>
-              </Tooltip>
-
+                </TooltipIconButton>
+              </div>
             </nav>
             <textarea
-              ref={textAreaRef}
+              ref={inputTextAreaRef}
               placeholder="테스트 입력"
-              className="-top-4 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+              className="-top-5 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
             />
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 1}>
-          <div className="h-full">
+          <div className="-top-6 relative h-[calc(100%-20px)]">
+            <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
+              <div className="flex right-5 relative z-10 overflow-x-hidden bg-gray-900">
+                <TooltipIconButton
+                  onClick={async () => {
+                    if (outputTextAreaRef.current) {
+                      await navigator.clipboard.writeText(outputTextAreaRef.current.value);
+                    }
+                  }}
+                  className="h-8 w-8"
+                  content="복사"
+                >
+
+                  <ClipboardIcon className="text-white w-6 h-6" />
+                </TooltipIconButton>
+                <TooltipIconButton
+                  onClick={() => {
+                    if (outputTextAreaRef.current) {
+                      outputTextAreaRef.current.value = '';
+                    }
+                  }}
+                  className="h-8 w-8"
+                  content="지우기"
+                >
+                  <TrashIcon className="text-red-500 w-6 h-6" />
+                </TooltipIconButton>
+              </div>
+            </nav>
             <textarea
               readOnly
-              ref={textAreaRef}
-              className="focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+              ref={outputTextAreaRef}
+              placeholder="실행 결과가 출력됩니다"
+              className="-top-5 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
             />
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
           <div className="max-w-md mx-auto mt-5 relative">
-            <button className="absolute top-0 right-0 mt-2 mr-2 bg-blue-500 text-white px-4 py-2 rounded">버튼</button>
-            <textarea className="w-full h-40 resize-none border rounded-md py-2 px-3" />
+            안녕
           </div>
         </TabPanel>
       </TabBody>

@@ -2,11 +2,11 @@
 import { IconButton, IconButtonProps, Tooltip } from '@material-tailwind/react';
 import { Ref } from 'react';
 
-interface ToolTipIconButtonProps extends IconButtonProps {
+interface TooltipIconButtonProps extends IconButtonProps {
   content: string;
 }
 
-export default function ToolTipIconButton(props: ToolTipIconButtonProps) {
+export default function TooltipIconButton(props: TooltipIconButtonProps) {
   const {
     children, className, content, ref, ...pickProps
   } = props;
