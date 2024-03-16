@@ -20,14 +20,14 @@ export default function CodeResultPannel() {
       }}
       className="grid"
     >
-      <TabHeader>
+      <TabHeader className="min-w-[360px] overflow-hidden">
         <Tab text="입력" isSelected={selectedIndex === 0} handleClick={() => { setSelectedIndex(0); }} />
         <Tab text="실행 결과" isSelected={selectedIndex === 1} handleClick={() => { setSelectedIndex(1); }} />
         <Tab text="테스트 케이스" isSelected={selectedIndex === 2} handleClick={() => { setSelectedIndex(2); }} />
       </TabHeader>
       <TabBody className="w-full">
         <TabPanel isSelected={selectedIndex === 0}>
-          <div className="-top-8 relative h-full">
+          <div className="-top-4 relative h-full">
             <nav className="relative flex w-full justify-end gap-1">
               <Tooltip content="실행">
                 <IconButton className="h-8 w-8">
