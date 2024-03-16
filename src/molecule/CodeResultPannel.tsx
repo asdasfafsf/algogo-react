@@ -30,7 +30,7 @@ export default function CodeResultPannel() {
           <div className="-top-4 relative h-full">
             <nav className="relative flex w-full justify-end gap-1">
               <Tooltip content="실행">
-                <IconButton className="h-8 w-8">
+                <IconButton className="h-8 w-8 z-500 absolute">
                   <PlayIcon className="w-6 h-6 text-green-500" />
                 </IconButton>
               </Tooltip>
@@ -65,13 +65,17 @@ export default function CodeResultPannel() {
             <textarea
               ref={textAreaRef}
               placeholder="테스트 입력"
-              className="focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+              className="-top-4 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
             />
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 1}>
-          <div>
-            2번!!
+          <div className="h-full">
+            <textarea
+              readOnly
+              ref={textAreaRef}
+              className="bg-gray-900 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white min-h-full border-gray-900 border-none bg-gray-900"
+            />
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
