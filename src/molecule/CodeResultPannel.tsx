@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react';
 import { ClipboardDocumentListIcon, TrashIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
+import {
+  Button, Card, Chip, Typography,
+} from '@material-tailwind/react';
 import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
 import TabPanel from '../atom/TabPanel';
@@ -13,6 +16,34 @@ export default function CodeResultPannel() {
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const codeEditorHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
+
+  const TABLE_ROWS = [
+    {
+      name: 'John Michael',
+      job: 'Manager',
+      date: '23/04/18',
+    },
+    {
+      name: 'Alexa Liras',
+      job: 'Developer',
+      date: '23/04/18',
+    },
+    {
+      name: 'Laurent Perrier',
+      job: 'Executive',
+      date: '19/09/17',
+    },
+    {
+      name: 'Michael Levi',
+      job: 'Developer',
+      date: '24/12/08',
+    },
+    {
+      name: 'Richard Gran',
+      job: 'Manager',
+      date: '04/10/21',
+    },
+  ];
 
   return (
     <div
@@ -111,8 +142,82 @@ export default function CodeResultPannel() {
           </div>
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
-          <div className="max-w-md mx-auto mt-5 relative">
-            안녕
+          <div className="w-full h-full bg-gray-900">
+            <div className="w-full py-2">
+              <div className="flex items-center justify-end gap-1">
+                <Button color="blue">테스트 케이스 추가</Button>
+                <Button color="blue">실행</Button>
+              </div>
+            </div>
+            <Card className="h-full w-full overflow-scroll bg-gray-900">
+              <table className="w-full min-w-max table-auto text-left">
+                <thead>
+                  <tr>
+                    {['입력', '출력', '예상 결과', '일치 여부'].map((head) => (
+                      <th
+                        key={head}
+                        className="border-b border-blue-gray-100 bg-black p-4"
+                      >
+                        <Typography
+                          variant="small"
+                          color="white"
+                          className="font-normal leading-none opacity-70"
+                        >
+                          {head}
+                        </Typography>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {TABLE_ROWS.map((elem, index) => {
+                    const isLast = index === TABLE_ROWS.length - 1;
+                    const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
+
+                    return (
+                      <tr key={typeof elem === 'string' ? elem : JSON.stringify(elem)}>
+                        <td className={classes}>
+                          <Typography
+                            variant="small"
+                            color="white"
+                            className="font-normal"
+                          >
+                            1 2 3 4
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          <Typography
+                            variant="small"
+                            color="white"
+                            className="font-normal"
+                          >
+                            1 2 3 4
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          <Typography
+                            variant="small"
+                            color="white"
+                            className="font-normal"
+                          >
+                            1 2 3 4
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          <Typography
+                            variant="small"
+                            color="green"
+                            className="font-normal"
+                          >
+                            일치
+                          </Typography>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Card>
           </div>
         </TabPanel>
       </TabBody>
