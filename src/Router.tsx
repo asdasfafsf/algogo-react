@@ -2,7 +2,7 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import App from './page/App';
-import NotFound from './template/NotFound';
+import NotFound from './page/NotFound';
 import SignUp from './page/SignUp';
 import Login from './page/Login';
 import Problem from './page/Problem';
