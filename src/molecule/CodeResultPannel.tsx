@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { ClipboardDocumentListIcon, TrashIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import {
-  Button, Card, Chip, Typography,
+  Button, Card, Typography,
 } from '@material-tailwind/react';
 import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
@@ -207,7 +207,7 @@ export default function CodeResultPannel() {
                           <Typography
                             variant="small"
                             color="green"
-                            className="font-normal"
+                            className="font-norma"
                           >
                             일치
                           </Typography>
