@@ -149,8 +149,8 @@ export default function CodeResultPannel() {
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
           <div className="w-full h-full bg-gray-900">
-            <div className="w-full py-2">
-              <div className="flex items-center justify-end gap-1">
+            <div className="w-full py-2 overflow-x-hidden">
+              <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
                 <Button onClick={() => modal.push('testCase', TestCaseModal, {})} color="blue">테스트 케이스 추가</Button>
                 <Button color="blue">실행</Button>
               </div>
