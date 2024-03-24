@@ -1,7 +1,11 @@
 import { Button } from '@material-tailwind/react';
 import Dropdown from '../atom/Dropdown';
+import useModal from '../plugins/modal/useModal';
+import TestCaseModal from '../organism/TestCaseModal';
 
 export default function CodeControlPanel() {
+  const modal = useModal();
+
   return (
     <div
       className="overflow-hidden w-full max-w-full h-12 bg-gray-900 text-white flex items-center justify-end px-2"
@@ -26,6 +30,9 @@ export default function CodeControlPanel() {
           <Button
             color="blue"
             size="sm"
+            onClick={() => {
+              modal.push('key', TestCaseModal, {});
+            }}
           >
             테스트 케이스 추가
           </Button>
