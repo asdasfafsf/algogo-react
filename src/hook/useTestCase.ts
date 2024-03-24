@@ -12,7 +12,7 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
     const handleKeydown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape':
-          modal.top()?.reject(false);
+          modal.top()?.resolve(false);
           break;
         default:
           break;
@@ -60,7 +60,7 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   }, [testCaseList]);
 
   const handleClickClose = useCallback(() => {
-    modal.top()?.reject(false);
+    modal.top()?.resolve(false);
   }, [modal]);
 
   return [testCaseList,
