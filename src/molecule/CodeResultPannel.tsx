@@ -23,34 +23,6 @@ export default function CodeResultPannel() {
   const modal = useModal();
   const executeResultList = useExecuteResultListStore((state) => state.executeResultList);
 
-  const TABLE_ROWS = [
-    {
-      name: 'John Michael',
-      job: 'Manager',
-      date: '23/04/18',
-    },
-    {
-      name: 'Alexa Liras',
-      job: 'Developer',
-      date: '23/04/18',
-    },
-    {
-      name: 'Laurent Perrier',
-      job: 'Executive',
-      date: '19/09/17',
-    },
-    {
-      name: 'Michael Levi',
-      job: 'Developer',
-      date: '24/12/08',
-    },
-    {
-      name: 'Richard Gran',
-      job: 'Manager',
-      date: '04/10/21',
-    },
-  ];
-
   return (
     <div
       style={{
@@ -179,7 +151,7 @@ export default function CodeResultPannel() {
                   {executeResultList.map(({
                     input, output, expected, state,
                   }, index) => {
-                    const isLast = index === TABLE_ROWS.length - 1;
+                    const isLast = index === executeResultList.length - 1;
                     const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
 
                     return (
