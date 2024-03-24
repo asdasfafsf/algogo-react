@@ -13,7 +13,7 @@ import TabBody from '../atom/TabBody';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 import useModal from '../plugins/modal/useModal';
 import TestCaseModal from '../organism/TestCaseModal';
-import useExecuteResultListStore from '../zustand/ExecuteResultListStore';
+import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);

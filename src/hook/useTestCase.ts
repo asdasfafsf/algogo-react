@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';
-import useExecuteResultListStore from '../zustand/ExecuteResultListStore';
+import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
 
 export default function useTestCase(initialTestCaseList: TestCase[]) {
   const modal = useModal();
