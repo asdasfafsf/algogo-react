@@ -6,7 +6,6 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import TranslucentOverlay from '../atom/TranslucentOverlay';
 import Line from '../atom/Line';
 import useTestCase from '../hook/useTestCase';
-import TooltipIconButton from '../atom/TooptipIconButton';
 
 interface TestCaseModalProps {
   testCaseList: TestCase[]
@@ -61,7 +60,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
                   />
                 )
                 : (
-                  <Textarea />
+                  <Textarea placeholder="입력을 입력하세요" />
                 )}
 
               <Chip
@@ -79,7 +78,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
                   />
                 )
                 : (
-                  <Textarea />
+                  <Textarea placeholder="출력을 입력하세요" />
                 )}
 
               {index + 1 < arr.length ? <Line className="my-4 bg-white" /> : ''}

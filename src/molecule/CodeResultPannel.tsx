@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useRef, useState } from 'react';
 import { ClipboardDocumentListIcon, TrashIcon, ClipboardIcon } from '@heroicons/react/24/outline';
 import { PlayIcon } from '@heroicons/react/24/solid';
@@ -10,12 +11,17 @@ import TabPanel from '../atom/TabPanel';
 import TooltipIconButton from '../atom/TooptipIconButton';
 import TabBody from '../atom/TabBody';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
+import useModal from '../plugins/modal/useModal';
+import TestCaseModal from '../organism/TestCaseModal';
+import useExecuteResultListStore from '../zustand/ExecuteResultListStore';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const codeEditorHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
+  const modal = useModal();
+  const executeResultList = useExecuteResultListStore((state) => state.executeResultList);
 
   const TABLE_ROWS = [
     {
@@ -145,7 +151,7 @@ export default function CodeResultPannel() {
           <div className="w-full h-full bg-gray-900">
             <div className="w-full py-2">
               <div className="flex items-center justify-end gap-1">
-                <Button color="blue">테스트 케이스 추가</Button>
+                <Button onClick={() => modal.push('testCase', TestCaseModal, {})} color="blue">테스트 케이스 추가</Button>
                 <Button color="blue">실행</Button>
               </div>
             </div>
@@ -170,19 +176,21 @@ export default function CodeResultPannel() {
                   </tr>
                 </thead>
                 <tbody>
-                  {TABLE_ROWS.map((elem, index) => {
+                  {executeResultList.map(({
+                    input, output, expected, state,
+                  }, index) => {
                     const isLast = index === TABLE_ROWS.length - 1;
                     const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
 
                     return (
-                      <tr key={typeof elem === 'string' ? elem : JSON.stringify(elem)}>
+                      <tr key={index}>
                         <td className={classes}>
                           <Typography
                             variant="small"
                             color="white"
                             className="font-normal"
                           >
-                            1 2 3 4
+                            {input}
                           </Typography>
                         </td>
                         <td className={classes}>
@@ -191,7 +199,7 @@ export default function CodeResultPannel() {
                             color="white"
                             className="font-normal"
                           >
-                            1 2 3 4
+                            {output}
                           </Typography>
                         </td>
                         <td className={classes}>
@@ -200,7 +208,7 @@ export default function CodeResultPannel() {
                             color="white"
                             className="font-normal"
                           >
-                            1 2 3 4
+                            {expected}
                           </Typography>
                         </td>
                         <td className={classes}>
@@ -209,7 +217,7 @@ export default function CodeResultPannel() {
                             color="green"
                             className="font-norma"
                           >
-                            일치
+                            {state}
                           </Typography>
                         </td>
                       </tr>

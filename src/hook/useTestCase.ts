@@ -1,10 +1,12 @@
 import { useCallback, useEffect } from 'react';
 import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';
+import useExecuteResultListStore from '../zustand/ExecuteResultListStore';
 
 export default function useTestCase(initialTestCaseList: TestCase[]) {
   const modal = useModal();
   const { testCaseList, setTestCaseList } = useTestCaseListStore((state) => state);
+  const { executeResultList, setExecuteResultList } = useExecuteResultListStore((state) => state);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -36,7 +38,14 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
       output: '',
       readOnly: false,
     }];
+    const newExecuteResultList = [...executeResultList, {
+      input: '',
+      output: '',
+      expected: '',
+      state: Math.random() > 0.5 ? '일치' : '불일치',
+    } as ExecuteResult];
     setTestCaseList(newTestCaseList);
+    setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
 
   const handleClickTest = useCallback(() => {
@@ -45,7 +54,9 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
 
   const removeTestCase = useCallback((testCaseIndex: number) => {
     const newTestCaseList = testCaseList.filter((elem, index) => testCaseIndex !== index);
+    const newExecuteResultList = executeResultList.filter((elem, index) => testCaseIndex !== index);
     setTestCaseList(newTestCaseList);
+    setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
 
   const handleClickClose = useCallback(() => {
