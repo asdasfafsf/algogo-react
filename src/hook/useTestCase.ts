@@ -37,15 +37,15 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
       readOnly: false,
     }];
     setTestCaseList(newTestCaseList);
-    console.log(newTestCaseList);
   }, [testCaseList]);
 
   const handleClickTest = useCallback(() => {
 
   }, [testCaseList]);
 
-  const handleClickRemoveTestCase = useCallback(() => {
-
+  const removeTestCase = useCallback((testCaseIndex: number) => {
+    const newTestCaseList = testCaseList.filter((elem, index) => testCaseIndex !== index);
+    setTestCaseList(newTestCaseList);
   }, [testCaseList]);
 
   const handleClickClose = useCallback(() => {
@@ -55,6 +55,6 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   return [testCaseList,
     handleClickAddTestCase,
     handleClickTest,
-    handleClickRemoveTestCase,
+    removeTestCase,
     handleClickClose] as const;
 }

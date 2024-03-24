@@ -1,9 +1,12 @@
+/* eslint-disable react/no-array-index-key */
 import {
   Button, Chip, Textarea, Typography,
 } from '@material-tailwind/react';
+import { TrashIcon } from '@heroicons/react/24/outline';
 import TranslucentOverlay from '../atom/TranslucentOverlay';
 import Line from '../atom/Line';
 import useTestCase from '../hook/useTestCase';
+import TooltipIconButton from '../atom/TooptipIconButton';
 
 interface TestCaseModalProps {
   testCaseList: TestCase[]
@@ -13,7 +16,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
   const [testCases,
     handleClickAddTestCase,
     handleClickTest,
-    handleClickRemoveTestCase,
+    removeTestCase,
     handleClickClose] = useTestCase(testCaseList);
 
   return (
@@ -30,14 +33,25 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
 
         {testCases.length
           ? testCases.map(({ input, output, readOnly }, index, arr) => (
-            <div className="w-full">
-              <div className="flex mb-2">
+            <div key={index} className="w-full">
+              <div className="flex relative mb-2 w-full">
                 <Chip
                   value={`입력 ${index + 1}`}
                   variant="ghost"
                   className="w-14 flex items-center"
                   color={readOnly ? 'red' : 'blue'}
                 />
+                {readOnly
+                  ? ''
+                  : (
+                    <div
+                      onClick={() => removeTestCase(index)}
+                      className="w-full h-6 bg-white cursor-pointer flex items-center justify-end"
+                    >
+                      <TrashIcon className="text-gray-600 w-5 h-5" />
+                    </div>
+                  )}
+
               </div>
               {readOnly
                 ? (
@@ -53,7 +67,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
               <Chip
                 value={`출력 ${index + 1}`}
                 variant="ghost"
-                className="w-14 flex items-center mb-2"
+                className="w-14 flex items-center  mb-2"
                 color={readOnly ? 'red' : 'blue'}
               />
               {' '}
