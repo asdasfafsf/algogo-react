@@ -6,10 +6,10 @@ type TestCaseListStore = {
   setTestCaseList: (testCaseList: TestCase[]) => void;
 };
 
-export const useProblemWidthStore = create<ProblemWidthStore>((set) => ({
-  problemWidth: 500,
-  setProblemWidth: (width: number) => set(() => ({ problemWidth: width })),
+export const useTestCaseListStore = create<TestCaseListStore>((set) => ({
+  testCaseList: [],
+  setTestCaseList: (newTestCaseList) => set(() => ({ testCaseList: newTestCaseList })),
 }));
 
-export const ProblemWidthSelectors = createSelectors(useProblemWidthStore);
-export default useProblemWidthStore;
+export const ProblemWidthSelectors = createSelectors(useTestCaseListStore);
+export default useTestCaseListStore;

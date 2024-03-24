@@ -20,24 +20,6 @@ export default function ModalContainer() {
     document.body.append(modalDOM);
   }, []);
 
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'Escape':
-          modal.top()?.reject(false);
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeydown);
-    };
-  }, [modal]);
-
   if (!topComponentInfo) {
     return <></>;
   }
