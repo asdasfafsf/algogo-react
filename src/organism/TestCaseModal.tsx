@@ -16,7 +16,9 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
     handleClickAddTestCase,
     handleClickTest,
     removeTestCase,
-    handleClickClose] = useTestCase(testCaseList);
+    handleClickClose,
+    handleChangeInput,
+    handleChangeOutput] = useTestCase(testCaseList);
 
   return (
     <TranslucentOverlay className="py-16 items-start">
@@ -60,7 +62,11 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
                   />
                 )
                 : (
-                  <Textarea placeholder="입력을 입력하세요" />
+                  <Textarea
+                    value={input}
+                    onChange={(e) => handleChangeInput(index, e.target.value)}
+                    placeholder="입력을 입력하세요"
+                  />
                 )}
 
               <Chip
@@ -78,7 +84,11 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
                   />
                 )
                 : (
-                  <Textarea placeholder="출력을 입력하세요" />
+                  <Textarea
+                    value={output}
+                    onChange={(e) => handleChangeOutput(index, e.target.value)}
+                    placeholder="출력을 입력하세요"
+                  />
                 )}
 
               {index + 1 < arr.length ? <Line className="my-4 bg-white" /> : ''}
@@ -92,9 +102,13 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
             </div>
           )}
 
-        <div className="flex justify-center mb-5">
-          <Button onClick={handleClickAddTestCase} className="w-full" color="blue">테스트 케이스 추가</Button>
-        </div>
+        {testCases.length < 10
+          ? (
+            <div className="flex justify-center mb-5">
+              <Button onClick={handleClickAddTestCase} className="w-full" color="blue">테스트 케이스 추가</Button>
+            </div>
+          )
+          : ''}
         <div className="flex justify-end gap-1">
           <Button onClick={handleClickTest} color="blue">테스트</Button>
           <Button onClick={handleClickClose} className="bg-gray-600" color="blue-gray">닫기</Button>

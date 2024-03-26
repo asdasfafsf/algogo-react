@@ -63,9 +63,29 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
     modal.top()?.resolve(false);
   }, [modal]);
 
+  const handleInputChange = useCallback((index:number, value: string) => {
+    const newTestCaseList = [...testCaseList];
+    const newExecuteResultList = [...executeResultList];
+    newTestCaseList[index].input = value;
+    newExecuteResultList[index].input = value;
+    setTestCaseList(newTestCaseList);
+    setExecuteResultList(newExecuteResultList);
+  }, [testCaseList]);
+
+  const handleOutputChange = useCallback((index:number, value: string) => {
+    const newTestCaseList = [...testCaseList];
+    const newExecuteResultList = [...executeResultList];
+    newTestCaseList[index].output = value;
+    newExecuteResultList[index].output = value;
+    setTestCaseList(newTestCaseList);
+    setExecuteResultList(newExecuteResultList);
+  }, [testCaseList]);
+
   return [testCaseList,
     handleClickAddTestCase,
     handleClickTest,
     removeTestCase,
-    handleClickClose] as const;
+    handleClickClose,
+    handleInputChange,
+    handleOutputChange] as const;
 }
