@@ -128,13 +128,13 @@ export default function CodeResultPannel() {
               </div>
             </div>
             <Card className="h-full w-full overflow-scroll bg-gray-900">
-              <table className="w-full min-w-max table-auto text-left">
+              <table className="w-full min-w-max table-fixed text-left">
                 <thead>
                   <tr>
-                    {['입력', '출력', '예상 결과', '일치 여부'].map((head) => (
+                    {['입력', '출력', '예상 결과', '일치 여부'].map((head, index, arr) => (
                       <th
                         key={head}
-                        className="border-b border-blue-gray-100 bg-black p-4"
+                        className={`${index + 1 !== arr.length ? 'w-[28%]' : 'w-[16%]'} border-b border-blue-gray-100 bg-black p-4`}
                       >
                         <Typography
                           variant="small"
@@ -150,44 +150,44 @@ export default function CodeResultPannel() {
                 <tbody>
                   {executeResultList.map(({
                     input, output, expected, state,
-                  }, index) => {
-                    const isLast = index === executeResultList.length - 1;
-                    const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
+                  }, index, arr) => {
+                    const isLast = index === arr.length - 1;
+                    const classes = `bg-gray-900 p-4${isLast ? '' : 'border-b'}`;
 
                     return (
                       <tr key={index}>
-                        <td className={classes}>
+                        <td className={`${classes} w-28%`}>
                           <Typography
                             variant="small"
                             color="white"
-                            className="font-normal"
+                            className="font-normal break-words"
                           >
                             {input}
                           </Typography>
                         </td>
-                        <td className={classes}>
+                        <td className={`${classes} w-28%`}>
                           <Typography
                             variant="small"
                             color="white"
-                            className="font-normal"
+                            className="font-normal break-words"
                           >
                             {output}
                           </Typography>
                         </td>
-                        <td className={classes}>
+                        <td className={`${classes} w-28%`}>
                           <Typography
                             variant="small"
                             color="white"
-                            className="font-normal"
+                            className="font-normal break-words"
                           >
                             {expected}
                           </Typography>
                         </td>
-                        <td className={classes}>
+                        <td className={`${classes} w-16%`}>
                           <Typography
                             variant="small"
                             color="green"
-                            className="font-norma"
+                            className="font-normal break-words"
                           >
                             {state}
                           </Typography>
