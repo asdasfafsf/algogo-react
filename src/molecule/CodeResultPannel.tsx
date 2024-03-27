@@ -128,7 +128,7 @@ export default function CodeResultPannel() {
               </div>
             </div>
             <Card className="h-full w-full overflow-scroll bg-gray-900">
-              <table className="w-full min-w-max table-fixed text-left">
+              <table className="w-full min-w-max table-fixed text-center">
                 <thead>
                   <tr>
                     {['입력', '출력', '예상 결과', '일치 여부'].map((head, index, arr) => (
@@ -152,15 +152,15 @@ export default function CodeResultPannel() {
                     input, output, expected, state,
                   }, index, arr) => {
                     const isLast = index === arr.length - 1;
-                    const classes = `bg-gray-900 p-4${isLast ? '' : 'border-b'}`;
+                    const classes = ` bg-gray-900 p-4${isLast ? '' : 'border-b'}`;
 
                     return (
-                      <tr key={index}>
+                      <tr className="h-12" key={index}>
                         <td className={`${classes} w-28%`}>
                           <Typography
                             variant="small"
                             color="white"
-                            className="font-normal break-words"
+                            className="font-normal break-words text-left"
                           >
                             {input}
                           </Typography>
@@ -169,7 +169,7 @@ export default function CodeResultPannel() {
                           <Typography
                             variant="small"
                             color="white"
-                            className="font-normal break-words"
+                            className="font-normal break-words text-left"
                           >
                             {output}
                           </Typography>
@@ -178,7 +178,7 @@ export default function CodeResultPannel() {
                           <Typography
                             variant="small"
                             color="white"
-                            className="font-normal break-words"
+                            className="font-normal break-words text-left"
                           >
                             {expected}
                           </Typography>
