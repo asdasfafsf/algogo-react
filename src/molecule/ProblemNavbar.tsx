@@ -2,6 +2,7 @@ import { IconButton } from '@material-tailwind/react';
 import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import useModal from '../plugins/modal/useModal';
 import CompilerInfoModal from '../organism/CompilerInfoModal';
+import CompilerSettingModal from '../organism/CompilerSettingModal';
 
 export default function ProblemNavbar() {
   const modal = useModal();
@@ -25,6 +26,7 @@ export default function ProblemNavbar() {
           <IconButton
             ripple
             className="text-white w-10 h-10"
+            onClick={() => modal.push('CompilerSetting', CompilerSettingModal, {})}
           >
             <Cog6ToothIcon
               className="text-white w-7 h-7"
