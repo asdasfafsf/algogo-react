@@ -18,15 +18,9 @@ type EditorStore = {
 
 export const useCodeEditorStore = create<EditorStore>((set) => ({
   code: defaultCodeFromLanguage.cpp,
-  setCode: (code: string) => set((state) => {
-    state.code = code;
-    return state;
-  }),
+  setCode: (code: string) => set({ code }),
   language: 'cpp',
-  setLanguage: (language: MonacoEditorLanguage) => set((state) => {
-    state.language = language;
-    return state;
-  }),
+  setLanguage: (language: MonacoEditorLanguage) => set({ language }),
   codeFromLanguage: { ...defaultCodeFromLanguage },
   updateCodeFromLanguage: (languge, code) => set((state) => {
     const { codeFromLanguage } = state;

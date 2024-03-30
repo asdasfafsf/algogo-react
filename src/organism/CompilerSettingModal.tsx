@@ -1,17 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import {
-  Button,
-  Card,
-  CardBody,
   IconButton,
   Typography,
 } from '@material-tailwind/react';
 import { useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import TranslucentOverlay from '../atom/TranslucentOverlay';
-import Line from '../atom/Line';
+
 import useModal from '../plugins/modal/useModal';
-import TooltipIconButton from '../atom/TooptipIconButton';
 
 export default function CompilerSettingModal() {
   const modal = useModal();

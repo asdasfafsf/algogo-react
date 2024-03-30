@@ -10,7 +10,9 @@ export default function useLanguageDropdown() {
     'Python 3': 'python',
   };
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { setCode, setLanguage, codeFromLanguage } = useCodeEditorStore((state) => ({
+  const {
+    setCode, setLanguage, codeFromLanguage,
+  } = useCodeEditorStore((state) => ({
     setLanguage: state.setLanguage,
     setCode: state.setCode,
     codeFromLanguage: state.codeFromLanguage,
@@ -20,11 +22,11 @@ export default function useLanguageDropdown() {
     _e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
   ) => {
-    const language = languageMap[languageList[index]];
-    setCode(codeFromLanguage[language]);
-    setLanguage(language);
+    const selectedLanguage = languageMap[languageList[index]];
+    setCode(`${codeFromLanguage[selectedLanguage]}`);
+    setLanguage(selectedLanguage);
     setSelectedIndex(index);
-  }, [selectedIndex]);
+  }, [selectedIndex, codeFromLanguage, setCode, setLanguage]);
 
   return [selectedIndex, languageList, handleUpdate] as const;
 }

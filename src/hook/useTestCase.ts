@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect } from 'react';
 import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';

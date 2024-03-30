@@ -1,5 +1,5 @@
 import { Button } from '@material-tailwind/react';
-import Dropdown from '../atom/Dropdown';
+import LanguageDropdown from '../atom/LanguageDropdown';
 import useModal from '../plugins/modal/useModal';
 import TestCaseModal from '../organism/TestCaseModal';
 
@@ -11,7 +11,7 @@ export default function CodeControlPanel() {
       className="overflow-hidden w-full max-w-full h-12 bg-gray-900 text-white flex items-center justify-end px-2"
     >
       <div className="min-w-[520px] flex">
-        <Dropdown />
+        <LanguageDropdown />
         <div className="w-4" />
         <div className="flex gap-1">
           <Button
