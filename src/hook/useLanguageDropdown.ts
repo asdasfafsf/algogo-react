@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 
 export default function useLanguageDropdown() {
@@ -16,12 +16,15 @@ export default function useLanguageDropdown() {
     codeFromLanguage: state.codeFromLanguage,
   }));
 
-  const handleUpdate = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
-    setSelectedIndex(index);
-    const language = languageMap[languageList[selectedIndex]];
-    setLanguage(language);
+  const handleUpdate = useCallback((
+    _e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    index: number,
+  ) => {
+    const language = languageMap[languageList[index]];
     setCode(codeFromLanguage[language]);
-  };
+    setLanguage(language);
+    setSelectedIndex(index);
+  }, [selectedIndex]);
 
   return [selectedIndex, languageList, handleUpdate] as const;
 }
