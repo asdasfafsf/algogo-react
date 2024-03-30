@@ -10,10 +10,6 @@ import TranslucentOverlay from '../atom/TranslucentOverlay';
 import Line from '../atom/Line';
 import useModal from '../plugins/modal/useModal';
 
-interface CompilerInfoModalProps {
-
-}
-
 export default function CompilerInfoModal() {
   const modal = useModal();
 
@@ -44,7 +40,7 @@ export default function CompilerInfoModal() {
   return (
     <TranslucentOverlay className="py-16 items-start">
       <div
-        className="min-h-64 h-auto rounded-md bg-white w-[600px] p-8 w-full"
+        className="min-h-64 h-auto rounded-md bg-white w-[600px] p-8"
       >
         <div className="flex">
           <Typography variant="h6">
