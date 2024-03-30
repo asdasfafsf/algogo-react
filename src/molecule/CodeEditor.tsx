@@ -1,30 +1,13 @@
-import Editor, { useMonaco } from '@monaco-editor/react';
-import { useCallback, useRef } from 'react';
-import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
-import { useCodeEditorStore } from '../zustand/CodeEditorStore';
+import Editor from '@monaco-editor/react';
+import useCodeEditor from '../hook/useCodeEditor';
 
 export default function CodeEditor() {
-  const editorRef = useRef<unknown>(null);
-  const codeEditorHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
-  const {
-    code, setCode, language, updateCodeFromLanguage, codeFromLanguage,
-  } = useCodeEditorStore((state) => state);
-
-  const monaco = useMonaco();
-
-  const handleEditorChange = useCallback((
-    value: string | undefined,
-  ) => {
-    if (!value) {
-      return;
-    }
-    setCode(value);
-    updateCodeFromLanguage(language, value);
-  }, [code]);
-
-  const handleEditorMount = useCallback((editor: unknown) => {
-    editorRef.current = editor;
-  }, [editorRef]);
+  const [
+    codeEditorHeight,
+    code,
+    language,
+    handleEditorMount,
+    handleEditorChange] = useCodeEditor();
 
   return (
     <div
