@@ -1,10 +1,23 @@
 import { Button } from '@material-tailwind/react';
+import { useCallback } from 'react';
 import LanguageDropdown from '../atom/LanguageDropdown';
 import useModal from '../plugins/modal/useModal';
 import TestCaseModal from '../organism/TestCaseModal';
+import { useCodeEditorStore } from '../zustand/CodeEditorStore';
+import * as CODE_MAP from '../constant/Code';
 
 export default function CodeControlPanel() {
   const modal = useModal();
+  const { language, setCode, codeFromLanguage } = useCodeEditorStore((state) => ({
+    language: state.language,
+    setCode: state.setCode,
+    codeFromLanguage: state.codeFromLanguage,
+  }));
+  const handleClickReset = useCallback(() => {
+    const initializedCode = CODE_MAP[language];
+    setCode(initializedCode);
+    codeFromLanguage[language] = initializedCode;
+  }, [language]);
 
   return (
     <div
@@ -15,6 +28,7 @@ export default function CodeControlPanel() {
         <div className="w-4" />
         <div className="flex gap-1">
           <Button
+            onClick={handleClickReset}
             color="blue"
             size="sm"
           >
