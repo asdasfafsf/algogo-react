@@ -2,7 +2,6 @@ import { IconButton } from '@material-tailwind/react';
 import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import useModal from '../plugins/modal/useModal';
 import CompilerInfoModal from '../organism/CompilerInfoModal';
-import CompilerSettingModal from '../organism/CompilerSettingModal';
 import AlertModal from '../organism/AlertModal';
 
 export default function ProblemNavbar() {
