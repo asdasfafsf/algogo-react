@@ -1,5 +1,4 @@
-export const javascript = `
-const input = require('fs')
+export const javascript = `const input = require('fs')
     .readFileSync(0, 'utf-8')
     .toString()
     .trim();
@@ -7,8 +6,7 @@ const input = require('fs')
 console.log('hello : ' + input);
 `;
 
-export const java = `
-import java.io.BufferedReader;
+export const java = `import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -23,21 +21,19 @@ public class Main {
 
 `;
 
-export const cpp = `
-#include <iostream>
+export const cpp = `#include <iostream>
 #include <string>
+using namespace std;
 
 int main() {
-    std::string input;
-    std::getline(std::cin, input);
-    input.erase(input.find_last_not_of(" \n\r\t")+1);
-    std::cout << "hello : " << input << std::endl;
+    string a;
+    cin >> a;
+    cout << a << endl; 
     return 0;
 }
 `;
 
-export const python = `
-import sys
+export const python = `import sys
 
 input = sys.stdin.read().strip()
 print('hello :', input)
