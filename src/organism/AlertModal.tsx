@@ -1,15 +1,22 @@
 /* eslint-disable react/no-array-index-key */
 import {
+  Button,
+  Card,
+  CardBody,
   IconButton,
   Typography,
 } from '@material-tailwind/react';
 import { useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import TranslucentOverlay from '../atom/TranslucentOverlay';
-
+import Line from '../atom/Line';
 import useModal from '../plugins/modal/useModal';
 
-export default function CompilerSettingModal() {
+interface AlertModalProps {
+  content: string;
+}
+
+export default function AlertModal({ content }: AlertModalProps) {
   const modal = useModal();
 
   useEffect(() => {
@@ -37,29 +44,33 @@ export default function CompilerSettingModal() {
   }, [modal]);
 
   return (
-    <TranslucentOverlay className="justify-center items-center">
+    <TranslucentOverlay className="items-center justify-centers">
       <div
-        className="min-h-64 h-auto rounded-md bg-gray-900 w-[600px]"
+        className="min-h-50 h-auto rounded-md bg-white w-[400px]"
       >
-        <header className="p-4 w-full flex items-center">
-          <div className="w-1/2">
-            <Typography
-              color="white"
-              variant="h6"
-            >
-              컴파일러 세팅
-            </Typography>
+        <header className="flex w-full justify-end items-end p-2">
+          <div
+            color="white"
+            className="cursor-pointer"
+            onClick={() => modal.top().resolve(false)}
+          >
+            <XMarkIcon className="w-6 h-6" />
           </div>
-          <div className="w-1/2 flex justify-end items-start">
-            <IconButton
-              onClick={() => modal.top().resolve(false)}
-              className="w-5 h-5"
-            >
-              <XMarkIcon className="w-5 h-5 text-white" />
-            </IconButton>
-          </div>
+
         </header>
-        <section />
+        <section className="h-24 flex items-center justify-center">
+          {content}
+        </section>
+        <footer className="flex items-end justify-end w-full p-2">
+          <Button
+            size="sm"
+            onClick={() => modal.top().resolve(false)}
+            color="blue"
+          >
+            확인
+          </Button>
+        </footer>
+
       </div>
     </TranslucentOverlay>
   );

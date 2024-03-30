@@ -3,6 +3,7 @@ import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import useModal from '../plugins/modal/useModal';
 import CompilerInfoModal from '../organism/CompilerInfoModal';
 import CompilerSettingModal from '../organism/CompilerSettingModal';
+import AlertModal from '../organism/AlertModal';
 
 export default function ProblemNavbar() {
   const modal = useModal();
@@ -26,7 +27,7 @@ export default function ProblemNavbar() {
           <IconButton
             ripple
             className="text-white w-10 h-10"
-            onClick={() => modal.push('CompilerSetting', CompilerSettingModal, {})}
+            onClick={() => modal.push('CompilerSetting', AlertModal, { content: '준비 중 입니다.' })}
           >
             <Cog6ToothIcon
               className="text-white w-7 h-7"
