@@ -3,9 +3,11 @@ import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import useModal from '../plugins/modal/useModal';
 import CompilerInfoModal from '../organism/CompilerInfoModal';
 import AlertModal from '../organism/AlertModal';
+import useAlert from '../hook/useAlert';
 
 export default function ProblemNavbar() {
   const modal = useModal();
+  const [alert] = useAlert();
   return (
     <nav className="flex w-full">
       <div className="flex text-white w-full h-full justify-end items-center p-0 px-4 gap-1">
@@ -26,7 +28,9 @@ export default function ProblemNavbar() {
           <IconButton
             ripple
             className="text-white w-10 h-10"
-            onClick={() => modal.push('CompilerSetting', AlertModal, { content: '준비 중 입니다.' })}
+            onClick={async () => {
+              await alert('준비 중 입니다');
+            }}
           >
             <Cog6ToothIcon
               className="text-white w-7 h-7"

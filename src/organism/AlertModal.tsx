@@ -16,7 +16,7 @@ export default function AlertModal({ content }: AlertModalProps) {
 
   const handleClose = () => {
     setIsVisible(false);
-    modal.top()?.resolve(false);
+    modal.top().resolve(false);
   };
 
   useEffect(() => {

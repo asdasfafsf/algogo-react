@@ -4,8 +4,6 @@ import AlertModal from '../organism/AlertModal';
 
 export default function useAlert() {
   const modal = useModal();
-  const alert = useCallback(async (content: string) => {
-    modal.push('Alert', AlertModal, { content });
-  }, [modal]);
+  const alert = useCallback(async (content: string) => modal.push('Alert', AlertModal, { content }), [modal]);
   return [alert];
 }
