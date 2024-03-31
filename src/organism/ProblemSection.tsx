@@ -1,5 +1,5 @@
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
-import CodeControlPanel from '../molecule/CodeControlPanel';
+import CodeControlPanel from './CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../molecule/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';

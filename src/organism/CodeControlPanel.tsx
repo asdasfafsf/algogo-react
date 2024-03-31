@@ -2,7 +2,7 @@ import { Button } from '@material-tailwind/react';
 import { useCallback } from 'react';
 import LanguageDropdown from '../atom/LanguageDropdown';
 import useModal from '../plugins/modal/useModal';
-import TestCaseModal from '../organism/TestCaseModal';
+import TestCaseModal from './TestCaseModal';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import * as CODE_MAP from '../constant/Code';
 import useConfirmModal from '../hook/useConfirmModal';
