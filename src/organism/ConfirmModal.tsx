@@ -34,6 +34,9 @@ export default function ComfirmModal({ content }: AlertModalProps) {
         case 'Escape':
           handleCancel();
           break;
+        case 'Enter':
+          handleOk();
+          break;
         default:
           break;
       }

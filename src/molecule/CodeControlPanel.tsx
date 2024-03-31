@@ -15,7 +15,8 @@ export default function CodeControlPanel() {
     setCode: state.setCode,
     codeFromLanguage: state.codeFromLanguage,
   }));
-  const handleClickReset = useCallback(async () => {
+  const handleClickReset = useCallback(async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.currentTarget.blur();
     const isOk = await comfirm('초기화 하시겠습니까?');
 
     if (!isOk) {
