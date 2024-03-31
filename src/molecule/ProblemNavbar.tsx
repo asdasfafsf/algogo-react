@@ -2,12 +2,11 @@ import { IconButton } from '@material-tailwind/react';
 import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import useModal from '../plugins/modal/useModal';
 import CompilerInfoModal from '../organism/CompilerInfoModal';
-import AlertModal from '../organism/AlertModal';
-import useAlert from '../hook/useAlert';
+import useAlertModal from '../hook/useAlertModal';
 
 export default function ProblemNavbar() {
   const modal = useModal();
-  const [alert] = useAlert();
+  const [alert] = useAlertModal();
   return (
     <nav className="flex w-full">
       <div className="flex text-white w-full h-full justify-end items-center p-0 px-4 gap-1">
