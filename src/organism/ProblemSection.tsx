@@ -1,7 +1,7 @@
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import CodeControlPanel from './CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
-import CodeResultPannel from '../molecule/CodeResultPannel';
+import CodeResultPannel from './CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 import useProblemSection from '../hook/useProblemSection';
 
@@ -15,6 +15,7 @@ export default function ProblemSection() {
         width: `calc(100vw - ${problemWidth}px)`,
       }}
     >
+
       <CodeControlPanel />
       <CodeEditor />
       <div

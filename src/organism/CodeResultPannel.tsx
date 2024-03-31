@@ -12,8 +12,14 @@ import TooltipIconButton from '../atom/TooptipIconButton';
 import TabBody from '../atom/TabBody';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 import useModal from '../plugins/modal/useModal';
-import TestCaseModal from '../organism/TestCaseModal';
+import TestCaseModal from './TestCaseModal';
 import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
+import {
+  CODE_CONTROL_PANEL_HEIGHT,
+  EDITOR_REASIZE_AREA_HEIGHT,
+  PROBLEM_HEADER_HEIGHT,
+  PROBLEM_TOP_HEADER_HEIGHT,
+} from '../constant/Size';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -37,7 +43,11 @@ export default function CodeResultPannel() {
       </TabHeader>
       <TabBody
         style={{
-          height: `calc(100vh - ${codeEditorHeight + 48 + 48 + 40 + 10}px)`,
+          height: `calc(100vh - ${codeEditorHeight
+            + PROBLEM_HEADER_HEIGHT
+            + CODE_CONTROL_PANEL_HEIGHT
+            + PROBLEM_TOP_HEADER_HEIGHT
+            + EDITOR_REASIZE_AREA_HEIGHT}px)`,
         }}
       >
         <TabPanel isSelected={selectedIndex === 0}>

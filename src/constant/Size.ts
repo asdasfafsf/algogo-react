@@ -1,0 +1,4 @@
+export const PROBLEM_HEADER_HEIGHT = 48;
+export const CODE_CONTROL_PANEL_HEIGHT = 48;
+export const PROBLEM_TOP_HEADER_HEIGHT = 40;
+export const EDITOR_REASIZE_AREA_HEIGHT = 10;
