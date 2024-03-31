@@ -5,15 +5,23 @@ import useModal from '../plugins/modal/useModal';
 import TestCaseModal from '../organism/TestCaseModal';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import * as CODE_MAP from '../constant/Code';
+import useConfirmModal from '../hook/useConfirmModal';
 
 export default function CodeControlPanel() {
   const modal = useModal();
+  const [comfirm] = useConfirmModal();
   const { language, setCode, codeFromLanguage } = useCodeEditorStore((state) => ({
     language: state.language,
     setCode: state.setCode,
     codeFromLanguage: state.codeFromLanguage,
   }));
-  const handleClickReset = useCallback(() => {
+  const handleClickReset = useCallback(async () => {
+    const isOk = await comfirm('초기화 하시겠습니까?');
+
+    if (!isOk) {
+      return;
+    }
+
     const initializedCode = CODE_MAP[language];
     setCode(initializedCode);
     codeFromLanguage[language] = initializedCode;
