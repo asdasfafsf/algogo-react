@@ -32,7 +32,10 @@ export default function CodeResultPannel() {
   return (
     <div
       style={{
-        height: `calc(100vh - ${codeEditorHeight + 48 + 48 + 10}px)`,
+        height: `calc(100vh - ${codeEditorHeight
+          + PROBLEM_HEADER_HEIGHT
+          + CODE_CONTROL_PANEL_HEIGHT
+          + EDITOR_REASIZE_AREA_HEIGHT}px)`,
       }}
       className="h-full overflow-y-hidden"
     >
