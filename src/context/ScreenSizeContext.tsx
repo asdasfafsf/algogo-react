@@ -19,7 +19,7 @@ export const ScreenSizeProvider = ({ children }: ScreenSizeContextProps) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // 예시: 768px 미만을 모바일로 간주
+      setIsMobile(window.innerWidth <= 540); // 예시: 768px 미만을 모바일로 간주
     };
 
     handleResize(); // 초기 실행
