@@ -1,7 +1,7 @@
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
-import CodeControlPanel from './CodeControlPanel';
+import CodeControlPanel from '../organism/CodeControlPanel';
 import CodeEditor from '../molecule/CodeEditor';
-import CodeResultPannel from './CodeResultPannel';
+import CodeResultPannel from '../organism/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 import useProblemSection from '../hook/useProblemSection';
 import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
