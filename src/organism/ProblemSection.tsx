@@ -4,14 +4,16 @@ import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from './CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 import useProblemSection from '../hook/useProblemSection';
+import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
   const handleMouseDown = useProblemSection()[1];
   return (
     <section
-      className="gap-0 m-0 p-0 h-[calc(100vh-48px)]"
+      className="gap-0 m-0 p-0"
       style={{
+        height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT}px)`,
         width: `calc(100vw - ${problemWidth}px)`,
       }}
     >
