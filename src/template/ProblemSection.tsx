@@ -4,7 +4,7 @@ import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../organism/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 import useProblemSection from '../hook/useProblemSection';
-import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
+import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../constant/Size';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
@@ -13,7 +13,7 @@ export default function ProblemSection() {
     <section
       className="gap-0 m-0 p-0"
       style={{
-        height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT}px)`,
+        height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
         width: `calc(100vw - ${problemWidth}px)`,
       }}
     >
