@@ -12,21 +12,18 @@ import {
   useRef,
 } from 'react';
 import useProblemSidebar from '../hook/useProblemSidebar';
+import { useScreenSize } from '../context/ScreenSizeContext';
 
 export default function ProblemSidebar() {
-  const sample = `1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1 1 1
-끝`;
   const categoryList: ProblemCategory[] = ['구현', '그래프 이론', '다이나믹 프로그래밍', '그리디 알고리즘', '누적 합', '데이크스트라', '문자열'];
   const draggableRef = useRef<HTMLDivElement>(null);
 
   const [problemWidth, handleMouseDown] = useProblemSidebar();
+  const { isMobile } = useScreenSize();
   return (
     <aside
       style={{
-        width: `${problemWidth}px`,
+        width: isMobile ? '100vw' : `${problemWidth}px`,
       }}
       className="relative flex z-30 bg-white"
     >
@@ -114,7 +111,7 @@ export default function ProblemSidebar() {
         <Typography variant="small" className="font-medium">입력</Typography>
         <ClipboardWithTooltip content="1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5" />
         <Typography variant="small" className="font-medium mt-1">출력</Typography>
-        <ClipboardWithTooltip content={sample} />
+        <ClipboardWithTooltip content="123213   1 2 1" />
 
         <Typography variant="h6" className="font-bold pt-2">예시2</Typography>
         <Typography variant="small" className="font-medium">입력</Typography>

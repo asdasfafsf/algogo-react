@@ -5,16 +5,22 @@ import CodeResultPannel from '../organism/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 import useProblemSection from '../hook/useProblemSection';
 import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../constant/Size';
+import { useScreenSize } from '../context/ScreenSizeContext';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
   const handleMouseDown = useProblemSection()[1];
+  const { isMobile } = useScreenSize();
   return (
     <section
       className="gap-0 m-0 p-0"
       style={{
-        height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
-        width: `calc(100vw - ${problemWidth}px)`,
+        height: isMobile
+          ? ''
+          : `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
+        width: isMobile
+          ? ''
+          : `calc(100vw - ${problemWidth}px)`,
       }}
     >
 
