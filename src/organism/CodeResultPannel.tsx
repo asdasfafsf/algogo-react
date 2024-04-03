@@ -17,10 +17,9 @@ import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
 import {
   CODE_CONTROL_PANEL_HEIGHT,
   EDITOR_REASIZE_AREA_HEIGHT,
-  PROBLEM_FOOTER_HEIGHT,
   PROBLEM_HEADER_HEIGHT,
-  PROBLEM_TOP_HEADER_HEIGHT,
 } from '../constant/Size';
+import CodeEditorResizer from '../molecule/CodeEditorResizer';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -32,15 +31,24 @@ export default function CodeResultPannel() {
 
   return (
     <div
+      // style={{
+      //   height: `calc(100vh - ${codeEditorHeight
+      //     + PROBLEM_HEADER_HEIGHT
+      //     + CODE_CONTROL_PANEL_HEIGHT
+      //     + EDITOR_REASIZE_AREA_HEIGHT
+      //     + PROBLEM_FOOTER_HEIGHT}px)`,
+      // }}
       style={{
+        gridRow: 2,
+        gridColumn: 2,
         height: `calc(100vh - ${codeEditorHeight
           + PROBLEM_HEADER_HEIGHT
           + CODE_CONTROL_PANEL_HEIGHT
-          + EDITOR_REASIZE_AREA_HEIGHT
-          + PROBLEM_FOOTER_HEIGHT}px)`,
+        }px)`,
       }}
       className="h-full overflow-y-hidden"
     >
+      <CodeEditorResizer />
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
         <Tab text="입력" isSelected={selectedIndex === 0} handleClick={() => { setSelectedIndex(0); }} />
         <Tab text="실행 결과" isSelected={selectedIndex === 1} handleClick={() => { setSelectedIndex(1); }} />
@@ -51,7 +59,6 @@ export default function CodeResultPannel() {
           height: `calc(100vh - ${codeEditorHeight
             + PROBLEM_HEADER_HEIGHT
             + CODE_CONTROL_PANEL_HEIGHT
-            + PROBLEM_TOP_HEADER_HEIGHT
             + EDITOR_REASIZE_AREA_HEIGHT}px)`,
         }}
       >

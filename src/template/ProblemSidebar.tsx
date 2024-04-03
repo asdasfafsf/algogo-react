@@ -22,8 +22,14 @@ export default function ProblemSidebar() {
   const { isMobile } = useScreenSize();
   return (
     <aside
+      // style={{
+      //   width: isMobile ? '100vw' : `${problemWidth}px`,
+      // }}
       style={{
-        width: isMobile ? '100vw' : `${problemWidth}px`,
+        height: 'calc(100vh - 96px)',
+        width: `${problemWidth}px`,
+        gridRow: 'span 2',
+        gridColumn: 1,
       }}
       className="relative flex z-30 bg-white"
     >

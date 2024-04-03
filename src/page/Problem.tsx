@@ -1,10 +1,12 @@
 import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
+import { useScreenSize } from '../context/ScreenSizeContext';
 import ProblemFooter from '../template/ProblemFooter';
 import ProblemHeader from '../template/ProblemHeader';
 import ProblemSection from '../template/ProblemSection';
-import ProblemSidebar from '../template/ProblemSidebar';
 
 export default function ProblemPage() {
+  const { isMobile } = useScreenSize();
+
   return (
     <div className="grid overflow-x-hidden h-screen">
       <ProblemHeader />
@@ -14,7 +16,6 @@ export default function ProblemPage() {
         }}
         className="flex"
       >
-        <ProblemSidebar />
         <ProblemSection />
       </div>
       <ProblemFooter />

@@ -2,7 +2,7 @@
 import { useCallback } from 'react';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 
-export default function useProblemSection() {
+export default function useCodeEditorResizer() {
   const { codeEditorHeight, setCodeEditorHeight } = useCodeEditorHeightStore(({ codeEditorHeight, setCodeEditorHeight }) => ({ codeEditorHeight, setCodeEditorHeight }));
 
   const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {
