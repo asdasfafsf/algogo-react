@@ -5,16 +5,22 @@ import { CODE_CONTROL_PANEL_HEIGHT, PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT
 import { useScreenSize } from '../context/ScreenSizeContext';
 import ProblemSidebar from './ProblemSidebar';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
+import { useProblemScreenStore } from '../zustand/ProblemScreenStore';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
   const problemHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
   const { isMobile } = useScreenSize();
+  const selectedIndex = useProblemScreenStore(({ selectedIndex }) => selectedIndex);
   return (
     <section
-      className="sm:flex overflow-x-hidden gap-0 m-0 p-0 h-full w-screen"
+      className="transition-all overflow-x-hidden gap-0 m-0 p-0 h-full relative trasi"
       style={isMobile
-        ? {}
+        ? {
+          display: 'flex',
+          width: '300vw',
+          left: `-${33.3333333333333 * selectedIndex}%`,
+        }
         : {
           display: 'grid',
           height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
@@ -24,30 +30,39 @@ export default function ProblemSection() {
     >
       <div
         style={isMobile
-          ? { height: 'calc(100vh - 96px)' }
+          ? {
+            width: '100vw',
+            height: 'calc(100vh - 96px)',
+          }
           : {
             height: 'calc(100vh - 96px)',
             width: `${problemWidth}px`,
             gridRow: 'span 2',
             gridColumn: 1,
           }}
-        className="inherit"
+        className="relative"
       >
         <ProblemSidebar />
       </div>
       <div
-        style={isMobile ? {} : {
+        style={isMobile ? {
+          width: '100vw',
+          height: 'calc(100vh - 96px)',
+        } : {
           gridRow: 1,
           gridColumn: 2,
           width: `calc(100vw - ${problemWidth}px`,
           height: `${problemHeight}px`,
         }}
-        className="inherit"
+        className="relative"
       >
         <CodeEditor />
       </div>
       <div
-        style={{
+        style={isMobile ? {
+          width: '100vw',
+          height: 'calc(100vh - 96px)',
+        } : {
           gridRow: 2,
           gridColumn: 2,
           height: `calc(100vh - ${problemHeight
@@ -55,7 +70,7 @@ export default function ProblemSection() {
                 + CODE_CONTROL_PANEL_HEIGHT
           }px)`,
         }}
-        className="inherit"
+        className="relative"
       >
         <CodeResultPannel />
       </div>
