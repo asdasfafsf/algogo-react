@@ -1,12 +1,9 @@
 import Editor from '@monaco-editor/react';
 import useCodeEditor from '../hook/useCodeEditor';
 import CodeControlPanel from '../organism/CodeControlPanel';
-import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 
 export default function CodeEditor() {
-  const problemWidth = useProblemWidthStore((state) => state.problemWidth);
   const [
-    codeEditorHeight,
     code,
     language,
     handleEditorMount,
@@ -14,13 +11,7 @@ export default function CodeEditor() {
 
   return (
     <div
-      style={{
-        gridRow: 1,
-        gridColumn: 2,
-        width: `calc(100vw - ${problemWidth}px`,
-        height: `${codeEditorHeight}px`,
-      }}
-      className="bg-gray-900 flex w-full"
+      className="bg-gray-900 flex w-full h-full"
     >
       <div className="w-full">
         <CodeControlPanel />

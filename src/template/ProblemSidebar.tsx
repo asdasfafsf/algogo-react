@@ -25,13 +25,15 @@ export default function ProblemSidebar() {
       // style={{
       //   width: isMobile ? '100vw' : `${problemWidth}px`,
       // }}
-      style={{
-        height: 'calc(100vh - 96px)',
-        width: `${problemWidth}px`,
-        gridRow: 'span 2',
-        gridColumn: 1,
-      }}
-      className="relative flex z-30 bg-white"
+      style={isMobile
+        ? { height: 'calc(100vh - 96px)' }
+        : {
+          height: 'calc(100vh - 96px)',
+          width: `${problemWidth}px`,
+          gridRow: 'span 2',
+          gridColumn: 1,
+        }}
+      className="relative flex z-30 bg-white sm:w-screen"
     >
       <div className="px-5 py-8 overflow-y-auto w-full">
         <Typography variant="h4">포물선의 방정식</Typography>

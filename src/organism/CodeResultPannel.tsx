@@ -31,22 +31,7 @@ export default function CodeResultPannel() {
 
   return (
     <div
-      // style={{
-      //   height: `calc(100vh - ${codeEditorHeight
-      //     + PROBLEM_HEADER_HEIGHT
-      //     + CODE_CONTROL_PANEL_HEIGHT
-      //     + EDITOR_REASIZE_AREA_HEIGHT
-      //     + PROBLEM_FOOTER_HEIGHT}px)`,
-      // }}
-      style={{
-        gridRow: 2,
-        gridColumn: 2,
-        height: `calc(100vh - ${codeEditorHeight
-          + PROBLEM_HEADER_HEIGHT
-          + CODE_CONTROL_PANEL_HEIGHT
-        }px)`,
-      }}
-      className="h-full overflow-y-hidden"
+      className="w-full h-full overflow-y-hidden"
     >
       <CodeEditorResizer />
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
