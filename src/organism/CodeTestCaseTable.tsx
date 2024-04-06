@@ -11,9 +11,6 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
   const modal = useModal();
   return (
     <div
-      style={{
-        height: '200px',
-      }}
       className="w-full h-full bg-gray-900"
     >
       <div className="w-full py-2 overflow-x-hidden">
@@ -22,7 +19,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
           <Button color="blue">실행</Button>
         </div>
       </div>
-      <Card className="h-full w-full overflow-scroll bg-gray-900">
+      <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-gray-900">
         <table className="w-full min-w-max table-fixed text-center">
           <thead>
             <tr>

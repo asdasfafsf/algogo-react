@@ -16,7 +16,7 @@ export default function ProblemSection() {
   const { selectedIndex, setSelectedIndex } = useProblemScreenStore(((state) => state));
   return (
     <section
-      className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full relative trasi"
+      className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full"
       style={isMobile
         ? {
           display: 'flex',
@@ -24,10 +24,8 @@ export default function ProblemSection() {
           left: `-${33.33333333333333 * selectedIndex}%`,
         }
         : {
-          display: 'grid',
+          display: 'flex',
           height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
-          gridTemplateColumns: `${problemWidth}px calc(100vw - ${problemWidth})`, // 왼쪽에 1열, 오른쪽에 1열 설정
-          gridTemplateRows: `${problemHeight}px calc(100vh - ${problemHeight - 10}px)`, // 왼쪽에 1행, 오른쪽에 3행 설정
         }}
     >
       <div
@@ -39,42 +37,41 @@ export default function ProblemSection() {
           : {
             height: 'calc(100vh - 96px)',
             width: `${problemWidth}px`,
-            gridRow: 'span 2',
-            gridColumn: 1,
           }}
-        className="relative"
+        className=""
       >
         <ProblemSidebar />
       </div>
-      <div
-        style={isMobile ? {
-          width: '100vw',
-          height: 'calc(100vh - 96px)',
-        } : {
-          gridRow: 1,
-          gridColumn: 2,
-          width: `calc(100vw - ${problemWidth}px`,
-          height: `${problemHeight}px`,
-        }}
-        className="relative"
-      >
-        <CodeEditor />
-      </div>
-      <div
-        style={isMobile ? {
-          width: '100vw',
-          height: 'calc(100vh - 96px)',
-        } : {
-          gridRow: 2,
-          gridColumn: 2,
-          height: `calc(100vh - ${problemHeight
+      <div className="h-full">
+        <div
+          style={isMobile ? {
+            width: '100vw',
+            height: 'calc(100vh - 96px)',
+          } : {
+            width: `calc(100vw - ${problemWidth}px`,
+            height: `${problemHeight}px`,
+          }}
+          className=""
+        >
+          <CodeEditor />
+        </div>
+
+        <div
+          style={isMobile ? {
+            width: '100vw',
+            height: 'calc(100vh - 96px)',
+          } : {
+            width: `calc(100vw - ${problemWidth}px`,
+            // height: '500px',
+            height: `calc(100vh - ${problemHeight
                 + PROBLEM_HEADER_HEIGHT
-                + CODE_CONTROL_PANEL_HEIGHT
-          }px)`,
-        }}
-        className="relative"
-      >
-        <CodeResultPannel />
+                + PROBLEM_FOOTER_HEIGHT
+            }px)`,
+          }}
+          className=""
+        >
+          <CodeResultPannel />
+        </div>
       </div>
 
       <div
