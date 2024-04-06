@@ -16,7 +16,7 @@ export default function ProblemSection() {
   const { selectedIndex, setSelectedIndex } = useProblemScreenStore(((state) => state));
   return (
     <section
-      className="transition-all overflow-x-hidden gap-0 m-0 p-0 h-full relative trasi"
+      className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full relative trasi"
       style={isMobile
         ? {
           display: 'flex',
@@ -81,13 +81,13 @@ export default function ProblemSection() {
         onClick={() => { setSelectedIndex(Math.max(0, selectedIndex - 1)); }}
         className="ssmd:hidden ssm:block z-30 fixed top-1/2 left-0 w-12 h-12"
       >
-        <ChevronLeftIcon className="text-blue-500" />
+        <ChevronLeftIcon className="text-blue-gray-500" />
       </div>
       <div
         onClick={() => { setSelectedIndex(Math.min(2, selectedIndex + 1)); }}
         className="ssmd:hidden ssm:block z-30 fixed top-1/2 right-0 w-12 h-12"
       >
-        <ChevronRightIcon className="text-blue-500" />
+        <ChevronRightIcon className="text-blue-gray-500" />
       </div>
       <div
         className="ssmd:hidden z-30 bg-blue-500 justify-center items-center w-12 h-12 fixed bottom-20 right-14 rounded-full cursor-crosshair"
