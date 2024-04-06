@@ -7,7 +7,7 @@ export default withMT({
   theme: {
     extends: {
       screens: {
-        'ssm': '0px', // 'ssm' 브레이크포인트를 원하는 값으로 정의합니다.
+        'ssm': { max: '540px', min: '540px'}, // 'ssm' 브레이크포인트를 원하는 값으로 정의합니다.
         'ssmd': '540px', //
       },
       transitionProperty: {

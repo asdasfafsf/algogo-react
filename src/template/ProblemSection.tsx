@@ -79,18 +79,18 @@ export default function ProblemSection() {
 
       <div
         onClick={() => { setSelectedIndex(Math.max(0, selectedIndex - 1)); }}
-        className="ssmd:hidden ssm:block z-30 fixed top-1/2 left-0 w-12 h-12"
+        className="block sm:hidden z-30 fixed top-1/2 left-0 w-12 h-12"
       >
         <ChevronLeftIcon className="text-blue-gray-500" />
       </div>
       <div
         onClick={() => { setSelectedIndex(Math.min(2, selectedIndex + 1)); }}
-        className="ssmd:hidden ssm:block z-30 fixed top-1/2 right-0 w-12 h-12"
+        className="block sm:hidden z-30 fixed top-1/2 right-0 w-12 h-12"
       >
         <ChevronRightIcon className="text-blue-gray-500" />
       </div>
       <div
-        className="ssmd:hidden z-30 bg-blue-500 justify-center items-center w-12 h-12 fixed bottom-20 right-14 rounded-full cursor-crosshair"
+        className="block sm:hidden z-30 bg-blue-500 justify-center items-center w-12 h-12 fixed bottom-20 right-14 rounded-full cursor-crosshair"
       >
         <div className="h-full w-full flex justify-center items-center">
           <PlusIcon className="text-white w-6 h-6" />
