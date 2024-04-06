@@ -21,7 +21,7 @@ export default function ProblemSection() {
         ? {
           display: 'flex',
           width: '300vw',
-          left: `-${33.3333 * selectedIndex}%`,
+          left: `-${100 * selectedIndex}%`,
         }
         : {
           display: 'grid',

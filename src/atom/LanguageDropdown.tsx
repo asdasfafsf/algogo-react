@@ -15,7 +15,7 @@ export default function Dropdown() {
   const [selectedIndex, languageList, handleUpdate] = useLanguageDropdown();
 
   return (
-    <div className="relative flex max-w-[24rem]">
+    <div className="z-10 relative flex max-w-[24rem]">
       <Menu placement="bottom-start">
         <MenuHandler>
           <div
@@ -41,7 +41,7 @@ export default function Dropdown() {
         </MenuHandler>
         <MenuList
           color="gray"
-          className="max-h-[20rem] max-w-4 min-w-32 bg-gray-900 border-gray-800 p-3"
+          className="z-10 max-h-[20rem] max-w-4 min-w-32 bg-gray-900 border-gray-800 p-3"
         >
           {languageList.map((language, index) => (
             <div
