@@ -20,6 +20,7 @@ import {
   PROBLEM_HEADER_HEIGHT,
 } from '../constant/Size';
 import CodeEditorResizer from '../molecule/CodeEditorResizer';
+import { useScreenSize } from '../context/ScreenSizeContext';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,9 +30,11 @@ export default function CodeResultPannel() {
   const modal = useModal();
   const executeResultList = useExecuteResultListStore((state) => state.executeResultList);
 
+  const { isMobile } = useScreenSize();
+
   return (
     <div
-      className="w-full h-full overflow-y-hidden"
+      className="w-full h-full ssm:h-calc[100% - 96px]overflow-y-hidden"
     >
       <CodeEditorResizer />
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
@@ -40,7 +43,9 @@ export default function CodeResultPannel() {
         <Tab text="테스트 케이스" isSelected={selectedIndex === 2} handleClick={() => { setSelectedIndex(2); }} />
       </TabHeader>
       <TabBody
-        style={{
+        style={isMobile ? {
+          height: '100%',
+        } : {
           height: `calc(100vh - ${codeEditorHeight
             + PROBLEM_HEADER_HEIGHT
             + CODE_CONTROL_PANEL_HEIGHT
