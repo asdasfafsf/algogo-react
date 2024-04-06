@@ -1,3 +1,5 @@
+import { PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../organism/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
@@ -11,7 +13,7 @@ export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
   const problemHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
   const { isMobile } = useScreenSize();
-  const selectedIndex = useProblemScreenStore(({ selectedIndex }) => selectedIndex);
+  const { selectedIndex, setSelectedIndex } = useProblemScreenStore(((state) => state));
   return (
     <section
       className="transition-all overflow-x-hidden gap-0 m-0 p-0 h-full relative trasi"
@@ -19,7 +21,7 @@ export default function ProblemSection() {
         ? {
           display: 'flex',
           width: '300vw',
-          left: `-${33.3333333333333 * selectedIndex}%`,
+          left: `-${33.33333333333333 * selectedIndex}%`,
         }
         : {
           display: 'grid',
@@ -75,6 +77,25 @@ export default function ProblemSection() {
         <CodeResultPannel />
       </div>
 
+      <div
+        onClick={() => { setSelectedIndex(Math.max(0, selectedIndex - 1)); }}
+        className="ssmd:hidden ssm:block z-30 fixed top-1/2 left-0 w-12 h-12"
+      >
+        <ChevronLeftIcon className="text-blue-500" />
+      </div>
+      <div
+        onClick={() => { setSelectedIndex(Math.min(2, selectedIndex + 1)); }}
+        className="ssmd:hidden ssm:block z-30 fixed top-1/2 right-0 w-12 h-12"
+      >
+        <ChevronRightIcon className="text-blue-500" />
+      </div>
+      <div
+        className="ssmd:hidden z-30 bg-blue-500 justify-center items-center w-12 h-12 fixed bottom-20 right-14 rounded-full cursor-crosshair"
+      >
+        <div className="h-full w-full flex justify-center items-center">
+          <PlusIcon className="text-white w-6 h-6" />
+        </div>
+      </div>
     </section>
   );
 }
