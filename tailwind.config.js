@@ -6,8 +6,8 @@ export default withMT({
   content: ["./src/**/*.{html,js,ts,tsx,jsx}"],
   theme: {
     screens: {
-      'ssm': {min: '0x', max:'540px'},
-      'ssmd': '540px',
+      'ssm': '0px', // 'ssm' 브레이크포인트를 원하는 값으로 정의합니다.
+      'ssmd': '540px', // 
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
 
