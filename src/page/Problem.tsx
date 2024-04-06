@@ -8,6 +8,7 @@ export default function ProblemPage() {
     <div className="overflow-x-hidden h-screen">
       <ProblemHeader />
       <div
+        className="w-full"
         style={{
           height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_HEADER_HEIGHT}px)`,
         }}

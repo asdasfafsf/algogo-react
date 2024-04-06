@@ -3,7 +3,7 @@ import { PlusIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../organism/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
-import { CODE_CONTROL_PANEL_HEIGHT, PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../constant/Size';
+import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../constant/Size';
 import { useScreenSize } from '../context/ScreenSizeContext';
 import ProblemSidebar from './ProblemSidebar';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
@@ -16,62 +16,65 @@ export default function ProblemSection() {
   const { selectedIndex, setSelectedIndex } = useProblemScreenStore(((state) => state));
   return (
     <section
-      className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full"
+      className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full relative"
       style={isMobile
         ? {
           display: 'flex',
           width: '300vw',
-          left: `-${33.33333333333333 * selectedIndex}%`,
+          left: `-${33.3333 * selectedIndex}%`,
         }
         : {
-          display: 'flex',
+          display: 'grid',
+          width: '100vw',
           height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
+          gridTemplateColumns: `${problemWidth}px calc(100vw - ${problemWidth})`,
+          gridTemplateRows: `${problemHeight}px calc(100vh - ${problemHeight + PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
         }}
     >
       <div
         style={isMobile
-          ? {
-            width: '100vw',
-            height: 'calc(100vh - 96px)',
-          }
+          ? {}
           : {
-            height: 'calc(100vh - 96px)',
             width: `${problemWidth}px`,
+            height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_FOOTER_HEIGHT}px)`,
+            gridRow: 'span 2',
+            gridColumn: 1,
           }}
-        className=""
+        className="w-screen h-full relative"
       >
         <ProblemSidebar />
       </div>
-      <div className="h-full">
-        <div
-          style={isMobile ? {
-            width: '100vw',
-            height: 'calc(100vh - 96px)',
-          } : {
-            width: `calc(100vw - ${problemWidth}px`,
-            height: `${problemHeight}px`,
-          }}
-          className=""
-        >
-          <CodeEditor />
-        </div>
 
-        <div
-          style={isMobile ? {
-            width: '100vw',
-            height: 'calc(100vh - 96px)',
-          } : {
-            width: `calc(100vw - ${problemWidth}px`,
-            // height: '500px',
-            height: `calc(100vh - ${problemHeight
+      <div
+        style={isMobile ? {
+          width: '100vw',
+          height: 'calc(100vh - 96px)',
+        } : {
+          width: `calc(100vw - ${problemWidth}px`,
+          height: `${problemHeight}px`,
+        }}
+        className="relative w-screen"
+      >
+        <CodeEditor />
+      </div>
+
+      <div
+        style={isMobile ? {
+          width: '100vw',
+          height: 'calc(100vh - 96px)',
+        } : {
+
+          gridRow: 2,
+          gridColumn: 2,
+          width: `calc(100vw - ${problemWidth}px`,
+          height: `calc(100vh - ${problemHeight
                 + PROBLEM_HEADER_HEIGHT
                 + PROBLEM_FOOTER_HEIGHT
-            }px)`,
-          }}
-          className=""
-        >
-          <CodeResultPannel />
-        </div>
+          }px)`,
+        }}
+        className="relative"
+      >
+        <CodeResultPannel />
       </div>
 
       <div

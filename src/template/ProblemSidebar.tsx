@@ -140,7 +140,7 @@ export default function ProblemSidebar() {
       <div
         ref={draggableRef}
         onMouseDown={handleMouseDown}
-        className="z-10 h-[calc(100vh-48px)]  text-white -right-5 absolute w-5 cursor-col-resize"
+        className="z-10 h-[calc(100vh-96px)]  text-white -right-5 absolute w-5 cursor-col-resize"
       />
     </aside>
   );
