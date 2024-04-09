@@ -5,10 +5,10 @@ import ProblemSection from '../template/ProblemSection';
 
 export default function ProblemPage() {
   return (
-    <div className="overflow-x-hidden h-screen">
+    <div className="h-screen overflow-x-hidden">
       <ProblemHeader />
       <div
-        className="w-screen relative overflow-x-hidden"
+        className="relative w-screen overflow-x-hidden"
         style={{
           height: `calc(100vh - ${PROBLEM_HEADER_HEIGHT + PROBLEM_HEADER_HEIGHT}px)`,
         }}
