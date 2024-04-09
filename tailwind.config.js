@@ -11,7 +11,8 @@ export default withMT({
         'ssmd': '540px', //
       },
       transitionProperty: {
-        'left': 'left'
+        'left': 'left',
+        'height': 'height'
       }
     },
     colors: {
