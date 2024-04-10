@@ -16,18 +16,20 @@ import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
+import ProblemStateChip from '../atom/ProblemStateChip';
 
-const TABLE_HEAD = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
-const problems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1, 1, 1].map((elem) => ({
-  state: Math.floor((Math.random() * 100) % 2),
-  title: '저는 문제입니다아아아아아아아아아아아아아아',
-  grade: `브론즈${(elem % 5) + 1}`,
-  rate: '88.88',
-  submitCount: (Math.random() * 10000).toFixed(0),
-  source: 'https://acimpc.net/problem/3455',
-}));
 export default function ProblemTable() {
+  const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
+  const problems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1, 1, 1].map((elem) => ({
+    state: Math.floor((Math.random() * 100) % 2),
+    title: '저는 문제입니다아아아아아아아아아아아아아아',
+    grade: `브론즈${(elem % 5) + 1}`,
+    rate: '88.88',
+    submitCount: (Math.random() * 10000).toFixed(0),
+    source: 'https://acimpc.net/problem/3455',
+  }));
   const [isOpenGrade, setOpenGrade] = useState(true);
+  const [problemList, setProblemList] = useState(problems);
 
   return (
     <section className="container mt-8">
@@ -60,7 +62,7 @@ export default function ProblemTable() {
           <table className="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
-                {TABLE_HEAD.map((head) => (
+                {problemTableHeaders.map((head) => (
                   <th
                     key={head}
                     className="border-b border-gray-300 !p-6"
@@ -77,37 +79,13 @@ export default function ProblemTable() {
               </tr>
             </thead>
             <tbody>
-              {problems.map(({
+              {problemList.map(({
                 state, source, title, grade, rate, submitCount,
               }) => (
                 <tr key={title}>
                   <td className="w-12 p-4 border-b border-gray-300">
-                    {state === 0
-                      ? (
+                    <ProblemStateChip className="w-11" state={state} value="" />
 
-                        <Chip
-                          className="w-11"
-                          color="red"
-                          variant="ghost"
-                          value="실패"
-                        />
-                      ) : state === 1
-                        ? (
-                          <Chip
-                            className="w-11"
-                            color="green"
-                            variant="ghost"
-                            value="성공"
-                          />
-                        )
-                        : (
-                          <Chip
-                            className="w-11"
-                            color="green"
-                            variant="ghost"
-                            value="미제출"
-                          />
-                        )}
                   </td>
                   <td className="p-4 border-b border-gray-300 min-w-80">
                     <Typography
@@ -125,7 +103,7 @@ export default function ProblemTable() {
                       />
                     </div>
                   </td>
-                  <td className="p-4 border-b border-gray-300">
+                  <td className="py-4 px-6 border-b border-gray-300">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -134,7 +112,7 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td className="p-4 border-b border-gray-300">
+                  <td className="py-4 px-6 border-b border-gray-300">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -143,7 +121,7 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td key={source}className="p-4 border-b border-gray-300">
+                  <td key={source}className="py-4 px-6 border-b border-gray-300">
                     <div className="flex items-center w-full h-full">
                       <Tooltip value="백준" content="백준">
 
