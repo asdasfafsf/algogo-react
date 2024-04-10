@@ -35,7 +35,7 @@ export default function ProblemTable() {
         <CardHeader
           floated={false}
           shadow={false}
-          className="flex flex-wrap justify-between gap-4 p-2 mb-4 rounded-none"
+          className="flex flex-wrap justify-between gap-4 p-4 mb-4 rounded-none"
         >
           <div className="flex items-center justify-center">
             <Typography variant="h5" color="blue-gray">
@@ -52,14 +52,14 @@ export default function ProblemTable() {
             {/* <Button className="w-full md:max-w-fit">add member</Button> */}
           </div>
         </CardHeader>
-        <CardBody className="overflow-scroll !p-0">
-          <table className="w-full text-left">
+        <CardBody className="!overflow-scroll !p-0">
+          <table className="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
                 {TABLE_HEAD.map((head) => (
                   <th
                     key={head}
-                    className="border-b border-gray-300 !p-6"
+                    className="border-b border-gray-300 !p-4"
                   >
                     <Typography
                       color="blue-gray"
@@ -77,9 +77,7 @@ export default function ProblemTable() {
                 state, source, title, grade, rate, submitCount,
               }) => (
                 <tr key={title}>
-                  <td
-                    className="!w-12 p-4 border-b border-gray-300"
-                  >
+                  <td className="w-12 p-4 border-b border-gray-300">
                     {state === 0
                       ? (
 
@@ -107,7 +105,7 @@ export default function ProblemTable() {
                           />
                         )}
                   </td>
-                  <td className="p-4 border-b border-gray-300 min-w-40">
+                  <td className="p-4 border-b border-gray-300 min-w-80">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -115,32 +113,24 @@ export default function ProblemTable() {
                       {title}
                     </Typography>
                   </td>
-                  <td className="p-4 border-b border-gray-300 w-8">
-                    <div className="relative flex items-center h-full">
+                  <td className="p-4 border-b border-gray-300">
+                    <div className=" flex items-center h-full">
                       <ProblemLevelChip
-                        className="relative text-white"
+                        className=" text-white"
                         level={`${isOpenGrade ? grade as ProblemLevel : '알 수 없음'}`}
                       />
                     </div>
                   </td>
-                  <td
-                    style={{
-                      width: '0px',
-                    }}
-                    className="px-6 border-b border-gray-300"
-                  >
+                  <td className="p-4 border-b border-gray-300">
                     <Typography
-                      style={{
-                        width: '60px',
-                      }}
-                      className="!font-medium w-full"
+                      className="!font-medium"
                       variant="small"
                     >
                       {`${rate} %`}
                     </Typography>
 
                   </td>
-                  <td className="py-4 px-6 border-b border-gray-300 w-6">
+                  <td className="p-4 border-b border-gray-300">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -149,12 +139,13 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td key={source}className="py-4 px-6 border-b border-gray-300">
-                    {/* <div className="flex items-center w-full h-full"> */}
-                    <Tooltip value="백준" content="백준">
-                      <LinkIcon className="w-4 h-4 cursor-pointer" />
-                    </Tooltip>
-                    {/* </div> */}
+                  <td key={source}className="p-4 border-b border-gray-300">
+                    <div className="flex items-center w-full h-full">
+                      <Tooltip value="백준" content="백준">
+
+                        <LinkIcon className="w-4 h-4" />
+                      </Tooltip>
+                    </div>
                   </td>
                 </tr>
               ))}
