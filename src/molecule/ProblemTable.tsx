@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import {
   Chip,
-  Avatar,
   Input,
   Button,
   Typography,
@@ -10,14 +9,12 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  IconButton,
   Tooltip,
 } from '@material-tailwind/react';
 
-import { MagnifyingGlassIcon, PencilIcon } from '@heroicons/react/24/solid';
+import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { CheckIcon } from '@heroicons/react/16/solid';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 
 const TABLE_HEAD = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -56,7 +53,7 @@ export default function ProblemTable() {
           </div>
         </CardHeader>
         <CardBody className="overflow-scroll !p-0">
-          <table className="w-full text-left table-auto min-w-max">
+          <table className="w-full text-left">
             <thead>
               <tr>
                 {TABLE_HEAD.map((head) => (
@@ -77,10 +74,12 @@ export default function ProblemTable() {
             </thead>
             <tbody>
               {problems.map(({
-                state, source, title, grade, rate, submitCount, sourcr,
+                state, source, title, grade, rate, submitCount,
               }) => (
                 <tr key={title}>
-                  <td className="w-12 p-4 border-b border-gray-300">
+                  <td
+                    className="!w-12 p-4 border-b border-gray-300"
+                  >
                     {state === 0
                       ? (
 
@@ -99,9 +98,16 @@ export default function ProblemTable() {
                             value="성공"
                           />
                         )
-                        : <div>안품</div>}
+                        : (
+                          <Chip
+                            className="w-11"
+                            color="green"
+                            variant="ghost"
+                            value="미제출"
+                          />
+                        )}
                   </td>
-                  <td className="p-4 border-b border-gray-300 w-80">
+                  <td className="p-4 border-b border-gray-300 min-w-40">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -109,23 +115,32 @@ export default function ProblemTable() {
                       {title}
                     </Typography>
                   </td>
-                  <td className="p-4 border-b border-gray-300">
-                    <div className="max-w-16">
+                  <td className="p-4 border-b border-gray-300 w-8">
+                    <div className="relative flex items-center h-full">
                       <ProblemLevelChip
+                        className="relative text-white"
                         level={`${isOpenGrade ? grade as ProblemLevel : '알 수 없음'}`}
                       />
                     </div>
                   </td>
-                  <td className="p-4 border-b border-gray-300">
+                  <td
+                    style={{
+                      width: '0px',
+                    }}
+                    className="px-6 border-b border-gray-300"
+                  >
                     <Typography
-                      className="!font-medium"
+                      style={{
+                        width: '60px',
+                      }}
+                      className="!font-medium w-full"
                       variant="small"
                     >
                       {`${rate} %`}
                     </Typography>
 
                   </td>
-                  <td className="p-4 border-b border-gray-300">
+                  <td className="py-4 px-6 border-b border-gray-300 w-6">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -134,8 +149,12 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td className="p-4 border-b border-gray-300">
-                    {}
+                  <td key={source}className="py-4 px-6 border-b border-gray-300">
+                    {/* <div className="flex items-center w-full h-full"> */}
+                    <Tooltip value="백준" content="백준">
+                      <LinkIcon className="w-4 h-4 cursor-pointer" />
+                    </Tooltip>
+                    {/* </div> */}
                   </td>
                 </tr>
               ))}
