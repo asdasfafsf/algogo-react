@@ -49,7 +49,11 @@ export default function ProblemTable() {
                 icon={<MagnifyingGlassIcon className="w-5 h-5" />}
               />
             </div>
-            {/* <Button className="w-full md:max-w-fit">add member</Button> */}
+            <Button
+              className="w-full md:max-w-fit"
+            >
+              검색
+            </Button>
           </div>
         </CardHeader>
         <CardBody className="!overflow-scroll !p-0">
@@ -59,7 +63,7 @@ export default function ProblemTable() {
                 {TABLE_HEAD.map((head) => (
                   <th
                     key={head}
-                    className="border-b border-gray-300 !p-4"
+                    className="border-b border-gray-300 !p-6"
                   >
                     <Typography
                       color="blue-gray"
