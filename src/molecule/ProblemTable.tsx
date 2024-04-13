@@ -96,14 +96,14 @@ export default function ProblemTable() {
                     </Typography>
                   </td>
                   <td className="p-4 border-b border-gray-300">
-                    <div className=" flex items-center h-full">
+                    <div className="flex items-center h-full ">
                       <ProblemLevelChip
-                        className=" text-white"
+                        className="text-white "
                         level={`${isOpenGrade ? grade as ProblemLevel : '알 수 없음'}`}
                       />
                     </div>
                   </td>
-                  <td className="py-4 px-6 border-b border-gray-300">
+                  <td className="px-6 py-4 border-b border-gray-300">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -112,7 +112,7 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td className="py-4 px-6 border-b border-gray-300">
+                  <td className="px-6 py-4 border-b border-gray-300">
                     <Typography
                       className="!font-medium"
                       variant="small"
@@ -121,7 +121,7 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td key={source}className="py-4 px-6 border-b border-gray-300">
+                  <td key={source}className="px-6 py-4 border-b border-gray-300">
                     <div className="flex items-center w-full h-full">
                       <Tooltip value="백준" content="백준">
 

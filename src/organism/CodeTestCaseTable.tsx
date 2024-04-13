@@ -20,7 +20,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
         </div>
       </div>
       <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-gray-900">
-        <table className="w-full min-w-max table-fixed text-center">
+        <table className="w-full text-center table-fixed min-w-max">
           <thead>
             <tr>
               {['입력', '출력', '예상 결과', '일치 여부'].map((head, index, arr) => (
@@ -52,7 +52,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal break-words text-left"
+                      className="font-normal text-left break-words"
                     >
                       {input}
                     </Typography>
@@ -61,7 +61,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal break-words text-left"
+                      className="font-normal text-left break-words"
                     >
                       {output}
                     </Typography>
@@ -70,7 +70,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal break-words text-left"
+                      className="font-normal text-left break-words"
                     >
                       {expected}
                     </Typography>
