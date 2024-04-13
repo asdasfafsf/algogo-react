@@ -21,7 +21,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
     handleChangeOutput] = useTestCase(testCaseList);
 
   return (
-    <TranslucentOverlay className="py-16 items-start">
+    <TranslucentOverlay className="items-start py-16">
       <div
         className="min-h-64 h-auto rounded-md bg-white w-[600px] p-8"
       >
@@ -35,11 +35,11 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
         {testCases.length
           ? testCases.map(({ input, output, readOnly }, index, arr) => (
             <div key={index} className="w-full">
-              <div className="flex relative mb-2 w-full">
+              <div className="relative flex w-full mb-2">
                 <Chip
                   value={`입력 ${index + 1}`}
                   variant="ghost"
-                  className="w-14 flex items-center"
+                  className="flex items-center w-14"
                   color={readOnly ? 'red' : 'blue'}
                 />
                 {readOnly
@@ -47,9 +47,9 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
                   : (
                     <div
                       onClick={() => removeTestCase(index)}
-                      className="w-full h-6 bg-white cursor-pointer flex items-center justify-end"
+                      className="flex items-center justify-end w-full h-6 bg-white cursor-pointer"
                     >
-                      <TrashIcon className="text-gray-600 w-5 h-5" />
+                      <TrashIcon className="w-5 h-5 text-gray-600" />
                     </div>
                   )}
 
@@ -72,7 +72,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
               <Chip
                 value={`출력 ${index + 1}`}
                 variant="ghost"
-                className="w-14 flex items-center  mb-2"
+                className="flex items-center mb-2 w-14"
                 color={readOnly ? 'red' : 'blue'}
               />
               {' '}
@@ -97,7 +97,7 @@ export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps)
           ))
 
           : (
-            <div className="h-24 flex items-center justify-center">
+            <div className="flex items-center justify-center h-24">
               <Typography variant="h6" className="text-gray-600">테스트 케이스가 없습니다.</Typography>
             </div>
           )}

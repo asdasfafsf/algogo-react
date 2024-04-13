@@ -46,7 +46,7 @@ export default function AlertModal({ content }: AlertModalProps) {
       <div
         className={`min-h-50 h-auto rounded-md bg-white w-[400px] transform transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
       >
-        <header className="flex w-full justify-end items-end p-2">
+        <header className="flex items-end justify-end w-full p-2">
           <div
             color="white"
             className="cursor-pointer"
@@ -55,7 +55,7 @@ export default function AlertModal({ content }: AlertModalProps) {
             <XMarkIcon className="w-6 h-6" />
           </div>
         </header>
-        <section className="h-24 flex items-center justify-center">
+        <section className="flex items-center justify-center h-24">
           {content}
         </section>
         <footer className="flex items-end justify-end w-full p-2">

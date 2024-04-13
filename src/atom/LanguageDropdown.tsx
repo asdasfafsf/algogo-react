@@ -47,7 +47,7 @@ export default function Dropdown() {
             <div
               key={language}
               onClick={(e) => handleUpdate(e, index)}
-              className="bg-gray flex items-center p-1 hover:bg-blue-gray-700 rounded-md cursor-poiner"
+              className="flex items-center p-1 rounded-md bg-gray hover:bg-blue-gray-700 cursor-poiner"
             >
               <Typography
                 variant="small"

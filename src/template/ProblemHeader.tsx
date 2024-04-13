@@ -11,7 +11,7 @@ export default function ProblemHeader() {
       style={{
         height: `${PROBLEM_HEADER_HEIGHT}px`,
       }}
-      className="flex bg-gray-900 items-center w-screen"
+      className="flex items-center w-screen bg-gray-900"
     >
       <div className="flex">
         <ProblemBreadcrumbs

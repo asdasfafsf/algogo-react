@@ -48,7 +48,7 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
 
                         {index < arr.length - 1
                           ? (
-                            <div className=" text-blue-500">
+                            <div className="text-blue-500 ">
                               <SpaceIcon />
                             </div>
                           )
@@ -68,9 +68,9 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
 
         </div>
         {copied ? (
-          <CheckIcon className="h-4 w-4 text-white" />
+          <CheckIcon className="w-4 h-4 text-white" />
         ) : (
-          <DocumentDuplicateIcon className="h-4 w-4 text-white" />
+          <DocumentDuplicateIcon className="w-4 h-4 text-white" />
         )}
       </Button>
     </Tooltip>

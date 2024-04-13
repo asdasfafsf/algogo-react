@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-multi-spaces */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import {
-  Chip,
   Input,
   Button,
   Typography,

@@ -5,10 +5,10 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <section className="w-screen h-screen flex items-center justify-center">
-      <div className="relative min-h-screen w-full">
+    <section className="flex items-center justify-center w-screen h-screen">
+      <div className="relative w-full min-h-screen">
         <div className="grid min-h-screen px-8">
-          <div className="container relative z-10 my-auto mx-auto grid place-items-center text-center">
+          <div className="container relative z-10 grid mx-auto my-auto text-center place-items-center">
             <Typography
               variant="h1"
               color="blue-gray"
@@ -26,7 +26,7 @@ export default function NotFound() {
             <Typography
               variant="lead"
               color="gray"
-              className="mt-4 mb-6 w-full md:max-w-full lg:mb-12 lg:max-w-3xl"
+              className="w-full mt-4 mb-6 md:max-w-full lg:mb-12 lg:max-w-3xl"
             >
               어떤가요? 새로운 디지털 세계에 놀러오셨군요. 찾고 계신 페이지는 아쉽게도 찾지 못했네요. 함께 익숙한 길로 안내해 드릴게요!
             </Typography>

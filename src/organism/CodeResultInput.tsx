@@ -8,11 +8,11 @@ interface CodeResultInputProps {
 
 export default function CodeResultInput({ inputTextAreaRef } : CodeResultInputProps) {
   return (
-    <div className="h-full relative">
-      <nav className="flex w-full justify-end gap-1 overflow-x-hidden">
-        <div className="absolute flex right-6 z-10 overflow-x-hidden bg-gray-900">
+    <div className="relative h-full">
+      <nav className="flex justify-end w-full gap-1 overflow-x-hidden">
+        <div className="absolute z-10 flex overflow-x-hidden bg-gray-900 right-6">
           <TooltipIconButton
-            className="h-8 w-8"
+            className="w-8 h-8"
             content="실행"
           >
             <PlayIcon className="w-6 h-6 text-green-500" />
@@ -24,10 +24,10 @@ export default function CodeResultInput({ inputTextAreaRef } : CodeResultInputPr
                 inputTextAreaRef.current.value = copiedValue;
               }
             }}
-            className="h-8 w-8"
+            className="w-8 h-8"
             content="붙여넣기"
           >
-            <ClipboardDocumentListIcon className="text-white w-6 h-6" />
+            <ClipboardDocumentListIcon className="w-6 h-6 text-white" />
           </TooltipIconButton>
           <TooltipIconButton
             onClick={() => {
@@ -35,10 +35,10 @@ export default function CodeResultInput({ inputTextAreaRef } : CodeResultInputPr
                 inputTextAreaRef.current.value = '';
               }
             }}
-            className="h-8 w-8"
+            className="w-8 h-8"
             content="지우기"
           >
-            <TrashIcon className="text-red-500 w-6 h-6" />
+            <TrashIcon className="w-6 h-6 text-red-500" />
           </TooltipIconButton>
         </div>
       </nav>

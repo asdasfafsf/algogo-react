@@ -22,11 +22,11 @@ export default function ProblemCategoryViewer(
       <div className="min-h-12 my-4 max-w-[calc(100%-48px)] ">
 
         <div className="lex items-center flex-wrap max-w-[calc(100%-48px)] ">
-          {/* <Typography variant="small" className="font-bold mx-2 h-full w-8">유형 </Typography> */}
+          {/* <Typography variant="small" className="w-8 h-full mx-2 font-bold">유형 </Typography> */}
 
           <div
             onClick={handleClick}
-            className="flex flex-wrap gap-1 w-full cursor-pointer"
+            className="flex flex-wrap w-full gap-1 cursor-pointer"
           >
             {categoryState === 'hide'
               ? <ProblemCategoryChip category="알고리즘 유형 숨김" />

@@ -17,7 +17,7 @@ export default function ProblemLevelViewer({ intialState, level }: ProblemLevelV
     >
       <div
         onClick={handleClick}
-        className="flex flex-wrap items-center cursor-pointer w-32"
+        className="flex flex-wrap items-center w-32 cursor-pointer"
       >
         <Typography variant="small" className="font-bold">난이도 : </Typography>
   &nbsp;
