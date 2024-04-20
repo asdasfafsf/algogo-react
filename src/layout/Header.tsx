@@ -1,28 +1,19 @@
 import React from 'react';
 import {
-  Navbar,
-  Collapse,
   Typography,
   Button,
-  IconButton,
-  Input,
 } from '@material-tailwind/react';
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
 
-import {
-  Squares2X2Icon,
-  BellIcon,
-} from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
-import NavList from '../molecule/NavList';
+import NavbarItem from '../atom/NavbarItem';
+import Navbar from '../atom/Navbar';
+import NavbarSubItem from '../atom/NavbarSubItem';
+import Line from '../atom/Line';
 import ProfileMenu from '../molecule/ProfileMenu';
 
-export function NavbarWithIcons() {
+export default function Header() {
   const [open, setOpen] = React.useState(false);
-  const [isLogin] = React.useState(false);
+  const [isLogin] = React.useState(true);
   const handleOpen = () => setOpen((cur) => !cur);
   const navigate = useNavigate();
 
@@ -35,30 +26,47 @@ export function NavbarWithIcons() {
 
   return (
 
-    <header className="flex items-center justify-between h-24 p-4">
-      <Typography variant="h2">알고고(로고자리)</Typography>
-      <div className="flex items-center h-full gap">
-        {!isLogin
-          ? (
-            <>
-              <Button
-                variant="text"
-                className="text-sm font-medium"
-                onClick={() => navigate('/login')}
-              >
-                로그인
-              </Button>
-              <Button
-                variant="text"
-                className="text-sm font-medium"
-                onClick={() => navigate('/signup')}
-              >
-                회원가입
-              </Button>
-            </>
-          )
-          : '로그인됨'}
+    <header className="w-screen">
+      <div className="flex items-center justify-center pt-4">
+        <div className="container flex items-center justify-between h-12 p-4">
+          <Typography variant="h2">알고고(로고자리)</Typography>
+          <div className="flex items-center h-full gap">
+            {!isLogin
+              ? (
+                <>
+                  <Button
+                    variant="text"
+                    className="text-sm font-medium"
+                    onClick={() => navigate('/login')}
+                  >
+                    로그인
+                  </Button>
+                  <Button
+                    variant="text"
+                    className="text-sm font-medium"
+                    onClick={() => navigate('/signup')}
+                  >
+                    회원가입
+                  </Button>
+                </>
+              )
+              : <ProfileMenu />}
+          </div>
+        </div>
       </div>
+      <div className="flex items-center justify-center">
+        <Navbar>
+          <NavbarItem
+            onClick={() => {}}
+            value="문제"
+            isSelected
+          >
+            <NavbarSubItem isSelected value="모든 문제" to="/" />
+            <NavbarSubItem isSelected={false} value="출제하기" to="/" />
+          </NavbarItem>
+        </Navbar>
+      </div>
+      <Line />
     </header>
     // <Navbar className="" color="white" shadow={false} fullWidth>
     //   <div className="container flex items-center justify-between mx-auto">
@@ -129,5 +137,3 @@ export function NavbarWithIcons() {
   // </Navbar>
   );
 }
-
-export default NavbarWithIcons;

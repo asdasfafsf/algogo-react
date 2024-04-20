@@ -5,10 +5,15 @@ interface NavbarProps {
 
 export default function Navbar({ children = <></> }: NavbarProps) {
   return (
-    <nav>
-      <ul>
-        {children}
-      </ul>
+    <nav className="w-full">
+      <div className="items-center justify-center">
+
+        <div className="container">
+          <ul className="container flex w-full gap-2">
+            {children}
+          </ul>
+        </div>
+      </div>
     </nav>
   );
 }
