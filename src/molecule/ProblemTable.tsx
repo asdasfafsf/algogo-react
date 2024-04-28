@@ -38,6 +38,24 @@ export default function ProblemTable() {
       value: '다이나믹 프로그래밍',
       isSelected: false,
     },
+    {
+      type: '유형',
+      name: '정렬',
+      value: '정렬',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '데이크스트라',
+      value: '데이크스트라',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
   ]);
 
   return (
@@ -53,15 +71,20 @@ export default function ProblemTable() {
               모든 문제
             </Typography>
             <Dropdown value="유형">
-              <div className="flex-wrap hidden gap-2 min-w-80 h-500">
+              <div>
+                <div className="mb-2">
+                  <Typography variant="small">유형 </Typography>
+                </div>
+                <div className="flex flex-wrap gap-2 max-w-80">
 
-                {optionList.map((elem) => {
-                  if (elem.type === '유형') {
-                    return <Chip size="sm" value={elem.name} />;
-                  }
-                  return <div />;
-                })}
+                  {optionList.map((elem) => {
+                    if (elem.type === '유형') {
+                      return <Chip size="sm" value={elem.name} />;
+                    }
+                    return <div />;
+                  })}
 
+                </div>
               </div>
             </Dropdown>
             <Dropdown value="난이도">

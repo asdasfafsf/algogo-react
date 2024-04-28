@@ -39,12 +39,10 @@ export default function Dropdown({ children, value } : DropdownProps) {
           </div>
         </div>
       </MenuHandler>
-      <MenuList className="max-h-[100vh]">
-
-        {/* <ul> */}
-        {children}
-        {/* </ul> */}
-
+      <MenuList>
+        <div>
+          {children}
+        </div>
       </MenuList>
     </Menu>
   );
