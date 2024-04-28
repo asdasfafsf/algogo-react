@@ -9,6 +9,7 @@ import {
   CardBody,
   CardFooter,
   Tooltip,
+  Chip,
 } from '@material-tailwind/react';
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
@@ -16,6 +17,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
+import Dropdown from '../atom/Dropdown';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -29,6 +31,14 @@ export default function ProblemTable() {
   }));
   const [isOpenGrade, setOpenGrade] = useState(true);
   const [problemList, setProblemList] = useState(problems);
+  const [optionList, setOptionList] = useState<ProblemOption[]>([
+    {
+      type: '유형',
+      name: '다이나믹 프로그래밍',
+      value: '다이나믹 프로그래밍',
+      isSelected: false,
+    },
+  ]);
 
   return (
     <section className="container mt-8">
@@ -38,10 +48,31 @@ export default function ProblemTable() {
           shadow={false}
           className="flex flex-wrap justify-between gap-4 p-4 mb-4 rounded-none"
         >
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center gap-2">
             <Typography variant="h5" color="blue-gray">
               모든 문제
             </Typography>
+            <Dropdown value="유형">
+              <div className="flex-wrap hidden gap-2 min-w-80 h-500">
+
+                {optionList.map((elem) => {
+                  if (elem.type === '유형') {
+                    return <Chip size="sm" value={elem.name} />;
+                  }
+                  return <div />;
+                })}
+
+              </div>
+            </Dropdown>
+            <Dropdown value="난이도">
+              <div>안녕</div>
+            </Dropdown>
+            <Dropdown value="유형">
+              <div>안녕</div>
+            </Dropdown>
+            <Dropdown value="유형">
+              <div>안녕</div>
+            </Dropdown>
           </div>
           <div className="flex flex-wrap items-center w-full gap-4 shrink-0 md:w-max">
             <div className="w-full md:w-72">
