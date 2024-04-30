@@ -1,8 +1,10 @@
 import {
-  Button, IconButton, Menu, MenuHandler, MenuList, Typography,
+  Typography,
 } from '@material-tailwind/react';
-import { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface DropdownProps {
   children: React.ReactNode;
@@ -11,39 +13,70 @@ interface DropdownProps {
 
 export default function Dropdown({ children, value } : DropdownProps) {
   const [isOpen, setOpen] = useState(false);
+  const divRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOpen = useCallback(() => {
+    setOpen(!isOpen);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleClickArea = ((e: MouseEvent) => {
+    //   setOpen(!isOpen);
+      if (divRef?.current && menuRef?.current) {
+        const { target } = e;
+        if (isOpen
+            && !divRef.current?.contains(target as any)
+            && !menuRef.current?.contains(target as any)) {
+          setOpen(false);
+        }
+      }
+    });
+
+    if (isOpen) {
+      window.addEventListener('click', handleClickArea);
+    }
+
+    return () => {
+      window.removeEventListener('click', handleClickArea);
+    };
+  }, [isOpen, divRef]);
+
   return (
-    <Menu
-      handler={() => setOpen(!isOpen)}
-      open={isOpen}
-      placement="bottom-start"
-    >
-      <MenuHandler>
-        <div
-          className={`${isOpen ? '' : ''} flex items-center h-4 gap-1 px-2 py-4 bg-gray-300 rounded-md cursor-pointer`}
+    <div className="z-20">
+      <div
+        ref={menuRef}
+        onClick={handleClickOpen}
+        className={`${isOpen ? '' : ''} flex items-center h-4 gap-1 px-2 py-4 bg-gray-300 rounded-md cursor-pointer`}
+      >
+        <Typography
+          className="font-bold"
+          variant="small"
         >
-          <Typography
-            className="font-bold"
-            variant="small"
-          >
-            {value}
-          </Typography>
-          <div
-            className="h-4"
-          >
-            <ChevronDownIcon
-              strokeWidth={2.5}
-              className={`text-gray-400 h-3.5 w-3.5 transition-transform ${
-                isOpen ? 'rotate-180' : ''
-              }`}
-            />
-          </div>
+          {value}
+        </Typography>
+        <div
+          className="h-4"
+        >
+          <ChevronDownIcon
+            strokeWidth={2.5}
+            className={`text-gray-400 h-3.5 w-3.5 transition-transform ${
+              isOpen ? 'rotate-180' : ''
+            }`}
+          />
         </div>
-      </MenuHandler>
-      <MenuList>
-        <div>
-          {children}
-        </div>
-      </MenuList>
-    </Menu>
+
+      </div>
+
+      {/* <MenuItem className="cursor:none"> */}
+      <div
+        ref={divRef}
+        className={`${isOpen ? '' : 'hidden'} border border-gray-300 shadow-lg absolute bg-white rounded-md p-4 z-10 content-border`}
+      >
+        {children}
+      </div>
+
+    </div>
+
   );
 }
