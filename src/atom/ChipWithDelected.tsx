@@ -2,16 +2,16 @@
 import { Chip, ChipProps } from '@material-tailwind/react';
 import { color } from '@material-tailwind/react/types/components/chip';
 
-type ChipWithSelectecdProps = Omit<ChipProps, 'color' | 'variant'> & {
+type ChipWithDeletedProps = Omit<ChipProps, 'color' | 'variant'> & {
   isSelected: boolean
   onClick: (e: React.MouseEvent) => Promise<void> | void;
 };
 
-export default function ChipWithSelected({
+export default function ChipWithDeleted({
   isSelected,
   onClick,
   ...props
-}: ChipWithSelectecdProps) {
+}: ChipWithDeletedProps) {
   return (
     <div
       onClick={onClick}

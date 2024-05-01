@@ -18,6 +18,7 @@ import { useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
 import Dropdown from '../atom/Dropdown';
+import ChipWithSelected from '../atom/ChipWithSelected';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -42,7 +43,7 @@ export default function ProblemTable() {
       type: '유형',
       name: '정렬',
       value: '정렬',
-      isSelected: false,
+      isSelected: true,
     },
     {
       type: '유형',
@@ -56,61 +57,139 @@ export default function ProblemTable() {
       value: '안녕',
       isSelected: false,
     },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+    {
+      type: '유형',
+      name: '안녕',
+      value: '안녕',
+      isSelected: false,
+    },
+
   ]);
 
   return (
     <section className="container mt-8">
       <Card className="w-full h-full">
-        <CardHeader
-          floated={false}
-          shadow={false}
-          className="flex flex-wrap justify-between gap-4 p-4 mb-4 rounded-none"
+        <div
+          className="flex flex-wrap justify-between gap-4 p-6 mb-4 rounded-none"
         >
-          <div className="flex items-center justify-center gap-2">
-            <Typography variant="h5" color="blue-gray">
-              모든 문제
-            </Typography>
-            <Dropdown value="유형">
-              <div>
-                <div className="mb-2">
-                  <Typography variant="small">유형 </Typography>
-                </div>
-                <div className="flex flex-wrap gap-2 max-w-80">
-
-                  {optionList.map((elem) => {
-                    if (elem.type === '유형') {
-                      return <Chip size="sm" value={elem.name} />;
-                    }
-                    return <div />;
-                  })}
-
-                </div>
-              </div>
-            </Dropdown>
-            <Dropdown value="난이도">
-              <div>안녕</div>
-            </Dropdown>
-            <Dropdown value="유형">
-              <div>안녕</div>
-            </Dropdown>
-            <Dropdown value="유형">
-              <div>안녕</div>
-            </Dropdown>
-          </div>
-          <div className="flex flex-wrap items-center w-full gap-4 shrink-0 md:w-max">
-            <div className="w-full md:w-72">
-              <Input
-                label="제목"
-                icon={<MagnifyingGlassIcon className="w-5 h-5" />}
-              />
+          <div className="w-full">
+            <div className="w-full h-12">
+              <Typography variant="h5" color="blue-gray">
+                모든 문제
+              </Typography>
             </div>
-            <Button
-              className="w-full md:max-w-fit"
-            >
-              검색
-            </Button>
+            <div className="flex flex-wrap items-center justify-between w-full gap-2">
+              <div className="flex items-center gap-2">
+                <Dropdown value="유형">
+                  <div>
+                    <div className="mb-2">
+                      <Typography variant="small">유형 </Typography>
+                    </div>
+                    <div className="flex flex-wrap gap-2 max-w-80">
+
+                      {optionList.map(({
+                        isSelected, name, value, type,
+                      }, index) => {
+                        if (type === '유형') {
+                          return (
+                            <ChipWithSelected
+                              key={value}
+                              onClick={(e) => {
+                                const newOptionList = [...optionList];
+                                newOptionList[index].isSelected = !newOptionList[index].isSelected;
+                                setOptionList(newOptionList);
+                              }}
+                              size="sm"
+                              value={name}
+                              isSelected={isSelected}
+                            />
+                          );
+                        }
+                        return '';
+                      })}
+
+                    </div>
+                    <div className="flex items-center justify-end gap-2 mt-4">
+                      <Button
+                        className="bg-gray-500"
+                        color="gray"
+                        size="sm"
+                      >
+                        초기화
+                      </Button>
+                      <Button
+                        color="blue"
+                        size="sm"
+                      >
+                        적용
+                      </Button>
+                    </div>
+                  </div>
+                </Dropdown>
+                <Dropdown value="난이도">
+                  <div>안녕</div>
+                </Dropdown>
+                <Dropdown value="상태">
+                  <div>안녕</div>
+                </Dropdown>
+                {/* <Dropdown value="출처">
+                  <div>안녕</div>
+                </Dropdown> */}
+              </div>
+              <div className="flex flex-wrap items-center w-full gap-4 shrink-0 md:w-max">
+                <div className="w-full md:w-72">
+                  <Input
+                    label="제목"
+                    icon={<MagnifyingGlassIcon className="w-5 h-5" />}
+                  />
+                </div>
+                <Button
+                  className="w-full md:max-w-fit"
+                >
+                  검색
+                </Button>
+              </div>
+            </div>
+
           </div>
-        </CardHeader>
+
+        </div>
         <CardBody className="!overflow-scroll !p-0">
           <table className="w-full text-left table-auto min-w-max">
             <thead>

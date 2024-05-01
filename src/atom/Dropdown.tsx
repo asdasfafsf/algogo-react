@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Typography,
 } from '@material-tailwind/react';
@@ -47,10 +48,10 @@ export default function Dropdown({ children, value } : DropdownProps) {
       <div
         ref={menuRef}
         onClick={handleClickOpen}
-        className={`${isOpen ? '' : ''} flex items-center h-4 gap-1 px-2 py-4 bg-gray-300 rounded-md cursor-pointer`}
+        className={`${isOpen ? 'bg-blue-100' : ''} flex items-center h-4 gap-1 px-2 py-4 bg-gray-300 rounded-md cursor-pointer`}
       >
         <Typography
-          className="font-bold"
+          className={`${isOpen ? 'text-blue-500' : ''} font-bold`}
           variant="small"
         >
           {value}
@@ -60,8 +61,8 @@ export default function Dropdown({ children, value } : DropdownProps) {
         >
           <ChevronDownIcon
             strokeWidth={2.5}
-            className={`text-gray-400 h-3.5 w-3.5 transition-transform ${
-              isOpen ? 'rotate-180' : ''
+            className={` h-3.5 w-3.5 transition-transform ${
+              isOpen ? 'text-blue-400 rotate-180' : 'text-gray-400'
             }`}
           />
         </div>
