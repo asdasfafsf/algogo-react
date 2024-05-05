@@ -14,11 +14,13 @@ import {
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
 import Dropdown from '../atom/Dropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
+import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
+import ProblemGradeDropdown from '../organism/ProblemGradeDropdown';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -99,7 +101,6 @@ export default function ProblemTable() {
       value: '안녕',
       isSelected: false,
     },
-
   ]);
 
   return (
@@ -116,55 +117,17 @@ export default function ProblemTable() {
             </div>
             <div className="flex flex-wrap items-center justify-between w-full gap-2">
               <div className="flex items-center gap-2">
-                <Dropdown value="유형">
-                  <div>
-                    <div className="mb-2">
-                      <Typography variant="small">유형 </Typography>
-                    </div>
-                    <div className="flex flex-wrap gap-2 max-w-80">
-
-                      {optionList.map(({
-                        isSelected, name, value, type,
-                      }, index) => {
-                        if (type === '유형') {
-                          return (
-                            <ChipWithSelected
-                              key={value}
-                              onClick={(e) => {
-                                const newOptionList = [...optionList];
-                                newOptionList[index].isSelected = !newOptionList[index].isSelected;
-                                setOptionList(newOptionList);
-                              }}
-                              size="sm"
-                              value={name}
-                              isSelected={isSelected}
-                            />
-                          );
-                        }
-                        return '';
-                      })}
-
-                    </div>
-                    <div className="flex items-center justify-end gap-2 mt-4">
-                      <Button
-                        className="bg-gray-500"
-                        color="gray"
-                        size="sm"
-                      >
-                        초기화
-                      </Button>
-                      <Button
-                        color="blue"
-                        size="sm"
-                      >
-                        적용
-                      </Button>
-                    </div>
-                  </div>
-                </Dropdown>
-                <Dropdown value="난이도">
-                  <div>안녕</div>
-                </Dropdown>
+                <ProblemTypeDropdown
+                  optionList={optionList}
+                  handleSelect={useCallback((e, index) => {
+                    const newOptionList = [...optionList];
+                    newOptionList[index].isSelected = !newOptionList[index].isSelected;
+                    setOptionList(newOptionList);
+                  }, [optionList])}
+                />
+                <ProblemGradeDropdown
+                  optionList={optionList}
+                />
                 <Dropdown value="상태">
                   <div>안녕</div>
                 </Dropdown>

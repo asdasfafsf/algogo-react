@@ -1,7 +1,18 @@
-import { Typography } from '@material-tailwind/react';
+import { Button, Typography } from '@material-tailwind/react';
 import Dropdown from '../atom/Dropdown';
+import ChipWithSelected from '../atom/ChipWithSelected';
 
-export default function ProblemTypeDropdown() {
+interface ProblemTypeDropdownProps {
+  optionList: ProblemOption[],
+  handleSelect: (e: React.MouseEvent, index: number) => void | Promise<void>
+  handleOk?: () => void | Promise<void>
+}
+
+export default function ProblemTypeDropdown({
+  optionList,
+  handleSelect,
+  handleOk,
+}: ProblemTypeDropdownProps) {
   return (
     <Dropdown value="유형">
       <div>
@@ -17,11 +28,7 @@ export default function ProblemTypeDropdown() {
               return (
                 <ChipWithSelected
                   key={value}
-                  onClick={(e) => {
-                    const newOptionList = [...optionList];
-                    newOptionList[index].isSelected = !newOptionList[index].isSelected;
-                    setOptionList(newOptionList);
-                  }}
+                  onClick={(e) => handleSelect(e, index)}
                   size="sm"
                   value={name}
                   isSelected={isSelected}
@@ -31,6 +38,21 @@ export default function ProblemTypeDropdown() {
             return '';
           })}
 
+        </div>
+        <div className="flex items-center justify-end gap-2 mt-4">
+          <Button
+            className="bg-gray-500"
+            color="gray"
+            size="sm"
+          >
+            초기화
+          </Button>
+          <Button
+            color="blue"
+            size="sm"
+          >
+            적용
+          </Button>
         </div>
       </div>
     </Dropdown>
