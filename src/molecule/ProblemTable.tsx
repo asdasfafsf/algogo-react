@@ -90,10 +90,11 @@ export default function ProblemTable() {
                   >
                     초기화
                   </Button>
-                  {realOptionList.map(({ isSelected, name }) => {
+                  {realOptionList.map(({ isSelected, name }, index) => {
                     if (isSelected) {
                       return (
                         <ChipWithSelected
+                          size="sm"
                           isSelected={isSelected}
                           value={name}
                           onClick={() => {}}
