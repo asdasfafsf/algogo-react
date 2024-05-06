@@ -12,29 +12,28 @@ import {
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
 import Dropdown from '../atom/Dropdown';
 import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
-import ProblemGradeDropdown from '../organism/ProblemGradeDropdown';
-import defaultProblemOption from '../constant/ProblemOption';
-import useConfirmModal from '../hook/useConfirmModal';
+import useProblemTable from '../hook/useProblemTable';
+import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
+import ChipWithSelected from '../atom/ChipWithSelected';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
-  const problems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1, 1, 1].map((elem) => ({
-    state: Math.floor((Math.random() * 100) % 2),
-    title: '저는 문제입니다아아아아아아아아아아아아아아',
-    grade: `다이아 ${(elem % 5) + 1}`,
-    rate: '88.88',
-    submitCount: (Math.random() * 10000).toFixed(0),
-    source: 'https://acimpc.net/problem/3455',
-  }));
   const [isOpenGrade, setOpenGrade] = useState(true);
-  const [problemList, setProblemList] = useState(problems);
-  const [optionList, setOptionList] = useState<ProblemOption[]>(defaultProblemOption);
-  const [confirm] = useConfirmModal();
+
+  const [problemList,
+    optionList,
+    realOptionList,
+    handleSelectProblemTypeDropdown,
+    handleOkProblemTypeDropdown,
+    handleResetProblemTypeDropdown,
+    handleSelectProblemLevelDropdown,
+    handleOkProblemLevelDropdown,
+    handleResetProblemLevelDropdown] = useProblemTable();
 
   return (
     <section className="container mt-8">
@@ -52,44 +51,15 @@ export default function ProblemTable() {
               <div className="flex items-center gap-2">
                 <ProblemTypeDropdown
                   optionList={optionList}
-                  handleSelect={useCallback((e, index) => {
-                    const newOptionList = [...optionList];
-                    newOptionList[index].isSelected = !newOptionList[index].isSelected;
-                    setOptionList(newOptionList);
-                  }, [optionList])}
+                  handleSelect={handleSelectProblemTypeDropdown}
+                  handleOk={handleOkProblemTypeDropdown}
+                  handleReset={handleResetProblemTypeDropdown}
                 />
-                <ProblemGradeDropdown
+                <ProblemLevelDropdown
                   optionList={optionList}
-                  handleSelect={useCallback((e, value) => {
-                    const newOptionList = [...optionList];
-                    const index = newOptionList.findIndex((elem) => elem.value === value);
-
-                    if (index === -1) {
-                      return;
-                    }
-                    newOptionList[index].isSelected = !newOptionList[index].isSelected;
-                    setOptionList(newOptionList);
-                  }, [optionList])}
-                  handleOk={async () => {}}
-                  handleReset={async (e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.stopPropagation();
-                    e.currentTarget.blur();
-                    const isOk = await confirm('초기화 하시겠습니까?');
-
-                    if (isOk === false) {
-                      return;
-                    }
-
-                    const newOptionList = optionList.map((elem) => {
-                      if (elem.type === '난이도') {
-                        const isSelected = false;
-                        return { ...elem, isSelected };
-                      }
-                      return elem;
-                    });
-
-                    setOptionList(newOptionList);
-                  }}
+                  handleSelect={handleSelectProblemLevelDropdown}
+                  handleOk={handleOkProblemLevelDropdown}
+                  handleReset={handleResetProblemLevelDropdown}
                 />
                 <Dropdown value="상태">
                   <div>안녕</div>
@@ -109,6 +79,33 @@ export default function ProblemTable() {
                 </Button>
               </div>
             </div>
+            {realOptionList.some((elem) => elem.isSelected)
+            && (
+              <div className="mt-2">
+                {/* <Line /> */}
+                <div className="flex flex-wrap gap-2 py-2">
+                  <Button
+                    className="flex items-center h-6 bg-gray-500"
+                    size="sm"
+                  >
+                    초기화
+                  </Button>
+                  {realOptionList.map(({ isSelected, name }) => {
+                    if (isSelected) {
+                      return (
+                        <ChipWithSelected
+                          isSelected={isSelected}
+                          value={name}
+                          onClick={() => {}}
+                        />
+                      );
+                    }
+                    return '';
+                  })}
+                </div>
+                {/* <Line /> */}
+              </div>
+            )}
 
           </div>
 

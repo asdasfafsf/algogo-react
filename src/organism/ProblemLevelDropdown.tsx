@@ -2,19 +2,19 @@ import { Button, Typography } from '@material-tailwind/react';
 import Dropdown from '../atom/Dropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
 
-interface ProblemGradeDropdownProps {
+interface ProblemLevelDropdownProps {
   optionList: ProblemOption[];
-  handleSelect: (e: React.MouseEvent, value: string) => void | Promise<void>
+  handleSelect: (e: React.MouseEvent<HTMLButtonElement>, value: string) => void | Promise<void>
   handleOk: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
   handleReset: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
 }
 
-export default function ProblemGradeDropdown({
+export default function ProblemLevelDropdown({
   optionList,
   handleSelect,
   handleOk,
   handleReset,
-}: ProblemGradeDropdownProps) {
+}: ProblemLevelDropdownProps) {
   return (
     <Dropdown value="난이도">
       <div>

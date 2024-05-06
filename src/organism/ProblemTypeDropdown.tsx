@@ -43,6 +43,7 @@ export default function ProblemTypeDropdown({
         </div>
         <div className="flex items-center justify-end gap-2 mt-4">
           <Button
+            onClick={handleReset}
             className="bg-gray-500"
             color="gray"
             size="sm"
@@ -50,6 +51,7 @@ export default function ProblemTypeDropdown({
             초기화
           </Button>
           <Button
+            onClick={handleOk}
             color="blue"
             size="sm"
           >
