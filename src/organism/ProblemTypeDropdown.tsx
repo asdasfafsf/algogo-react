@@ -5,13 +5,15 @@ import ChipWithSelected from '../atom/ChipWithSelected';
 interface ProblemTypeDropdownProps {
   optionList: ProblemOption[],
   handleSelect: (e: React.MouseEvent, index: number) => void | Promise<void>
-  handleOk?: () => void | Promise<void>
+  handleOk: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
+  handleReset: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
 }
 
 export default function ProblemTypeDropdown({
   optionList,
   handleSelect,
   handleOk,
+  handleReset,
 }: ProblemTypeDropdownProps) {
   return (
     <Dropdown value="유형">

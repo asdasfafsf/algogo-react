@@ -5,22 +5,21 @@ import {
   Button,
   Typography,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Tooltip,
-  Chip,
 } from '@material-tailwind/react';
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import { MouseEvent, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
 import Dropdown from '../atom/Dropdown';
-import ChipWithSelected from '../atom/ChipWithSelected';
 import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
 import ProblemGradeDropdown from '../organism/ProblemGradeDropdown';
+import defaultProblemOption from '../constant/ProblemOption';
+import useConfirmModal from '../hook/useConfirmModal';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -34,74 +33,8 @@ export default function ProblemTable() {
   }));
   const [isOpenGrade, setOpenGrade] = useState(true);
   const [problemList, setProblemList] = useState(problems);
-  const [optionList, setOptionList] = useState<ProblemOption[]>([
-    {
-      type: '유형',
-      name: '다이나믹 프로그래밍',
-      value: '다이나믹 프로그래밍',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '정렬',
-      value: '정렬',
-      isSelected: true,
-    },
-    {
-      type: '유형',
-      name: '데이크스트라',
-      value: '데이크스트라',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-    {
-      type: '유형',
-      name: '안녕',
-      value: '안녕',
-      isSelected: false,
-    },
-  ]);
+  const [optionList, setOptionList] = useState<ProblemOption[]>(defaultProblemOption);
+  const [confirm] = useConfirmModal();
 
   return (
     <section className="container mt-8">
@@ -127,13 +60,40 @@ export default function ProblemTable() {
                 />
                 <ProblemGradeDropdown
                   optionList={optionList}
+                  handleSelect={useCallback((e, value) => {
+                    const newOptionList = [...optionList];
+                    const index = newOptionList.findIndex((elem) => elem.value === value);
+
+                    if (index === -1) {
+                      return;
+                    }
+                    newOptionList[index].isSelected = !newOptionList[index].isSelected;
+                    setOptionList(newOptionList);
+                  }, [optionList])}
+                  handleOk={async () => {}}
+                  handleReset={async (e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.stopPropagation();
+                    e.currentTarget.blur();
+                    const isOk = await confirm('초기화 하시겠습니까?');
+
+                    if (isOk === false) {
+                      return;
+                    }
+
+                    const newOptionList = optionList.map((elem) => {
+                      if (elem.type === '난이도') {
+                        const isSelected = false;
+                        return { ...elem, isSelected };
+                      }
+                      return elem;
+                    });
+
+                    setOptionList(newOptionList);
+                  }}
                 />
                 <Dropdown value="상태">
                   <div>안녕</div>
                 </Dropdown>
-                {/* <Dropdown value="출처">
-                  <div>안녕</div>
-                </Dropdown> */}
               </div>
               <div className="flex flex-wrap items-center w-full gap-4 shrink-0 md:w-max">
                 <div className="w-full md:w-72">
