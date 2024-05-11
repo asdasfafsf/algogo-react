@@ -48,7 +48,7 @@ export default function useProblemTable() {
       return elem;
     });
     setOptionList(newOptionList);
-    setRealOptionList([...newOptionList]);
+    setRealOptionList(newOptionList.map((elem) => ({ ...elem })));
   }, [optionList]);
 
   const handleOkProblemTypeDropdown = useCallback(async (
@@ -64,7 +64,7 @@ export default function useProblemTable() {
     }
 
     setOptionList(optionList);
-    setRealOptionList([...optionList]);
+    setRealOptionList(optionList.map((elem) => ({ ...elem })));
   }, [optionList]);
 
   const handleSelectProblemLevelDropdown = useCallback((
@@ -80,7 +80,7 @@ export default function useProblemTable() {
       return;
     }
     newOptionList[index].isSelected = !newOptionList[index].isSelected;
-    setOptionList(optionList);
+    setOptionList(newOptionList);
   }, [optionList]);
 
   const handleOkProblemLevelDropdown = useCallback(async (
@@ -95,7 +95,7 @@ export default function useProblemTable() {
       return;
     }
 
-    setRealOptionList([...optionList]);
+    setRealOptionList(optionList.map((elem) => ({ ...elem })));
   }, [optionList]);
 
   const handleResetProblemLevelDropdown = useCallback(async (
@@ -118,7 +118,7 @@ export default function useProblemTable() {
       return elem;
     });
     setOptionList(newOptionList);
-    setRealOptionList([...newOptionList]);
+    setRealOptionList(newOptionList.map((elem) => ({ ...elem })));
   }, [optionList]);
 
   return [problemList,
