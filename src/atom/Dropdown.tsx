@@ -2,9 +2,6 @@
 import {
   Typography,
 } from '@material-tailwind/react';
-import {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useDropdown from '../hook/useDropdown';
 
@@ -23,11 +20,13 @@ export default function Dropdown({
 } : DropdownProps) {
   const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open ?? false);
 
+  const handle = handler ?? handleOpen;
+
   return (
     <div className="z-20">
       <div
         ref={menuRef}
-        onClick={handleOpen}
+        onClick={handle}
         className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
       >
         <Typography
