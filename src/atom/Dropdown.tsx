@@ -6,6 +6,7 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import useDropdown from '../hook/useDropdown';
 
 interface DropdownProps {
   children: React.ReactNode;
@@ -20,68 +21,13 @@ export default function Dropdown({
   open,
   handler,
 } : DropdownProps) {
-  const [isOpen, setOpen] = useState(open ?? false);
-  const divRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  if (!handler) {
-    // eslint-disable-next-line no-param-reassign, react-hooks/rules-of-hooks
-    handler = useCallback(() => {
-      setOpen((prevOpen) => !prevOpen);
-    }, []);
-  }
-
-  useEffect(() => {
-    if (typeof open !== 'undefined') {
-      setOpen(open);
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const handleClickArea = ((e: MouseEvent) => {
-      if (divRef?.current && menuRef?.current) {
-        const { target } = e;
-        if ((isOpen)
-            && !divRef.current?.contains(target as any)
-            && !menuRef.current?.contains(target as any)) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-          if (handler) {
-            handler();
-          } else {
-            setOpen(false);
-          }
-        }
-      }
-    });
-
-    const handleKeyEvent = ((e: KeyboardEvent) => {
-      if (isOpen) {
-        if (e.key === 'Escape') {
-          if (handler) {
-            handler();
-          } else {
-            setOpen(false);
-          }
-        }
-      }
-    });
-
-    if ((isOpen)) {
-      window.addEventListener('click', handleClickArea);
-      window.addEventListener('keydown', handleKeyEvent);
-    }
-
-    return () => {
-      window.removeEventListener('click', handleClickArea);
-      window.removeEventListener('keydown', handleKeyEvent);
-    };
-  }, [isOpen]);
+  const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open ?? false);
 
   return (
     <div className="z-20">
       <div
         ref={menuRef}
-        onClick={handler}
+        onClick={handleOpen}
         className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
       >
         <Typography
