@@ -5,7 +5,7 @@ interface CheckboxProps {
   className?: string;
   color?: CheckboxColor;
   checked: boolean;
-  onClick?: () => void | Promise<void>
+  onClick?: (e:React.MouseEvent) => void | Promise<void>
 }
 
 export default function Checkbox({
