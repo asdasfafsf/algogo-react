@@ -68,7 +68,7 @@ export default function Dropdown({
       <div
         ref={menuRef}
         onClick={handler}
-        className={`${isOpen ? 'bg-blue-100' : ''} flex items-center h-4 gap-1 px-2 py-4 bg-gray-300 rounded-md cursor-pointer`}
+        className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
       >
         <Typography
           className={`${isOpen ? 'text-blue-500' : ''} font-bold`}
