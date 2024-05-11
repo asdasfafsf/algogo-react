@@ -1,7 +1,8 @@
-import { Button, Typography } from '@material-tailwind/react';
+import { Button, Input, Typography } from '@material-tailwind/react';
 import Dropdown from '../atom/Dropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
 import useProbleTypeDropdown from '../hook/useProblemTypeDropdown';
+import useInput from '../hook/useInput';
 
 export default function ProblemTypeDropdown() {
   const [open,
@@ -11,6 +12,7 @@ export default function ProblemTypeDropdown() {
     handleOk,
     handler] = useProbleTypeDropdown();
 
+  const [filterValue, handleChange] = useInput();
   return (
     <Dropdown
       handler={handler}
@@ -18,14 +20,21 @@ export default function ProblemTypeDropdown() {
       value="유형"
     >
       <div>
-        <div className="mb-2">
+        <div className="flex flex-wrap gap-2 mb-2">
           <Typography variant="small">유형 </Typography>
+          <Input
+            onChange={handleChange}
+            value={filterValue}
+            label="유형 검색"
+          />
         </div>
-        <div className="flex flex-wrap gap-2 max-w-80">
+        <div className="flex flex-wrap gap-2 overflow-y-auto rounded-md w-80 max-h-60">
 
           {problemTypeList.map(({
             isSelected, name, value,
           }, index) => (
+            name.includes(filterValue)
+            && (
             <ChipWithSelected
               key={value}
               onClick={(e) => handleSelect(e, index)}
@@ -33,6 +42,7 @@ export default function ProblemTypeDropdown() {
               value={name}
               isSelected={isSelected}
             />
+            )
           ))}
 
         </div>

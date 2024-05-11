@@ -25,13 +25,15 @@ export default function useProbleTypeDropdown() {
     index: number,
   ) => {
     e.stopPropagation();
-    // e.currentTarget?.blur();
+
     const newProblemList = [...problemTypeList];
-    newProblemList[index].isSelected = false;
+    newProblemList[index].isSelected = !newProblemList[index].isSelected;
+
     setProblemTypeList(newProblemList);
   }, [problemTypeList]);
 
-  const handleReset = useCallback(async () => {
+  const handleReset = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
     const isOk = await confirm('초기화 하시겠습니까?');
     if (isOk === false) {
       return;
@@ -46,7 +48,8 @@ export default function useProbleTypeDropdown() {
     setRealProblemTypeList(newTypeProblemList.map((elem) => ({ ...elem })));
   }, [problemTypeList]);
 
-  const handleOk = useCallback(async () => {
+  const handleOk = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
     const isOk = await confirm('적용하시겠습니까?');
     if (isOk === false) {
       return;
@@ -57,11 +60,11 @@ export default function useProbleTypeDropdown() {
   }, [problemTypeList]);
 
   const handler = useCallback(async () => {
-    if (open === true) {
-      setProblemTypeList(realProblemTypeList.map((elem) => ({ ...elem })));
-    }
-    setOpen(!open);
-  }, [open, realProblemTypeList]);
+    // if (open === true) {
+    setProblemTypeList(realProblemTypeList.map((elem) => ({ ...elem })));
+    // }
+    setOpen((open) => !open);
+  }, [realProblemTypeList]);
 
   return [open,
     problemTypeList,
