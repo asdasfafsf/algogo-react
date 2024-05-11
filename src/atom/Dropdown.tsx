@@ -54,12 +54,26 @@ export default function Dropdown({
       }
     });
 
+    const handleKeyEvent = ((e: KeyboardEvent) => {
+      if (isOpen) {
+        if (e.key === 'Escape') {
+          if (handler) {
+            handler();
+          } else {
+            setOpen(false);
+          }
+        }
+      }
+    });
+
     if ((isOpen)) {
       window.addEventListener('click', handleClickArea);
+      window.addEventListener('keydown', handleKeyEvent);
     }
 
     return () => {
       window.removeEventListener('click', handleClickArea);
+      window.removeEventListener('keydown', handleKeyEvent);
     };
   }, [isOpen]);
 
