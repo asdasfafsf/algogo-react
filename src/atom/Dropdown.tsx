@@ -18,7 +18,7 @@ export default function Dropdown({
   open,
   handler,
 } : DropdownProps) {
-  const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open ?? false, handler ?? null);
+  const [isOpen, menuRef, divRef, handleOpen] = useDropdown((typeof open === 'undefined' ? false : open), handler ?? null);
 
   return (
     <div className="z-20">
