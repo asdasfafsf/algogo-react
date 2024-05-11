@@ -27,7 +27,7 @@ export default function Dropdown({
       <div
         ref={menuRef}
         onClick={handleOpen}
-        className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} ${className} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
+        className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
       >
         <Typography
           className={`${isOpen ? 'text-blue-500' : ''} font-bold`}
@@ -51,7 +51,7 @@ export default function Dropdown({
       {/* <MenuItem className="cursor:none"> */}
       <div
         ref={divRef}
-        className={`${isOpen ? '' : 'hidden'} border border-gray-300 shadow-lg absolute bg-white rounded-md p-4 z-10 content-border`}
+        className={`${isOpen ? '' : 'hidden'} ${className} border border-gray-300 shadow-lg absolute bg-white rounded-md p-4 z-10 content-border`}
       >
         {children}
       </div>
