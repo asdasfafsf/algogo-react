@@ -14,12 +14,14 @@ export default function ComfirmModal({ content }: AlertModalProps) {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleCancel = () => {
+  const handleCancel = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsVisible(false);
     modal.top().resolve(false);
   };
 
-  const handleOk = () => {
+  const handleOk = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsVisible(false);
     modal.top().resolve(true);
   };
@@ -30,12 +32,16 @@ export default function ComfirmModal({ content }: AlertModalProps) {
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
+      event.stopPropagation();
+      event.stopImmediatePropagation();
       switch (event.key) {
         case 'Escape':
-          handleCancel();
+          setIsVisible(false);
+          modal.top().resolve(false);
           break;
         case 'Enter':
-          handleOk();
+          setIsVisible(false);
+          modal.top().resolve(true);
           break;
         default:
           break;
