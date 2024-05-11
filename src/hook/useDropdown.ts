@@ -1,6 +1,7 @@
 import {
   useState, useRef, useEffect,
 } from 'react';
+import useModal from '../plugins/modal/useModal';
 
 type HandleDropdown = () => void | Promise<void>;
 
@@ -8,6 +9,7 @@ export default function useDropdown(open: boolean, handler: HandleDropdown | nul
   const [isOpen, setOpen] = useState<boolean>(open ?? false);
   const divRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const modal = useModal();
 
   const handleOpen = () => {
     if (handler) {
@@ -31,6 +33,10 @@ export default function useDropdown(open: boolean, handler: HandleDropdown | nul
     };
 
     const handleKeyEvent = (e: KeyboardEvent) => {
+      if (modal.top()) {
+        return;
+      }
+
       if (isOpen && e.key === 'Escape') {
         handleOpen();
       }
