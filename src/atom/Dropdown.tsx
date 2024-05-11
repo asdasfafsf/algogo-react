@@ -6,6 +6,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useDropdown from '../hook/useDropdown';
 
 interface DropdownProps {
+  className?: string;
   children: React.ReactNode;
   value: string;
   open?: boolean;
@@ -13,6 +14,7 @@ interface DropdownProps {
 }
 
 export default function Dropdown({
+  className = '',
   children,
   value,
   open,
@@ -25,7 +27,7 @@ export default function Dropdown({
       <div
         ref={menuRef}
         onClick={handleOpen}
-        className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
+        className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} ${className} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
       >
         <Typography
           className={`${isOpen ? 'text-blue-500' : ''} font-bold`}
