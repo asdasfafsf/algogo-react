@@ -18,15 +18,13 @@ export default function Dropdown({
   open,
   handler,
 } : DropdownProps) {
-  const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open ?? false);
-
-  const handle = handler ?? handleOpen;
+  const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open ?? false, handler ?? null);
 
   return (
     <div className="z-20">
       <div
         ref={menuRef}
-        onClick={handle}
+        onClick={handleOpen}
         className={`${isOpen ? 'bg-blue-100' : 'bg-gray-300'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
       >
         <Typography

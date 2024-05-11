@@ -1,42 +1,42 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// eslint-disable @typescript-eslint/no-unused-expressions
 import {
-  useCallback,
-  useEffect, useRef, useState,
+  useState, useRef, useEffect,
 } from 'react';
 
-export default function useDropdown(open:boolean) {
-  const [isOpen, setOpen] = useState(open ?? false);
+type HandleDropdown = () => void | Promise<void>;
+
+export default function useDropdown(open: boolean, handler: HandleDropdown | null) {
+  const [isOpen, setOpen] = useState<boolean>(open ?? false);
   const divRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (typeof open !== 'undefined') {
-      setOpen(open);
+  const handleOpen = () => {
+    if (handler) {
+      handler();
     }
-  }, [open]);
+    setOpen((prevOpen) => !prevOpen);
+  };
 
   useEffect(() => {
-    const handleClickArea = ((e: MouseEvent) => {
-      if (divRef?.current && menuRef?.current) {
+    const handleClickArea = (e: MouseEvent) => {
+      if (divRef.current && menuRef.current) {
         const { target } = e;
-        if ((isOpen)
-              && !divRef.current?.contains(target as any)
-              && !menuRef.current?.contains(target as any)) {
-          setOpen(false);
+        if (
+          isOpen
+          && !divRef.current.contains(target as Node)
+          && !menuRef.current.contains(target as Node)
+        ) {
+          handleOpen();
         }
       }
-    });
+    };
 
-    const handleKeyEvent = ((e: KeyboardEvent) => {
-      if (isOpen) {
-        if (e.key === 'Escape') {
-          setOpen(false);
-        }
+    const handleKeyEvent = (e: KeyboardEvent) => {
+      if (isOpen && e.key === 'Escape') {
+        handleOpen();
       }
-    });
+    };
 
-    if ((isOpen)) {
+    if (isOpen) {
       window.addEventListener('click', handleClickArea);
       window.addEventListener('keydown', handleKeyEvent);
     }
@@ -46,10 +46,6 @@ export default function useDropdown(open:boolean) {
       window.removeEventListener('keydown', handleKeyEvent);
     };
   }, [isOpen]);
-
-  const handleOpen = useCallback(() => {
-    setOpen((isOpen) => !isOpen);
-  }, []);
 
   return [isOpen, divRef, menuRef, handleOpen] as const;
 }
