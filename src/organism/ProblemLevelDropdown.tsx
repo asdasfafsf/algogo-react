@@ -29,6 +29,7 @@ export default function ProblemLevelDropdown({
                 .filter((elem) => elem.name.includes(level))
                 .map((elem) => (
                   <ChipWithSelected
+                    key={elem.value}
                     value={elem.name}
                     isSelected={elem.isSelected}
                     onClick={(e) => { handleSelect(e, elem.value); }}
