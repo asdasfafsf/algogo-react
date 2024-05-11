@@ -1,22 +1,21 @@
 import { Button, Typography } from '@material-tailwind/react';
 import Dropdown from '../atom/Dropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
+import useProblemLevelDropdown from '../hook/useProblemLevelDropdown';
 
-interface ProblemLevelDropdownProps {
-  optionList: ProblemOption[];
-  handleSelect: (e: React.MouseEvent<HTMLButtonElement>, value: string) => void | Promise<void>
-  handleOk: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
-  handleReset: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>
-}
-
-export default function ProblemLevelDropdown({
-  optionList,
-  handleSelect,
-  handleOk,
-  handleReset,
-}: ProblemLevelDropdownProps) {
+export default function ProblemLevelDropdown() {
+  const [isOpen,
+    problemLevelList,
+    handleSelect,
+    handleReset,
+    handleOk,
+    handler] = useProblemLevelDropdown();
   return (
-    <Dropdown value="난이도">
+    <Dropdown
+      open={isOpen}
+      handler={handler}
+      value="난이도"
+    >
       <div>
         {['브론즈', '실버', '골드', '플래티넘', '다이아', '루비'].map((level) => (
           <>
@@ -24,15 +23,14 @@ export default function ProblemLevelDropdown({
               <Typography variant="small">{level}</Typography>
             </div>
             <div className="flex flex-wrap gap-2 max-w-80">
-              {optionList
-                .filter((elem) => elem.type === '난이도')
-                .filter((elem) => elem.name.includes(level))
-                .map((elem) => (
+              {problemLevelList
+                .filter(({ value }) => value.includes(level))
+                .map(({ name, value, isSelected }) => (
                   <ChipWithSelected
-                    key={elem.value}
-                    value={elem.name}
-                    isSelected={elem.isSelected}
-                    onClick={(e) => { handleSelect(e, elem.value); }}
+                    key={value}
+                    value={name}
+                    isSelected={isSelected}
+                    onClick={(e) => { handleSelect(e, value); }}
                   />
                 ))}
             </div>
