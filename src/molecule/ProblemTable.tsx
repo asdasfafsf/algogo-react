@@ -20,6 +20,8 @@ import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
 import useProblemTable from '../hook/useProblemTable';
 import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
+import Checkbox from '../atom/Checkbox';
+import ProblemStateDropdown from './ProblemStateDropdown';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -27,13 +29,7 @@ export default function ProblemTable() {
 
   const [problemList,
     optionList,
-    realOptionList,
-    handleSelectProblemTypeDropdown,
-    handleOkProblemTypeDropdown,
-    handleResetProblemTypeDropdown,
-    handleSelectProblemLevelDropdown,
-    handleOkProblemLevelDropdown,
-    handleResetProblemLevelDropdown] = useProblemTable();
+    realOptionList] = useProblemTable();
 
   return (
     <section className="container mt-8">
@@ -49,21 +45,9 @@ export default function ProblemTable() {
             </div>
             <div className="flex flex-wrap items-center justify-between w-full gap-2">
               <div className="flex items-center gap-2">
-                <ProblemTypeDropdown
-                  optionList={optionList}
-                  handleSelect={handleSelectProblemTypeDropdown}
-                  handleOk={handleOkProblemTypeDropdown}
-                  handleReset={handleResetProblemTypeDropdown}
-                />
-                <ProblemLevelDropdown
-                  optionList={optionList}
-                  handleSelect={handleSelectProblemLevelDropdown}
-                  handleOk={handleOkProblemLevelDropdown}
-                  handleReset={handleResetProblemLevelDropdown}
-                />
-                <Dropdown value="상태">
-                  <div>안녕</div>
-                </Dropdown>
+                <ProblemTypeDropdown />
+                <ProblemLevelDropdown />
+                <ProblemStateDropdown />
               </div>
               <div className="flex flex-wrap items-center w-full gap-4 shrink-0 md:w-max">
                 <div className="w-full md:w-72">
