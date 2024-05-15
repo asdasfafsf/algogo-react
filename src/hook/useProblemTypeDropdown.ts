@@ -19,13 +19,14 @@ export default function useProbleTypeDropdown() {
     defaultProblemTypeList.map((elem) => ({ ...elem })),
   );
 
-  const { setProblemOptionList } = useProblemTableFilterStore(({
+  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore(({
+    problemOptionList,
     setProblemOptionList,
-  }) => ({ setProblemOptionList }));
+  }) => ({ problemOptionList, setProblemOptionList }));
 
   const [confirm] = useConfirmModal();
 
-  useEffect(() => {
+  const handleUpdateProblemOptionList = (realProblemTypeList: ProblemType[]) => {
     setProblemOptionList((prevList) => {
       const newProblemOptionList = prevList.filter((problemOption) => {
         if (problemOption.type !== '유형') {
@@ -67,7 +68,7 @@ export default function useProbleTypeDropdown() {
 
       return newProblemOptionList;
     });
-  }, [realProblemTypeList]);
+  };
 
   const handleSelect = useCallback(async (
     e: React.MouseEvent<Element, MouseEvent>,
@@ -95,12 +96,14 @@ export default function useProbleTypeDropdown() {
 
     setProblemTypeList(newTypeProblemList);
     setRealProblemTypeList(newTypeProblemList.map((elem) => ({ ...elem })));
+    handleUpdateProblemOptionList(newTypeProblemList);
   }, [problemTypeList]);
 
   const handleOk = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
 
     setRealProblemTypeList(problemTypeList.map((elem) => ({ ...elem })));
+    handleUpdateProblemOptionList(problemTypeList);
     setOpen(false);
   }, [problemTypeList]);
 
