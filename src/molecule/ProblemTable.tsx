@@ -21,6 +21,7 @@ import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
 import ProblemStateDropdown from './ProblemStateDropdown';
 import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
+import ProblemTableFilter from './ProblemTableFilter';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -61,44 +62,7 @@ export default function ProblemTable() {
                 </Button>
               </div>
             </div>
-            {problemOptionList.length > 0
-            && (
-              <div className="mt-2">
-                {/* <Line /> */}
-                <div className="flex flex-wrap gap-2 py-2">
-
-                  <div
-                    className="flex items-center cursor-pointer"
-                  >
-                    <Typography
-                      variant="small"
-                    >
-                      초기화
-                    </Typography>
-                  </div>
-
-                  {problemOptionList.map(({ type, isSelected, name }, index) => {
-                    if (isSelected) {
-                      return (
-                        <ChipWithSelected
-                          key={`${type}_${name}`}
-                          size="sm"
-                          isSelected
-                          value={name}
-                          onClick={() => {
-                            setProblemOptionList(
-                              (prevList) => prevList.slice(0, index)
-                                .concat(prevList.slice(index + 1)),
-                            );
-                          }}
-                        />
-                      );
-                    }
-                    return '';
-                  })}
-                </div>
-              </div>
-            )}
+            <ProblemTableFilter />
 
           </div>
 
