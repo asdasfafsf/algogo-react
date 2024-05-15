@@ -61,6 +61,8 @@ export default function useProbleTypeDropdown() {
             isSelected,
           });
         }
+
+        return true;
       });
 
       return newProblemOptionList;
