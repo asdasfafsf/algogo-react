@@ -26,7 +26,7 @@ export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
   const [isOpenGrade, setOpenGrade] = useState(true);
 
-  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((state) => state);
   const [problemList] = useProblemTable();
 
   return (
@@ -77,7 +77,7 @@ export default function ProblemTable() {
                     </Typography>
                   </div>
 
-                  {problemOptionList.map(({ type, isSelected, name }) => {
+                  {problemOptionList.map(({ type, isSelected, name }, index) => {
                     if (isSelected) {
                       return (
                         <ChipWithSelected
@@ -85,7 +85,12 @@ export default function ProblemTable() {
                           size="sm"
                           isSelected
                           value={name}
-                          onClick={() => {}}
+                          onClick={() => {
+                            setProblemOptionList(
+                              (prevList) => prevList.slice(0, index)
+                                .concat(prevList.slice(index + 1)),
+                            );
+                          }}
                         />
                       );
                     }

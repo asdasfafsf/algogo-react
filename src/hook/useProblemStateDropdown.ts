@@ -1,5 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
+
+interface ProblemState {
+  name: string;
+  value: string;
+  isSelected: boolean
+}
 
 export default function useProblemStateDropdown() {
   const [problemStateList, setProblemStateList] = useState([
@@ -8,9 +14,28 @@ export default function useProblemStateDropdown() {
     { isSelected: false, name: '틀린 문제', value: '틀린 문제' },
   ]);
 
-  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
+  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((
+    { problemOptionList, setProblemOptionList },
+  ) => ({ problemOptionList, setProblemOptionList }));
 
   useEffect(() => {
+    const filteredProblemOptionList = problemOptionList.filter(({ type }) => type === '상태');
+    setProblemStateList((prevList) => {
+      const newList = [...prevList].map((problemType) => {
+        const target = filteredProblemOptionList.find((elem) => problemType.name === elem.name);
+
+        if (!target) {
+          return { ...problemType, isSelected: false };
+        }
+
+        return { ...problemType, isSelected: true };
+      });
+
+      return newList;
+    });
+  }, [problemOptionList]);
+
+  const handleUpdateProblemOptionList = useCallback((problemStateList: ProblemState[]) => {
     setProblemOptionList((prevList) => {
       const newProblemOptionList = prevList.filter((problemOption) => {
         if (problemOption.type !== '상태') {
@@ -48,13 +73,14 @@ export default function useProblemStateDropdown() {
 
       return newProblemOptionList;
     });
-  }, [problemStateList]);
+  }, [setProblemOptionList]);
 
   const handleClick = (e: React.MouseEvent, index: number) => {
     e.stopPropagation();
     const newProblemStateList = [...problemStateList];
     newProblemStateList[index].isSelected = !newProblemStateList[index].isSelected;
     setProblemStateList(newProblemStateList);
+    handleUpdateProblemOptionList(newProblemStateList);
   };
 
   return [problemStateList, handleClick] as const;

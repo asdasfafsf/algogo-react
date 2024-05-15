@@ -15,22 +15,41 @@ export default function useProblemLevelDropdown() {
   const [problemLevelList, setProblemLevelList] = useState<ProblemLevel[]>(
     defaultProblemLevelList.map((elem) => ({ ...elem })),
   );
-  const [realproblemLevelList, setRealproblemLevelList] = useState<ProblemLevel[]>(
+  const [realProblemLevelList, setRealproblemLevelList] = useState<ProblemLevel[]>(
     defaultProblemLevelList.map((elem) => ({ ...elem })),
   );
 
-  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
+  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((
+    { problemOptionList, setProblemOptionList },
+  ) => ({ problemOptionList, setProblemOptionList }));
 
   const [confirm] = useConfirmModal();
 
   useEffect(() => {
+    const filteredProblemOptionList = problemOptionList.filter(({ type }) => type === '난이도');
+    setRealproblemLevelList((prevList) => {
+      const newList = [...prevList].map((problemType) => {
+        const target = filteredProblemOptionList.find((elem) => problemType.name === elem.name);
+
+        if (!target) {
+          return { ...problemType, isSelected: false };
+        }
+
+        return { ...problemType, isSelected: true };
+      });
+
+      return newList;
+    });
+  }, [problemOptionList]);
+
+  const handleUpdateProblemOptionList = useCallback((problemLevelList: ProblemLevel[]) => {
     setProblemOptionList((prevList) => {
       const newProblemOptionList = prevList.filter((problemOption) => {
         if (problemOption.type !== '난이도') {
           return true;
         }
 
-        const target = realproblemLevelList.find(
+        const target = problemLevelList.find(
           (problemLevel) => problemLevel.name === problemOption.name,
         );
 
@@ -41,7 +60,7 @@ export default function useProblemLevelDropdown() {
         return target.isSelected;
       });
 
-      realproblemLevelList.forEach((problemLevel) => {
+      problemLevelList.forEach((problemLevel) => {
         const target = newProblemOptionList.find(
           (problemOption) => problemOption.name === problemLevel.name,
         );
@@ -64,7 +83,7 @@ export default function useProblemLevelDropdown() {
 
       return newProblemOptionList;
     });
-  }, [realproblemLevelList]);
+  }, [setProblemOptionList]);
 
   const handleSelect = useCallback(async (
     e: React.MouseEvent<Element, MouseEvent>,
@@ -90,25 +109,27 @@ export default function useProblemLevelDropdown() {
       return;
     }
 
-    const newTypeProblemList = problemLevelList.map((elem) => {
+    const newProblemLevelList = problemLevelList.map((elem) => {
       const isSelected = false;
       return { ...elem, isSelected };
     });
 
-    setProblemLevelList(newTypeProblemList);
-    setRealproblemLevelList(newTypeProblemList.map((elem) => ({ ...elem })));
+    setProblemLevelList(newProblemLevelList);
+    setRealproblemLevelList(newProblemLevelList.map((elem) => ({ ...elem })));
+    handleUpdateProblemOptionList(newProblemLevelList);
   }, [problemLevelList]);
 
   const handleOk = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
     setOpen(false);
     setRealproblemLevelList(problemLevelList.map((elem) => ({ ...elem })));
+    handleUpdateProblemOptionList(problemLevelList);
   }, [problemLevelList]);
 
   const handler = useCallback(async () => {
-    setProblemLevelList(realproblemLevelList.map((elem) => ({ ...elem })));
+    setProblemLevelList(realProblemLevelList.map((elem) => ({ ...elem })));
     setOpen((open) => !open);
-  }, [realproblemLevelList]);
+  }, [realProblemLevelList]);
 
   return [open,
     problemLevelList,
