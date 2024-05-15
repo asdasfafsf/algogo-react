@@ -1,7 +1,8 @@
 /* eslint-disable import/no-named-as-default */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useConfirmModal from './useConfirmModal';
 import defaultProblemTypeList from '../constant/ProblemTypeList';
+import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 
 interface ProblemType {
   name: string;
@@ -18,7 +19,53 @@ export default function useProbleTypeDropdown() {
     defaultProblemTypeList.map((elem) => ({ ...elem })),
   );
 
+  const { setProblemOptionList } = useProblemTableFilterStore(({
+    setProblemOptionList,
+  }) => ({ setProblemOptionList }));
+
   const [confirm] = useConfirmModal();
+
+  useEffect(() => {
+    setProblemOptionList((prevList) => {
+      const newProblemOptionList = prevList.filter((problemOption) => {
+        if (problemOption.type !== '유형') {
+          return true;
+        }
+
+        const target = realProblemTypeList.find(
+          (problemType) => problemType.name === problemOption.name,
+        );
+
+        if (!target) {
+          return false;
+        }
+
+        return target.isSelected;
+      });
+
+      realProblemTypeList.forEach((problemType) => {
+        const target = newProblemOptionList.find(
+          (problemOption) => problemOption.name === problemType.name,
+        );
+
+        if (target) {
+          return true;
+        }
+
+        if (problemType.isSelected) {
+          const { name, value, isSelected } = problemType;
+          newProblemOptionList.push({
+            type: '유형',
+            name,
+            value,
+            isSelected,
+          });
+        }
+      });
+
+      return newProblemOptionList;
+    });
+  }, [realProblemTypeList]);
 
   const handleSelect = useCallback(async (
     e: React.MouseEvent<Element, MouseEvent>,
@@ -50,19 +97,13 @@ export default function useProbleTypeDropdown() {
 
   const handleOk = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
-    const isOk = await confirm('적용하시겠습니까?');
-    if (isOk === false) {
-      return;
-    }
 
-    setOpen(false);
     setRealProblemTypeList(problemTypeList.map((elem) => ({ ...elem })));
+    setOpen(false);
   }, [problemTypeList]);
 
   const handler = useCallback(async () => {
-    // if (open === true) {
     setProblemTypeList(realProblemTypeList.map((elem) => ({ ...elem })));
-    // }
     setOpen((open) => !open);
   }, [realProblemTypeList]);
 

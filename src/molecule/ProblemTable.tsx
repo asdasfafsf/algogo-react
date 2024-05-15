@@ -15,21 +15,19 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
-import Dropdown from '../atom/Dropdown';
 import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
 import useProblemTable from '../hook/useProblemTable';
 import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
 import ChipWithSelected from '../atom/ChipWithSelected';
-import Checkbox from '../atom/Checkbox';
 import ProblemStateDropdown from './ProblemStateDropdown';
+import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
   const [isOpenGrade, setOpenGrade] = useState(true);
 
-  const [problemList,
-    optionList,
-    realOptionList] = useProblemTable();
+  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const [problemList] = useProblemTable();
 
   return (
     <section className="container mt-8">
@@ -63,23 +61,29 @@ export default function ProblemTable() {
                 </Button>
               </div>
             </div>
-            {realOptionList.some((elem) => elem.isSelected)
+            {problemOptionList.length > 0
             && (
               <div className="mt-2">
                 {/* <Line /> */}
                 <div className="flex flex-wrap gap-2 py-2">
-                  <Button
-                    className="flex items-center h-6 bg-gray-500"
-                    size="sm"
+
+                  <div
+                    className="flex items-center cursor-pointer"
                   >
-                    초기화
-                  </Button>
-                  {realOptionList.map(({ isSelected, name }, index) => {
+                    <Typography
+                      variant="small"
+                    >
+                      초기화
+                    </Typography>
+                  </div>
+
+                  {problemOptionList.map(({ type, isSelected, name }) => {
                     if (isSelected) {
                       return (
                         <ChipWithSelected
+                          key={`${type}_${name}`}
                           size="sm"
-                          isSelected={isSelected}
+                          isSelected
                           value={name}
                           onClick={() => {}}
                         />
@@ -88,7 +92,6 @@ export default function ProblemTable() {
                     return '';
                   })}
                 </div>
-                {/* <Line /> */}
               </div>
             )}
 

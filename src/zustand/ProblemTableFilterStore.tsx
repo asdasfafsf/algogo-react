@@ -2,13 +2,18 @@ import { create } from 'zustand';
 import { createSelectors } from './selector';
 
 type ProblemTableFilterStore = {
-  problemWidth: number;
-  setProblemWidth: (width: number) => void;
+  problemOptionList: ProblemOption[];
+  setProblemOptionList: (
+    problemOptionList: ProblemOption[] | ((prev: ProblemOption[]) => ProblemOption[])) => void;
 };
 
 export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) => ({
-  problemWidth: [],
-  setProblemWidth: (width: number) => set(() => ({ problemWidth: width })),
+  problemOptionList: [],
+  setProblemOptionList: (problemOptionList) => set((state) => ({
+    problemOptionList: typeof problemOptionList === 'function'
+      ? problemOptionList(state.problemOptionList)
+      : problemOptionList,
+  })),
 }));
 
 export const ProblemWidthSelectors = createSelectors(useProblemTableFilterStore);
