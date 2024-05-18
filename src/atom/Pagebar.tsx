@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button, IconButton } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
@@ -15,13 +14,9 @@ export default function Pagebar({
   maxPage,
   handleChangePage,
 }: PagebarProps) {
-  const getItemProps = (index: number) => ({
-    variant: currentPage === index ? 'filled' : 'text',
-    color: 'gray',
-    onClick: () => handleChangePage(index),
-  });
-
-  const next = () => {
+  const handleClickNext = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.currentTarget.blur();
     if (maxPage && maxPage >= currentPage) {
       return;
     }
@@ -29,7 +24,9 @@ export default function Pagebar({
     handleChangePage(currentPage + 1);
   };
 
-  const prev = () => {
+  const handleClickPrev = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.currentTarget.blur();
     if (currentPage === 1) return;
 
     handleChangePage(currentPage - 1);
@@ -40,7 +37,7 @@ export default function Pagebar({
       <Button
         variant="text"
         className="flex items-center gap-2"
-        onClick={prev}
+        onClick={handleClickPrev}
         disabled={currentPage === 1}
       >
         <ArrowLeftIcon strokeWidth={2} className="w-4 h-4" />
@@ -51,12 +48,20 @@ export default function Pagebar({
         {Array.from(
           Array(displayedPageRange),
           (_, k) => (Math.floor(currentPage / displayedPageRange)) * 10 + (k + 1),
-        ).map((pageNo) => <IconButton {...getItemProps(pageNo)}>{pageNo}</IconButton>)}
+        ).map((pageNo) => (
+          <IconButton
+            variant={currentPage === pageNo ? 'filled' : 'text'}
+            color="gray"
+            onClick={() => handleChangePage(pageNo)}
+          >
+            {pageNo}
+          </IconButton>
+        ))}
       </div>
       <Button
         variant="text"
         className="flex items-center gap-2"
-        onClick={next}
+        onClick={handleClickNext}
         disabled={currentPage === (maxPage && maxPage >= currentPage)}
       >
         다음 페이지
