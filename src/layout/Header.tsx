@@ -12,17 +12,8 @@ import Line from '../atom/Line';
 import ProfileMenu from '../molecule/ProfileMenu';
 
 export default function Header() {
-  const [open, setOpen] = React.useState(false);
   const [isLogin] = React.useState(true);
-  const handleOpen = () => setOpen((cur) => !cur);
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    window.addEventListener(
-      'resize',
-      () => window.innerWidth >= 960 && setOpen(false),
-    );
-  }, []);
 
   return (
     <header className="w-screen">
