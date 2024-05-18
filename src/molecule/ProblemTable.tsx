@@ -22,6 +22,7 @@ import ChipWithSelected from '../atom/ChipWithSelected';
 import ProblemStateDropdown from './ProblemStateDropdown';
 import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 import ProblemTableFilter from './ProblemTableFilter';
+import Pagebar from '../atom/Pagebar';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
@@ -144,28 +145,12 @@ export default function ProblemTable() {
             </tbody>
           </table>
         </CardBody>
-        <CardFooter className="flex items-center justify-between">
-          <Typography variant="h6" color="blue-gray">
-            Page 2
-            {' '}
-            <span className="font-normal text-gray-600">of 10</span>
-          </Typography>
-          <div className="flex gap-4">
-            <Button
-              variant="outlined"
-              className="flex items-center gap-1"
-            >
-              <ChevronLeftIcon strokeWidth={3} className="w-3 h-3" />
-              prev
-            </Button>
-            <Button
-              variant="outlined"
-              className="flex items-center gap-1"
-            >
-              next
-              <ChevronRightIcon strokeWidth={3} className="w-3 h-3" />
-            </Button>
-          </div>
+        <CardFooter className="flex items-center justify-center">
+          <Pagebar
+            currentPage={11}
+            displayedPageRange={10}
+            handleChangePage={() => {}}
+          />
         </CardFooter>
       </Card>
     </section>
