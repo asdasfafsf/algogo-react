@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const withMT = require("@material-tailwind/react/utils/withMT");
- 
+const plugin = require('tailwindcss/plugin');
 
 export default withMT({
   content: ["./src/**/*.{html,js,ts,tsx,jsx}"],
@@ -9,11 +9,13 @@ export default withMT({
       screens: {
         'ssm': { max: '540px', min: '540px'}, // 'ssm' 브레이크포인트를 원하는 값으로 정의합니다.
         'ssmd': '540px', //
+        "2xl": '1280px'
       },
       transitionProperty: {
         'left': 'left',
         'height': 'height'
-      }
+      },
+      
     },
     colors: {
       ruby: '#ff0062',
@@ -37,6 +39,31 @@ export default withMT({
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [plugin(function({ addComponents, theme }) {
+    const screens = theme('screens', {});
+
+    addComponents({
+      '.custom-container': {
+        width: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingLeft: theme('spacing.4'),
+        paddingRight: theme('spacing.4'),
+        '@screen sm': {
+          maxWidth: screens.sm,
+        },
+        '@screen md': {
+          maxWidth: screens.md,
+        },
+        '@screen lg': {
+          maxWidth: screens.lg,
+        },
+        '@screen xl': {
+          maxWidth: screens.xl,
+        },
+        // 2xl 설정 추가하지 않음
+      },
+    });
+  }),],
 });
 
