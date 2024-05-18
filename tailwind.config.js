@@ -9,7 +9,6 @@ export default withMT({
       screens: {
         'ssm': { max: '540px', min: '540px'}, // 'ssm' 브레이크포인트를 원하는 값으로 정의합니다.
         'ssmd': '540px', //
-        "2xl": '1280px'
       },
       transitionProperty: {
         'left': 'left',
@@ -24,18 +23,6 @@ export default withMT({
       gold: '#ec9a00',
       silver: '#425e7a',
       bronze: '#ad5701',
-      // bronze: {
-      //   default: '#ad5701',
-      //   100: '#ffe6cc',
-      //   200: '#ffd9b3',
-      //   300: '#fecc9a',
-      //   400: '#febf80',
-      //   500: '#feb367',
-      //   600: '#fea64d',
-      //   700: '#fe8c1b',
-      //   800: '#e47301',
-      //   900: '#ad5701',
-      // },
     },
     extend: {},
   },

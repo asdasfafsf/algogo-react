@@ -11,14 +11,12 @@ import {
 } from '@material-tailwind/react';
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
 import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
 import useProblemTable from '../hook/useProblemTable';
 import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
-import ChipWithSelected from '../atom/ChipWithSelected';
 import ProblemStateDropdown from './ProblemStateDropdown';
 import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 import ProblemTableFilter from './ProblemTableFilter';
