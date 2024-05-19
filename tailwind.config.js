@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const withMT = require("@material-tailwind/react/utils/withMT");
- 
+const plugin = require('tailwindcss/plugin');
 
 export default withMT({
   content: ["./src/**/*.{html,js,ts,tsx,jsx}"],
@@ -13,7 +13,8 @@ export default withMT({
       transitionProperty: {
         'left': 'left',
         'height': 'height'
-      }
+      },
+      
     },
     customContainer: (theme) => ({
       DEFAULT: {
@@ -39,27 +40,22 @@ export default withMT({
       gold: '#ec9a00',
       silver: '#425e7a',
       bronze: '#ad5701',
-      // bronze: {
-      //   default: '#ad5701',
-      //   100: '#ffe6cc',
-      //   200: '#ffd9b3',
-      //   300: '#fecc9a',
-      //   400: '#febf80',
-      //   500: '#feb367',
-      //   600: '#fea64d',
-      //   700: '#fe8c1b',
-      //   800: '#e47301',
-      //   900: '#ad5701',
-      // },
     },
     extend: {},
   },
+<<<<<<< HEAD
   plugins: [function ({ addComponents }) {
+=======
+  plugins: [plugin(function({ addComponents, theme }) {
+    const screens = theme('screens', {});
+
+>>>>>>> 3b3813249cf20da3763b52d9c1d8974fe91b128b
     addComponents({
       '.custom-container': {
         width: '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
+<<<<<<< HEAD
         '@screen sm': {
           maxWidth: '640px',
         },
@@ -75,5 +71,25 @@ export default withMT({
       },
     });
   },],
+=======
+        paddingLeft: theme('spacing.4'),
+        paddingRight: theme('spacing.4'),
+        '@screen sm': {
+          maxWidth: screens.sm,
+        },
+        '@screen md': {
+          maxWidth: screens.md,
+        },
+        '@screen lg': {
+          maxWidth: screens.lg,
+        },
+        '@screen xl': {
+          maxWidth: screens.xl,
+        },
+        // 2xl 설정 추가하지 않음
+      },
+    });
+  }),],
+>>>>>>> 3b3813249cf20da3763b52d9c1d8974fe91b128b
 });
 
