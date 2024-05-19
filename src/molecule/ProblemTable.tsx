@@ -18,7 +18,6 @@ import ProblemStateChip from '../atom/ProblemStateChip';
 import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
 import useProblemTable from '../hook/useProblemTable';
 import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
-import ChipWithSelected from '../atom/ChipWithSelected';
 import ProblemStateDropdown from './ProblemStateDropdown';
 import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 import ProblemTableFilter from './ProblemTableFilter';

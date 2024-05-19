@@ -7,7 +7,7 @@ export default withMT({
   theme: {
     extends: {
       screens: {
-        'ssm': { max: '540px', min: '540px'}, // 'ssm' 브레이크포인트를 원하는 값으로 정의합니다.
+        'ssm': { max: '540px', min: '540px'},
         'ssmd': '540px', //
       },
       transitionProperty: {
@@ -15,6 +15,23 @@ export default withMT({
         'height': 'height'
       }
     },
+    customContainer: (theme) => ({
+      DEFAULT: {
+        maxWidth: '100%',
+        '@screen sm': {
+          maxWidth: '640px',
+        },
+        '@screen md': {
+          maxWidth: '768px',
+        },
+        '@screen lg': {
+          maxWidth: '1024px',
+        },
+        '@screen xl': {
+          maxWidth: '1280px',
+        },
+      },
+    }),
     colors: {
       ruby: '#ff0062',
       diamond: '#01b5fc',
@@ -37,6 +54,26 @@ export default withMT({
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [function ({ addComponents }) {
+    addComponents({
+      '.custom-container': {
+        width: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        '@screen sm': {
+          maxWidth: '640px',
+        },
+        '@screen md': {
+          maxWidth: '768px',
+        },
+        '@screen lg': {
+          maxWidth: '1024px',
+        },
+        '@screen xl': {
+          maxWidth: '1280px',
+        },
+      },
+    });
+  },],
 });
 
