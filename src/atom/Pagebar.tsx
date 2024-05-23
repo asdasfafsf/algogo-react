@@ -17,7 +17,7 @@ export default function Pagebar({
   const handleClickNext = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.currentTarget.blur();
-    if (maxPage && maxPage >= currentPage) {
+    if (maxPage && currentPage >= maxPage) {
       return;
     }
 
@@ -45,24 +45,36 @@ export default function Pagebar({
         이전 페이지
       </Button>
       <div className="flex items-center gap-2">
-        {Array.from(
-          Array(displayedPageRange),
-          (_, k) => (Math.floor(currentPage / displayedPageRange)) * 10 + (k + 1),
-        ).map((pageNo) => (
+        <div className="items-center hidden gap-2 md:flex">
+          {Array.from(
+            Array(displayedPageRange),
+            (_, k) => (Math.floor(currentPage / displayedPageRange)) * 10 + (k + 1),
+          ).map((pageNo) => (
+            <IconButton
+              key={pageNo}
+              variant={currentPage === pageNo ? 'filled' : 'text'}
+              color="gray"
+              onClick={() => handleChangePage(pageNo)}
+            >
+              {pageNo}
+            </IconButton>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 md:hidden">
           <IconButton
-            variant={currentPage === pageNo ? 'filled' : 'text'}
+            variant="filled"
             color="gray"
-            onClick={() => handleChangePage(pageNo)}
+            onClick={() => handleChangePage(currentPage)}
           >
-            {pageNo}
+            {currentPage}
           </IconButton>
-        ))}
+        </div>
       </div>
       <Button
         variant="text"
         className="flex items-center gap-2"
         onClick={handleClickNext}
-        disabled={currentPage === (maxPage && maxPage >= currentPage)}
+        disabled={maxPage ? currentPage >= maxPage : false}
       >
         다음 페이지
         <ArrowRightIcon strokeWidth={2} className="w-4 h-4" />
