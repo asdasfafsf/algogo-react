@@ -16,6 +16,9 @@ export default withMT({
       },
       
     },
+    fontFamily: {
+      'WavvePADO-Regular': ['WavvePADO-Regular']
+    },
     customContainer: (theme) => ({
       DEFAULT: {
         maxWidth: '100%',
@@ -43,35 +46,14 @@ export default withMT({
     },
     extend: {},
   },
-<<<<<<< HEAD
-  plugins: [function ({ addComponents }) {
-=======
   plugins: [plugin(function({ addComponents, theme }) {
     const screens = theme('screens', {});
 
->>>>>>> 3b3813249cf20da3763b52d9c1d8974fe91b128b
     addComponents({
       '.custom-container': {
         width: '100%',
         marginLeft: 'auto',
         marginRight: 'auto',
-<<<<<<< HEAD
-        '@screen sm': {
-          maxWidth: '640px',
-        },
-        '@screen md': {
-          maxWidth: '768px',
-        },
-        '@screen lg': {
-          maxWidth: '1024px',
-        },
-        '@screen xl': {
-          maxWidth: '1280px',
-        },
-      },
-    });
-  },],
-=======
         paddingLeft: theme('spacing.4'),
         paddingRight: theme('spacing.4'),
         '@screen sm': {
@@ -90,6 +72,5 @@ export default withMT({
       },
     });
   }),],
->>>>>>> 3b3813249cf20da3763b52d9c1d8974fe91b128b
 });
 

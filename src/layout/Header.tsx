@@ -26,13 +26,12 @@ export default function Header() {
               src="/Logo.webp"
             /> */}
             <Typography
-              style={{
-                fontFamily: 'WavvePADO-Regular',
-              }}
-              className="relative top-1"
+              className="relative top-1 font-WavvePADO-Regular"
               variant="h2"
             >
-              알고고
+              <a href="/">
+                알고고
+              </a>
             </Typography>
           </div>
           <div className="flex items-center h-full gap">
