@@ -11,7 +11,7 @@ import {
 } from '@material-tailwind/react';
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { PlayIcon } from '@heroicons/react/24/outline';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
@@ -19,7 +19,6 @@ import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
 import useProblemTable from '../hook/useProblemTable';
 import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
 import ProblemStateDropdown from './ProblemStateDropdown';
-import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 import ProblemTableFilter from './ProblemTableFilter';
 import Pagebar from '../atom/Pagebar';
 
@@ -27,36 +26,7 @@ export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
   const [isOpenGrade, setOpenGrade] = useState(true);
 
-  const { problemSort, setProblemSort } = useProblemTableFilterStore((
-    { problemSort, setProblemSort },
-  ) => ({ problemSort, setProblemSort }));
-
-  const handleClickProblemTh = useCallback((e: unknown, head: ProblemSortName | '출처') => {
-    if ((head === '상태' || head === '출처')) {
-      return;
-    }
-
-    setProblemSort(({ name, value }) => {
-      if (head === name) {
-        if (value === 1) {
-          return ({
-            name,
-            value: 2,
-          });
-        } if (value === 2) {
-          return ({
-            name: '',
-            value: 1,
-          });
-        }
-      }
-      return ({
-        name: head,
-        value: 1,
-      });
-    });
-  }, [setProblemSort]);
-  const [problemList] = useProblemTable();
+  const [problemList, problemSort, handleClickProblemTh] = useProblemTable();
 
   return (
     <section className="container mt-8">

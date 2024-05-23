@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
-import defaultProblemOption from '../constant/ProblemOption';
-import useConfirmModal from './useConfirmModal';
+import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 
 export default function useProblemTable() {
   const problems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1, 1, 1].map((elem) => ({
@@ -13,122 +12,37 @@ export default function useProblemTable() {
   }));
 
   const [problemList, setProblemList] = useState(problems);
-  const [optionList, setOptionList] = useState<ProblemOption[]>(defaultProblemOption);
-  const [realOptionList, setRealOptionList] = useState<ProblemOption[]>(defaultProblemOption);
-  const [confirm] = useConfirmModal();
+  const { problemSort, setProblemSort } = useProblemTableFilterStore((
+    { problemSort, setProblemSort },
+  ) => ({ problemSort, setProblemSort }));
 
-  const handleSelectProblemTypeDropdown = useCallback((
-    e:React.MouseEvent,
-    index: number,
-  ) => {
-    e.stopPropagation();
-
-    const newOptionList = [...optionList];
-    newOptionList[index].isSelected = !newOptionList[index].isSelected;
-    setOptionList(newOptionList);
-  }, [optionList]);
-
-  const handleResetProblemTypeDropdown = useCallback(async (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.stopPropagation();
-    e.currentTarget.blur();
-
-    const isOk = await confirm('초기화 하시겠습니까?');
-
-    if (isOk === false) {
+  const handleClickProblemTh = useCallback((e: unknown, head: ProblemSortName | '출처') => {
+    if ((head === '상태' || head === '출처')) {
       return;
     }
 
-    const newOptionList = optionList.map((elem) => {
-      if (elem.type === '유형') {
-        const isSelected = false;
-        return { ...elem, isSelected };
+    setProblemSort(({ name, value }) => {
+      if (head === name) {
+        if (value === 1) {
+          return ({
+            name,
+            value: 2,
+          });
+        } if (value === 2) {
+          return ({
+            name: '',
+            value: 1,
+          });
+        }
       }
-      return elem;
+      return ({
+        name: head,
+        value: 1,
+      });
     });
-    setOptionList(newOptionList);
-    setRealOptionList(newOptionList.map((elem) => ({ ...elem })));
-  }, [optionList]);
-
-  const handleOkProblemTypeDropdown = useCallback(async (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.stopPropagation();
-    e.currentTarget.blur();
-
-    const isOk = await confirm('적용하시겠습니까?');
-
-    if (isOk === false) {
-      return;
-    }
-
-    setOptionList(optionList);
-    setRealOptionList(optionList.map((elem) => ({ ...elem })));
-  }, [optionList]);
-
-  const handleSelectProblemLevelDropdown = useCallback((
-    e: React.MouseEvent<HTMLButtonElement>,
-    value: string,
-  ) => {
-    e.stopPropagation();
-
-    const newOptionList = [...optionList];
-    const index = newOptionList.findIndex((elem) => elem.value === value);
-
-    if (index === -1) {
-      return;
-    }
-    newOptionList[index].isSelected = !newOptionList[index].isSelected;
-    setOptionList(newOptionList);
-  }, [optionList]);
-
-  const handleOkProblemLevelDropdown = useCallback(async (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.stopPropagation();
-    e.currentTarget.blur();
-
-    const isOk = await confirm('적용하시겠습니까?');
-
-    if (!isOk) {
-      return;
-    }
-
-    setRealOptionList(optionList.map((elem) => ({ ...elem })));
-  }, [optionList]);
-
-  const handleResetProblemLevelDropdown = useCallback(async (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    e.stopPropagation();
-    e.currentTarget.blur();
-
-    const isOk = await confirm('초기화 하시겠습니까?');
-
-    if (!isOk) {
-      return;
-    }
-    const newOptionList = optionList.map((elem) => {
-      if (elem.type === '난이도') {
-        const isSelected = false;
-        return { ...elem, isSelected };
-      }
-
-      return elem;
-    });
-    setOptionList(newOptionList);
-    setRealOptionList(newOptionList.map((elem) => ({ ...elem })));
-  }, [optionList]);
-
+  }, [setProblemSort]);
   return [problemList,
-    optionList,
-    realOptionList,
-    handleSelectProblemTypeDropdown,
-    handleOkProblemTypeDropdown,
-    handleResetProblemTypeDropdown,
-    handleSelectProblemLevelDropdown,
-    handleOkProblemLevelDropdown,
-    handleResetProblemLevelDropdown,
+    problemSort,
+    handleClickProblemTh,
   ] as const;
 }
