@@ -9,7 +9,7 @@ export default function SignUp() {
     <section className="grid items-center h-screen p-8">
       <div className="text-center">
         <Typography variant="h3" color="blue-gray" className="mb-2">
-          로그인
+          회원가입
         </Typography>
         {/* <Typography color="gray" className="mb-12 font-normal" /> */}
         <form action="#" className="mx-auto max-w-[24rem] text-left">
