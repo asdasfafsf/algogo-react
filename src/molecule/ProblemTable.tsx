@@ -11,7 +11,8 @@ import {
 } from '@material-tailwind/react';
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { PlayIcon } from '@heroicons/react/24/outline';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
 import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
@@ -26,7 +27,35 @@ export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
   const [isOpenGrade, setOpenGrade] = useState(true);
 
-  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((state) => state);
+  const { problemSort, setProblemSort } = useProblemTableFilterStore((
+    { problemSort, setProblemSort },
+  ) => ({ problemSort, setProblemSort }));
+
+  const handleClickProblemTh = useCallback((e: unknown, head: string) => {
+    if ((head === '상태' || head === '출처')) {
+      return;
+    }
+
+    setProblemSort(({ name, value }) => {
+      if (head === name) {
+        if (value === 1) {
+          return ({
+            name,
+            value: 2,
+          });
+        } if (value === 2) {
+          return ({
+            name: '',
+            value: 1,
+          });
+        }
+      }
+      return ({
+        name: head,
+        value: 1,
+      });
+    });
+  }, [setProblemSort]);
   const [problemList] = useProblemTable();
 
   return (
@@ -70,20 +99,48 @@ export default function ProblemTable() {
           <table className="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
-                {problemTableHeaders.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-gray-300 !p-6"
-                  >
-                    <Typography
-                      color="blue-gray"
-                      variant="small"
-                      className="!font-bold"
+                {problemTableHeaders.map((head) => {
+                  const { name, value } = problemSort;
+
+                  return (
+                    <th
+                      onClick={(e) => handleClickProblemTh(e, head)}
+                      key={head}
+                      className={`${(head !== '상태' && head !== '출처') && 'cursor-pointer'} border-b border-gray-300 !p-6 min-w-240`}
                     >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
+                      <div className="flex items-center w-full gap-1">
+                        <Typography
+                          color="blue-gray"
+                          variant="small"
+                          className="!font-bold relative"
+                        >
+                          {head}
+                        </Typography>
+
+                        {
+                        (head !== '상태' && head !== '출처') && (
+
+                        <div>
+                          <PlayIcon
+                            fill="fill"
+                            fillOpacity={(name === head && value === 1) ? 1 : 0.45}
+                            opacity={(name === head && value === 1) ? 1 : 0.45}
+                            className="relative w-2 h-2 transform -rotate-90"
+                          />
+                          <PlayIcon
+                            fill="fill"
+                            fillOpacity={(name === head && value === 2) ? 1 : 0.45}
+                            opacity={(name === head && value === 2) ? 1 : 0.45}
+                            className="relative w-2 h-2 transform rotate-90"
+                          />
+                        </div>
+                        )
+                      }
+
+                      </div>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
@@ -145,7 +202,7 @@ export default function ProblemTable() {
         </CardBody>
         <CardFooter className="flex items-center justify-center">
           <Pagebar
-            currentPage={11}
+            currentPage={1}
             displayedPageRange={10}
             handleChangePage={() => {}}
           />

@@ -3,16 +3,29 @@ import { createSelectors } from './selector';
 
 type ProblemTableFilterStore = {
   problemOptionList: ProblemOption[];
+  problemSort: ProblemSort;
   setProblemOptionList: (
     problemOptionList: ProblemOption[] | ((prev: ProblemOption[]) => ProblemOption[])) => void;
+  setProblemSort: (
+    problemSort: ProblemSort | ((prev: ProblemSort) => ProblemSort)) => void;
+
 };
 
 export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) => ({
   problemOptionList: [],
+  problemSort: {
+    name: '',
+    value: 1,
+  } as ProblemSort,
   setProblemOptionList: (problemOptionList) => set((state) => ({
     problemOptionList: typeof problemOptionList === 'function'
       ? problemOptionList(state.problemOptionList)
       : problemOptionList,
+  })),
+  setProblemSort: (problemSort) => set((state) => ({
+    problemSort: typeof problemSort === 'function'
+      ? problemSort(state.problemSort)
+      : problemSort,
   })),
 }));
 
