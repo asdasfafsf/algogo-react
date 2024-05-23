@@ -31,7 +31,7 @@ export default function ProblemTable() {
     { problemSort, setProblemSort },
   ) => ({ problemSort, setProblemSort }));
 
-  const handleClickProblemTh = useCallback((e: unknown, head: string) => {
+  const handleClickProblemTh = useCallback((e: unknown, head: ProblemSortName | '출처') => {
     if ((head === '상태' || head === '출처')) {
       return;
     }
@@ -99,16 +99,20 @@ export default function ProblemTable() {
           <table className="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
-                {problemTableHeaders.map((head) => {
+                {problemTableHeaders.map((elem) => {
+                  const head = elem as ProblemSortName | '출처';
                   const { name, value } = problemSort;
 
                   return (
                     <th
-                      onClick={(e) => handleClickProblemTh(e, head)}
+
                       key={head}
-                      className={`${(head !== '상태' && head !== '출처') && 'cursor-pointer'} border-b border-gray-300 !p-6 min-w-240`}
+                      className="border-b border-gray-300 !p-6 min-w-240"
                     >
-                      <div className="flex items-center w-full gap-1">
+                      <div
+                        onClick={(e) => handleClickProblemTh(e, head)}
+                        className={`${(head !== '상태' && head !== '출처') && 'cursor-pointer'} flex items-center gap-1`}
+                      >
                         <Typography
                           color="blue-gray"
                           variant="small"
