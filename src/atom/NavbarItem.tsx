@@ -30,11 +30,13 @@ export default function NavbarItem({
         && (
         <>
           <Line />
-          <div className="flex justify-center">
-            <div className="container flex items-center h-12 gap-4 px-4">
-              {children}
+          {!!(children?.length) && (
+            <div className="flex justify-center">
+              <div className="container flex items-center h-12 gap-4 px-4">
+                {children}
+              </div>
             </div>
-          </div>
+          )}
         </>
         )}
         <li />

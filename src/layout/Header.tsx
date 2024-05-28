@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Typography,
   Button,
@@ -14,6 +14,10 @@ import ProfileMenu from '../molecule/ProfileMenu';
 export default function Header() {
   const [isLogin] = React.useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+
+  });
 
   return (
     <header className="w-screen">
@@ -65,8 +69,15 @@ export default function Header() {
             value="문제"
             isSelected
           >
-            <NavbarSubItem isSelected value="모든 문제" to="/" />
-            <NavbarSubItem isSelected={false} value="출제하기" to="/" />
+            {location.pathname === '/'
+              ? (
+                <>
+                  <NavbarSubItem isSelected value="모든 문제" to="/" />
+                  <NavbarSubItem isSelected={false} value="출제하기" to="/" />
+                </>
+              )
+              : ''}
+
           </NavbarItem>
         </Navbar>
       </div>

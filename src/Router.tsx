@@ -6,6 +6,7 @@ import NotFound from './page/NotFound';
 import SignUp from './page/SignUp';
 import Login from './page/Login';
 import Problem from './page/Problem';
+import My from './page/My';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/problem',
     element: <Problem />,
+  },
+  {
+    path: '/my',
+    element: <My />,
   },
   {
     path: '/*',
