@@ -30,7 +30,7 @@ export default function NavbarItem({
         && (
         <>
           <Line />
-          {!!(children?.length) && (
+          {!!(children) && (
             <div className="flex justify-center">
               <div className="container flex items-center h-12 gap-4 px-4">
                 {children}
