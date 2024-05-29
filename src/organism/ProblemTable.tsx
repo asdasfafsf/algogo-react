@@ -15,11 +15,11 @@ import { useState } from 'react';
 import { PlayIcon } from '@heroicons/react/24/outline';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
-import ProblemTypeDropdown from '../organism/ProblemTypeDropdown';
+import ProblemTypeDropdown from './ProblemTypeDropdown';
 import useProblemTable from '../hook/useProblemTable';
-import ProblemLevelDropdown from '../organism/ProblemLevelDropdown';
-import ProblemStateDropdown from './ProblemStateDropdown';
-import ProblemTableFilter from './ProblemTableFilter';
+import ProblemLevelDropdown from './ProblemLevelDropdown';
+import ProblemStateDropdown from '../molecule/ProblemStateDropdown';
+import ProblemTableFilter from '../molecule/ProblemTableFilter';
 import Pagebar from '../atom/Pagebar';
 
 export default function ProblemTable() {
