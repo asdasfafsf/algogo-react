@@ -19,7 +19,11 @@ import {
 // profile menu component
 const profileMenuItems = [
   {
-    label: 'Logout',
+    label: '마이페이지',
+    icon: UserCircleIcon,
+  },
+  {
+    label: '로그아웃',
     icon: UserCircleIcon,
   },
 ];

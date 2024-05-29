@@ -2,6 +2,7 @@ import { Chip } from '@material-tailwind/react';
 
 interface ProblemLevelChipProps {
   level: ProblemLevel
+  className?: string
 }
 
 export function getBackgroundClassName(level: ProblemLevel) {
@@ -30,11 +31,11 @@ export function getBackgroundClassName(level: ProblemLevel) {
   return 'bg-gray-900';
 }
 
-export default function ProblemLevelChip({ level }: ProblemLevelChipProps) {
+export default function ProblemLevelChip({ level, className = '' }: ProblemLevelChipProps) {
   return (
     <Chip
       variant="ghost"
-      className={`${'text-white'} ${getBackgroundClassName(level)}`}
+      className={`${className} ${'text-white'} ${getBackgroundClassName(level)}`}
       size="sm"
       value={level === '숨김' ? '난이도 숨김' : level}
     />

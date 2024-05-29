@@ -37,11 +37,11 @@ export default function CompilerSettingModal() {
   }, [modal]);
 
   return (
-    <TranslucentOverlay className="justify-center items-center">
+    <TranslucentOverlay className="items-center justify-center">
       <div
         className="min-h-64 h-auto rounded-md bg-gray-900 w-[600px]"
       >
-        <header className="p-4 w-full flex items-center">
+        <header className="flex items-center w-full p-4">
           <div className="w-1/2">
             <Typography
               color="white"
@@ -50,7 +50,7 @@ export default function CompilerSettingModal() {
               컴파일러 세팅
             </Typography>
           </div>
-          <div className="w-1/2 flex justify-end items-start">
+          <div className="flex items-start justify-end w-1/2">
             <IconButton
               onClick={() => modal.top().resolve(false)}
               className="w-5 h-5"

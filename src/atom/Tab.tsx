@@ -15,10 +15,10 @@ export default function Tab({
       onClick={handleClick}
       className={`${isSelected ? 'bg-gray-900 text-white' : 'text-blue-gray-500'} ${className} text-blue-gray-500 cursor-pointer h-full min-w-12 p-4 flex items-center relative z-10 w-auto`}
     >
-      {isSelected ? <div className="w-full bg-blue-500 h-1 absolute top-0 left-0" /> : ''}
+      {isSelected ? <div className="absolute top-0 left-0 w-full h-1 bg-blue-500" /> : ''}
       <Typography
         variant="small"
-        className="pt-1 flex items-center justify-center font-bold cursor-pointer"
+        className="flex items-center justify-center pt-1 font-bold cursor-pointer"
       >
         {text}
       </Typography>

@@ -33,13 +33,13 @@ export default function ProblemSidebar() {
           gridRow: 'span 2',
           gridColumn: 1,
         }}
-      className="relative flex z-30 bg-white sm:w-screen"
+      className="relative z-30 flex bg-white sm:w-screen"
     >
-      <div className="px-5 py-8 overflow-y-auto w-full">
+      <div className="w-full px-5 py-8 overflow-y-auto">
         <Typography variant="h4">포물선의 방정식</Typography>
         <Line className="my-2" />
 
-        <div className="min-h-4 my-2">
+        <div className="my-2 min-h-4">
           <div className="flex flex-wrap items-center gap-4 jus">
             <ProblemLevelViewer intialState="hide" level="브론즈 5" />
             <div className="flex flex-wrap items-center">
@@ -98,15 +98,15 @@ export default function ProblemSidebar() {
         <Line className="mt-2 mb-4" />
 
         <div className="flex items-center gap-4">
-          <div className="flex justify-center items-center">
-            <div className="flex justify-center items-center bg-black rounded-sm text-blue-500 h-6 w-6">
+          <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
               <EnterIcon />
             </div>
               &nbsp;
             <Typography variant="small" className="font-medium">: 다음 줄</Typography>
           </div>
-          <div className="flex justify-center items-center">
-            <div className="flex justify-center items-center bg-black rounded-sm text-blue-500 h-6 w-6">
+          <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
               <SpaceIcon />
             </div>
               &nbsp;
@@ -115,22 +115,22 @@ export default function ProblemSidebar() {
         </div>
         <Line className="my-4 opacity-0" />
 
-        <Typography variant="h6" className="font-bold pt-2">예시1</Typography>
+        <Typography variant="h6" className="pt-2 font-bold">예시1</Typography>
         <Typography variant="small" className="font-medium">입력</Typography>
         <ClipboardWithTooltip content="1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5" />
-        <Typography variant="small" className="font-medium mt-1">출력</Typography>
+        <Typography variant="small" className="mt-1 font-medium">출력</Typography>
         <ClipboardWithTooltip content="123213   1 2 1" />
 
-        <Typography variant="h6" className="font-bold pt-2">예시2</Typography>
+        <Typography variant="h6" className="pt-2 font-bold">예시2</Typography>
         <Typography variant="small" className="font-medium">입력</Typography>
         <ClipboardWithTooltip content="1 2 3 4" />
-        <Typography variant="small" className="font-medium mt-1">출력</Typography>
+        <Typography variant="small" className="mt-1 font-medium">출력</Typography>
         <ClipboardWithTooltip content="1 2 3 4" />
 
-        <Typography variant="h6" className="font-bold pt-2">예시3</Typography>
+        <Typography variant="h6" className="pt-2 font-bold">예시3</Typography>
         <Typography variant="small" className="font-medium">입력</Typography>
         <ClipboardWithTooltip content="1 2 3 4" />
-        <Typography variant="small" className="font-medium mt-1">출력</Typography>
+        <Typography variant="small" className="mt-1 font-medium">출력</Typography>
         <ClipboardWithTooltip content="1 2 3 4" />
 
         <Line className="my-4 opacity-0" />

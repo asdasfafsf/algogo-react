@@ -11,7 +11,7 @@ export default function CodeEditor() {
 
   return (
     <div
-      className="bg-gray-900 flex w-full h-full"
+      className="flex w-full h-full bg-gray-900"
     >
       <div className="w-full">
         <CodeControlPanel />

@@ -15,7 +15,7 @@ type ProblemBreadCrumbsProps = {
 export default function ProblemBreadcrumbs({ pathList, current }: ProblemBreadCrumbsProps) {
   return (
     <Breadcrumbs
-      className="bg-gray-900 text-white"
+      className="text-white bg-gray-900"
       color="black"
       fullWidth
       separator=">"
@@ -26,7 +26,7 @@ export default function ProblemBreadcrumbs({ pathList, current }: ProblemBreadCr
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
+          className="w-4 h-4"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -38,7 +38,7 @@ export default function ProblemBreadcrumbs({ pathList, current }: ProblemBreadCr
           <div className="h-full">{path}</div>
         </a>
       )) }
-      <a href="#" className="text-white font-bold w-auto">{current}</a>
+      <a href="#" className="w-auto font-bold text-white">{current}</a>
     </Breadcrumbs>
   );
 }

@@ -9,11 +9,11 @@ export default function ProblemNavbar() {
   const [alert] = useAlertModal();
   return (
     <nav className="flex w-full">
-      <div className="flex text-white w-full h-full justify-end items-center p-0 px-4 gap-1">
-        <div className="h-full w-10 flex justify-center items-center">
+      <div className="flex items-center justify-end w-full h-full gap-1 p-0 px-4 text-white">
+        <div className="flex items-center justify-center w-10 h-full">
           <IconButton
             ripple
-            className="text-white w-10 h-10"
+            className="w-10 h-10 text-white"
             onClick={() => modal.push('CompilerInfo', CompilerInfoModal, {})}
           >
             <DocumentTextIcon
@@ -23,10 +23,10 @@ export default function ProblemNavbar() {
           </IconButton>
         </div>
 
-        <div className="h-full w-10 flex justify-center items-center">
+        <div className="flex items-center justify-center w-10 h-full">
           <IconButton
             ripple
-            className="text-white w-10 h-10"
+            className="w-10 h-10 text-white"
             onClick={async () => {
               await alert('준비 중 입니다');
             }}

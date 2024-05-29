@@ -14,12 +14,14 @@ export default function ComfirmModal({ content }: AlertModalProps) {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleCancel = () => {
+  const handleCancel = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsVisible(false);
     modal.top().resolve(false);
   };
 
-  const handleOk = () => {
+  const handleOk = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsVisible(false);
     modal.top().resolve(true);
   };
@@ -30,12 +32,16 @@ export default function ComfirmModal({ content }: AlertModalProps) {
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
+      event.stopPropagation();
+      event.stopImmediatePropagation();
       switch (event.key) {
         case 'Escape':
-          handleCancel();
+          setIsVisible(false);
+          modal.top().resolve(false);
           break;
         case 'Enter':
-          handleOk();
+          setIsVisible(false);
+          modal.top().resolve(true);
           break;
         default:
           break;
@@ -54,7 +60,7 @@ export default function ComfirmModal({ content }: AlertModalProps) {
       <div
         className={`min-h-50 h-auto rounded-md bg-white w-[400px] transform transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
       >
-        <header className="flex w-full justify-end items-end p-2">
+        <header className="flex items-end justify-end w-full p-2">
           <div
             color="white"
             className="cursor-pointer"
@@ -63,10 +69,10 @@ export default function ComfirmModal({ content }: AlertModalProps) {
             <XMarkIcon className="w-6 h-6" />
           </div>
         </header>
-        <section className="h-24 flex items-center justify-center">
+        <section className="flex items-center justify-center h-24">
           {content}
         </section>
-        <footer className="flex items-end justify-end w-full p-2 gap-1">
+        <footer className="flex items-end justify-end w-full gap-1 p-2">
           <Button
             size="sm"
             onClick={handleOk}

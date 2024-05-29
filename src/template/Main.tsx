@@ -1,5 +1,5 @@
 import MainCarousel from '../molecule/MainCarousel';
-import ProblemTable from '../molecule/ProblemTable';
+import ProblemTable from '../organism/ProblemTable';
 
 export default function Main() {
   return (

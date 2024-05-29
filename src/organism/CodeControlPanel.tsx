@@ -30,12 +30,12 @@ export default function CodeControlPanel() {
 
   return (
     <div
-      className="overflow-hidden w-full max-w-full h-12 bg-gray-900 text-white flex items-center justify-end px-2"
+      className="flex items-center justify-end w-full h-12 max-w-full px-2 overflow-hidden text-white bg-gray-900"
     >
       <div className="sm:min-w-[520px] flex">
         <LanguageDropdown />
         <div className="w-4" />
-        <div className="sm:flex hidden gap-1">
+        <div className="hidden gap-1 sm:flex">
           <Button
             onClick={handleClickReset}
             color="blue"
