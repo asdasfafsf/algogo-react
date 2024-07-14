@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
+  const handleOAuth = async (e, provider: 'google' | 'kakao') => {
+
+  };
   return (
     <section className="grid items-center h-screen p-8">
       <div className="text-center">
@@ -17,6 +20,7 @@ export default function Login() {
             color="white"
             size="lg"
             className="flex items-center justify-center h-12 gap-2 mt-4"
+            onClick={(e) => handleOAuth(e, 'google')}
             fullWidth
           >
             <img
@@ -32,6 +36,7 @@ export default function Login() {
             size="lg"
             className="flex items-center justify-center h-12 gap-2 mt-4"
             fullWidth
+            onClick={(e) => handleOAuth(e, 'kakao')}
           >
             <img
               src="kakao_icon.png"
