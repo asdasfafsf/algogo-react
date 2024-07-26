@@ -7,6 +7,7 @@ import SignUp from './page/SignUp';
 import Login from './page/Login';
 import Problem from './page/Problem';
 import My from './page/My';
+import OAuth from './page/OAuth';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/my',
     element: <My />,
+  },
+  {
+    path: '/oauth/token',
+    element: <OAuth />,
   },
   {
     path: '/*',

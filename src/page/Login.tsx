@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
-  const handleOAuth = async (e, provider: 'google' | 'kakao') => {
-
+  const handleOAuth = async (e, provider: 'google' | 'kakao' | 'github') => {
+    const url = `http://localhost:3001/oauth/${provider}`;
+    window.location.href = url;
   };
   return (
     <section className="grid items-center h-screen p-8">
@@ -24,7 +25,7 @@ export default function Login() {
             fullWidth
           >
             <img
-              src="https://www.material-tailwind.com/logos/logo-google.png"
+              src="google-mark.png"
               alt="google"
               className="w-6 h-6"
             />
@@ -44,6 +45,20 @@ export default function Login() {
               className="w-5 h-5"
             />
             카카오로 시작하기
+          </Button>
+          <Button
+            color="white"
+            size="lg"
+            className="flex items-center justify-center h-12 gap-2 mt-4"
+            fullWidth
+            onClick={(e) => handleOAuth(e, 'github')}
+          >
+            <img
+              src="github-mark.png"
+              alt="github"
+              className="w-5 h-5"
+            />
+            깃허브로 시작하기
           </Button>
           <Typography
             color="gray"

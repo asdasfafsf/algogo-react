@@ -55,7 +55,7 @@ export default function AlertModal({ content }: AlertModalProps) {
             <XMarkIcon className="w-6 h-6" />
           </div>
         </header>
-        <section className="flex items-center justify-center h-24">
+        <section className="flex items-center justify-center h-24 p-8">
           {content}
         </section>
         <footer className="flex items-end justify-end w-full p-2">
