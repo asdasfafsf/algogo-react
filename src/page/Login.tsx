@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
   const navigate = useNavigate();
   const handleOAuth = async (e, provider: 'google' | 'kakao' | 'github') => {
-    const url = `http://localhost:3001/oauth/${provider}`;
+    const url = `http://localhost:3001/v1/oauth/${provider}`;
     window.location.href = url;
   };
   return (
@@ -81,6 +81,13 @@ export default function Login() {
             </Typography>
             <hr className="w-full bg-blue-gray-50" />
           </div>
+          <Button
+            onClick={() => navigate('/')}
+            color="white"
+            className="w-full mb-2"
+          >
+            처음으로
+          </Button>
           <Button
             onClick={() => navigate(-1)}
             className="w-full"

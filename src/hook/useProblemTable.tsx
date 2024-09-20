@@ -11,7 +11,7 @@ export default function useProblemTable() {
     source: 'https://acimpc.net/problem/3455',
   }));
 
-  const [problemList, setProblemList] = useState(problems);
+  const [problemList] = useState(problems);
   const { problemSort, setProblemSort } = useProblemTableFilterStore((
     { problemSort, setProblemSort },
   ) => ({ problemSort, setProblemSort }));
