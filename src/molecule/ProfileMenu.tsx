@@ -15,23 +15,28 @@ import {
 import {
   UserCircleIcon,
 } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 
-// profile menu component
-const profileMenuItems = [
-  {
-    label: '마이페이지',
-    icon: UserCircleIcon,
-  },
-  {
-    label: '로그아웃',
-    icon: UserCircleIcon,
-  },
-];
+interface ProfileMenuProps {
+  me: Me
+}
 
-export default function ProfileMenu() {
+export default function ProfileMenu({ me }: ProfileMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
   const closeMenu = () => setIsMenuOpen(false);
+  const navigate = useNavigate();
+  const profileMenuItems = [
+    {
+      label: '마이페이지',
+      icon: UserCircleIcon,
+      handleClick: () => { navigate('/me'); },
+    },
+    {
+      label: '로그아웃',
+      icon: UserCircleIcon,
+      handleClick: () => {},
+    },
+  ];
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -45,7 +50,7 @@ export default function ProfileMenu() {
             variant="circular"
             size="sm"
             alt="User"
-            src="https://docs.material-tailwind.com/img/face-2.jpg"
+            src={me.profilePhoto || 'https://docs.material-tailwind.com/img/face-2.jpg'}
           />
           <ChevronDownIcon
             strokeWidth={2.5}

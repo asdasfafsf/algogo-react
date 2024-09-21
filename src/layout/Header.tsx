@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import {
   Typography,
   Button,
@@ -10,14 +9,12 @@ import Navbar from '../atom/Navbar';
 import NavbarSubItem from '../atom/NavbarSubItem';
 import Line from '../atom/Line';
 import ProfileMenu from '../molecule/ProfileMenu';
+import useMeStore from '../zustand/MeStore';
 
 export default function Header() {
-  const [isLogin] = React.useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-
-  });
+  const meStore = useMeStore((state) => state);
+  const { me } = meStore;
 
   return (
     <header className="w-screen">
@@ -39,8 +36,8 @@ export default function Header() {
             </Typography>
           </div>
           <div className="flex items-center h-full gap">
-            {!isLogin
-              ? (
+            {
+              me === null ? (
                 <>
                   <Button
                     variant="text"
@@ -58,7 +55,8 @@ export default function Header() {
                   </Button>
                 </>
               )
-              : <ProfileMenu />}
+                : <ProfileMenu me={me as Me} />
+            }
           </div>
         </div>
       </div>
