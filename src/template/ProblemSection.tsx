@@ -2,6 +2,8 @@ import {
   ChevronLeftIcon, ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 
+import { Suspense, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../organism/CodeResultPannel';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
@@ -11,12 +13,31 @@ import ProblemSidebar from './ProblemSidebar';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 import { useProblemScreenStore } from '../zustand/ProblemScreenStore';
 import CodeDropUp from '../molecule/CodeDropUp';
+import { getProblem } from '../api/problems';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
   const problemHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
   const { isMobile } = useScreenSize();
   const { selectedIndex, setSelectedIndex } = useProblemScreenStore(((state) => state));
+  const [problem, setProblem] = useState<ResponseProblem>();
+  const navigate = useNavigate();
+  const { problemUuid } = useParams<'problemUuid'>();
+
+  const fetchProblem = async () => {
+    const response = await getProblem(problemUuid as string);
+    if (response.statusCode !== 200) {
+      navigate('/');
+    }
+
+    const problem = response.data;
+    setProblem(problem);
+  };
+
+  useEffect(() => {
+    fetchProblem();
+  }, []);
+
   return (
     <section
       className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full relative"
@@ -45,7 +66,9 @@ export default function ProblemSection() {
           }}
         className="relative w-screen h-full"
       >
-        <ProblemSidebar />
+        {
+          problem ? <ProblemSidebar problem={problem} /> : ''
+        }
       </div>
 
       <div

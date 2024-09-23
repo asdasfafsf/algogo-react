@@ -14,12 +14,18 @@ import {
 import useProblemSidebar from '../hook/useProblemSidebar';
 import { useScreenSize } from '../context/ScreenSizeContext';
 
-export default function ProblemSidebar() {
-  const categoryList: ProblemCategory[] = ['구현', '그래프 이론', '다이나믹 프로그래밍', '그리디 알고리즘', '누적 합', '데이크스트라', '문자열'];
+interface ProblemSidebarProps {
+  problem: ResponseProblem
+}
+
+export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
   const draggableRef = useRef<HTMLDivElement>(null);
 
   const [problemWidth, handleMouseDown] = useProblemSidebar();
   const { isMobile } = useScreenSize();
+  const {
+    title, levelText, submitCount, typeList, contentList, input, output, inputOutputList,
+  } = problem;
   return (
     <aside
       // style={{
@@ -36,16 +42,16 @@ export default function ProblemSidebar() {
       className="relative z-30 flex bg-white sm:w-screen"
     >
       <div className="w-full px-5 py-8 overflow-y-auto">
-        <Typography variant="h4">포물선의 방정식</Typography>
+        <Typography variant="h4">{title}</Typography>
         <Line className="my-2" />
 
         <div className="my-2 min-h-4">
           <div className="flex flex-wrap items-center gap-4 jus">
-            <ProblemLevelViewer intialState="hide" level="브론즈 5" />
+            <ProblemLevelViewer intialState="hide" level={levelText as ProblemLevel} />
             <div className="flex flex-wrap items-center">
               <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;
-              <Typography variant="small" className="font-medium">6554231</Typography>
+              <Typography variant="small" className="font-medium">{submitCount}</Typography>
             </div>
             <div className="flex flex-wrap items-center">
               <Typography variant="small" className="font-bold">정답률 : </Typography>
@@ -55,34 +61,26 @@ export default function ProblemSidebar() {
           </div>
         </div>
 
-        <ProblemCategoryViewer initialState={categoryList.length === 0 ? 'none' : 'hide'} categoryList={categoryList} />
+        <ProblemCategoryViewer initialState={typeList && typeList.length === 0 ? 'none' : 'hide'} categoryList={typeList.map((elem) => elem.name)} />
 
-        <Typography variant="paragraph" className="font-normal">
-          포물선의 방정식을 구할 지 물어보고
-        </Typography>
-        <Typography variant="paragraph" className="font-normal">
-          예를 선택한다면 초점을 입력받고 방적식을 출력하게 한다.
-        </Typography>
-        <Typography variant="paragraph" className="font-normal">
-          아니오를 선택 시 프로그램을 종료한다는 문구를 출력한다
-        </Typography>
-
-        <ProblemImage src="https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/upload/201003/dfcmhrjj_142c3w76qg8_b.jpg" alt="테스트1" />
-
-        <Typography variant="paragraph" className="font-normal">
-          위와 같을 경우에는 아무렇게나 출력한다 아몰랑ㅇㅇㅇㅇㅇ
-          길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??
-          아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면
-          어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ 길게쓰면 어떻게되나요??아몰랑ㅇㅇㅇㅇㅇ
-          길게쓰면 어떻게되나요??
-        </Typography>
+        {
+          contentList.map((elem) => (
+            elem.type === 'image' ? (
+              <ProblemImage alt={elem.content} key={elem.content} src={elem.content} />
+            ) : (
+              <Typography key={elem.content} variant="paragraph" className="font-normal">
+                {elem.content}
+              </Typography>
+            )
+          ))
+        }
 
         <Line className="my-4 opacity-0" />
         <Typography variant="h5">입력</Typography>
         <Line className="mt-2 mb-4" />
 
         <Typography variant="paragraph" className="font-normal">
-          입력은 요러케 저러케 조로케 한다
+          {input}
         </Typography>
 
         <Line className="my-4 opacity-0" />
@@ -90,7 +88,7 @@ export default function ProblemSidebar() {
         <Line className="mt-2 mb-4" />
 
         <Typography variant="paragraph" className="font-normal">
-          출력도 요로케 저러케 이렇게 한다
+          {output}
         </Typography>
 
         <Line className="my-4 opacity-0" />
@@ -115,23 +113,20 @@ export default function ProblemSidebar() {
         </div>
         <Line className="my-4 opacity-0" />
 
-        <Typography variant="h6" className="pt-2 font-bold">예시1</Typography>
-        <Typography variant="small" className="font-medium">입력</Typography>
-        <ClipboardWithTooltip content="1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5" />
-        <Typography variant="small" className="mt-1 font-medium">출력</Typography>
-        <ClipboardWithTooltip content="123213   1 2 1" />
-
-        <Typography variant="h6" className="pt-2 font-bold">예시2</Typography>
-        <Typography variant="small" className="font-medium">입력</Typography>
-        <ClipboardWithTooltip content="1 2 3 4" />
-        <Typography variant="small" className="mt-1 font-medium">출력</Typography>
-        <ClipboardWithTooltip content="1 2 3 4" />
-
-        <Typography variant="h6" className="pt-2 font-bold">예시3</Typography>
-        <Typography variant="small" className="font-medium">입력</Typography>
-        <ClipboardWithTooltip content="1 2 3 4" />
-        <Typography variant="small" className="mt-1 font-medium">출력</Typography>
-        <ClipboardWithTooltip content="1 2 3 4" />
+        {
+          inputOutputList.map((elem, index) => (
+            <div key={`예시 ${index + 1}`}>
+              <Typography variant="h6" className="pt-2 font-bold">
+                예시
+                {index + 1}
+              </Typography>
+              <Typography variant="small" className="font-medium">입력</Typography>
+              <ClipboardWithTooltip content={elem.input} />
+              <Typography variant="small" className="mt-1 font-medium">출력</Typography>
+              <ClipboardWithTooltip content={elem.output} />
+            </div>
+          ))
+        }
 
         <Line className="my-4 opacity-0" />
         <Typography variant="h5">출처</Typography>

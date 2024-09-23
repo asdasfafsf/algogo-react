@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect } from 'react';
 import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';
@@ -8,6 +7,10 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   const modal = useModal();
   const { testCaseList, setTestCaseList } = useTestCaseListStore((state) => state);
   const { executeResultList, setExecuteResultList } = useExecuteResultListStore((state) => state);
+
+  useEffect(() => {
+    setTestCaseList(initialTestCaseList);
+  }, []);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -56,6 +59,7 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   const removeTestCase = useCallback((testCaseIndex: number) => {
     const newTestCaseList = testCaseList.filter((elem, index) => testCaseIndex !== index);
     const newExecuteResultList = executeResultList.filter((elem, index) => testCaseIndex !== index);
+
     setTestCaseList(newTestCaseList);
     setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
@@ -67,8 +71,10 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   const handleInputChange = useCallback((index:number, value: string) => {
     const newTestCaseList = [...testCaseList];
     const newExecuteResultList = [...executeResultList];
+
     newTestCaseList[index].input = value;
     newExecuteResultList[index].input = value;
+
     setTestCaseList(newTestCaseList);
     setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
@@ -76,8 +82,10 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   const handleOutputChange = useCallback((index:number, value: string) => {
     const newTestCaseList = [...testCaseList];
     const newExecuteResultList = [...executeResultList];
+
     newTestCaseList[index].output = value;
     newExecuteResultList[index].output = value;
+
     setTestCaseList(newTestCaseList);
     setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);

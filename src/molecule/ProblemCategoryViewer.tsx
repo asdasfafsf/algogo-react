@@ -6,7 +6,7 @@ import useProblemCategoryViewer from '../hook/useProblemCategoryViewer';
 
 interface ProblemCategoryProps {
   initialState: ProblemCategoryState;
-  categoryList: ProblemCategory[]
+  categoryList: string[]
 }
 
 export default function ProblemCategoryViewer(

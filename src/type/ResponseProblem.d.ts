@@ -23,6 +23,11 @@ type ResponseProblem = {
   sourceUrl: string;
   contentList: ResponseProblemContent[];
   inputOutputList: ResponseProblemInputOutput[];
+  typeList: ResponseTypeList[];
+};
+
+type ResponseTypeList = {
+  name: string;
 };
 
 type ResponseProblemContent = {

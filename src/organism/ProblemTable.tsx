@@ -28,7 +28,7 @@ export default function ProblemTable() {
 
   const {
     maxPageNo, pageNo, pageSize, problemList, problemSort,
-    handleChangePageNo, handleClickProblemTh,
+    handleChangePageNo, handleClickProblemTh, handleClickProblem,
   } = useProblemTable();
 
   return (
@@ -122,7 +122,7 @@ export default function ProblemTable() {
             </thead>
             <tbody>
               {problemList.map(({
-                title, levelText, answerCount, submitCount, source, sourceId,
+                uuid, title, levelText, answerCount, submitCount, source, sourceId,
               }) => (
                 <tr key={title}>
                   <td className="w-12 p-4 border-b border-gray-300">
@@ -133,6 +133,7 @@ export default function ProblemTable() {
                     <Typography
                       className="!font-medium"
                       variant="small"
+                      onClick={(e) => handleClickProblem(e, uuid)}
                     >
                       {title}
                     </Typography>

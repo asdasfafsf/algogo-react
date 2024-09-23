@@ -1,7 +1,11 @@
 type ProblemCategoryState = 'hide' | 'none' | 'view';
 
+// 'name' 필드 값들로만 이루어진 타입 정의
+// type ProblemCategory = typeof problemTypeList[number]['name'] | '알 수 없음' | ;
 type ProblemCategory
-    = '알 수 없음'
+    =
+    | string
+    | '알 수 없음'
     | '알고리즘 유형 숨김'
     | '그래프 이론'
     | '다이나믹 프로그래밍'

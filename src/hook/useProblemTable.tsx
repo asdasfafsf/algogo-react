@@ -3,15 +3,6 @@ import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
 import { getProblemList } from '../api/problems';
 
 export default function useProblemTable() {
-  // const problems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 1, 1, 1, 1, 1].map((elem) => ({
-  //   state: Math.floor((Math.random() * 100) % 2),
-  //   title: '저는 문제입니다아아아아아아아아아아아아아아',
-  //   grade: `다이아 ${(elem % 5) + 1}`,
-  //   rate: '88.88',
-  //   submitCount: (Math.random() * 10000).toFixed(0),
-  //   source: 'https://acimpc.net/problem/3455',
-  // }));
-
   const [problemList, setProblemList] = useState<ResponseProblem[]>([]);
   const { problemSort, setProblemSort } = useProblemTableFilterStore((
     { problemSort, setProblemSort },
@@ -41,13 +32,16 @@ export default function useProblemTable() {
         .map((elem) => elem.value),
     };
     const response = await getProblemList(requestProblemListDto);
+
     const {
       problemList, totalCount,
     } = response.data;
+
     const maxPageNo = Math.ceil(totalCount / pageSize);
+
     setMaxPageNo(maxPageNo);
     setProblemList(problemList);
-  }, [pagingInfo, problemList, problemOptionList]);
+  }, [pagingInfo, problemOptionList]);
 
   useEffect(() => {
     fetchProblemList();
@@ -57,6 +51,8 @@ export default function useProblemTable() {
     e: React.MouseEvent<HTMLButtonElement>,
     pageNo: number,
   ) => {
+    e.stopPropagation();
+
     if (pageNo === pagingInfo.pageNo) {
       return;
     }
@@ -70,6 +66,12 @@ export default function useProblemTable() {
       pageNo,
     });
   }, [pagingInfo, maxPageNo]);
+
+  const handleClickProblem = useCallback((e: unknown, problemUuid: string) => {
+    window.open(location.hostname === 'localhost'
+      ? `http://localhost:5173/problem/${problemUuid}`
+      : `https://www.algogo.co.kr/problem/${problemUuid}`, '_blank', 'noopener, noreferrer');
+  }, []);
 
   const handleClickProblemTh = useCallback((e: unknown, head: ProblemSortName | '출처') => {
     if ((head === '상태' || head === '출처')) {
@@ -96,11 +98,14 @@ export default function useProblemTable() {
       });
     });
   }, [setProblemSort]);
+
   return {
     problemList,
     problemSort,
-    ...pagingInfo,
+    pageNo: pagingInfo.pageNo,
+    pageSize: pagingInfo.pageSize,
     maxPageNo,
+    handleClickProblem,
     handleClickProblemTh,
     handleChangePageNo,
   };

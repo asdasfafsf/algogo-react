@@ -28,6 +28,10 @@ const router = createBrowserRouter([
     element: <Problem />,
   },
   {
+    path: '/problem/:problemUuid',
+    element: <Problem />,
+  },
+  {
     path: '/me',
     element: <My />,
   },
