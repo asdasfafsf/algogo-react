@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Typography,
   Button,
@@ -16,15 +15,17 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
+import { createElement, useState } from 'react';
+import useMeStore from '../zustand/MeStore';
 
 interface ProfileMenuProps {
   me: Me
 }
 
 export default function ProfileMenu({ me }: ProfileMenuProps) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useMeStore(({ logout }) => ({ logout }));
   const profileMenuItems = [
     {
       label: '마이페이지',
@@ -34,7 +35,7 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
     {
       label: '로그아웃',
       icon: UserCircleIcon,
-      handleClick: () => {},
+      handleClick: () => { logout(); },
     },
   ];
 
@@ -61,13 +62,13 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }) => (
+        {profileMenuItems.map(({ label, icon, handleClick }) => (
           <MenuItem
             key={label}
-            onClick={closeMenu}
+            onClick={handleClick}
             className="flex items-center gap-2 rounded"
           >
-            {React.createElement(icon, {
+            {createElement(icon, {
               className: 'h-4 w-4',
               strokeWidth: 2,
             })}

@@ -119,11 +119,11 @@ export default function ProblemTable() {
             </thead>
             <tbody>
               {problemList.map(({
-                state, source, title, grade, rate, submitCount,
+                title, levelText, answerCount, submitCount, source, sourceId,
               }) => (
                 <tr key={title}>
                   <td className="w-12 p-4 border-b border-gray-300">
-                    <ProblemStateChip className="w-11" state={state} value="" />
+                    <ProblemStateChip className="w-11" state={3} value="" />
 
                   </td>
                   <td className="p-4 border-b border-gray-300 min-w-80">
@@ -138,7 +138,7 @@ export default function ProblemTable() {
                     <div className="flex items-center h-full ">
                       <ProblemLevelChip
                         className="text-white "
-                        level={`${isOpenGrade ? grade as ProblemLevel : '알 수 없음'}`}
+                        level={`${isOpenGrade ? levelText as ProblemLevel : '알 수 없음'}`}
                       />
                     </div>
                   </td>
@@ -147,7 +147,7 @@ export default function ProblemTable() {
                       className="!font-medium"
                       variant="small"
                     >
-                      {`${rate} %`}
+                      {`${100} %`}
                     </Typography>
 
                   </td>
@@ -160,12 +160,11 @@ export default function ProblemTable() {
                     </Typography>
 
                   </td>
-                  <td key={source}className="px-6 py-4 border-b border-gray-300">
+                  <td key={sourceId} className="px-6 py-4 border-b border-gray-300">
                     <div className="flex items-center w-full h-full">
-                      <Tooltip value="백준" content="백준">
 
-                        <LinkIcon className="w-4 h-4" />
-                      </Tooltip>
+                      <LinkIcon className="w-4 h-4" />
+
                     </div>
                   </td>
                 </tr>

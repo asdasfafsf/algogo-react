@@ -4,6 +4,7 @@ import { createSelectors } from './selector';
 type ProblemTableFilterStore = {
   problemOptionList: ProblemOption[];
   problemSort: ProblemSort;
+  problemCurrentPageNo: number;
   setProblemOptionList: (
     problemOptionList: ProblemOption[] | ((prev: ProblemOption[]) => ProblemOption[])) => void;
   setProblemSort: (
@@ -13,6 +14,7 @@ type ProblemTableFilterStore = {
 
 export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) => ({
   problemOptionList: [],
+  problemCurrentPageNo: 1,
   problemSort: {
     name: '',
     value: 1,

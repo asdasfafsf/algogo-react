@@ -13,7 +13,7 @@ import useMeStore from '../zustand/MeStore';
 
 export default function Header() {
   const navigate = useNavigate();
-  const meStore = useMeStore((state) => state);
+  const meStore = useMeStore(({ me }) => ({ me }));
   const { me } = meStore;
 
   return (
