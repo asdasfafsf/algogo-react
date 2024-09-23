@@ -23,7 +23,7 @@ export const problemGradeList = Array.from(Array(30), (_, k) => {
   return {
     type,
     name,
-    value: name,
+    value: k.toString(),
     isSelected: false,
   };
 }) as ProblemOption[];

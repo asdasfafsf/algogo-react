@@ -32,8 +32,13 @@ export default function useProblemTable() {
     const requestProblemListDto = {
       pageNo,
       pageSize,
-      levelList: [],
-      typeList: [],
+      levelList: problemOptionList
+        .filter((elem) => elem.isSelected && elem.type === '난이도')
+        .map((elem) => elem.value)
+        .map(Number),
+      typeList: problemOptionList
+        .filter((elem) => elem.isSelected && elem.type === '유형')
+        .map((elem) => elem.value),
     };
     const response = await getProblemList(requestProblemListDto);
     const {
@@ -42,13 +47,20 @@ export default function useProblemTable() {
     const maxPageNo = Math.ceil(totalCount / pageSize);
     setMaxPageNo(maxPageNo);
     setProblemList(problemList);
-  }, [pagingInfo, problemList]);
+  }, [pagingInfo, problemList, problemOptionList]);
 
   useEffect(() => {
     fetchProblemList();
   }, [pagingInfo, problemOptionList]);
 
-  const handleChangePageNo = useCallback(async (pageNo: number) => {
+  const handleChangePageNo = useCallback(async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    pageNo: number,
+  ) => {
+    if (pageNo === pagingInfo.pageNo) {
+      return;
+    }
+
     if (pageNo < 0 || pageNo > maxPageNo) {
       return;
     }

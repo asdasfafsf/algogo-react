@@ -5,7 +5,7 @@ interface PagebarProps {
   currentPage: number,
   displayedPageRange: number,
   maxPage?: number;
-  handleChangePage: (pageNo: number) => void | Promise<void>
+  handleChangePage: (e: React.MouseEvent<HTMLButtonElement>, pageNo: number) => void | Promise<void>
 }
 
 export default function Pagebar({
@@ -21,7 +21,7 @@ export default function Pagebar({
       return;
     }
 
-    handleChangePage(currentPage + 1);
+    handleChangePage(e, currentPage + 1);
   };
 
   const handleClickPrev = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -29,7 +29,7 @@ export default function Pagebar({
     e.currentTarget.blur();
     if (currentPage === 1) return;
 
-    handleChangePage(currentPage - 1);
+    handleChangePage(e, currentPage - 1);
   };
 
   return (
@@ -52,9 +52,10 @@ export default function Pagebar({
           ).map((pageNo) => (
             <IconButton
               key={pageNo}
+              disabled={maxPage ? maxPage < pageNo : false}
               variant={currentPage === pageNo ? 'filled' : 'text'}
               color="gray"
-              onClick={() => handleChangePage(pageNo)}
+              onClick={(e) => handleChangePage(e, pageNo)}
             >
               {pageNo}
             </IconButton>
@@ -64,7 +65,7 @@ export default function Pagebar({
           <IconButton
             variant="filled"
             color="gray"
-            onClick={() => handleChangePage(currentPage)}
+            onClick={(e) => handleChangePage(e, currentPage)}
           >
             {currentPage}
           </IconButton>

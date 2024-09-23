@@ -1,6 +1,6 @@
 type RequestProblemList = {
   pageNo: number;
   pageSize: number;
-  typeList: number[];
+  typeList: string[];
   levelList: number[];
 };

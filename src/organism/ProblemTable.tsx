@@ -129,7 +129,7 @@ export default function ProblemTable() {
                     <ProblemStateChip className="w-11" state={3} value="" />
 
                   </td>
-                  <td className="p-4 border-b border-gray-300 min-w-80">
+                  <td className="cursor-pointer p-4 border-b border-gray-300 min-w-80">
                     <Typography
                       className="!font-medium"
                       variant="small"
