@@ -19,4 +19,15 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+// 응답 인터셉터 설정
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      return error.response;
+    }
+    return { statusCode: error.statusCode, errorCode: '9999', errorMessage: '정의되지 않은 오류가 발생하였습니다.' };
+  },
+);
+
 export default apiClient;

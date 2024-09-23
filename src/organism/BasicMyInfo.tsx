@@ -7,19 +7,19 @@ import useConfirmModal from '../hook/useConfirmModal';
 // eslint-disable-next-line
 import ColorInstagramIcon from '/public/assets/icons8-instagram_e.svg?react';
 // eslint-disable-next-line
-import DisabledInstragramIcon from '/public/assets/icons8-instagram_d.svg?react';
+// import DisabledInstragramIcon from '/public/assets/icons8-instagram_d.svg?react';
 // eslint-disable-next-line
 import ColorLinkdedInIcon from '/public/assets/icons8-linkedin_e.svg?react';
 // eslint-disable-next-line
-import DisabledLinkedInIcon from '/public/assets/icons8-linkedin_d.svg?react';
+// import DisabledLinkedInIcon from '/public/assets/icons8-linkedin_d.svg?react';
 // eslint-disable-next-line
 import ColorYoutubeInIcon from '/public/assets/icons8-youtube_e.svg?react';
 // eslint-disable-next-line
-import DisabledYoutubeIcon from '/public/assets/icons8-youtube_d.svg?react';
+// import DisabledYoutubeIcon from '/public/assets/icons8-youtube_d.svg?react';
 // eslint-disable-next-line
 import ColorGithubIcon from '/public/assets/icons8-github-48.svg?react';
 // eslint-disable-next-line
-import DisabledGithubIcon from '/public/assets/icons8-github-48.svg?react';
+// import DisabledGithubIcon from '/public/assets/icons8-github-48.svg?react';
 
 export default function BasicMyInfo() {
   const [isEditMode, setEditMode] = useState(false);

@@ -57,8 +57,8 @@ export default function useTestCase(initialTestCaseList: TestCase[]) {
   }, [testCaseList]);
 
   const removeTestCase = useCallback((testCaseIndex: number) => {
-    const newTestCaseList = testCaseList.filter((elem, index) => testCaseIndex !== index);
-    const newExecuteResultList = executeResultList.filter((elem, index) => testCaseIndex !== index);
+    const newTestCaseList = testCaseList.filter((_e, index) => testCaseIndex !== index);
+    const newExecuteResultList = executeResultList.filter((_e, index) => testCaseIndex !== index);
 
     setTestCaseList(newTestCaseList);
     setExecuteResultList(newExecuteResultList);

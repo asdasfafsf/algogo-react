@@ -27,7 +27,7 @@ export default function OAuth() {
       <div className="text-center">
         <div className="flex items-center justify-center">
           {/* Spinner */}
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid border-gray-200" />
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-solid border-gray-200" />
         </div>
         <p className="mt-6 text-lg font-medium text-gray-700">
           잠시만 기다려주세요

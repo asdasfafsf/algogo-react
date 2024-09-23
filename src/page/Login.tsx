@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
-  const handleOAuth = async (e, provider: 'google' | 'kakao' | 'github') => {
+  const handleOAuth = async (_e: React.MouseEvent<HTMLButtonElement>, provider: 'google' | 'kakao' | 'github') => {
     const url = `http://localhost:3001/v1/oauth/${provider}`;
     window.location.href = url;
   };
@@ -21,7 +21,7 @@ export default function Login() {
             color="white"
             size="lg"
             className="flex items-center justify-center h-12 gap-2 mt-4"
-            onClick={(e) => handleOAuth(e, 'google')}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'google')}
             fullWidth
           >
             <img
@@ -37,7 +37,7 @@ export default function Login() {
             size="lg"
             className="flex items-center justify-center h-12 gap-2 mt-4"
             fullWidth
-            onClick={(e) => handleOAuth(e, 'kakao')}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'kakao')}
           >
             <img
               src="kakao_icon.png"
@@ -51,7 +51,7 @@ export default function Login() {
             size="lg"
             className="flex items-center justify-center h-12 gap-2 mt-4"
             fullWidth
-            onClick={(e) => handleOAuth(e, 'github')}
+            onClick={(_e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(_e, 'github')}
           >
             <img
               src="github-mark.png"

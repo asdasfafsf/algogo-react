@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
+import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 import { getProblemList } from '../api/problems';
+import useAlertModal from './useAlertModal';
 
 export default function useProblemTable() {
+  const [alert] = useAlertModal();
   const [problemList, setProblemList] = useState<ResponseProblem[]>([]);
   const { problemSort, setProblemSort } = useProblemTableFilterStore((
     { problemSort, setProblemSort },
@@ -14,7 +16,7 @@ export default function useProblemTable() {
 
   const [pagingInfo, setPagingInfo] = useState({
     pageNo: 1,
-    pageSize: 10,
+    pageSize: 50,
   });
   const [maxPageNo, setMaxPageNo] = useState(1);
 
@@ -32,6 +34,10 @@ export default function useProblemTable() {
         .map((elem) => elem.value),
     };
     const response = await getProblemList(requestProblemListDto);
+    if (response.statusCode !== 200) {
+      await alert(`${response.statusCode}` ?? '');
+      return;
+    }
 
     const {
       problemList, totalCount,
@@ -41,18 +47,20 @@ export default function useProblemTable() {
 
     setMaxPageNo(maxPageNo);
     setProblemList(problemList);
-  }, [pagingInfo, problemOptionList]);
+  }, [alert, pagingInfo]);
+
+  useEffect(() => {
+    setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));
+  }, [problemOptionList]);
 
   useEffect(() => {
     fetchProblemList();
-  }, [pagingInfo, problemOptionList]);
+  }, [pagingInfo]);
 
   const handleChangePageNo = useCallback(async (
-    e: React.MouseEvent<HTMLButtonElement>,
+    _e: React.MouseEvent<HTMLButtonElement>,
     pageNo: number,
   ) => {
-    e.stopPropagation();
-
     if (pageNo === pagingInfo.pageNo) {
       return;
     }
@@ -61,19 +69,16 @@ export default function useProblemTable() {
       return;
     }
 
-    setPagingInfo({
-      ...pagingInfo,
-      pageNo,
-    });
+    setPagingInfo((prev) => ({ ...prev, pageNo }));
   }, [pagingInfo, maxPageNo]);
 
-  const handleClickProblem = useCallback((e: unknown, problemUuid: string) => {
+  const handleClickProblem = useCallback((_e: unknown, problemUuid: string) => {
     window.open(location.hostname === 'localhost'
       ? `http://localhost:5173/problem/${problemUuid}`
       : `https://www.algogo.co.kr/problem/${problemUuid}`, '_blank', 'noopener, noreferrer');
   }, []);
 
-  const handleClickProblemTh = useCallback((e: unknown, head: ProblemSortName | '출처') => {
+  const handleClickProblemTh = useCallback((_e: unknown, head: ProblemSortName | '출처') => {
     if ((head === '상태' || head === '출처')) {
       return;
     }
@@ -102,8 +107,7 @@ export default function useProblemTable() {
   return {
     problemList,
     problemSort,
-    pageNo: pagingInfo.pageNo,
-    pageSize: pagingInfo.pageSize,
+    ...pagingInfo,
     maxPageNo,
     handleClickProblem,
     handleClickProblemTh,

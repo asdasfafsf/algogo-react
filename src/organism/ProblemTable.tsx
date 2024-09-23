@@ -27,7 +27,7 @@ export default function ProblemTable() {
   const [isOpenGrade] = useState(true);
 
   const {
-    maxPageNo, pageNo, pageSize, problemList, problemSort,
+    maxPageNo, pageNo, problemList, problemSort,
     handleChangePageNo, handleClickProblemTh, handleClickProblem,
   } = useProblemTable();
 
@@ -182,7 +182,7 @@ export default function ProblemTable() {
           <Pagebar
             currentPage={pageNo}
             maxPage={maxPageNo}
-            displayedPageRange={pageSize}
+            displayedPageRange={10}
             handleChangePage={handleChangePageNo}
           />
         </CardFooter>

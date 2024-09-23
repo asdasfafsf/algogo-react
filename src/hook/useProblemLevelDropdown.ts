@@ -91,7 +91,7 @@ export default function useProblemLevelDropdown() {
   ) => {
     e.stopPropagation();
 
-    const index = problemLevelList.findIndex(({ value }) => value === level);
+    const index = problemLevelList.findIndex(({ name }) => name === level);
     if (index === -1) {
       return;
     }

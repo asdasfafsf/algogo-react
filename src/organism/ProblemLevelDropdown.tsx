@@ -24,13 +24,13 @@ export default function ProblemLevelDropdown() {
             </div>
             <div className="flex flex-wrap gap-2 max-w-80">
               {problemLevelList
-                .filter(({ value }) => value.includes(level))
-                .map(({ name, value, isSelected }) => (
+                .filter(({ name }) => name.includes(level))
+                .map(({ name, isSelected }) => (
                   <ChipWithSelected
-                    key={value}
+                    key={name}
                     value={name}
                     isSelected={isSelected}
-                    onClick={(e) => { handleSelect(e, value); }}
+                    onClick={(e) => { handleSelect(e, name); }}
                   />
                 ))}
             </div>

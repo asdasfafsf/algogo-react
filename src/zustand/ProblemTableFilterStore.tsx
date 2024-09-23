@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { createSelectors } from './selector';
 
 type ProblemTableFilterStore = {
   problemOptionList: ProblemOption[];
@@ -31,5 +30,4 @@ export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) 
   })),
 }));
 
-export const ProblemWidthSelectors = createSelectors(useProblemTableFilterStore);
 export default useProblemTableFilterStore;
