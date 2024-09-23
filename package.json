@@ -21,12 +21,14 @@
     "@monaco-editor/react": "^4.6.0",
     "axios": "^1.7.2",
     "monaco-editor": "^0.47.0",
+    "qs": "^6.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/qs": "^6.9.16",
     "@types/react": "18.2.19",
     "@types/react-dom": "^18.2.19",
     "@types/react-router-dom": "^5.3.3",

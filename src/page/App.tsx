@@ -4,9 +4,9 @@ import Main from '../template/Main';
 import useMeStore from '../zustand/MeStore';
 
 function App() {
-  const { fetchMe } = useMeStore(({ fetchMe }) => ({ fetchMe }));
+  const { updateMe } = useMeStore(({ updateMe }) => ({ updateMe }));
   useEffect(() => {
-    fetchMe();
+    updateMe();
   }, []);
 
   return (

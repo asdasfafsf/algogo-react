@@ -1,8 +1,12 @@
 import { AxiosResponse } from 'axios';
+import qs from 'qs';
 import apiClient from './apiClient';
 
-export const getProblemList = async (): Promise<ApiResponse<ResponseProblem[]>> => {
-  const response: AxiosResponse<ApiResponse<ResponseProblem[]>> = await apiClient.get('/api/v1/problems');
+type GetProblemList = (param: RequestProblemList) => Promise<ApiResponse<ResponseProblemList>>;
+
+export const getProblemList: GetProblemList = async (requestProblemListDto) => {
+  const queryString = qs.stringify(requestProblemListDto, { arrayFormat: 'brackets' });
+  const response: AxiosResponse<ApiResponse<ResponseProblemList>> = await apiClient.get(`/api/v1/problems?${queryString}`);
   const problemList = response.data;
   return problemList;
 };

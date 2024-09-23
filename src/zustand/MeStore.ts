@@ -6,6 +6,7 @@ type MeStore = {
   me: Me | null;
   setMe: (me: Me | null) => void;
   isLogin: () => Promise<boolean>;
+  updateMe: () => Promise<void>;
   fetchMe: () => Promise<Me | null>;
   fetchToken: () => Promise<void>,
   logout: () => void;
@@ -30,6 +31,22 @@ export const useMeStore = create<MeStore>((set) => ({
     } catch (error) {
       return false;
     }
+  },
+  updateMe: async () => {
+    const meString = localStorage.getItem('me');
+    let me;
+    if (meString) {
+      me = JSON.parse(meString);
+    } else {
+      const response = await getMe();
+      if (response.statusCode === 200) {
+        me = response.data;
+      } else {
+        me = null;
+      }
+    }
+
+    set({ me });
   },
   fetchMe: async () => {
     try {

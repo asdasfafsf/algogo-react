@@ -24,9 +24,12 @@ import Pagebar from '../atom/Pagebar';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
-  const [isOpenGrade, setOpenGrade] = useState(true);
+  const [isOpenGrade] = useState(true);
 
-  const [problemList, problemSort, handleClickProblemTh] = useProblemTable();
+  const {
+    maxPageNo, pageNo, pageSize, problemList, problemSort,
+    handleChangePageNo, handleClickProblemTh,
+  } = useProblemTable();
 
   return (
     <section className="container mt-8">
@@ -147,7 +150,7 @@ export default function ProblemTable() {
                       className="!font-medium"
                       variant="small"
                     >
-                      {`${100} %`}
+                      {`${Number(((answerCount / submitCount) * 100).toFixed(2))} %`}
                     </Typography>
 
                   </td>
@@ -162,9 +165,10 @@ export default function ProblemTable() {
                   </td>
                   <td key={sourceId} className="px-6 py-4 border-b border-gray-300">
                     <div className="flex items-center w-full h-full">
+                      <Tooltip value={source} content={source}>
 
-                      <LinkIcon className="w-4 h-4" />
-
+                        <LinkIcon className="w-4 h-4" />
+                      </Tooltip>
                     </div>
                   </td>
                 </tr>
@@ -175,9 +179,10 @@ export default function ProblemTable() {
         </CardBody>
         <CardFooter className="flex items-center justify-center">
           <Pagebar
-            currentPage={1}
-            displayedPageRange={10}
-            handleChangePage={() => {}}
+            currentPage={pageNo}
+            maxPage={maxPageNo}
+            displayedPageRange={pageSize}
+            handleChangePage={handleChangePageNo}
           />
         </CardFooter>
       </Card>

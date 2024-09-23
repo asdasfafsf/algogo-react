@@ -17,18 +17,47 @@ export default function useProblemTable() {
     { problemSort, setProblemSort },
   ) => ({ problemSort, setProblemSort }));
 
-  const [problemCurrentPageNo, setProblemCurrentPageNo] = useState(1);
-  const { problemOptionList } = useProblemTableFilterStore(({ problemOptionList }) => ({ problemOptionList }));
+  const { problemOptionList } = useProblemTableFilterStore((
+    { problemOptionList },
+  ) => ({ problemOptionList }));
 
-  const fetchProblemList = async () => {
-    const response = await getProblemList();
-    const problemList = response.data;
+  const [pagingInfo, setPagingInfo] = useState({
+    pageNo: 1,
+    pageSize: 10,
+  });
+  const [maxPageNo, setMaxPageNo] = useState(1);
+
+  const fetchProblemList = useCallback(async () => {
+    const { pageNo, pageSize } = pagingInfo;
+    const requestProblemListDto = {
+      pageNo,
+      pageSize,
+      levelList: [],
+      typeList: [],
+    };
+    const response = await getProblemList(requestProblemListDto);
+    const {
+      problemList, totalCount,
+    } = response.data;
+    const maxPageNo = Math.ceil(totalCount / pageSize);
+    setMaxPageNo(maxPageNo);
     setProblemList(problemList);
-  };
+  }, [pagingInfo, problemList]);
 
   useEffect(() => {
     fetchProblemList();
-  }, []);
+  }, [pagingInfo, problemOptionList]);
+
+  const handleChangePageNo = useCallback(async (pageNo: number) => {
+    if (pageNo < 0 || pageNo > maxPageNo) {
+      return;
+    }
+
+    setPagingInfo({
+      ...pagingInfo,
+      pageNo,
+    });
+  }, [pagingInfo, maxPageNo]);
 
   const handleClickProblemTh = useCallback((e: unknown, head: ProblemSortName | '출처') => {
     if ((head === '상태' || head === '출처')) {
@@ -55,8 +84,12 @@ export default function useProblemTable() {
       });
     });
   }, [setProblemSort]);
-  return [problemList,
+  return {
+    problemList,
     problemSort,
+    ...pagingInfo,
+    maxPageNo,
     handleClickProblemTh,
-  ] as const;
+    handleChangePageNo,
+  };
 }

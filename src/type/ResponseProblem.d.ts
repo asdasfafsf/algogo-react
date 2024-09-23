@@ -1,3 +1,10 @@
+type ResponseProblemList = {
+  problemList: ResponseProblem[];
+  pageNo: number;
+  pageSize: number;
+  totalCount: number;
+};
+
 type ResponseProblem = {
   uuid: string;
   title: string;
