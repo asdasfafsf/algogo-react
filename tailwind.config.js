@@ -17,7 +17,8 @@ export default withMT({
       
     },
     fontFamily: {
-      'WavvePADO-Regular': ['WavvePADO-Regular']
+      'WavvePADO-Regular': ['WavvePADO-Regular'],
+      'D2Coding': ['D2Coding']
     },
     customContainer: (theme) => ({
       DEFAULT: {

@@ -40,7 +40,7 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
                     .map((text, index, arr) => (
                       <>
                         <Typography
-                          className="font-normal"
+                          className="font-D2Coding"
                           variant="small"
                         >
                           {text}
