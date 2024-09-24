@@ -78,6 +78,7 @@ export const useMeStore = create<MeStore>((set) => ({
     set({ me: null });
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('me');
   },
 }));
 
