@@ -14,6 +14,7 @@ type ResponseProblem = {
   output: string;
   hint: string;
   answerCount: number;
+  answerRate: number;
   answerPeopleCount: number;
   submitCount: number;
   timeout: number;

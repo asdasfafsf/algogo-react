@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable-next-line */
 import EnterIcon from '/public/assets/enter.svg?react';
 /* eslint-disable-next-line */
@@ -13,10 +14,31 @@ import {
 } from 'react';
 import useProblemSidebar from '../hook/useProblemSidebar';
 import { useScreenSize } from '../context/ScreenSizeContext';
+import MathJax from 'react-mathjax';
 
 interface ProblemSidebarProps {
   problem: ResponseProblem
 }
+
+const decodeHtmlEntities = (str: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(str, 'text/html');
+  return doc.documentElement.textContent;
+};
+const parseMathAndText = (text: string): React.ReactNode[] => {
+  // 블록 수식 처리 ($$...$$)
+  const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/); // $ 또는 $$로 감싸진 수식을 추출
+  return parts.map((part) => {
+    if (part.startsWith('$$') && part.endsWith('$$')) {
+      const formula = part.slice(2, -2); // $$를 제거하고 수식으로 처리
+      return <MathJax.Node key={formula} formula={formula} />;
+    } if (part.startsWith('$') && part.endsWith('$')) {
+      const formula = part.slice(1, -1); // $를 제거하고 인라인 수식으로 처리
+      return <MathJax.Node inline key={formula} formula={formula} />;
+    }
+    return <>{decodeHtmlEntities(part)}</>; // 일반 텍스트 처리
+  });
+};
 
 export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
   const draggableRef = useRef<HTMLDivElement>(null);
@@ -24,96 +46,135 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
   const [problemWidth, handleMouseDown] = useProblemSidebar();
   const { isMobile } = useScreenSize();
   const {
-    title, levelText, submitCount, typeList, contentList, input, output, inputOutputList,
+    title, levelText, submitCount, typeList, contentList,
+    input, output, inputOutputList, answerRate, timeout,
+    memoryLimit, answerCount, answerPeopleCount,
   } = problem;
   return (
-    <aside
+    <MathJax.Provider>
+      <aside
       // style={{
       //   width: isMobile ? '100vw' : `${problemWidth}px`,
       // }}
-      style={isMobile
-        ? { height: 'calc(100vh - 96px)' }
-        : {
-          height: 'calc(100vh - 96px)',
-          width: `${problemWidth}px`,
-          gridRow: 'span 2',
-          gridColumn: 1,
-        }}
-      className="relative z-30 flex bg-white sm:w-screen"
-    >
-      <div className="w-full px-5 py-8 overflow-y-auto">
-        <Typography variant="h4">{title}</Typography>
-        <Line className="my-2" />
+        style={isMobile
+          ? { height: 'calc(100vh - 96px)' }
+          : {
+            height: 'calc(100vh - 96px)',
+            width: `${problemWidth}px`,
+            gridRow: 'span 2',
+            gridColumn: 1,
+          }}
+        className="relative z-30 flex bg-white sm:w-screen"
+      >
+        <div className="w-full px-5 py-8 overflow-y-auto">
+          <Typography variant="h4">{title}</Typography>
+          <Line className="my-2" />
 
-        <div className="my-2 min-h-4">
-          <div className="flex flex-wrap items-center gap-4 jus">
-            <ProblemLevelViewer intialState="hide" level={levelText as ProblemLevel} />
-            <div className="flex flex-wrap items-center">
-              <Typography variant="small" className="font-bold">제출 : </Typography>
+          <div className="my-2 min-h-4">
+            <div className="flex flex-wrap items-center gap-1 jus">
+              <ProblemLevelViewer intialState="hide" level={levelText as ProblemLevel} />
+              <div className="flex flex-wrap items-center">
+                <Typography variant="small" className="font-bold">제출 : </Typography>
               &nbsp;
-              <Typography variant="small" className="font-medium">{submitCount}</Typography>
-            </div>
-            <div className="flex flex-wrap items-center">
-              <Typography variant="small" className="font-bold">정답률 : </Typography>
-            &nbsp;
-              <Typography variant="small" className="font-medium">33.12%</Typography>
+                <Typography variant="small" className="font-medium">
+                  {submitCount}
+                </Typography>
+              </div>
+              &nbsp;
+
+              <div className="flex flex-wrap items-center">
+                <Typography variant="small" className="font-bold">정답 : </Typography>
+              &nbsp;
+                <Typography variant="small" className="font-medium">{answerCount}</Typography>
+              </div>
+              &nbsp;
+              <div className="flex flex-wrap items-center">
+                <Typography variant="small" className="font-bold">맞힌 사람 : </Typography>
+              &nbsp;
+                <Typography variant="small" className="font-medium">{answerPeopleCount}</Typography>
+              </div>
+              &nbsp;
+              <div className="flex flex-wrap items-center">
+                <Typography variant="small" className="font-bold">정답률 : </Typography>
+                &nbsp;
+                <Typography variant="small" className="font-medium">
+                  {answerRate}
+                  %
+                </Typography>
+              </div>
+              &nbsp;
+              <div className="flex flex-wrap items-center">
+                <Typography variant="small" className="font-bold">시간 제한 : </Typography>
+                &nbsp;
+                <Typography variant="small" className="font-medium">
+                  {timeout}
+                  {' '}
+                  ms
+                </Typography>
+              </div>
+              &nbsp;
+              <div className="flex flex-wrap items-center">
+                <Typography variant="small" className="font-bold"> 메모리 제한 : </Typography>
+                &nbsp;
+                <Typography variant="small" className="font-medium">
+                  {memoryLimit}
+                  {' '}
+                  MB
+                </Typography>
+              </div>
+              &nbsp;
             </div>
           </div>
-        </div>
 
-        <ProblemCategoryViewer initialState={typeList && typeList.length === 0 ? 'none' : 'hide'} categoryList={typeList.map((elem) => elem.name)} />
+          <ProblemCategoryViewer initialState={typeList && typeList.length === 0 ? 'none' : 'hide'} categoryList={typeList.map((elem) => elem.name)} />
 
-        {
+          {
           contentList.map((elem) => (
             elem.type === 'image' ? (
-              <ProblemImage alt={elem.content} key={elem.content} src={elem.content} />
+              <ProblemImage className="mt-1" alt={elem.content} key={elem.content} src={elem.content} />
             ) : (
-              <Typography key={elem.content} variant="paragraph" className="font-normal">
-                {elem.content}
+              <Typography key={elem.content} variant="paragraph" className="mt-1 font-normal">
+                {parseMathAndText(elem.content)}
               </Typography>
             )
           ))
         }
 
-        <Line className="my-4 opacity-0" />
-        <Typography variant="h5">입력</Typography>
-        <Line className="mt-2 mb-4" />
+          <Line className="my-4 opacity-0" />
+          <Typography variant="h5">입력</Typography>
+          <Line className="mt-2 mb-4" />
 
-        <Typography variant="paragraph" className="font-normal">
-          {input}
-        </Typography>
+          <Typography variant="paragraph" className="font-normal">{parseMathAndText(input)}</Typography>
 
-        <Line className="my-4 opacity-0" />
-        <Typography variant="h5">출력</Typography>
-        <Line className="mt-2 mb-4" />
+          <Line className="my-4 opacity-0" />
+          <Typography variant="h5">출력</Typography>
+          <Line className="mt-2 mb-4" />
 
-        <Typography variant="paragraph" className="font-normal">
-          {output}
-        </Typography>
+          <Typography variant="paragraph" className="font-normal">{parseMathAndText(output)}</Typography>
 
-        <Line className="my-4 opacity-0" />
-        <Typography variant="h5">입출력 예시</Typography>
-        <Line className="mt-2 mb-4" />
+          <Line className="my-4 opacity-0" />
+          <Typography variant="h5">입출력 예시</Typography>
+          <Line className="mt-2 mb-4" />
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
-              <EnterIcon />
-            </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
+                <EnterIcon />
+              </div>
               &nbsp;
-            <Typography variant="small" className="font-medium">: 다음 줄</Typography>
-          </div>
-          <div className="flex items-center justify-center">
-            <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
-              <SpaceIcon />
+              <Typography variant="small" className="font-medium">: 다음 줄</Typography>
             </div>
+            <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
+                <SpaceIcon />
+              </div>
               &nbsp;
-            <Typography variant="small" className="font-medium">: 스페이스</Typography>
+              <Typography variant="small" className="font-medium">: 스페이스</Typography>
+            </div>
           </div>
-        </div>
-        <Line className="my-4 opacity-0" />
+          <Line className="my-4 opacity-0" />
 
-        {
+          {
           inputOutputList.map((elem, index) => (
             <div key={`예시 ${index + 1}`}>
               <Typography variant="h6" className="pt-2 font-bold">
@@ -128,15 +189,16 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
           ))
         }
 
-        <Line className="my-4 opacity-0" />
-        <Typography variant="h5">출처</Typography>
-        <Line className="my-2" />
-      </div>
-      <div
-        ref={draggableRef}
-        onMouseDown={handleMouseDown}
-        className="z-10 h-[calc(100vh-96px)]  text-white -right-5 absolute w-5 cursor-col-resize"
-      />
-    </aside>
+          <Line className="my-4 opacity-0" />
+          <Typography variant="h5">출처</Typography>
+          <Line className="my-2" />
+        </div>
+        <div
+          ref={draggableRef}
+          onMouseDown={handleMouseDown}
+          className="z-10 h-[calc(100vh-96px)]  text-white -right-5 absolute w-5 cursor-col-resize"
+        />
+      </aside>
+    </MathJax.Provider>
   );
 }
