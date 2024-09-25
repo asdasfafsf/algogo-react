@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { IconButton, IconButtonProps, Tooltip } from '@material-tailwind/react';
 import { Ref } from 'react';
 
