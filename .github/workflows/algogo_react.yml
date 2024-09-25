@@ -3,7 +3,7 @@ name: Deploy to Jenkins
 on:
   push:
     branches:
-      - main  # 또는 master
+      - main
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
 
       - name: Trigger Jenkins job
         env:
-          JENKINS_URL: ${{ secrets.JENKINS_URL }}  # Jenkins URL
-          ALGOGO_DEPLOY_TOKEN: ${{ secrets.ALGOGO_DEPLOY_TOKEN }}  # Jenkins Token
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}  
+          ALGOGO_DEPLOY_TOKEN: ${{ secrets.ALGOGO_DEPLOY_TOKEN }}  
         run: |
           curl -X GET "${{ env.JENKINS_URL }}/generic-webhook-trigger/invoke?token=${{ env.ALGOGO_DEPLOY_TOKEN }}"
