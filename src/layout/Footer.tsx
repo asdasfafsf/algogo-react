@@ -31,12 +31,12 @@ export default function Footer() {
               <Typography
                 variant="small"
               >
-                주소: 서울특별시 노원구 덕릉로 118길 29
+                주소: 서울특별시 **구 **로 *** ***
               </Typography>
               <Typography
                 variant="small"
               >
-                문의 : asdasfafsf@naver.com
+                문의 : *********@algogo.co.kr
               </Typography>
             </div>
             <div className="mt-6">
