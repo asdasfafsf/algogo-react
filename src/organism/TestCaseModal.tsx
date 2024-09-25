@@ -7,18 +7,14 @@ import TranslucentOverlay from '../atom/TranslucentOverlay';
 import Line from '../atom/Line';
 import useTestCase from '../hook/useTestCase';
 
-interface TestCaseModalProps {
-  testCaseList: TestCase[]
-}
-
-export default function TestCaseModal({ testCaseList = [] }: TestCaseModalProps) {
+export default function TestCaseModal() {
   const [testCases,
     handleClickAddTestCase,
     handleClickTest,
     removeTestCase,
     handleClickClose,
     handleChangeInput,
-    handleChangeOutput] = useTestCase(testCaseList);
+    handleChangeOutput] = useTestCase();
 
   return (
     <TranslucentOverlay className="items-start py-16">

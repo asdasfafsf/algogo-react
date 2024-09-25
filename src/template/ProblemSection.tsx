@@ -2,7 +2,7 @@ import {
   ChevronLeftIcon, ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CodeEditor from '../molecule/CodeEditor';
 import CodeResultPannel from '../organism/CodeResultPannel';
@@ -14,6 +14,7 @@ import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 import { useProblemScreenStore } from '../zustand/ProblemScreenStore';
 import CodeDropUp from '../molecule/CodeDropUp';
 import { getProblem } from '../api/problems';
+import useTestCaseListStore from '../zustand/TestCaseListStore';
 
 export default function ProblemSection() {
   const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
@@ -23,8 +24,9 @@ export default function ProblemSection() {
   const [problem, setProblem] = useState<ResponseProblem>();
   const navigate = useNavigate();
   const { problemUuid } = useParams<'problemUuid'>();
+  const setTestCaseList = useTestCaseListStore((state) => state.setTestCaseList);
 
-  const fetchProblem = async () => {
+  const fetchProblem = useCallback(async () => {
     const response = await getProblem(problemUuid as string);
     if (response.statusCode !== 200) {
       navigate('/');
@@ -32,7 +34,10 @@ export default function ProblemSection() {
 
     const problem = response.data;
     setProblem(problem);
-  };
+    setTestCaseList(problem.inputOutputList.map(({ input, output }) => ({
+      input, output, readOnly: true,
+    })));
+  }, []);
 
   useEffect(() => {
     fetchProblem();

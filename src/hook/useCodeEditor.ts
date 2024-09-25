@@ -21,10 +21,10 @@ export default function useCodeEditor() {
     editorRef.current = editor;
   }, [editorRef]);
 
-  return [
+  return {
     code,
     language,
     handleEditorMount,
     handleEditorChange,
-  ] as const;
+  };
 }

@@ -22,15 +22,7 @@ export const useMeStore = create<MeStore>((set) => ({
       return false;
     }
 
-    try {
-      const response = await getMe();
-      if (response.statusCode !== 200) {
-        return false;
-      }
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return true;
   },
   updateMe: async () => {
     const meString = localStorage.getItem('me');

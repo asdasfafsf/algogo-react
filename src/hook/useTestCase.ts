@@ -3,14 +3,10 @@ import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';
 import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
 
-export default function useTestCase(initialTestCaseList: TestCase[]) {
+export default function useTestCase() {
   const modal = useModal();
   const { testCaseList, setTestCaseList } = useTestCaseListStore((state) => state);
   const { executeResultList, setExecuteResultList } = useExecuteResultListStore((state) => state);
-
-  useEffect(() => {
-    setTestCaseList(initialTestCaseList);
-  }, []);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {

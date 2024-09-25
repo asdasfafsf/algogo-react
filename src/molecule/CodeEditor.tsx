@@ -3,11 +3,12 @@ import useCodeEditor from '../hook/useCodeEditor';
 import CodeControlPanel from '../organism/CodeControlPanel';
 
 export default function CodeEditor() {
-  const [
+  const {
     code,
     language,
     handleEditorMount,
-    handleEditorChange] = useCodeEditor();
+    handleEditorChange,
+  } = useCodeEditor();
 
   return (
     <div
