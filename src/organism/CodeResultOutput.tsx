@@ -2,7 +2,7 @@
 import {
   ClipboardIcon, TrashIcon,
 } from '@heroicons/react/24/outline';
-import TooltipIconButton from '../atom/TooptipIconButton';
+import TooltipIconButton from '../atom/TooltipIconButton';
 
 interface CodeResultOutputProps {
   outputTextAreaRef: React.RefObject<HTMLTextAreaElement>

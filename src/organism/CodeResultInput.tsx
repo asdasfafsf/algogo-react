@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { ClipboardDocumentListIcon, PlayIcon, TrashIcon } from '@heroicons/react/24/outline';
-import TooltipIconButton from '../atom/TooptipIconButton';
+import TooltipIconButton from '../atom/TooltipIconButton';
 
 interface CodeResultInputProps {
   inputTextAreaRef: React.RefObject<HTMLTextAreaElement>
