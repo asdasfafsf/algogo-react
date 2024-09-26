@@ -60,6 +60,7 @@ export default function TestCaseModal() {
                 : (
                   <Textarea
                     value={input}
+                    className="font-D2Coding"
                     onChange={(e) => handleChangeInput(index, e.target.value)}
                     placeholder="입력을 입력하세요"
                   />
@@ -82,6 +83,7 @@ export default function TestCaseModal() {
                 : (
                   <Textarea
                     value={output}
+                    className="font-D2Coding"
                     onChange={(e) => handleChangeOutput(index, e.target.value)}
                     placeholder="출력을 입력하세요"
                   />
