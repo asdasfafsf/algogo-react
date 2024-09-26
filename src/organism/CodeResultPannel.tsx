@@ -18,7 +18,7 @@ export default function CodeResultPannel() {
 
   return (
     <div
-      className="w-full h-full overflow-y-hidden"
+      className="w-full h-full overflow-x-hidden overflow-y-hidden"
     >
       <CodeEditorResizer />
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
