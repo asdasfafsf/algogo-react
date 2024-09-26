@@ -5,47 +5,46 @@ const plugin = require('tailwindcss/plugin');
 export default withMT({
   content: ["./src/**/*.{html,js,ts,tsx,jsx}"],
   theme: {
-    extends: {
+    extend: {  // "extends" -> "extend"로 수정
       screens: {
         'ssm': { max: '540px', min: '540px'},
-        'ssmd': '540px', //
+        'ssmd': '540px',
       },
       transitionProperty: {
         'left': 'left',
-        'height': 'height'
+        'height': 'height',
       },
-      
-    },
-    fontFamily: {
-      'WavvePADO-Regular': ['WavvePADO-Regular'],
-      'D2Coding': ['D2Coding']
-    },
-    customContainer: (theme) => ({
-      DEFAULT: {
-        maxWidth: '100%',
-        '@screen sm': {
-          maxWidth: '640px',
-        },
-        '@screen md': {
-          maxWidth: '768px',
-        },
-        '@screen lg': {
-          maxWidth: '1024px',
-        },
-        '@screen xl': {
-          maxWidth: '1280px',
-        },
+      fontFamily: {
+        'WavvePADO-Regular': ['WavvePADO-Regular'],
+        'D2Coding': ['D2Coding'],
+        'NotoSansKR': ['Noto Sans KR', 'sans-serif'], // Noto Sans KR 추가
       },
-    }),
-    colors: {
-      ruby: '#ff0062',
-      diamond: '#01b5fc',
-      platinum: '#26e2a5',
-      gold: '#ec9a00',
-      silver: '#425e7a',
-      bronze: '#ad5701',
+      customContainer: (theme) => ({
+        DEFAULT: {
+          maxWidth: '100%',
+          '@screen sm': {
+            maxWidth: '640px',
+          },
+          '@screen md': {
+            maxWidth: '768px',
+          },
+          '@screen lg': {
+            maxWidth: '1024px',
+          },
+          '@screen xl': {
+            maxWidth: '1280px',
+          },
+        },
+      }),
+      colors: {
+        ruby: '#ff0062',
+        diamond: '#01b5fc',
+        platinum: '#26e2a5',
+        gold: '#ec9a00',
+        silver: '#425e7a',
+        bronze: '#ad5701',
+      },
     },
-    extend: {},
   },
   plugins: [plugin(function({ addComponents, theme }) {
     const screens = theme('screens', {});
@@ -69,9 +68,7 @@ export default withMT({
         '@screen xl': {
           maxWidth: screens.xl,
         },
-        // 2xl 설정 추가하지 않음
       },
     });
-  }),],
+  })],
 });
-
