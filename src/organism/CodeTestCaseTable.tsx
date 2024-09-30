@@ -44,7 +44,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
               input, output, expected, state,
             }, index, arr) => {
               const isLast = index === arr.length - 1;
-              const classes = ` bg-gray-900 p-4${isLast ? '' : 'border-b'}`;
+              const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
 
               return (
                 <tr className="h-12" key={index}>
@@ -52,7 +52,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal text-left break-words"
+                      className="font-normal text-center break-words"
                     >
                       {input}
                     </Typography>
@@ -61,7 +61,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal text-left break-words"
+                      className="font-normal text-center break-words"
                     >
                       {output}
                     </Typography>
@@ -70,7 +70,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal text-left break-words"
+                      className="font-normal text-center break-words"
                     >
                       {expected}
                     </Typography>

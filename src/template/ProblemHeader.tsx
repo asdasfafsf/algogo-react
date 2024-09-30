@@ -1,11 +1,12 @@
 import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
-import { useScreenSize } from '../context/ScreenSizeContext';
 import ProblemBreadcrumbs from '../molecule/ProblemBreadcrumbs';
 import ProblemNavbar from '../molecule/ProblemNavbar';
 
-export default function ProblemHeader() {
-  const { isMobile } = useScreenSize();
+interface ProblemHeaderProps {
+  problemTitle?: string;
+}
 
+export default function ProblemHeader({ problemTitle = '' }: ProblemHeaderProps) {
   return (
     <header
       style={{
@@ -16,7 +17,7 @@ export default function ProblemHeader() {
       <div className="flex">
         <ProblemBreadcrumbs
           pathList={[{ path: '문제', to: '/' }]}
-          current={`${isMobile ? '' : '문제이름이 존나길면요'}`}
+          current={`${problemTitle}`}
         />
       </div>
       <ProblemNavbar />
