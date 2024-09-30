@@ -5,7 +5,7 @@ import useAlertModal from './useAlertModal';
 
 export default function useProblemTable() {
   const [alert] = useAlertModal();
-  const [problemList, setProblemList] = useState<ResponseProblem[]>([]);
+  const [problemList, setProblemList] = useState<ResponseProblem[] | null>();
   const { problemSort, setProblemSort } = useProblemTableFilterStore((
     { problemSort, setProblemSort },
   ) => ({ problemSort, setProblemSort }));
@@ -16,11 +16,15 @@ export default function useProblemTable() {
 
   const [pagingInfo, setPagingInfo] = useState({
     pageNo: 1,
-    pageSize: 50,
+    pageSize: 20,
   });
+
   const [maxPageNo, setMaxPageNo] = useState(1);
 
   const fetchProblemList = useCallback(async () => {
+    const skeletonTimeout = setTimeout(() => {
+      setProblemList(null);
+    }, 500);
     const { pageNo, pageSize } = pagingInfo;
     const requestProblemListDto = {
       pageNo,
@@ -44,10 +48,11 @@ export default function useProblemTable() {
     } = response.data;
 
     const maxPageNo = Math.ceil(totalCount / pageSize);
+    clearTimeout(skeletonTimeout);
 
     setMaxPageNo(maxPageNo);
     setProblemList(problemList);
-  }, [alert, pagingInfo]);
+  }, [pagingInfo]);
 
   useEffect(() => {
     setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));

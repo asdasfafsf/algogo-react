@@ -27,7 +27,7 @@ export default function ProblemTable() {
   const [isOpenGrade] = useState(true);
 
   const {
-    maxPageNo, pageNo, problemList, problemSort,
+    maxPageNo, pageNo, problemList, problemSort, pageSize,
     handleChangePageNo, handleClickProblemTh, handleClickProblem,
   } = useProblemTable();
 
@@ -121,59 +121,82 @@ export default function ProblemTable() {
               </tr>
             </thead>
             <tbody>
-              {problemList.map(({
-                uuid, title, levelText, answerCount, submitCount, source, sourceId,
-              }) => (
-                <tr key={title}>
-                  <td className="w-12 p-4 border-b border-gray-300">
-                    <ProblemStateChip className="w-11" state={3} value="" />
+              {problemList && problemList != null
+                ? problemList.map(({
+                  uuid, title, levelText, answerCount, submitCount, source, sourceId,
+                }) => (
+                  <tr key={title}>
+                    <td className="w-12 p-4 border-b border-gray-300">
+                      <ProblemStateChip className="w-11" state={3} value="" />
 
-                  </td>
-                  <td className="cursor-pointer p-4 border-b border-gray-300 min-w-80">
-                    <Typography
-                      className="!font-medium"
-                      variant="small"
-                      onClick={(e) => handleClickProblem(e, uuid)}
-                    >
-                      {title}
-                    </Typography>
-                  </td>
-                  <td className="p-4 border-b border-gray-300">
-                    <div className="flex items-center h-full ">
-                      <ProblemLevelChip
-                        className="text-white "
-                        level={`${isOpenGrade ? levelText as ProblemLevel : '알 수 없음'}`}
-                      />
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 border-b border-gray-300">
-                    <Typography
-                      className="!font-medium"
-                      variant="small"
-                    >
-                      {`${Number(((answerCount / submitCount) * 100).toFixed(2))} %`}
-                    </Typography>
+                    </td>
+                    <td className="p-4 border-b border-gray-300 cursor-pointer min-w-80">
+                      <Typography
+                        className="!font-medium"
+                        variant="small"
+                        onClick={(e) => handleClickProblem(e, uuid)}
+                      >
+                        {title}
+                      </Typography>
+                    </td>
+                    <td className="p-4 border-b border-gray-300">
+                      <div className="flex items-center h-full ">
+                        <ProblemLevelChip
+                          className="text-white "
+                          level={`${isOpenGrade ? levelText as ProblemLevel : '알 수 없음'}`}
+                        />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300">
+                      <Typography
+                        className="!font-medium"
+                        variant="small"
+                      >
+                        {`${Number(((answerCount / submitCount) * 100).toFixed(2))} %`}
+                      </Typography>
 
-                  </td>
-                  <td className="px-6 py-4 border-b border-gray-300">
-                    <Typography
-                      className="!font-medium"
-                      variant="small"
-                    >
-                      {`${submitCount}`}
-                    </Typography>
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300">
+                      <Typography
+                        className="!font-medium"
+                        variant="small"
+                      >
+                        {`${submitCount}`}
+                      </Typography>
 
-                  </td>
-                  <td key={sourceId} className="px-6 py-4 border-b border-gray-300">
-                    <div className="flex items-center w-full h-full">
-                      <Tooltip value={source} content={source}>
+                    </td>
+                    <td key={sourceId} className="px-6 py-4 border-b border-gray-300">
+                      <div className="flex items-center w-full h-full">
+                        <Tooltip value={source} content={source}>
 
-                        <LinkIcon className="w-4 h-4" />
-                      </Tooltip>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                          <LinkIcon className="w-4 h-4" />
+                        </Tooltip>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+                : Array.from(Array(pageSize), (_, k) => k).map((elem) => (
+                  <tr key={elem}>
+                    <td className="w-12 px-4 py-4 border-b border-gray-300">
+                      <div className="h-6 mt-1 bg-gray-300 rounded w-11 animate-pulse" />
+                    </td>
+                    <td className="px-4 py-4 border-b border-gray-300 min-w-80">
+                      <div className="w-3/4 h-5 bg-gray-300 rounded animate-pulse mt-0.5" />
+                    </td>
+                    <td className="px-4 py-4 border-b border-gray-300">
+                      <div className="w-16 h-6 bg-gray-300 rounded animate-pulse mt-0.5" />
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300">
+                      <div className="w-16 h-6 bg-gray-300 rounded animate-pulse mt-0.5" />
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300">
+                      <div className="w-10 h-6 bg-gray-300 rounded animate-pulse mt-0.5" />
+                    </td>
+                    <td className="px-6 py-4 border-b border-gray-300">
+                      <div className="w-8 h-6 bg-gray-300 rounded animate-pulse mt-0.5" />
+                    </td>
+                  </tr>
+                ))}
 
             </tbody>
           </table>
