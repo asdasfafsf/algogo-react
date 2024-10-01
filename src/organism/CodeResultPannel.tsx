@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
 import TabPanel from '../atom/TabPanel';
@@ -9,12 +9,29 @@ import CodeEditorResizer from '../molecule/CodeEditorResizer';
 import CodeResultInput from './CodeResultInput';
 import CodeResultOutput from './CodeResultOutput';
 import CodeTestCaseTable from './CodeTestCaseTable';
+import useCodeEditorStore from '../zustand/CodeEditorStore';
+import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const executeResultList = useExecuteResultListStore((state) => state.executeResultList);
+  const {
+    language, code, input, output, setInput, setOutput,
+  } = useCodeEditorStore(({
+    language, code, input, output, setInput, setOutput,
+  }) => ({
+    language, code, input, output, setInput, setOutput,
+  }));
+
+  const { connect, execute } = useExecuteSocketStore(
+    ({ connect, execute }) => ({ connect, execute }),
+  );
+
+  useEffect(() => {
+    connect('ws://localhost:3001');
+  }, []);
 
   return (
     <div
@@ -28,15 +45,34 @@ export default function CodeResultPannel() {
       </TabHeader>
       <TabBody className="h-[calc(100%-44px)]">
         <TabPanel isSelected={selectedIndex === 0}>
-          {/* <div>테스트</div> */}
-          <CodeResultInput inputTextAreaRef={inputTextAreaRef} />
+          <CodeResultInput
+            handleClickRun={async () => {
+              execute({
+                seq: 0,
+                provider: 'javascript',
+                code,
+                input,
+              }, () => {});
+            }}
+            handleClickPaste={async () => {
+              const copiedValue = await navigator.clipboard.readText();
+              setInput(copiedValue);
+            }}
+            handleChangeInput={(_, input) => setInput(input)}
+            input={input}
+            inputTextAreaRef={inputTextAreaRef}
+          />
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 1}>
-          {/* <div>테스트</div> */}
-          <CodeResultOutput outputTextAreaRef={outputTextAreaRef} />
+          <CodeResultOutput
+            output={output}
+            handleClickCopy={async () => navigator.clipboard.writeText(output)}
+            handleChangeOutput={(_, output) => setOutput(output)}
+            handleClickReset={() => setOutput('')}
+            outputTextAreaRef={outputTextAreaRef}
+          />
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
-          {/* <div>테스트</div> */}
           <CodeTestCaseTable executeResultList={executeResultList} />
         </TabPanel>
       </TabBody>

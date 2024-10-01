@@ -27,6 +27,7 @@
     "react-mathjax": "^1.0.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.22.2",
+    "socket.io-client": "^4.8.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@types/react-dom": "^18.2.19",
     "@types/react-mathjax": "^1.0.4",
     "@types/react-router-dom": "^5.3.3",
+    "@types/socket.io-client": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",

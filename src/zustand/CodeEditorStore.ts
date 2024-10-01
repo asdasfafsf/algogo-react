@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-return-assign */
 import { create } from 'zustand';
 import * as defaultCodeFromLanguage from '../constant/Code';
 
@@ -14,6 +12,10 @@ type EditorStore = {
   setCode: (code: string) => void | Promise<void>
   codeFromLanguage: CodeFromLanguage
   updateCodeFromLanguage: (languge: MonacoEditorLanguage, code: string) => void | Promise<void>
+  input: string,
+  setInput: (input: string) => void | Promise<void>
+  output: string,
+  setOutput: (output: string) => void | Promise<void>
 };
 
 export const useCodeEditorStore = create<EditorStore>((set) => ({
@@ -27,6 +29,10 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
     codeFromLanguage[languge] = code;
     return state;
   }),
+  input: '',
+  setInput: (input: string) => set({ input }),
+  output: '',
+  setOutput: (output: string) => set({ output }),
 }));
 
 export default useCodeEditorStore;
