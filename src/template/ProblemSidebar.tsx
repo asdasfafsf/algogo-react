@@ -26,17 +26,16 @@ const decodeHtmlEntities = (str: string) => {
   return doc.documentElement.textContent;
 };
 const parseMathAndText = (text: string): React.ReactNode[] => {
-  // 블록 수식 처리 ($$...$$)
   const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/); // $ 또는 $$로 감싸진 수식을 추출
-  return parts.map((part) => {
+  return parts.map((part, index) => {
     if (part.startsWith('$$') && part.endsWith('$$')) {
       const formula = part.slice(2, -2); // $$를 제거하고 수식으로 처리
-      return <MathJax.Node key={formula} formula={formula} />;
+      return <MathJax.Node key={`formula-${index}`} formula={formula} />;
     } if (part.startsWith('$') && part.endsWith('$')) {
       const formula = part.slice(1, -1); // $를 제거하고 인라인 수식으로 처리
-      return <MathJax.Node inline key={formula} formula={formula} />;
+      return <MathJax.Node inline key={`inline-formula-${index}`} formula={formula} />;
     }
-    return <>{decodeHtmlEntities(part)}</>; // 일반 텍스트 처리
+    return <span key={`text-${index}`}>{decodeHtmlEntities(part)}</span>; // 일반 텍스트 처리
   });
 };
 
@@ -53,9 +52,6 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
   return (
     <MathJax.Provider>
       <aside
-      // style={{
-      //   width: isMobile ? '100vw' : `${problemWidth}px`,
-      // }}
         style={isMobile
           ? { height: 'calc(100vh - 96px)' }
           : {
@@ -75,7 +71,7 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
               <ProblemLevelViewer intialState="hide" level={levelText as ProblemLevel} />
               <div className="flex flex-wrap items-center">
                 <Typography variant="small" className="font-bold">제출 : </Typography>
-              &nbsp;
+                &nbsp;
                 <Typography variant="small" className="font-medium">
                   {submitCount}
                 </Typography>
@@ -84,13 +80,13 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
 
               <div className="flex flex-wrap items-center">
                 <Typography variant="small" className="font-bold">정답 : </Typography>
-              &nbsp;
+                &nbsp;
                 <Typography variant="small" className="font-medium">{answerCount}</Typography>
               </div>
               &nbsp;
               <div className="flex flex-wrap items-center">
                 <Typography variant="small" className="font-bold">맞힌 사람 : </Typography>
-              &nbsp;
+                &nbsp;
                 <Typography variant="small" className="font-medium">{answerPeopleCount}</Typography>
               </div>
               &nbsp;
@@ -128,17 +124,15 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
 
           <ProblemCategoryViewer initialState={typeList && typeList.length === 0 ? 'none' : 'hide'} categoryList={typeList.map((elem) => elem.name)} />
 
-          {
-          contentList.map((elem) => (
+          {contentList.map((elem, index) => (
             elem.type === 'image' ? (
-              <ProblemImage className="mt-1" alt={elem.content} key={elem.content} src={elem.content} />
+              <ProblemImage className="mt-1" alt={elem.content} key={`image-${index}`} src={elem.content} />
             ) : (
-              <Typography key={elem.content} variant="paragraph" className="mt-1 font-normal">
+              <Typography key={`content-${index}`} variant="paragraph" className="mt-1 font-normal">
                 {parseMathAndText(elem.content)}
               </Typography>
             )
-          ))
-        }
+          ))}
 
           <Line className="my-4 opacity-0" />
           <Typography variant="h5">입력</Typography>
@@ -174,9 +168,8 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
           </div>
           <Line className="my-4 opacity-0" />
 
-          {
-          inputOutputList.map((elem, index) => (
-            <div key={`예시 ${index + 1}`}>
+          {inputOutputList.map((elem, index) => (
+            <div key={`example-${index}`}>
               <Typography variant="h6" className="pt-2 font-bold">
                 예시
                 {index + 1}
@@ -186,8 +179,7 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
               <Typography variant="small" className="mt-1 font-medium">출력</Typography>
               <ClipboardWithTooltip content={elem.output} />
             </div>
-          ))
-        }
+          ))}
 
           <Line className="my-4 opacity-0" />
           <Typography variant="h5">출처</Typography>

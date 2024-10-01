@@ -34,7 +34,7 @@ export default function ProblemBreadcrumbs({ pathList, current }: ProblemBreadCr
         </svg>
       </a>
       {pathList.map(({ path, to }) => (
-        <a href={to} className="text-white opacity-60 hover:opacity-100 hover:font-bold">
+        <a href={to} key={path} className="text-white opacity-60 hover:opacity-100 hover:font-bold">
           <div className="h-full">{path}</div>
         </a>
       )) }

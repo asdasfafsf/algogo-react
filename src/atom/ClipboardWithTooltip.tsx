@@ -34,11 +34,12 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
             content
               .split(/\n/)
               .map((elem, contentIndex, contentArr) => (
-                <div className="flex flex-wrap whitespace-normal break-words w-[calc(100%-10px)]">
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={`${elem}-${contentIndex}`} className="flex flex-wrap whitespace-normal break-words w-[calc(100%-10px)]">
                   {elem
                     .split(' ')
                     .map((text, index, arr) => (
-                      <>
+                      <React.Fragment key={`${text}-${index}`}>
                         <Typography
                           className="font-D2Coding"
                           variant="small"
@@ -53,7 +54,7 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
                             </div>
                           )
                           : ''}
-                      </>
+                      </React.Fragment>
                     ))}
                   {contentIndex < contentArr.length - 1
                     ? (
@@ -64,7 +65,7 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
 
                 </div>
               ))
-        }
+          }
 
         </div>
         {copied ? (
