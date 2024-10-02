@@ -22,21 +22,17 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       },
     });
 
-    console.log(`Bearer ${localStorage.getItem('accessToken')}`);
     socket.on('connect', () => {
       set({ socket });
-      console.log('socket connected');
       resolve(); // 연결 성공 시 resolve 호출
     });
 
     socket.on('connect_error', (error) => {
-      console.error('Socket connection error:', error);
       reject(error); // 연결 실패 시 reject 호출
     });
 
     socket.on('disconnect', () => {
       set({ socket: null });
-      console.log('socket disconnected');
     });
   }),
 
