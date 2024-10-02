@@ -5,7 +5,8 @@ type ExecuteSocketStore = {
   socket: Socket | null;
   connect: (url: string) => Promise<void>;
   disconnect: () => void;
-  execute: (data: any, callback: (response: any) => void) => Promise<void>;
+  auth: () => Promise<void>;
+  execute: (data: any) => Promise<void>;
   setMessageHandler: (handler: (response: any) => void) => void;
 };
 
@@ -22,9 +23,13 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       },
     });
 
-    socket.on('connect', () => {
+    socket.on('connect', async () => {
       set({ socket });
-      resolve(); // 연결 성공 시 resolve 호출
+      const { auth } = get();
+      setTimeout(async () => {
+        await auth();
+        resolve();
+      }, 2000);
     });
 
     socket.on('connect_error', (error) => {
@@ -45,20 +50,20 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     }
   },
 
-  execute: async (data, callback) => {
-    let { socket } = get();
+  auth: () => new Promise<void>((resolve) => {
+    const { socket } = get();
 
-    if (!socket) {
-      console.log('Socket is not connected, trying to connect...');
-      await get().connect('ws://localhost:3001'); // 연결 시도
-      socket = get().socket;
-    }
+    socket?.emit('auth', {
+      token: localStorage.getItem('accessToken'),
+    }, () => resolve());
+  }),
 
+  execute: async (data) => {
+    const { socket } = get();
     if (socket) {
       console.log('execute');
-      socket.send('execute', data, (response: any) => {
+      socket.emit('execute', data, (response: any) => {
         console.log(response);
-        callback(response);
       });
     }
   },

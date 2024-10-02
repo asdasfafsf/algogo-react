@@ -29,8 +29,12 @@ export default function CodeResultPannel() {
     ({ connect, execute }) => ({ connect, execute }),
   );
 
+  const handleWs = async () => {
+    await connect('ws://localhost:3001');
+  };
+
   useEffect(() => {
-    connect('ws://localhost:3001');
+    handleWs();
   }, []);
 
   return (
