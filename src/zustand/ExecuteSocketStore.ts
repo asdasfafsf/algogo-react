@@ -17,10 +17,6 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     const socket = io(url, {
       autoConnect: true,
       transports: ['websocket'],
-      extraHeaders: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
     });
 
     socket.on('connect', async () => {
