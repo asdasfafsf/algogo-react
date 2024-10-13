@@ -53,10 +53,10 @@ export default function CodeResultPannel() {
             handleClickRun={async () => {
               execute({
                 seq: 0,
-                provider: 'javascript',
+                provider: language,
                 code,
-                input,
-              }, () => {});
+                inputLust: [input],
+              });
             }}
             handleClickPaste={async () => {
               const copiedValue = await navigator.clipboard.readText();
