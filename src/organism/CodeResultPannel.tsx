@@ -55,7 +55,7 @@ export default function CodeResultPannel() {
                 seq: 0,
                 provider: language,
                 code,
-                inputLust: [input],
+                inputLust: [{ seq: '1', input }],
               });
             }}
             handleClickPaste={async () => {

@@ -10,6 +10,13 @@ export default function CodeEditor() {
     handleEditorChange,
   } = useCodeEditor();
 
+  const monocoLanguageMap: LangugeToMonacoEditorLanguage = {
+    'Node.js': 'javasript',
+    'C++': 'cpp',
+    Java: 'java',
+    Python: 'python',
+  };
+
   return (
     <div
       className="flex w-full h-full bg-gray-900"
@@ -20,8 +27,8 @@ export default function CodeEditor() {
           height="calc(100% - 48px)"
           width="100%"
           className="h-full"
-          language={language}
-          defaultLanguage={language}
+          language={monocoLanguageMap[language]}
+          defaultLanguage={monocoLanguageMap[language]}
           defaultValue="input your code"
           theme="vs-dark"
           value={code}

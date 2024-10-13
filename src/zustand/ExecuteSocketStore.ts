@@ -57,7 +57,6 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   execute: async (data) => {
     const { socket } = get();
     if (socket) {
-      console.log('execute');
       socket.emit('execute', data, (response: any) => {
         console.log(response);
       });

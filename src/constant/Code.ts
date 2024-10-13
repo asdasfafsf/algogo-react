@@ -39,9 +39,10 @@ input = sys.stdin.read().strip()
 print('hello :', input)
 `;
 
-export default {
-  cpp,
-  python,
-  java,
-  javascript,
+export const defaultCodeFromLanguage: CodeFromLanguage = {
+  'Node.js': javascript,
+  'C++': cpp,
+  Java: java,
+  Python: python,
 };
+export default defaultCodeFromLanguage;

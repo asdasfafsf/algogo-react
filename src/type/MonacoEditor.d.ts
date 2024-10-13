@@ -1,15 +1,25 @@
 type MonacoEditorLanguage
-= 'javascript'
+= 'javasript'
 | 'cpp'
-| 'java'
-| 'python';
+| 'python'
+| 'java';
 
 type Language
 = 'Node.js'
 | 'C++'
-| 'Java 11'
-| 'Python 3';
+| 'Java'
+// | 'Java 17'
+| 'Python';
+// | 'C++(Clang)';
 
 type LanguageView = {
+  [key in Language]: Language;
+};
+
+type CodeFromLanguage = {
+  [key in Language]: string;
+};
+
+type LangugeToMonacoEditorLanguage = {
   [key in Language]: MonacoEditorLanguage;
 };

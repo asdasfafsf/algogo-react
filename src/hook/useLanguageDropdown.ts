@@ -2,12 +2,12 @@ import { useCallback, useState } from 'react';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 
 export default function useLanguageDropdown() {
-  const languageList: Language[] = ['C++', 'Node.js', 'Java 11', 'Python 3'];
+  const languageList: Language[] = ['C++', 'Node.js', 'Java', 'Python'];
   const languageMap: LanguageView = {
-    'Node.js': 'javascript',
-    'C++': 'cpp',
-    'Java 11': 'java',
-    'Python 3': 'python',
+    'Node.js': 'Node.js',
+    'C++': 'C++',
+    Java: 'Java',
+    Python: 'Python',
   };
   const [selectedIndex, setSelectedIndex] = useState(0);
   const {
