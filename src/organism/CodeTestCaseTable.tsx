@@ -78,7 +78,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                   <td className={`${classes} w-16%`}>
                     <Typography
                       variant="small"
-                      color="green"
+                      color={state === '불일치' ? 'red' : (state === '일치' ? 'green' : 'gray')}
                       className="font-normal break-words"
                     >
                       {state}

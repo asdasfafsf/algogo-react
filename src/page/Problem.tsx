@@ -24,7 +24,7 @@ export default function ProblemPage() {
     const problem = response.data;
     setProblem(problem);
     setTestCaseList(problem.inputOutputList.map(({ input, output }) => ({
-      input, output, readOnly: true,
+      input, output: '', expected: output, readOnly: true, state: '실행 전',
     })));
     setExecuteResultList(problem.inputOutputList.map(({ input, output }) => ({
       input, output: '', expected: output, state: '실행 전',

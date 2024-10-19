@@ -3,16 +3,20 @@ import { create } from 'zustand';
 
 type ExecuteSocketStore = {
   socket: Socket | null;
+  state: 'PENDING' | 'WAITING' | 'DISCONNECTED';
   connect: (url: string) => Promise<void>;
   disconnect: () => void;
   auth: () => Promise<void>;
-  execute: (data: any) => Promise<void>;
-  setMessageHandler: (handler: (response: any) => void) => void;
+  run: (data: RequestExecuteList
+    , handler: (response: ResponseExecuteResult) => Promise<void> | void) => Promise<void> | void;
+  execute: (
+    handler: (executeResult: ResponseExecuteResult) => Promise<void> | void)
+  => Promise<void> | void;
 };
 
 export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   socket: null,
-
+  state: 'PENDING',
   connect: (url: string) => new Promise<void>((resolve, reject) => {
     const socket = io(url, {
       autoConnect: true,
@@ -24,6 +28,7 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       const { auth } = get();
       setTimeout(async () => {
         await auth();
+        set({ state: 'WAITING' });
         resolve();
       }, 2000);
     });
@@ -33,6 +38,7 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     });
 
     socket.on('disconnect', () => {
+      set({ state: 'DISCONNECTED' });
       set({ socket: null });
     });
   }),
@@ -41,8 +47,6 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     const { socket } = get();
     if (socket) {
       socket.disconnect();
-      set({ socket: null });
-      console.log('WebSocket 연결 해제됨');
     }
   },
 
@@ -54,19 +58,20 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     }, () => resolve());
   }),
 
-  execute: async (data) => {
+  run: async (data, handler) => {
     const { socket } = get();
     if (socket) {
-      socket.emit('execute', data, (response: any) => {
-        console.log(response);
+      socket.emit('execute', data, (response: ResponseExecuteResult) => {
+        handler(response);
+        socket.off('execute');
       });
     }
   },
 
-  setMessageHandler: (handler: (response: any) => void) => {
+  execute: (handler) => {
     const { socket } = get();
     if (socket) {
-      socket.on('executeResponse', handler); // 실행 응답을 받아 처리
+      socket.on('execute', handler); // 실행 응답을 받아 처리
     }
   },
 }));

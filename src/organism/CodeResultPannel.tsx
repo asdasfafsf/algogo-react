@@ -11,12 +11,13 @@ import CodeResultOutput from './CodeResultOutput';
 import CodeTestCaseTable from './CodeTestCaseTable';
 import useCodeEditorStore from '../zustand/CodeEditorStore';
 import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
+import useTestCaseListStore from '../zustand/TestCaseListStore';
 
 export default function CodeResultPannel() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
-  const executeResultList = useExecuteResultListStore((state) => state.executeResultList);
+  const testCaseList = useTestCaseListStore((state) => state.testCaseList);
   const {
     language, code, input, output, setInput, setOutput,
   } = useCodeEditorStore(({
@@ -77,7 +78,7 @@ export default function CodeResultPannel() {
           />
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>
-          <CodeTestCaseTable executeResultList={executeResultList} />
+          <CodeTestCaseTable executeResultList={testCaseList} />
         </TabPanel>
       </TabBody>
     </div>

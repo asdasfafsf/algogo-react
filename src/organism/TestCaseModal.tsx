@@ -8,13 +8,15 @@ import Line from '../atom/Line';
 import useTestCase from '../hook/useTestCase';
 
 export default function TestCaseModal() {
-  const [testCases,
+  const {
+    testCaseList,
     handleClickAddTestCase,
     handleClickTest,
     removeTestCase,
     handleClickClose,
     handleChangeInput,
-    handleChangeOutput] = useTestCase();
+    handleChangeOutput,
+  } = useTestCase();
 
   return (
     <TranslucentOverlay className="items-start py-16">
@@ -28,8 +30,8 @@ export default function TestCaseModal() {
         </div>
         <Line className="my-2 bg-white" />
 
-        {testCases.length
-          ? testCases.map(({ input, output, readOnly }, index, arr) => (
+        {testCaseList.length
+          ? testCaseList.map(({ input, output, readOnly }, index, arr) => (
             <div key={index} className="w-full">
               <div className="relative flex w-full mb-2">
                 <Chip
@@ -100,7 +102,7 @@ export default function TestCaseModal() {
             </div>
           )}
 
-        {testCases.length < 10
+        {testCaseList.length < 10
           ? (
             <div className="flex justify-center mb-5">
               <Button onClick={handleClickAddTestCase} className="w-full" color="blue">테스트 케이스 추가</Button>
