@@ -4,7 +4,6 @@ import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
 import TabPanel from '../atom/TabPanel';
 import TabBody from '../atom/TabBody';
-import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
 import CodeEditorResizer from '../molecule/CodeEditorResizer';
 import CodeResultInput from './CodeResultInput';
 import CodeResultOutput from './CodeResultOutput';
@@ -12,22 +11,23 @@ import CodeTestCaseTable from './CodeTestCaseTable';
 import useCodeEditorStore from '../zustand/CodeEditorStore';
 import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
 import useTestCaseListStore from '../zustand/TestCaseListStore';
+import useCodeResultPanel from '../hook/useCodeResultPanel';
 
 export default function CodeResultPannel() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const { selectedIndex, handleClickTab } = useCodeResultPanel();
   const inputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const outputTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const testCaseList = useTestCaseListStore((state) => state.testCaseList);
   const {
-    language, code, input, output, setInput, setOutput,
+    input, output, setInput, setOutput,
   } = useCodeEditorStore(({
-    language, code, input, output, setInput, setOutput,
+    input, output, setInput, setOutput,
   }) => ({
-    language, code, input, output, setInput, setOutput,
+    input, output, setInput, setOutput,
   }));
 
-  const { connect, execute } = useExecuteSocketStore(
-    ({ connect, execute }) => ({ connect, execute }),
+  const { connect } = useExecuteSocketStore(
+    ({ connect }) => ({ connect }),
   );
 
   const handleWs = async () => {
@@ -44,21 +44,14 @@ export default function CodeResultPannel() {
     >
       <CodeEditorResizer />
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
-        <Tab text="입력" isSelected={selectedIndex === 0} handleClick={() => { setSelectedIndex(0); }} />
-        <Tab text="실행 결과" isSelected={selectedIndex === 1} handleClick={() => { setSelectedIndex(1); }} />
-        <Tab text="테스트 케이스" isSelected={selectedIndex === 2} handleClick={() => { setSelectedIndex(2); }} />
+        <Tab text="입력" isSelected={selectedIndex === 0} handleClick={(e) => { handleClickTab(e, 0); }} />
+        <Tab text="실행 결과" isSelected={selectedIndex === 1} handleClick={(e) => { handleClickTab(e, 1); }} />
+        <Tab text="테스트 케이스" isSelected={selectedIndex === 2} handleClick={(e) => { handleClickTab(e, 2); }} />
       </TabHeader>
       <TabBody className="h-[calc(100%-44px)]">
         <TabPanel isSelected={selectedIndex === 0}>
           <CodeResultInput
-            handleClickRun={async () => {
-              execute({
-                seq: 0,
-                provider: language,
-                code,
-                inputList: [{ seq: '1', input }],
-              });
-            }}
+            handleClickRun={() => {}}
             handleClickPaste={async () => {
               const copiedValue = await navigator.clipboard.readText();
               setInput(copiedValue);

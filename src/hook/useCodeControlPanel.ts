@@ -1,17 +1,13 @@
 import { useCallback } from 'react';
-import { useCodeEditorStore } from '../zustand/CodeEditorStore';
+import useModal from '../plugins/modal/useModal';
+import useCodeEditorStore from '../zustand/CodeEditorStore';
 import useConfirmModal from './useConfirmModal';
 import defaultCodeFromLanguage from '../constant/Code';
 import TestCaseModal from '../organism/TestCaseModal';
-import useModal from '../plugins/modal/useModal';
 
-export default function useCodeDropUp() {
-  const [confirm] = useConfirmModal();
+export default function useCodeControlPanel() {
   const modal = useModal();
-  const handleClickAddTestCase = useCallback(async () => {
-    modal.push('TESTCASE', TestCaseModal, {});
-  }, [modal]);
-
+  const [confirm] = useConfirmModal();
   const { language, setCode, codeFromLanguage } = useCodeEditorStore((state) => ({
     language: state.language,
     setCode: state.setCode,
@@ -31,5 +27,12 @@ export default function useCodeDropUp() {
     codeFromLanguage[language] = initializedCode;
   }, [language]);
 
-  return [handleClickAddTestCase, handleClickReset] as const;
+  const handleClickAddTestCase = useCallback(async () => {
+    modal.push('TESTCASE', TestCaseModal, {});
+  }, []);
+
+  return {
+    handleClickAddTestCase,
+    handleClickReset,
+  };
 }

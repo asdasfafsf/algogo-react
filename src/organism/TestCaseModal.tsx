@@ -6,17 +6,19 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import TranslucentOverlay from '../atom/TranslucentOverlay';
 import Line from '../atom/Line';
 import useTestCase from '../hook/useTestCase';
+import { useExecute } from '../hook/useExecute';
 
 export default function TestCaseModal() {
   const {
     testCaseList,
     handleClickAddTestCase,
-    handleClickTest,
     removeTestCase,
     handleClickClose,
     handleChangeInput,
     handleChangeOutput,
   } = useTestCase();
+
+  const { handleTest } = useExecute();
 
   return (
     <TranslucentOverlay className="items-start py-16">
@@ -31,7 +33,7 @@ export default function TestCaseModal() {
         <Line className="my-2 bg-white" />
 
         {testCaseList.length
-          ? testCaseList.map(({ input, output, readOnly }, index, arr) => (
+          ? testCaseList.map(({ input, expected, readOnly }, index, arr) => (
             <div key={index} className="w-full">
               <div className="relative flex w-full mb-2">
                 <Chip
@@ -78,13 +80,13 @@ export default function TestCaseModal() {
               {readOnly
                 ? (
                   <Textarea
-                    value={output}
+                    value={expected}
                     readOnly
                   />
                 )
                 : (
                   <Textarea
-                    value={output}
+                    value={expected}
                     className="font-D2Coding"
                     onChange={(e) => handleChangeOutput(index, e.target.value)}
                     placeholder="출력을 입력하세요"
@@ -110,7 +112,7 @@ export default function TestCaseModal() {
           )
           : ''}
         <div className="flex justify-end gap-1">
-          <Button onClick={handleClickTest} color="blue">테스트</Button>
+          <Button onClick={handleTest} color="blue">테스트</Button>
           <Button onClick={handleClickClose} className="bg-gray-600" color="blue-gray">닫기</Button>
         </div>
       </div>

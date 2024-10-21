@@ -1,32 +1,15 @@
 import { Button } from '@material-tailwind/react';
-import { useCallback } from 'react';
 import LanguageDropdown from '../atom/LanguageDropdown';
-import useModal from '../plugins/modal/useModal';
-import TestCaseModal from './TestCaseModal';
-import { useCodeEditorStore } from '../zustand/CodeEditorStore';
-import * as CODE_MAP from '../constant/Code';
-import useConfirmModal from '../hook/useConfirmModal';
+import useCodeControlPanel from '../hook/useCodeControlPanel';
+import { useExecute } from '../hook/useExecute';
 
 export default function CodeControlPanel() {
-  const modal = useModal();
-  const [comfirm] = useConfirmModal();
-  const { language, setCode, codeFromLanguage } = useCodeEditorStore((state) => ({
-    language: state.language,
-    setCode: state.setCode,
-    codeFromLanguage: state.codeFromLanguage,
-  }));
-  const handleClickReset = useCallback(async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    e.currentTarget.blur();
-    const isOk = await comfirm('초기화 하시겠습니까?');
+  const {
+    handleClickReset,
+    handleClickAddTestCase,
+  } = useCodeControlPanel();
 
-    if (!isOk) {
-      return;
-    }
-
-    const initializedCode = CODE_MAP[language];
-    setCode(initializedCode);
-    codeFromLanguage[language] = initializedCode;
-  }, [language]);
+  const { state, handleTest } = useExecute();
 
   return (
     <div
@@ -38,36 +21,45 @@ export default function CodeControlPanel() {
         <div className="hidden gap-1 sm:flex">
           <Button
             onClick={handleClickReset}
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+
             color="blue"
             size="sm"
           >
             초기화
           </Button>
           <Button
-        //   variant="text"
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
             size="sm"
           >
             실행
           </Button>
           <Button
-            color="blue"
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             size="sm"
-            onClick={() => {
-              modal.push('key', TestCaseModal, {});
-            }}
+            color="blue"
+            onClick={handleClickAddTestCase}
           >
             테스트 케이스 추가
           </Button>
 
           <Button
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
             size="sm"
+            onClick={handleTest}
           >
             테스트
           </Button>
 
           <Button
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
             size="sm"
           >

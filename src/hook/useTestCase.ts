@@ -1,18 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';
-import useCodeEditorStore from '../zustand/CodeEditorStore';
-import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
 
 export default function useTestCase() {
   const modal = useModal();
   const {
-    testCaseList, setTestCaseList, handleExecute, handleRun,
-  } = useTestCaseListStore((state) => state);
-  const { language, code } = useCodeEditorStore(
-    ({ language, code }) => ({ language, code }),
+    testCaseList, setTestCaseList,
+  } = useTestCaseListStore(
+    ({ testCaseList, setTestCaseList }) => ({ testCaseList, setTestCaseList }),
   );
-  const { run, execute } = useExecuteSocketStore(({ run, execute }) => ({ run, execute }));
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -46,20 +42,14 @@ export default function useTestCase() {
       state: '실행 전',
       readOnly: false,
     };
-    setTestCaseList([...testCaseList, newTestCase]);
-  }, [testCaseList]);
 
-  const handleClickTest = useCallback(async () => {
-    const data: RequestExecuteList = {
-      code,
-      provider: language,
-      inputList: testCaseList.map((testCase, index) => ({
-        seq: index,
-        input: testCase.input,
-      })),
-    };
-    execute(handleExecute);
-    run(data, handleRun);
+    const newTestCaseList = [...testCaseList.map((elem) => {
+      const newElem = { ...elem };
+      elem.expected = '실행 전';
+      return newElem;
+    }), newTestCase];
+
+    setTestCaseList(newTestCaseList);
   }, [testCaseList]);
 
   const removeTestCase = useCallback((testCaseIndex: number) => {
@@ -74,19 +64,20 @@ export default function useTestCase() {
   const handleChangeInput = useCallback((index:number, value: string) => {
     const newTestCaseList = [...testCaseList];
     newTestCaseList[index].input = value;
+    newTestCaseList[index].state = '실행 전';
     setTestCaseList(newTestCaseList);
   }, [testCaseList]);
 
   const handleChangeOutput = useCallback((index:number, value: string) => {
     const newTestCaseList = [...testCaseList];
-    newTestCaseList[index].output = value;
+    newTestCaseList[index].expected = value;
+    newTestCaseList[index].state = '실행 전';
     setTestCaseList(newTestCaseList);
   }, [testCaseList]);
 
   return {
     testCaseList,
     handleClickAddTestCase,
-    handleClickTest,
     removeTestCase,
     handleClickClose,
     handleChangeInput,

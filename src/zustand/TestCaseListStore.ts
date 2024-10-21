@@ -4,6 +4,7 @@ import { createSelectors } from './selector';
 type TestCaseListStore = {
   testCaseList: TestCase[],
   setTestCaseList: (testCaseList: TestCase[]) => void,
+  setRunning: () => void;
   handleRun: (executeResult: ResponseExecuteResult) => void,
   handleExecute: (executeResult: ResponseExecuteResult) => void,
 };
@@ -11,6 +12,15 @@ type TestCaseListStore = {
 export const useTestCaseListStore = create<TestCaseListStore>((set, get) => ({
   testCaseList: [],
   setTestCaseList: (testCaseList) => set(() => ({ testCaseList })),
+  setRunning: () => {
+    const { testCaseList } = get();
+    const newTestCaseList = testCaseList.map((elem) => {
+      const newElem = { ...elem };
+      newElem.state = '실행 중';
+      return newElem;
+    });
+    set({ testCaseList: newTestCaseList });
+  },
   handleRun: (executeResult) => {
     if (executeResult.code === '9001') {
       console.log('컴파일 오류');
@@ -19,9 +29,6 @@ export const useTestCaseListStore = create<TestCaseListStore>((set, get) => ({
   handleExecute: (executeResult) => {
     const { testCaseList } = get();
     const index = executeResult.seq;
-    console.log('야야야');
-    console.log(executeResult);
-
     const newTestCaseList = [...testCaseList];
     const target = newTestCaseList[index];
     const newTarget = {

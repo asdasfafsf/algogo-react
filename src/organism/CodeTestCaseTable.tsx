@@ -2,21 +2,38 @@
 import { Button, Card, Typography } from '@material-tailwind/react';
 import useModal from '../plugins/modal/useModal';
 import TestCaseModal from './TestCaseModal';
+import { useExecute } from '../hook/useExecute';
 
 interface CodeTestCaseTableProps {
-  executeResultList: ExecuteResult[];
+  executeResultList: TestCase[];
 }
 
 export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTableProps) {
   const modal = useModal();
+  const { state, handleTest } = useExecute();
   return (
     <div
       className="w-full h-full bg-gray-900"
     >
       <div className="w-full py-2 overflow-x-hidden">
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
-          <Button onClick={() => modal.push('testCase', TestCaseModal, {})} color="blue">테스트 케이스 추가</Button>
-          <Button color="blue">실행</Button>
+          <Button
+            onClick={() => modal.push('TESTCASE', TestCaseModal, {})}
+            color="blue"
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+          >
+            테스트 케이스 추가
+          </Button>
+          <Button
+            onClick={handleTest}
+            color="blue"
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+
+          >
+            실행
+          </Button>
         </div>
       </div>
       <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-gray-900">

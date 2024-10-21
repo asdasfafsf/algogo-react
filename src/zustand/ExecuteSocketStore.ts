@@ -61,8 +61,10 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   run: async (data, handler) => {
     const { socket } = get();
     if (socket) {
-      socket.emit('execute', data, (response: ResponseExecuteResult) => {
-        handler(response);
+      set({ state: 'PENDING' });
+      socket.emit('execute', data, async (response: ResponseExecuteResult) => {
+        await handler(response);
+        set({ state: 'WAITING' });
         socket.off('execute');
       });
     }
