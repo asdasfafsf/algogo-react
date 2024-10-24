@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { createSelectors } from './selector';
 
 type TestCaseListStore = {
   testCaseList: TestCase[],
@@ -49,5 +48,4 @@ export const useTestCaseListStore = create<TestCaseListStore>((set, get) => ({
   },
 }));
 
-export const ProblemWidthSelectors = createSelectors(useTestCaseListStore);
 export default useTestCaseListStore;
