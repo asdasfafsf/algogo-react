@@ -1,5 +1,5 @@
 type MonacoEditorLanguage
-= 'javasript'
+= 'javascript'
 | 'cpp'
 | 'python'
 | 'java';

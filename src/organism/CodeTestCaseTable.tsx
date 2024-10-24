@@ -2,7 +2,7 @@
 import { Button, Card, Typography } from '@material-tailwind/react';
 import useModal from '../plugins/modal/useModal';
 import TestCaseModal from './TestCaseModal';
-import { useExecute } from '../hook/useExecute';
+import useExecuteTestCase from '../hook/useExecuteTestCase';
 
 interface CodeTestCaseTableProps {
   executeResultList: TestCase[];
@@ -10,7 +10,7 @@ interface CodeTestCaseTableProps {
 
 export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTableProps) {
   const modal = useModal();
-  const { state, handleTest } = useExecute();
+  const { state, handleTest } = useExecuteTestCase();
   return (
     <div
       className="w-full h-full bg-gray-900"

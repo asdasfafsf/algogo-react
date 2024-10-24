@@ -1,7 +1,8 @@
 import { Button } from '@material-tailwind/react';
 import LanguageDropdown from '../atom/LanguageDropdown';
 import useCodeControlPanel from '../hook/useCodeControlPanel';
-import { useExecute } from '../hook/useExecute';
+import useExecuteTestCase from '../hook/useExecuteTestCase';
+import useExecute from '../hook/useExecute';
 
 export default function CodeControlPanel() {
   const {
@@ -9,7 +10,8 @@ export default function CodeControlPanel() {
     handleClickAddTestCase,
   } = useCodeControlPanel();
 
-  const { state, handleTest } = useExecute();
+  const { state, handleTest } = useExecuteTestCase();
+  const { handleExecute } = useExecute();
 
   return (
     <div
@@ -23,7 +25,6 @@ export default function CodeControlPanel() {
             onClick={handleClickReset}
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
-
             color="blue"
             size="sm"
           >
@@ -34,6 +35,7 @@ export default function CodeControlPanel() {
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
             size="sm"
+            onClick={handleExecute}
           >
             실행
           </Button>

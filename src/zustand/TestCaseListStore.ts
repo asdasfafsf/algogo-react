@@ -22,8 +22,16 @@ export const useTestCaseListStore = create<TestCaseListStore>((set, get) => ({
     set({ testCaseList: newTestCaseList });
   },
   handleRun: (executeResult) => {
-    if (executeResult.code === '9001') {
-      console.log('컴파일 오류');
+    if (executeResult.code === '9002') {
+      const { testCaseList } = get();
+      const newTestCaseList = testCaseList.map((elem) => {
+        const newElem = { ...elem };
+        newElem.state = '불일치';
+        newElem.output = '컴파일 에러';
+        return newElem;
+      });
+
+      set({ testCaseList: newTestCaseList });
     }
   },
   handleExecute: (executeResult) => {

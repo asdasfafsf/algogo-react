@@ -6,7 +6,7 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import TranslucentOverlay from '../atom/TranslucentOverlay';
 import Line from '../atom/Line';
 import useTestCase from '../hook/useTestCase';
-import { useExecute } from '../hook/useExecute';
+import useExecuteTestCase from '../hook/useExecuteTestCase';
 
 export default function TestCaseModal() {
   const {
@@ -18,7 +18,7 @@ export default function TestCaseModal() {
     handleChangeOutput,
   } = useTestCase();
 
-  const { handleTest } = useExecute();
+  const { handleTest } = useExecuteTestCase();
 
   return (
     <TranslucentOverlay className="items-start py-16">

@@ -11,7 +11,7 @@ export default function CodeEditor() {
   } = useCodeEditor();
 
   const monocoLanguageMap: LangugeToMonacoEditorLanguage = {
-    'Node.js': 'javasript',
+    'Node.js': 'javascript',
     'C++': 'cpp',
     Java: 'java',
     Python: 'python',
