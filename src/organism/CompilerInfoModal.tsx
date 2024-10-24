@@ -65,16 +65,30 @@ export default function CompilerInfoModal() {
 
         <Card className="my-2">
           <CardBody>
-            <Typography variant="h6">C++</Typography>
+            <Typography variant="h6">Java</Typography>
             <Typography variant="small">
               컴파일: g++ Main.cc -o Main -O2 -Wall -lm -static -std=gnu++17 -DONLINE_JUDGE -DBOJ
             </Typography>
             <Typography variant="small">실행: ./Main </Typography>
-            <Typography variant="small">버전: g++ (GCC) 11.1.0</Typography>
+            <Typography variant="small">버전: aws coretto JDK 17</Typography>
           </CardBody>
         </Card>
 
-        {/* 이하 동일한 구조로 더 많은 카드들을 추가할 수 있습니다. */}
+        <Card className="my-2">
+          <CardBody>
+            <Typography variant="h6">Node.js</Typography>
+            <Typography variant="small">실행: ./Main </Typography>
+            <Typography variant="small">버전: nodejs 22</Typography>
+          </CardBody>
+        </Card>
+
+        <Card className="my-2">
+          <CardBody>
+            <Typography variant="h6">Python</Typography>
+            <Typography variant="small">실행: ./Main </Typography>
+            <Typography variant="small">버전: Python 3.6</Typography>
+          </CardBody>
+        </Card>
 
         <div className="flex justify-center mt-4">
           <Button
