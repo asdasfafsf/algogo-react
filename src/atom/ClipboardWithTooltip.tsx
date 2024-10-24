@@ -8,9 +8,12 @@ import SpaceIcon from '/public/assets/space.svg?react';
 
 interface ClipboardWithTooltipProps {
   content: string;
+  handleCopyCallback?: (copied: string) => void | Promise<void>
 }
 
-export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipProps) {
+export default function ClipboardWithTooltip(
+  { content, handleCopyCallback = () => {} }: ClipboardWithTooltipProps,
+) {
   const [copied, setCopied] = React.useState(false);
 
   const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -25,6 +28,7 @@ export default function ClipboardWithTooltip({ content }: ClipboardWithTooltipPr
         onClick={async () => {
           await navigator.clipboard.writeText(content);
           setCopied(true);
+          handleCopyCallback(content);
         }}
         className="flex justify-start items-center gap-x-3 px-4 py-2.5 lowercase w-full"
       >

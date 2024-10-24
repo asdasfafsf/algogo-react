@@ -15,6 +15,7 @@ import {
 import useProblemSidebar from '../hook/useProblemSidebar';
 import { useScreenSize } from '../context/ScreenSizeContext';
 import MathJax from 'react-mathjax';
+import useCodeResultPanelStore from '../zustand/CodeResultPanelStore';
 
 interface ProblemSidebarProps {
   problem: ResponseProblem
@@ -49,6 +50,11 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
     input, output, inputOutputList, answerRate, timeout,
     memoryLimit, answerCount, answerPeopleCount,
   } = problem;
+
+  const { setSelectedIndex } = useCodeResultPanelStore(
+    ({ setSelectedIndex }) => ({ setSelectedIndex }),
+  );
+
   return (
     <MathJax.Provider>
       <aside
@@ -175,7 +181,10 @@ export default function ProblemSidebar({ problem }: ProblemSidebarProps) {
                 {index + 1}
               </Typography>
               <Typography variant="small" className="font-medium">입력</Typography>
-              <ClipboardWithTooltip content={elem.input} />
+              <ClipboardWithTooltip
+                handleCopyCallback={() => { setSelectedIndex(0); }}
+                content={elem.input}
+              />
               <Typography variant="small" className="mt-1 font-medium">출력</Typography>
               <ClipboardWithTooltip content={elem.output} />
             </div>
