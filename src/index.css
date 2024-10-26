@@ -14,9 +14,13 @@
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("assets/font/NotoSansKR-VariableFont_wght.ttf") format("truetype");
-  font-weight: 100 900; /* 가변 폰트의 가중치 범위 */
-  font-display: swap;
+  src: url("/assets/font/NotoSansKR-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+html {
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 @tailwind base;

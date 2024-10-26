@@ -1,11 +1,11 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 const withMT = require("@material-tailwind/react/utils/withMT");
 const plugin = require('tailwindcss/plugin');
 
 export default withMT({
   content: ["./src/**/*.{html,js,ts,tsx,jsx}"],
   theme: {
-    extend: {  // "extends" -> "extend"로 수정
+    extend: { 
       screens: {
         'ssm': { max: '540px', min: '540px'},
         'ssmd': '540px',
@@ -17,7 +17,8 @@ export default withMT({
       fontFamily: {
         'WavvePADO-Regular': ['WavvePADO-Regular'],
         'D2Coding': ['D2Coding'],
-        'NotoSansKR': ['Noto Sans KR', 'sans-serif'], // Noto Sans KR 추가
+        'x': ['Noto Sans KR', 'sans-serif'],
+        'default': ['Noto Sans KR', 'sans-serif'],
       },
       customContainer: (theme) => ({
         DEFAULT: {
