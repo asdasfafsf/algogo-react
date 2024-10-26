@@ -6,7 +6,7 @@ interface ProblemChipProps extends ChipProps {
 }
 
 export default function ProblemStateChip({ state, ...chipProps }: ProblemChipProps) {
-  const chipValue = ['실패', '성공', '미제출', '확인'];
+  const chipValue = ['실패', '성공', '미제출', '미확인'];
   const { className } = chipProps;
   return (
     <Chip

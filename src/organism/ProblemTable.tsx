@@ -126,8 +126,12 @@ export default function ProblemTable() {
                   uuid, title, levelText, answerCount, submitCount, source, sourceId,
                 }) => (
                   <tr key={title}>
-                    <td className="w-12 p-4 border-b border-gray-300">
-                      <ProblemStateChip className="w-11" state={3} value="" />
+                    <td className="w-16 p-4 border-b border-gray-300">
+                      <ProblemStateChip
+                        className="w-full text-center"
+                        state={3}
+                        value=""
+                      />
 
                     </td>
                     <td className="p-4 border-b border-gray-300 cursor-pointer min-w-80">
