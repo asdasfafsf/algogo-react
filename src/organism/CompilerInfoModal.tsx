@@ -67,7 +67,7 @@ export default function CompilerInfoModal() {
           <CardBody>
             <Typography variant="h6">Java</Typography>
             <Typography variant="small">
-              컴파일: g++ Main.cc -o Main -O2 -Wall -lm -static -std=gnu++17 -DONLINE_JUDGE -DBOJ
+              컴파일: javac --release 17 -J-Xms128m -J-Xmx256m -J-Xss512k -encoding UTF-8 Main.java
             </Typography>
             <Typography variant="small">실행: ./Main </Typography>
             <Typography variant="small">버전: aws coretto JDK 17</Typography>
