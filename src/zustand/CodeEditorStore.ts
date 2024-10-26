@@ -10,14 +10,14 @@ type EditorStore = {
   updateCodeFromLanguage: (languge: Language, code: string) => void | Promise<void>
   input: string,
   setInput: (input: string) => void | Promise<void>
-  output: string,
-  setOutput: (output: string) => void | Promise<void>
+  output: ResponseExecuteResult,
+  setOutput: (output: ResponseExecuteResult) => void | Promise<void>
 };
 
 export const useCodeEditorStore = create<EditorStore>((set) => ({
   code: defaultCodeFromLanguage['C++'],
   setCode: (code: string) => set({ code }),
-  language: 'C++',
+  language: 'C++' as Language,
   setLanguage: (language: Language) => set({ language }),
   codeFromLanguage: {
     ...defaultCodeFromLanguage,
@@ -29,8 +29,14 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
   }),
   input: '',
   setInput: (input: string) => set({ input }),
-  output: '',
-  setOutput: (output: string) => set({ output }),
+  output: {
+    seq: 0,
+    processTime: 0,
+    memory: 0,
+    code: '',
+    result: '',
+  },
+  setOutput: (output: ResponseExecuteResult) => set({ output }),
 }));
 
 export default useCodeEditorStore;

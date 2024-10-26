@@ -22,7 +22,6 @@ export default function CodeResultPannel() {
     handleClickTab,
     inputTextAreaRef,
     outputTextAreaRef,
-    handleChangeOutput,
     handleClickCopyOutput,
     handleClickResetOutput,
     testCaseList,
@@ -66,7 +65,6 @@ export default function CodeResultPannel() {
           <CodeResultOutput
             output={output}
             handleClickCopy={handleClickCopyOutput}
-            handleChangeOutput={handleChangeOutput}
             handleClickReset={handleClickResetOutput}
             outputTextAreaRef={outputTextAreaRef}
           />

@@ -31,13 +31,16 @@ export default function useCodeResultPanel() {
   }, [setInput]);
 
   const handleClickCopyOutput = useCallback(async () => {
-    await navigator.clipboard.writeText(output);
+    await navigator.clipboard.writeText(output.result);
   }, [output]);
 
-  const handleClickResetOutput = useCallback(() => setOutput(''), []);
-  const handleChangeOutput = useCallback((_: React.ChangeEvent<HTMLElement>, output: string) => {
-    setOutput(output);
-  }, [setOutput]);
+  const handleClickResetOutput = useCallback(() => setOutput({
+    seq: 0,
+    processTime: 0,
+    memory: 0,
+    code: '',
+    result: '실행 결과가 출력됩니다',
+  }), []);
 
   const testCaseList = useTestCaseListStore((state) => state.testCaseList);
 
@@ -53,7 +56,6 @@ export default function useCodeResultPanel() {
     handleChangeInput,
     handleClickCopyOutput,
     handleClickResetOutput,
-    handleChangeOutput,
 
   };
 }

@@ -3,24 +3,37 @@ import {
   ClipboardIcon, TrashIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
+import { Typography } from '@material-tailwind/react';
 import TooltipIconButton from '../atom/TooltipIconButton';
 
 interface CodeResultOutputProps {
   outputTextAreaRef:React.RefObject<HTMLTextAreaElement>
-  output: string;
-  handleChangeOutput: (e: React.ChangeEvent<HTMLElement>, output: string) => void | Promise<void>;
+  output: ResponseExecuteResult;
   handleClickReset: (e:React.MouseEvent<HTMLElement>) => void | Promise<void>;
   handleClickCopy: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
 }
 
 export default function CodeResultOutput(
   {
-    outputTextAreaRef, output, handleChangeOutput, handleClickReset, handleClickCopy,
+    outputTextAreaRef, output, handleClickReset, handleClickCopy,
   }: CodeResultOutputProps,
 ) {
   return (
     <div className="relative h-full">
-      <nav className="flex justify-end w-full gap-1 overflow-x-hidden">
+      <nav className="flex justify-between w-full gap-1 overflow-x-hidden">
+        <div className="absolute z-10 flex ml-2 top-1">
+          <Typography variant="h6" color="green">
+            실행 시간 : &nbsp;
+            {output.processTime}
+            ms
+          </Typography>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <Typography variant="h6" color="green">
+            메모리 사용량 : &nbsp;
+            {output.memory}
+            MB
+          </Typography>
+        </div>
         <div className="absolute z-10 flex overflow-x-hidden bg-gray-900 right-6">
           <TooltipIconButton
             onClick={handleClickCopy}
@@ -41,10 +54,9 @@ export default function CodeResultOutput(
       <textarea
         readOnly
         ref={outputTextAreaRef}
-        value={output}
-        onChange={(e) => handleChangeOutput(e, e.target.value)}
+        value={output.result}
         placeholder="실행 결과가 출력됩니다"
-        className="h-[calc(100%-24px)] focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
+        className="h-[calc(100%-24px)] top-6 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
       />
     </div>
   );

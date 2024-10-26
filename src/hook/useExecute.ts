@@ -38,13 +38,25 @@ export default function useExecute() {
       }],
     };
 
-    setOutput('');
+    setOutput({
+      seq: 0,
+      processTime: 0,
+      memory: 0,
+      code: '',
+      result: '',
+    });
     execute((executeResult) => {
-      setOutput(executeResult.result);
+      setOutput(executeResult);
     });
     run(requestData, (response) => {
       if (response.code !== '0000') {
-        setOutput(response.result);
+        setOutput({
+          seq: 0,
+          processTime: 0,
+          memory: 0,
+          code: '',
+          result: response.result,
+        });
       }
     });
   }, [state, language, code, input]);
