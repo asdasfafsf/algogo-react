@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import {
   Button, Chip, Textarea, Typography,
 } from '@material-tailwind/react';

@@ -1,6 +1,6 @@
 import { Typography } from '@material-tailwind/react';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
+import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 import ChipWithSelected from '../atom/ChipWithSelected';
 
 export default function ProblemTableFilter() {

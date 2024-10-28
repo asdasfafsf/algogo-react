@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-multi-spaces */
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import {
   Input,
   Button,
@@ -24,12 +22,14 @@ import Pagebar from '../atom/Pagebar';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
-  const [isOpenGrade] = useState(true);
+  const [isOpenGrade] = useState(false);
 
   const {
-    maxPageNo, pageNo, problemList, problemSort, pageSize,
+    maxPageNo, pagingInfo, problemList, problemSort,
     handleChangePageNo, handleClickProblemTh, handleClickProblem,
   } = useProblemTable();
+
+  const { pageNo, pageSize } = pagingInfo;
 
   return (
     <section className="container mt-8">
@@ -182,10 +182,10 @@ export default function ProblemTable() {
                 : Array.from(Array(pageSize), (_, k) => k).map((elem) => (
                   <tr key={elem}>
                     <td className="w-12 px-4 py-4 border-b border-gray-300">
-                      <div className="h-6 mt-1 bg-gray-300 rounded w-11 animate-pulse" />
+                      <div className="h-5 mt-0 bg-gray-300 rounded w-14 animate-pulse" />
                     </td>
                     <td className="px-4 py-4 border-b border-gray-300 min-w-80">
-                      <div className="w-3/4 h-5 bg-gray-300 rounded animate-pulse mt-0.5" />
+                      <div className=" h-5 min-w-80 bg-gray-300 rounded animate-pulse mt-0.5" />
                     </td>
                     <td className="px-4 py-4 border-b border-gray-300">
                       <div className="w-16 h-6 bg-gray-300 rounded animate-pulse mt-0.5" />

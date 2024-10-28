@@ -5,14 +5,10 @@ import useAlertModal from './useAlertModal';
 
 export default function useProblemTable() {
   const [alert] = useAlertModal();
-  const [problemList, setProblemList] = useState<ResponseProblem[] | null>();
-  const { problemSort, setProblemSort } = useProblemTableFilterStore((
-    { problemSort, setProblemSort },
-  ) => ({ problemSort, setProblemSort }));
-
-  const { problemOptionList } = useProblemTableFilterStore((
-    { problemOptionList },
-  ) => ({ problemOptionList }));
+  const [problemList, setProblemList] = useState<ResponseProblem[] | undefined>();
+  const { problemOptionList, problemSort, setProblemSort } = useProblemTableFilterStore((
+    { problemOptionList, problemSort, setProblemSort },
+  ) => ({ problemOptionList, problemSort, setProblemSort }));
 
   const [pagingInfo, setPagingInfo] = useState({
     pageNo: 1,
@@ -20,11 +16,8 @@ export default function useProblemTable() {
   });
 
   const [maxPageNo, setMaxPageNo] = useState(1);
-
   const fetchProblemList = useCallback(async () => {
-    const skeletonTimeout = setTimeout(() => {
-      setProblemList(null);
-    }, 500);
+    setProblemList(undefined);
     const { pageNo, pageSize } = pagingInfo;
     const requestProblemListDto = {
       pageNo,
@@ -39,7 +32,7 @@ export default function useProblemTable() {
     };
     const response = await getProblemList(requestProblemListDto);
     if (response.statusCode !== 200) {
-      await alert(`${response.statusCode}` ?? '');
+      await alert(`${response.errorMessage}`);
       return;
     }
 
@@ -48,8 +41,6 @@ export default function useProblemTable() {
     } = response.data;
 
     const maxPageNo = Math.ceil(totalCount / pageSize);
-    clearTimeout(skeletonTimeout);
-
     setMaxPageNo(maxPageNo);
     setProblemList(problemList);
   }, [pagingInfo]);
@@ -75,7 +66,7 @@ export default function useProblemTable() {
     }
 
     setPagingInfo((prev) => ({ ...prev, pageNo }));
-  }, [pagingInfo, maxPageNo]);
+  }, []);
 
   const handleClickProblem = useCallback((_e: unknown, problemUuid: string) => {
     window.open(location.hostname === 'localhost'
@@ -112,7 +103,7 @@ export default function useProblemTable() {
   return {
     problemList,
     problemSort,
-    ...pagingInfo,
+    pagingInfo,
     maxPageNo,
     handleClickProblem,
     handleClickProblemTh,

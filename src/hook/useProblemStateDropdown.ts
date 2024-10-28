@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
+import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 
 interface ProblemState {
   name: string;

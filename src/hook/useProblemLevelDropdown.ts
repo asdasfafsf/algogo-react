@@ -1,8 +1,7 @@
-/* eslint-disable import/no-named-as-default */
 import { useCallback, useEffect, useState } from 'react';
 import useConfirmModal from './useConfirmModal';
 import defaultProblemLevelList from '../constant/ProblemLevelList';
-import useProblemTableFilterStore from '../zustand/ProblemTableFilterStore';
+import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 
 interface ProblemLevel {
   name: string;

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import { useEffect } from 'react';
 import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
