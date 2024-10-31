@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { Chip, ChipProps } from '@material-tailwind/react';
 import { color } from '@material-tailwind/react/types/components/chip';
 
@@ -12,6 +11,7 @@ export default function ChipWithSelected({
   onClick,
   ...props
 }: ChipWithSelectecdProps) {
+  const color = isSelected ? 'blue' : undefined;
   return (
     <div
       onClick={onClick}
@@ -20,7 +20,7 @@ export default function ChipWithSelected({
       <Chip
         {...props}
         variant={`${isSelected ? 'filled' : 'ghost'}`}
-        color={`${isSelected ? 'blue' : '' as color}`}
+        color={color as color}
       />
 
     </div>

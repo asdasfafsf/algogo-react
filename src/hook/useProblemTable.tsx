@@ -2,18 +2,32 @@ import { useCallback, useEffect, useState } from 'react';
 import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 import { getProblemList } from '../api/problems';
 import useAlertModal from './useAlertModal';
+import useDebounce from './useDebounce';
 
 export default function useProblemTable() {
   const [alert] = useAlertModal();
   const [problemList, setProblemList] = useState<ResponseProblem[] | undefined>();
-  const { problemOptionList, problemSort, setProblemSort } = useProblemTableFilterStore((
-    { problemOptionList, problemSort, setProblemSort },
-  ) => ({ problemOptionList, problemSort, setProblemSort }));
+  const {
+    problemTitle, problemOptionList, problemSort, setProblemSort, setProblemTitle,
+  } = useProblemTableFilterStore((
+    {
+      problemTitle, problemOptionList, problemSort, setProblemSort, setProblemTitle,
+    },
+  ) => ({
+    problemTitle, problemOptionList, problemSort, setProblemSort, setProblemTitle,
+  }));
 
   const [pagingInfo, setPagingInfo] = useState({
     pageNo: 1,
     pageSize: 20,
   });
+  const [isOpenGrade] = useState(false);
+
+  const debouncedTitle = useDebounce<string>(problemTitle, 100);
+
+  useEffect(() => {
+    setProblemTitle(debouncedTitle);
+  }, [debouncedTitle]);
 
   const [maxPageNo, setMaxPageNo] = useState(1);
   const fetchProblemList = useCallback(async () => {
@@ -66,13 +80,20 @@ export default function useProblemTable() {
     }
 
     setPagingInfo((prev) => ({ ...prev, pageNo }));
-  }, []);
+  }, [pagingInfo]);
 
-  const handleClickProblem = useCallback((_e: unknown, problemUuid: string) => {
-    window.open(location.hostname === 'localhost'
-      ? `http://localhost:5173/problem/${problemUuid}`
-      : `https://www.algogo.co.kr/problem/${problemUuid}`, '_blank', 'noopener, noreferrer');
-  }, []);
+  const handleClickProblem = useCallback(
+    (_e: React.MouseEvent<HTMLElement>, problemUuid: string) => {
+      window.open(
+        location.hostname === 'localhost'
+          ? `http://localhost:5173/problem/${problemUuid}`
+          : `https://www.algogo.co.kr/problem/${problemUuid}`,
+        '_blank',
+        'noopener, noreferrer',
+      );
+    },
+    [],
+  );
 
   const handleClickProblemTh = useCallback((_e: unknown, head: ProblemSortName | '출처') => {
     if ((head === '상태' || head === '출처')) {
@@ -100,11 +121,23 @@ export default function useProblemTable() {
     });
   }, [setProblemSort]);
 
+  const handleChangeProblemTitle = useCallback(
+    (
+      _: React.ChangeEvent<HTMLElement>,
+      value: string,
+    ) => {
+      setProblemTitle(value);
+    },
+    [],
+  );
+
   return {
+    isOpenGrade,
     problemList,
     problemSort,
     pagingInfo,
     maxPageNo,
+    handleChangeProblemTitle,
     handleClickProblem,
     handleClickProblemTh,
     handleChangePageNo,

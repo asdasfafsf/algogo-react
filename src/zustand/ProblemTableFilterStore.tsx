@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { createSelectors } from './selector';
 
 type ProblemTableFilterStore = {
   problemTitle: string;
@@ -36,5 +35,3 @@ export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) 
       : problemTitle,
   })),
 }));
-
-export const ProblemTableFilterStore = createSelectors(useProblemTableFilterStore);

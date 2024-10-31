@@ -9,7 +9,6 @@ import {
 } from '@material-tailwind/react';
 
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
 import { PlayIcon } from '@heroicons/react/24/outline';
 import ProblemLevelChip from '../atom/ProblemLevelChip';
 import ProblemStateChip from '../atom/ProblemStateChip';
@@ -22,9 +21,9 @@ import Pagebar from '../atom/Pagebar';
 
 export default function ProblemTable() {
   const problemTableHeaders = ['상태', '제목', '난이도', '정답률', '제출', '출처'];
-  const [isOpenGrade] = useState(false);
 
   const {
+    isOpenGrade,
     maxPageNo, pagingInfo, problemList, problemSort,
     handleChangePageNo, handleClickProblemTh, handleClickProblem,
   } = useProblemTable();
