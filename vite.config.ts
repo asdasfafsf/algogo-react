@@ -1,10 +1,20 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import svgr from 'vite-plugin-svgr';
+import svgr from 'vite-plugin-svgr'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-// https://vitejs.dev/config/
+// __dirname 대체
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 export default defineConfig({
   plugins: [react(), svgr()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+    },
+  },
   server: {
     hmr: {
       overlay: true, // 오류 메시지를 브라우저 화면에 띄울지 여부
@@ -13,7 +23,7 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3001',
         changeOrigin: true,
-      }
+      },
     },
-  }
+  },
 })
