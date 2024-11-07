@@ -10,6 +10,15 @@ export default withMT({
         'ssm': { max: '540px', min: '540px'},
         'ssmd': '540px',
       },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+      animation: {
+        fadeIn: 'fadeIn 1s ease-out forwards',
+      },
       transitionProperty: {
         'left': 'left',
         'height': 'height',

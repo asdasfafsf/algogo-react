@@ -1,4 +1,5 @@
-// src/components/Chip.tsx
+import React from 'react';
+
 type Color =
   | 'blue'
   | 'red'
@@ -81,9 +82,9 @@ export default function Chip({
 
   return (
     <div
-      className={`${className} font-bold text-xs rounded-md py-1 px-2.5 transition-all shadow-sm ${variantClasses} inline-flex items-center justify-center`}
+      className={`${className} animate-fadeIn font-bold text-xs rounded-md py-1 px-2.5 transition-all shadow-sm ${variantClasses} inline-flex items-center justify-center`}
     >
-      <div className="">{value}</div>
+      <div>{value}</div>
     </div>
   );
 }

@@ -21,10 +21,9 @@ export default function Button({
   children,
   onClick,
   disabled,
-  ...props
+  className,
 }: ButtonProps) {
-  const { className } = props;
-  const baseClasses = 'relative overflow-hidden flex items-center rounded-md text-center transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none';
+  const baseClasses = 'relative overflow-hidden flex items-center rounded-md text-center transition-all duration-500 opacity-0 animate-fadeIn disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none';
 
   const typeClasses = {
     filled: 'shadow-md hover:shadow-lg focus:shadow-none active:shadow-none',
