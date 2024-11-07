@@ -13,7 +13,7 @@ export default function ProblemStateChip({ state, ...props }: ProblemChipProps) 
       color={`${state === 0 ? 'red' : state === 1 ? 'green' : 'blue'}`}
       {...props}
       value={chipValue[state] ?? '미제출'}
-      className={`${className} text-white`}
+      className={`${className}`}
     />
   );
 }
