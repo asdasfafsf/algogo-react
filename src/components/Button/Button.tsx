@@ -1,9 +1,9 @@
 import React, { MouseEvent } from 'react';
 
 interface ButtonProps {
-  type?: 'filled' | 'gradient' | 'outlined' | 'text';
+  variant?: 'filled' | 'gradient' | 'outlined' | 'text';
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-  color?: 'blue' | 'red' | 'green' | 'amber' | 'slate';
+  color?: 'blue' | 'red' | 'green' | 'amber' | 'slate' | 'gray';
   icon?: React.ReactNode;
   className?: string;
   iconPosition?: 'left' | 'right';
@@ -13,7 +13,7 @@ interface ButtonProps {
 }
 
 export default function Button({
-  type = 'filled',
+  variant = 'filled',
   size = 'medium',
   color = 'slate',
   icon,
@@ -30,7 +30,7 @@ export default function Button({
     gradient: 'bg-gradient-to-tr from-slate-800 to-slate-700 shadow-md hover:shadow-lg focus:shadow-none active:shadow-none',
     outlined: 'border shadow-sm hover:shadow-lg',
     text: '',
-  }[type] || '';
+  }[variant] || '';
 
   const colorClasses = {
     blue: 'bg-blue-500 text-white focus:bg-blue-700 hover:bg-blue-700 active:bg-blue-700',
@@ -38,6 +38,7 @@ export default function Button({
     green: 'bg-green-600 text-white focus:bg-green-700 hover:bg-green-700 active:bg-green-700',
     amber: 'bg-amber-600 text-slate-800 focus:bg-amber-700 hover:bg-amber-700 active:bg-amber-700',
     slate: 'bg-slate-800 text-white focus:bg-slate-700 hover:bg-slate-700 active:bg-slate-700',
+    gray: 'bg-gray-500 text-white focus:bg-gray-700 hover:bg-gray-700 active:bg-gray-700',
   }[color] || '';
 
   const sizeClasses = {

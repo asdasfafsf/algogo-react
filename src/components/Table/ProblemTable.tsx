@@ -10,6 +10,7 @@ import {
   PROBLEM_SORT_ANSWER_RATE_DESC,
   PROBLEM_SORT_LEVEL_ASC, PROBLEM_SORT_LEVEL_DESC, PROBLEM_SORT_TITLE_ASC, PROBLEM_SORT_TITLE_DESC,
 } from '../../constant/ProblemSort';
+import Pagebar from '../Pagebar/Pagebar';
 
 export default function ProblemTable() {
   const [problemSort, setProblemSort] = useState<ProblemSort>(0);
@@ -93,6 +94,14 @@ export default function ProblemTable() {
 
         </tbody>
       </table>
+
+      <div className="w-full flex items-center">
+        <Pagebar
+          currentPage={0}
+          displayedPageRange={10}
+          handleChangePage={() => {}}
+        />
+      </div>
 
     </Card>
   );
