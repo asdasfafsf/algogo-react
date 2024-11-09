@@ -52,13 +52,11 @@ const headingClasses: Record<Variant, Record<Weight, string>> = {
     light: 'font-light leading-snug tracking-normal text-slate-800 text-sm',
     semibold: 'font-semibold leading-snug tracking-normal text-slate-800 text-sm',
   },
-
   small: {
     bold: 'font-bold leading-snug tracking-normal text-slate-800 text-xs',
     light: 'font-light leading-snug tracking-normal text-slate-800 text-xs',
     semibold: 'font-semibold leading-snug tracking-normal text-slate-800 text-xs',
   },
-
 };
 
 export default function Typography({
@@ -71,7 +69,7 @@ export default function Typography({
   const classes = headingClasses[variant][weight] || headingClasses.h1.bold;
 
   return (
-    <Tag className={`${className} ${classes}`}>
+    <Tag className={`${className} ${classes} animate-fadeIn`}>
       {children}
     </Tag>
   );
