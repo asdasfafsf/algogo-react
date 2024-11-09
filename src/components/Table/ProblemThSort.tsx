@@ -13,7 +13,7 @@ export default function ProblemThSort({
   sort, children, className = '', onClick = () => {},
 }: ProblemThSortProps) {
   return (
-    <th onClick={onClick} className={`${className} w-24 text-left`}>
+    <th onClick={onClick} className={`${className} w-24`}>
       <div className="flex items-center gap-1 cursor-pointer">
         <Typography className="flex items-center" weight="semibold" variant="medium">
           {children}

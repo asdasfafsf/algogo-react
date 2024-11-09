@@ -28,7 +28,7 @@ export default function ProblemTable() {
               </Typography>
             </th>
             <ProblemThSort
-              className="w-full pl-12 text-left min-w-24"
+              className="w-full pl-12 min-w-24"
               sort={problemSort === PROBLEM_SORT_TITLE_ASC
                 ? 1 : problemSort === PROBLEM_SORT_TITLE_DESC ? 2 : 0}
             >
@@ -36,26 +36,26 @@ export default function ProblemTable() {
             </ProblemThSort>
 
             <ProblemThSort
-              className="text-left w-36"
+              className="text-center w-36"
               sort={problemSort === PROBLEM_SORT_LEVEL_ASC
                 ? 1 : problemSort === PROBLEM_SORT_LEVEL_DESC ? 2 : 0}
             >
               난이도
             </ProblemThSort>
             <ProblemThSort
-              className="w-32 text-left"
+              className="w-32"
               sort={problemSort === PROBLEM_SORT_ANSWER_RATE_ASC
                 ? 1 : problemSort === PROBLEM_SORT_ANSWER_RATE_DESC ? 2 : 0}
             >
               정답률
             </ProblemThSort>
             <ProblemThSort
-              className="w-24 text-left"
+              className="w-24"
               sort={problemSort === 40 ? 1 : problemSort === 41 ? 2 : 0}
             >
               제출
             </ProblemThSort>
-            <th className="w-24 text-left">
+            <th className="w-24">
               <Typography weight="semibold" variant="medium">출처</Typography>
             </th>
           </tr>
@@ -65,7 +65,9 @@ export default function ProblemTable() {
             <td className="flex items-center justify-center w-full h-16 pl-3">
               <ProblemStateChip state={0} value="" />
             </td>
-            <td className="w-full pl-12"><Typography variant="medium" weight="semilight">저는 문제입니다</Typography></td>
+            <td className="w-full pl-12">
+              <Typography variant="medium" weight="semilight">저는 문제입니다</Typography>
+            </td>
             <td className="w-full">
               <div className="flex items-center w-full justify-left">
                 <ProblemLevelChip level="플래티넘 5" />
