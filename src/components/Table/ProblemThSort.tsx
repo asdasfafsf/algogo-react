@@ -15,7 +15,7 @@ export default function ProblemThSort({
   return (
     <th onClick={onClick} className={`${className} w-24 text-left`}>
       <div className="flex items-center gap-1 cursor-pointer">
-        <Typography weight="semibold" variant="medium">
+        <Typography className="flex items-center" weight="semibold" variant="medium">
           {children}
         </Typography>
         <div className="pb-0.5 relative">
