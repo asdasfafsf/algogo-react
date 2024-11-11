@@ -2,6 +2,8 @@ import { Card } from '@components/Card/index';
 import { useState } from 'react';
 import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon } from '@heroicons/react/24/solid';
+import { Pagebar } from '@components/Pagebar/index';
+import { Input } from '@components/Input/index';
 import Typography from '../Typography/Typography';
 import Button from '../Button/Button';
 import ProblemThSort from './ProblemThSort';
@@ -10,7 +12,6 @@ import {
   PROBLEM_SORT_ANSWER_RATE_DESC,
   PROBLEM_SORT_LEVEL_ASC, PROBLEM_SORT_LEVEL_DESC, PROBLEM_SORT_TITLE_ASC, PROBLEM_SORT_TITLE_DESC,
 } from '../../constant/ProblemSort';
-import Pagebar from '../Pagebar/Pagebar';
 
 export default function ProblemTable() {
   const [problemSort, setProblemSort] = useState<ProblemSort>(0);
@@ -20,6 +21,11 @@ export default function ProblemTable() {
     <Card className="p-0">
       반가워
       <Button variant="text" size="small" color="blue">방가</Button>
+
+      <div>
+        방가방
+        <Input label="제목" />
+      </div>
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[800px] table-fixed">
