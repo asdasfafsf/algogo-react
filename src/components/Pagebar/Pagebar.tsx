@@ -62,7 +62,7 @@ export default function Pagebar({
         </div>
         <div className="flex items-center gap-2 md:hidden">
           <IconButton
-            variant="filled"
+            variant="text"
             // color="gray"
             onClick={(e) => handleChangePage(e, currentPage)}
           >
@@ -72,12 +72,12 @@ export default function Pagebar({
       </div>
       <Button
         variant="text"
-        className="flex items-center gap-2"
+        className="flex items-center justify-center gap-2"
         onClick={handleClickNext}
         disabled={maxPage ? currentPage >= maxPage : false}
       >
         다음 페이지
-        <ArrowRightIcon strokeWidth={2} className="w-4 h-4" />
+        <ArrowRightIcon strokeWidth={2} className="relative w-4 h-4" />
       </Button>
     </div>
   );
