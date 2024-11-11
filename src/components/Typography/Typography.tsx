@@ -105,7 +105,7 @@ export default function Typography({
   const classes = headingClasses[variant][weight] || headingClasses.h1.bold;
 
   return (
-    <Tag className={`${className} ${classes} animate-fadeIn`}>
+    <Tag className={`${className} ${classes}`}>
       {children}
     </Tag>
   );
