@@ -104,10 +104,8 @@ export default function Typography({
   const Tag = variant as keyof JSX.IntrinsicElements;
   const classes = headingClasses[variant][weight] || headingClasses.h1.bold;
 
-  const style = weight === 'ultralight' ? { fontWeight: 300 } : undefined;
-
   return (
-    <Tag className={`${className} ${classes}`} style={style}>
+    <Tag className={`${className} ${classes} animate-fadeIn`}>
       {children}
     </Tag>
   );
