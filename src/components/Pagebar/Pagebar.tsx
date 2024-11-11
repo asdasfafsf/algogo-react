@@ -33,7 +33,7 @@ export default function Pagebar({
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center justify-center w-full gap-4">
       <Button
         variant="text"
         className="flex items-center gap-2"
@@ -54,7 +54,6 @@ export default function Pagebar({
               key={pageNo}
               disabled={maxPage ? maxPage < pageNo : false}
               variant={currentPage === pageNo ? 'filled' : 'text'}
-              color="gray"
               onClick={(e) => handleChangePage(e, pageNo)}
             >
               {pageNo}
@@ -64,7 +63,7 @@ export default function Pagebar({
         <div className="flex items-center gap-2 md:hidden">
           <IconButton
             variant="filled"
-            color="gray"
+            // color="gray"
             onClick={(e) => handleChangePage(e, currentPage)}
           >
             {currentPage}
