@@ -97,10 +97,11 @@ export default function ProblemTable() {
         </table>
       </div>
 
-      <div className="flex items-center ">
+      <div className="flex items-center w-full h-20">
         <Pagebar
-          currentPage={0}
+          currentPage={1}
           displayedPageRange={10}
+          maxPage={5}
           handleChangePage={() => {}}
         />
       </div>
