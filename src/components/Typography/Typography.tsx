@@ -101,12 +101,12 @@ export default function Typography({
   weight = 'bold',
   className = '',
 }: HeadingProps) {
-  const Tag = variant as keyof JSX.IntrinsicElements;
+//   const Tag = variant as keyof JSX.IntrinsicElements;
   const classes = headingClasses[variant][weight] || headingClasses.h1.bold;
 
   return (
-    <Tag className={`${className} ${classes} animate-fadeIn`}>
+    <div className={`${className} ${classes} animate-fadeIn`}>
       {children}
-    </Tag>
+    </div>
   );
 }
