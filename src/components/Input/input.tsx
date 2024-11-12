@@ -1,92 +1,51 @@
-// Input.tsx
-import React, { useId, useState, useEffect } from 'react';
+// src/components/Input.tsx
+import React, { InputHTMLAttributes, ReactNode, useId } from 'react';
 
-interface InputProps {
-  type?: string;
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  size?: 'small' | 'medium' | 'large';
-  label?: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: string;
   className?: string;
-  required?: boolean;
-  error?: string;
+  id?: string;
+  icon?: ReactNode;
 }
 
-const sizeClasses: Record<'small' | 'medium' | 'large', string> = {
-  small: 'px-3 py-1.5 text-sm',
-  medium: 'px-4 py-2 text-base',
-  large: 'px-5 py-3 text-lg',
-};
-
 export default function Input({
-  type = 'text',
-  placeholder = '',
-  value = '',
-  onChange,
-  size = 'medium',
   label,
+  type = 'text',
+  id = useId(),
+  name,
+  value,
   className = '',
-  required = false,
-  error,
+  onChange,
+  icon,
+  ...props
 }: InputProps) {
-  const id = useId();
-  const [isFocused, setIsFocused] = useState(false);
-
-  // Determine if the input has a value
-  const hasValue = value && value.length > 0;
-
-  // Handle focus and blur events
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
-
   return (
-    <div className={`w-full max-w-sm min-w-[200px] ${className}`}>
-      <div className="relative">
-        <input
-          id={id}
-          type={type}
-          value={value}
-          onChange={onChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          placeholder=" " // A single space to enable :placeholder-shown
-          className={`
-            block w-full bg-transparent border rounded-md transition 
-            duration-300 ease-in-out
-            ${error ? 'border-red-500' : 'border-gray-300'}
-            ${isFocused || hasValue ? 'border-blue-500' : ''}
-            ${sizeClasses[size]}
-            peer
-          `}
-          aria-label={label ?? undefined}
-          aria-invalid={!!error}
-          required={required}
-        />
-        {label && (
-          <label
-            htmlFor={id}
-            className={`
-              absolute left-4 top-1/2 transform -translate-y-1/2 
-              text-gray-500 text-sm bg-white px-1 transition 
-              duration-200 ease-in-out
-              pointer-events-none
-              ${isFocused || hasValue
-              ? 'top-0 left-4 text-xs text-blue-500'
-              : 'left-4 top-1/2 text-sm text-gray-500'
-              }
-            `}
-          >
-            {label}
-            {required && ' *'}
-          </label>
-        )}
-        {error && (
-          <span className="absolute mt-1 text-sm text-red-500 top-full left-4">
-            {error}
-          </span>
-        )}
-      </div>
+    <div className="relative mt-4">
+      <input
+        type={type}
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className={`${className} block px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded focus:border-black focus:outline-none focus:ring-0 peer ${
+          icon ? 'pr-10' : ''
+        }`}
+        placeholder=" "
+        {...props}
+      />
+      {icon && (
+        <div className="absolute inset-y-0 flex items-center pointer-events-none right-3">
+          {icon}
+        </div>
+      )}
+      <label
+        htmlFor={id}
+        className={`absolute left-3 top-1/2 transform -translate-y-1/2 bg-white px-1 text-sm text-gray-500 duration-200
+          peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm
+          peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs peer-focus:text-black`}
+      >
+        {label}
+      </label>
     </div>
   );
 }
