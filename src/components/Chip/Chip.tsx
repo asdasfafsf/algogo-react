@@ -8,7 +8,8 @@ type Color =
   | 'purple'
   | 'teal'
   | 'cyan'
-  | 'slate';
+  | 'slate'
+  | 'gray'; // 'gray' 추가
 
 type Variant = 'filled' | 'gradient' | 'outlined' | 'ghost';
 
@@ -21,28 +22,30 @@ export interface ChipProps {
 
 const variantColorClasses: Record<Variant, Record<Color, string>> = {
   filled: {
-    blue: 'bg-blue-600 text-white',
-    red: 'bg-red-600 text-white',
-    green: 'bg-green-600 text-white',
-    amber: 'bg-amber-600 text-white',
-    pink: 'bg-pink-600 text-white',
-    indigo: 'bg-indigo-600 text-white',
-    purple: 'bg-purple-600 text-white',
-    teal: 'bg-teal-600 text-white',
-    cyan: 'bg-cyan-600 text-white',
-    slate: 'bg-slate-800 text-white',
+    blue: 'bg-blue-600 text-white border border-transparent',
+    red: 'bg-red-600 text-white border border-transparent',
+    green: 'bg-green-600 text-white border border-transparent',
+    amber: 'bg-amber-600 text-white border border-transparent',
+    pink: 'bg-pink-600 text-white border border-transparent',
+    indigo: 'bg-indigo-600 text-white border border-transparent',
+    purple: 'bg-purple-600 text-white border border-transparent',
+    teal: 'bg-teal-600 text-white border border-transparent',
+    cyan: 'bg-cyan-600 text-white border border-transparent',
+    slate: 'bg-slate-800 text-white border border-transparent',
+    gray: 'bg-gray-700 text-black border border-transparent', // 'gray' 한 단계 더 진하게 변경
   },
   gradient: {
-    blue: 'bg-gradient-to-tr from-blue-600 to-blue-500 text-white',
-    red: 'bg-gradient-to-tr from-red-600 to-red-500 text-white',
-    green: 'bg-gradient-to-tr from-green-600 to-green-500 text-white',
-    amber: 'bg-gradient-to-tr from-amber-600 to-amber-500 text-white',
-    pink: 'bg-gradient-to-tr from-pink-600 to-pink-500 text-white',
-    indigo: 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white',
-    purple: 'bg-gradient-to-tr from-purple-600 to-purple-500 text-white',
-    teal: 'bg-gradient-to-tr from-teal-600 to-teal-500 text-white',
-    cyan: 'bg-gradient-to-tr from-cyan-600 to-cyan-500 text-white',
-    slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white',
+    blue: 'bg-gradient-to-tr from-blue-600 to-blue-500 text-white border border-transparent',
+    red: 'bg-gradient-to-tr from-red-600 to-red-500 text-white border border-transparent',
+    green: 'bg-gradient-to-tr from-green-600 to-green-500 text-white border border-transparent',
+    amber: 'bg-gradient-to-tr from-amber-600 to-amber-500 text-white border border-transparent',
+    pink: 'bg-gradient-to-tr from-pink-600 to-pink-500 text-white border border-transparent',
+    indigo: 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white border border-transparent',
+    purple: 'bg-gradient-to-tr from-purple-600 to-purple-500 text-white border border-transparent',
+    teal: 'bg-gradient-to-tr from-teal-600 to-teal-500 text-white border border-transparent',
+    cyan: 'bg-gradient-to-tr from-cyan-600 to-cyan-500 text-white border border-transparent',
+    slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white border border-transparent',
+    gray: 'bg-gradient-to-tr from-gray-600 to-gray-500 text-black border border-transparent', // 'gray' 한 단계 더 진하게 변경
   },
   outlined: {
     blue: 'border border-blue-600 bg-transparent text-blue-600',
@@ -55,6 +58,7 @@ const variantColorClasses: Record<Variant, Record<Color, string>> = {
     teal: 'border border-teal-600 bg-transparent text-teal-600',
     cyan: 'border border-cyan-600 bg-transparent text-cyan-600',
     slate: 'border border-slate-300 bg-transparent text-slate-600',
+    gray: 'border border-gray-700 bg-transparent text-black', // 'gray' 한 단계 더 진하게 변경
   },
   ghost: {
     blue: 'bg-blue-100 border border-transparent text-blue-600',
@@ -67,6 +71,7 @@ const variantColorClasses: Record<Variant, Record<Color, string>> = {
     teal: 'bg-teal-100 border border-transparent text-teal-600',
     cyan: 'bg-cyan-100 border border-transparent text-cyan-600',
     slate: 'bg-slate-100 border border-transparent text-slate-600',
+    gray: 'bg-gray-200 border border-transparent text-black', // 'gray' 한 단계 더 진하게 변경
   },
 };
 

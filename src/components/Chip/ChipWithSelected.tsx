@@ -10,7 +10,7 @@ export default function ChipWithSelected({
   onClick,
   ...props
 }: ChipWithSelectecdProps) {
-  const color = isSelected ? 'blue' : undefined;
+  const color = isSelected ? 'blue' : 'gray';
   return (
     <div
       onClick={onClick}
