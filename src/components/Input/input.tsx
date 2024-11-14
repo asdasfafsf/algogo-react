@@ -1,17 +1,18 @@
 // src/components/Input.tsx
-import React, { InputHTMLAttributes, ReactNode, useId } from 'react';
+import { InputHTMLAttributes, ReactNode, useId } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   className?: string;
   id?: string;
+  name?: string;
   icon?: ReactNode;
 }
 
 export default function Input({
   label,
   type = 'text',
-  id = useId(),
+  id,
   name,
   value,
   className = '',
@@ -19,25 +20,26 @@ export default function Input({
   icon,
   ...props
 }: InputProps) {
+  const randomId = useId();
+  id = id ?? randomId;
+
+  const randomName = useId();
+  name = name ?? randomName;
+
   return (
-    <div className="relative mt-4">
+    <div className="relative w-full md:max-w-fit">
       <input
         type={type}
         id={id}
         name={name}
         value={value}
         onChange={onChange}
-        className={`${className} block px-3 py-2 text-sm text-gray-900 border border-gray-300 rounded focus:border-black focus:outline-none focus:ring-0 peer ${
+        className={`${className} block w-full md:w-72 px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer ${
           icon ? 'pr-10' : ''
-        }`}
+        } text-center md:text-left`}
         placeholder=" "
         {...props}
       />
-      {icon && (
-        <div className="absolute inset-y-0 flex items-center pointer-events-none right-3">
-          {icon}
-        </div>
-      )}
       <label
         htmlFor={id}
         className={`absolute left-3 top-1/2 transform -translate-y-1/2 bg-white px-1 text-sm text-gray-500 duration-200
@@ -46,6 +48,11 @@ export default function Input({
       >
         {label}
       </label>
+      {icon && (
+        <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          {icon}
+        </span>
+      )}
     </div>
   );
 }
