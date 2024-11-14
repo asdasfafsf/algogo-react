@@ -2,7 +2,7 @@ import Chip, { ChipProps } from './Chip';
 
 type ChipWithSelectecdProps = Omit<ChipProps, 'color' | 'variant'> & {
   isSelected: boolean
-  onClick: (e: React.MouseEvent) => Promise<void> | void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => Promise<void> | void;
 };
 
 export default function ChipWithSelected({
