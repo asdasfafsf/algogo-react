@@ -1,6 +1,5 @@
 import { Button } from '@components/Button/index';
 import { Input } from '@components/Input/index';
-import { Typography } from '@components/Typography/index';
 import useInput from '@hook/useInput';
 import { Dropdown } from '@components/Dropdown/index';
 import useProbleTypeDropdown from '@hook/useProblemTypeDropdown';
@@ -22,14 +21,12 @@ export default function ProblemTypeDropdown() {
       value="유형"
     >
       <div>
-        <div className="flex flex-wrap gap-2 mb-2">
-          <Typography variant="small">유형 </Typography>
-          <Input
-            onChange={handleChange}
-            value={filterValue}
-            label="유형 검색"
-          />
-        </div>
+        <Input
+          className="w-full h-10 mb-4"
+          onChange={handleChange}
+          value={filterValue}
+          label="유형 검색"
+        />
         <div className="flex flex-wrap gap-2 overflow-y-auto rounded-md w-80 max-h-60">
 
           {problemTypeList.map(({
