@@ -28,7 +28,8 @@ export default function Dropdown({
       >
         <Typography
           className={`${isOpen ? 'text-blue-500' : ''} font-bold`}
-          variant="small"
+          variant="medium"
+          weight="semibold"
         >
           {value}
         </Typography>
