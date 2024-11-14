@@ -13,52 +13,79 @@ interface ButtonProps {
   ripple?: boolean;
 }
 
+const baseClasses = [
+  'align-middle',
+  'select-none',
+  'font-sans',
+  'font-bold',
+  'text-center',
+  'uppercase',
+  'transition-all',
+  'rounded-lg', // 사용자 제공: rounded-lg
+  'focus:opacity-[0.85]',
+  'focus:shadow-none',
+  'active:opacity-[0.85]',
+  'active:shadow-none',
+  'disabled:opacity-50',
+  'disabled:shadow-none',
+  'disabled:pointer-events-none',
+  'relative',
+  'overflow-hidden',
+  'flex',
+  'items-center',
+  'justify-center', // 수평 중앙 정렬
+  'cursor-pointer',
+  'w-full', // 모바일에서 전체 너비
+  'md:max-w-fit', // 데스크톱에서 최대 너비 제한
+].join(' ');
+
 const variantColorClasses: Record<string, Record<string, string>> = {
   filled: {
-    blue: 'bg-blue-500 text-white hover:bg-white hover:text-blue-500',
-    red: 'bg-red-600 text-white hover:bg-white hover:text-red-600',
-    green: 'bg-green-600 text-white hover:bg-white hover:text-green-600',
-    amber: 'bg-amber-600 text-white hover:bg-white hover:text-amber-600',
-    slate: 'bg-slate-800 text-white hover:bg-white hover:text-slate-800',
-    gray: 'bg-gray-600 text-white hover:bg-white hover:text-gray-600',
-    black: 'bg-black text-white hover:bg-white hover:text-black',
+    blue: 'bg-blue-500 text-white shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20',
+    red: 'bg-red-600 text-white shadow-red-600/10 hover:shadow-lg hover:shadow-red-600/20',
+    green: 'bg-green-600 text-white shadow-green-600/10 hover:shadow-lg hover:shadow-green-600/20',
+    amber: 'bg-amber-600 text-white shadow-amber-600/10 hover:shadow-lg hover:shadow-amber-600/20',
+    slate: 'bg-slate-800 text-white shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20',
+    gray: 'bg-gray-600 text-white shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20',
+    black: 'bg-black text-white shadow-black/10 hover:shadow-lg hover:shadow-black/20',
   },
   gradient: {
-    blue: 'bg-gradient-to-tr from-blue-600 to-blue-700 text-white hover:from-white hover:to-white hover:text-blue-600',
-    red: 'bg-gradient-to-tr from-red-600 to-red-700 text-white hover:from-white hover:to-white hover:text-red-600',
-    green: 'bg-gradient-to-tr from-green-600 to-green-700 text-white hover:from-white hover:to-white hover:text-green-600',
-    amber: 'bg-gradient-to-tr from-amber-600 to-amber-700 text-white hover:from-white hover:to-white hover:text-amber-600',
-    slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white hover:from-white hover:to-white hover:text-slate-800',
-    gray: 'bg-gradient-to-tr from-gray-600 to-gray-700 text-white hover:from-white hover:to-white hover:text-gray-600',
-    black: 'bg-gradient-to-tr from-black to-gray-800 text-white hover:from-white hover:to-white hover:text-black',
+    blue: 'bg-gradient-to-tr from-blue-600 to-blue-700 text-white shadow-blue-700/10 hover:shadow-lg hover:shadow-blue-700/20',
+    red: 'bg-gradient-to-tr from-red-600 to-red-700 text-white shadow-red-700/10 hover:shadow-lg hover:shadow-red-700/20',
+    green: 'bg-gradient-to-tr from-green-600 to-green-700 text-white shadow-green-700/10 hover:shadow-lg hover:shadow-green-700/20',
+    amber: 'bg-gradient-to-tr from-amber-600 to-amber-700 text-white shadow-amber-700/10 hover:shadow-lg hover:shadow-amber-700/20',
+    slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white shadow-slate-700/10 hover:shadow-lg hover:shadow-slate-700/20',
+    gray: 'bg-gradient-to-tr from-gray-600 to-gray-700 text-white shadow-gray-700/10 hover:shadow-lg hover:shadow-gray-700/20',
+    black: 'bg-gradient-to-tr from-black to-gray-800 text-white shadow-gray-800/10 hover:shadow-lg hover:shadow-gray-800/20',
   },
   outlined: {
-    blue: 'border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white',
-    red: 'border border-red-600 text-red-600 hover:bg-red-600 hover:text-white',
-    green: 'border border-green-600 text-green-600 hover:bg-green-600 hover:text-white',
-    amber: 'border border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white',
-    slate: 'border border-slate-800 text-slate-800 hover:bg-slate-800 hover:text-white',
-    gray: 'border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white',
-    black: 'border border-black text-black hover:bg-black hover:text-white',
+    blue: 'border border-blue-500 text-blue-500 shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 hover:bg-blue-500 hover:text-white',
+    red: 'border border-red-600 text-red-600 shadow-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:bg-red-600 hover:text-white',
+    green: 'border border-green-600 text-green-600 shadow-green-600/10 hover:shadow-lg hover:shadow-green-600/20 hover:bg-green-600 hover:text-white',
+    amber: 'border border-amber-600 text-amber-600 shadow-amber-600/10 hover:shadow-lg hover:shadow-amber-600/20 hover:bg-amber-600 hover:text-white',
+    slate: 'border border-slate-800 text-slate-800 shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20 hover:bg-slate-800 hover:text-white',
+    gray: 'border border-gray-600 text-gray-600 shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20 hover:bg-gray-600 hover:text-white',
+    black: 'border border-black text-black shadow-black/10 hover:shadow-lg hover:shadow-black/20 hover:bg-black hover:text-white',
   },
   text: {
-    blue: 'bg-transparent text-blue-500 hover:bg-blue-500 hover:text-white',
-    red: 'bg-transparent text-red-600 hover:bg-red-600 hover:text-white',
-    green: 'bg-transparent text-green-600 hover:bg-green-600 hover:text-white',
-    amber: 'bg-transparent text-amber-600 hover:bg-amber-600 hover:text-white',
-    slate: 'bg-transparent text-slate-800 hover:bg-slate-800 hover:text-white',
-    gray: 'bg-transparent text-gray-600 hover:bg-gray-600 hover:text-white',
-    black: 'bg-transparent text-black hover:bg-black hover:text-white',
+    blue: 'bg-transparent text-blue-500', // 그림자 및 호버 효과 제거
+    red: 'bg-transparent text-red-600',
+    green: 'bg-transparent text-green-600',
+    amber: 'bg-transparent text-amber-600',
+    slate: 'bg-transparent text-slate-800',
+    gray: 'bg-transparent text-gray-600',
+    black: 'bg-transparent text-black',
   },
 };
 
 const sizeClasses: Record<string, string> = {
-  xsmall: 'py-1 px-2.5 text-xs',
-  small: 'py-1.5 px-3 text-sm',
-  medium: 'py-2 px-4 text-sm',
-  large: 'py-2.5 px-5 text-base',
-  xlarge: 'py-3.5 px-6 text-base',
+  xsmall: 'py-1 px-2 text-xs',
+  small: 'py-1.5 px-3 text-xs',
+  medium: 'py-3 px-6 text-xs', // 사용자 제공: py-3 px-6 text-xs
+  large: 'py-3.5 px-7 text-xs', // 크기 약간 증가
+  xlarge: 'py-4 px-8 text-xs', // 크기 증가
 };
+
 export default function Button({
   variant = 'filled',
   size = 'medium',
@@ -76,11 +103,12 @@ export default function Button({
 
     const rippleEffect = document.createElement('span');
     rippleEffect.className = 'absolute bg-white rounded-full opacity-50';
-    const size = `${Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight) * 2}px`;
+    const maxSize = Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight);
+    const size = `${maxSize * 2}px`;
     rippleEffect.style.width = size;
     rippleEffect.style.height = size;
-    rippleEffect.style.left = `${e.clientX - e.currentTarget.offsetLeft - parseInt(size, 10) / 2}px`;
-    rippleEffect.style.top = `${e.clientY - e.currentTarget.offsetTop - parseInt(size, 10) / 2}px`;
+    rippleEffect.style.left = `${e.clientX - e.currentTarget.offsetLeft - maxSize}px`;
+    rippleEffect.style.top = `${e.clientY - e.currentTarget.offsetTop - maxSize}px`;
     rippleEffect.style.transform = 'scale(0)';
     rippleEffect.style.transition = 'transform 1.2s ease, opacity 1.2s ease';
     e.currentTarget.appendChild(rippleEffect);
@@ -95,7 +123,7 @@ export default function Button({
 
   return (
     <button
-      className={`${className ?? ''} text-xs relative overflow-hidden flex items-center rounded-md text-center transition-all duration-500 opacity-0 animate-fadeIn disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${variantColorClasses[variant][color]} ${sizeClasses[size]}`}
+      className={`${baseClasses} ${variantColorClasses[variant][color]} ${sizeClasses[size]} ${className ?? ''}`}
       onClick={(e) => {
         if (ripple) handleAnimation(e);
         if (onClick) onClick(e);
