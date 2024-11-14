@@ -1,8 +1,10 @@
-import { Button, Input, Typography } from '@material-tailwind/react';
-import Dropdown from '../atom/Dropdown';
-import ChipWithSelected from '../atom/ChipWithSelected';
-import useProbleTypeDropdown from '../hook/useProblemTypeDropdown';
-import useInput from '../hook/useInput';
+import { Button } from '@components/Button/index';
+import { Input } from '@components/Input/index';
+import { Typography } from '@components/Typography/index';
+import useInput from '@hook/useInput';
+import { Dropdown } from '@components/Dropdown/index';
+import useProbleTypeDropdown from '@hook/useProblemTypeDropdown';
+import { ChipWithSelected } from '@components/Chip/index';
 
 export default function ProblemTypeDropdown() {
   const [open,
@@ -37,8 +39,7 @@ export default function ProblemTypeDropdown() {
             && (
             <ChipWithSelected
               key={value}
-              onClick={(e) => handleSelect(e, index)}
-              size="sm"
+              onClick={(e: React.MouseEvent<HTMLElement>) => handleSelect(e, index)}
               value={name}
               isSelected={isSelected}
             />
@@ -51,14 +52,14 @@ export default function ProblemTypeDropdown() {
             onClick={handleReset}
             className="bg-gray-500"
             color="gray"
-            size="sm"
+            size="small"
           >
             초기화
           </Button>
           <Button
             onClick={handleOk}
             color="blue"
-            size="sm"
+            size="small"
           >
             적용
           </Button>
