@@ -1,4 +1,4 @@
-import { Carousel, Typography } from '@material-tailwind/react';
+import { Carousel } from '@components/Carousel/index';
 
 export default function MainCarousel() {
   return (
@@ -10,16 +10,7 @@ export default function MainCarousel() {
           className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 grid w-full h-full place-items-center bg-black/75">
-          <div className="w-3/4 text-center md:w-2/4">
-            <Typography
-              variant="h1"
-              color="white"
-              className="mb-4 text-xl md:text-2xl lg:text-2xl"
-            >
-              제 목소리가 들리시나요?
-            </Typography>
-
-          </div>
+          <div className="w-3/4 text-center md:w-2/4" />
         </div>
       </div>
     </Carousel>
