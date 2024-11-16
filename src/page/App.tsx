@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import DefaultLayout from '../layout/DefaultLayout';
+import { DefaultLayout } from '@components/layout/index';
 import Main from '../template/Main';
 import useMeStore from '../zustand/MeStore';
 
