@@ -1,5 +1,5 @@
 import { ProblemTable } from '@components/Table/index';
-import MainCarousel from '../molecule/MainCarousel';
+import { MainCarousel } from '@components/Carousel/index';
 
 export default function Main() {
   return (
