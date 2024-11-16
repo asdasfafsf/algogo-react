@@ -1,11 +1,8 @@
-// src/components/Heading.tsx
 import React from 'react';
 
-// Define the possible variants and weights
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'paragraph' | 'small' | 'medium';
 type Weight = 'bold' | 'light' | 'semibold' | 'regular' | 'semilight' | 'extralight' | 'ultralight';
 
-// Define the props for the Typography component
 export interface HeadingProps {
   children: React.ReactNode;
   variant: Variant;
@@ -13,104 +10,100 @@ export interface HeadingProps {
   className?: string;
 }
 
-// Define the class mappings for each variant and weight
 const headingClasses: Record<Variant, Record<Weight, string>> = {
   h1: {
-    bold: 'font-bold leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl', // my-6 -> my-2
-    light: 'font-light leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl',
-    semibold: 'font-semibold leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl',
-    regular: 'font-medium leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl',
-    semilight: 'font-normal leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl',
-    extralight: 'font-extralight leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl',
-    ultralight: 'leading-snug tracking-tight text-slate-800 mx-auto my-2 text-2xl',
+    bold: 'font-bold leading-tight text-5xl', // 실제 h1 크기
+    light: 'font-light leading-tight text-5xl',
+    semibold: 'font-semibold leading-tight text-5xl',
+    regular: 'font-medium leading-tight text-5xl',
+    semilight: 'font-normal leading-tight text-5xl',
+    extralight: 'font-extralight leading-tight text-5xl',
+    ultralight: 'font-thin leading-tight text-5xl',
   },
   h2: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl', // my-6 -> my-2
-    light: 'font-light leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl',
-    ultralight: 'leading-snug tracking-normal text-slate-800 mx-auto my-2 text-2xl',
+    bold: 'font-bold leading-tight text-4xl', // 실제 h2 크기
+    light: 'font-light leading-tight text-4xl',
+    semibold: 'font-semibold leading-tight text-4xl',
+    regular: 'font-medium leading-tight text-4xl',
+    semilight: 'font-normal leading-tight text-4xl',
+    extralight: 'font-extralight leading-tight text-4xl',
+    ultralight: 'font-thin leading-tight text-4xl',
   },
   h3: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl', // my-6 -> my-2
-    light: 'font-light leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl',
-    ultralight: 'leading-snug tracking-normal text-slate-800 mx-auto my-2 text-xl',
+    bold: 'font-bold leading-snug text-3xl',
+    light: 'font-light leading-snug text-3xl',
+    semibold: 'font-semibold leading-snug text-3xl',
+    regular: 'font-medium leading-snug text-3xl',
+    semilight: 'font-normal leading-snug text-3xl',
+    extralight: 'font-extralight leading-snug text-3xl',
+    ultralight: 'font-thin leading-snug text-3xl',
   },
   h4: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg', // my-6 -> my-2
-    light: 'font-light leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg',
-    ultralight: 'leading-snug tracking-normal text-slate-800 mx-auto my-2 text-lg',
+    bold: 'font-bold leading-snug text-2xl',
+    light: 'font-light leading-snug text-2xl',
+    semibold: 'font-semibold leading-snug text-2xl',
+    regular: 'font-medium leading-snug text-2xl',
+    semilight: 'font-normal leading-snug text-2xl',
+    extralight: 'font-extralight leading-snug text-2xl',
+    ultralight: 'font-thin leading-snug text-2xl',
   },
   h5: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base', // my-6 -> my-2
-    light: 'font-light leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base',
-    ultralight: 'leading-snug tracking-normal text-slate-800 mx-auto my-2 text-base',
+    bold: 'font-bold leading-snug text-xl',
+    light: 'font-light leading-snug text-xl',
+    semibold: 'font-semibold leading-snug text-xl',
+    regular: 'font-medium leading-snug text-xl',
+    semilight: 'font-normal leading-snug text-xl',
+    extralight: 'font-extralight leading-snug text-xl',
+    ultralight: 'font-thin leading-snug text-xl',
   },
   h6: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm', // my-6 -> my-2
-    light: 'font-light leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm',
-    ultralight: 'leading-snug tracking-normal text-slate-800 mx-auto my-2 text-sm',
+    bold: 'font-bold leading-snug text-lg',
+    light: 'font-light leading-snug text-lg',
+    semibold: 'font-semibold leading-snug text-lg',
+    regular: 'font-medium leading-snug text-lg',
+    semilight: 'font-normal leading-snug text-lg',
+    extralight: 'font-extralight leading-snug text-lg',
+    ultralight: 'font-thin leading-snug text-lg',
   },
   paragraph: {
-    bold: 'font-bold leading-relaxed tracking-normal text-slate-800 text-base',
-    light: 'font-light leading-relaxed tracking-normal text-slate-800 text-base',
-    semibold: 'font-semibold leading-relaxed tracking-normal text-slate-800 text-base',
-    regular: 'font-medium leading-relaxed tracking-normal text-slate-800 text-base',
-    semilight: 'font-normal leading-relaxed tracking-normal text-slate-800 text-base',
-    extralight: 'font-extralight leading-relaxed tracking-normal text-slate-800 text-base',
-    ultralight: 'leading-relaxed tracking-normal text-slate-800 text-base',
+    bold: 'font-bold leading-relaxed text-base',
+    light: 'font-light leading-relaxed text-base',
+    semibold: 'font-semibold leading-relaxed text-base',
+    regular: 'font-medium leading-relaxed text-base',
+    semilight: 'font-normal leading-relaxed text-base',
+    extralight: 'font-extralight leading-relaxed text-base',
+    ultralight: 'font-thin leading-relaxed text-base',
   },
   medium: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 text-sm',
-    light: 'font-light leading-snug tracking-normal text-slate-800 text-sm',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 text-sm',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 text-sm',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 text-sm',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 text-sm',
-    ultralight: 'leading-snug tracking-normal text-slate-800 text-sm',
+    bold: 'font-bold leading-snug text-sm',
+    light: 'font-light leading-snug text-sm',
+    semibold: 'font-semibold leading-snug text-sm',
+    regular: 'font-medium leading-snug text-sm',
+    semilight: 'font-normal leading-snug text-sm',
+    extralight: 'font-extralight leading-snug text-sm',
+    ultralight: 'font-thin leading-snug text-sm',
   },
   small: {
-    bold: 'font-bold leading-snug tracking-normal text-slate-800 text-xs',
-    light: 'font-light leading-snug tracking-normal text-slate-800 text-xs',
-    semibold: 'font-semibold leading-snug tracking-normal text-slate-800 text-xs',
-    regular: 'font-medium leading-snug tracking-normal text-slate-800 text-xs',
-    semilight: 'font-normal leading-snug tracking-normal text-slate-800 text-xs',
-    extralight: 'font-extralight leading-snug tracking-normal text-slate-800 text-xs',
-    ultralight: 'leading-snug tracking-normal text-slate-800 text-xs',
+    bold: 'font-bold leading-snug text-xs',
+    light: 'font-light leading-snug text-xs',
+    semibold: 'font-semibold leading-snug text-xs',
+    regular: 'font-medium leading-snug text-xs',
+    semilight: 'font-normal leading-snug text-xs',
+    extralight: 'font-extralight leading-snug text-xs',
+    ultralight: 'font-thin leading-snug text-xs',
   },
 };
 
-// Typography component
 export default function Typography({
   children,
   variant,
   weight = 'bold',
   className = '',
 }: HeadingProps) {
-  // Determine the HTML tag based on the variant
   const Tag = (variant === 'paragraph' || variant === 'small' || variant === 'medium')
     ? 'p'
     : variant as keyof JSX.IntrinsicElements;
 
-  // Get the appropriate classes based on variant and weight
   const classes = headingClasses[variant][weight] || headingClasses.h1.bold;
 
   return (
