@@ -27,7 +27,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
-      "@hook/*": ["src/hook/*"]
+      "@hook/*": ["src/hook/*"],
+      "@zustand/*": ["src/zustand/*"]
     }
   },
   "include": ["src", "svg.d.ts", "vite.config.ts"],

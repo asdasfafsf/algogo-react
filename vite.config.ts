@@ -14,6 +14,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './src/components'),
       '@hook': path.resolve(__dirname, './src/hook'),
+      '@zustand': path.resolve(__dirname, './src/zustand'),
     },
   },
   server: {
