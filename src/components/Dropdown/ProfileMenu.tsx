@@ -1,12 +1,13 @@
 import {
-  Typography,
-  Button,
-  Avatar,
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
 } from '@material-tailwind/react';
+import { Avatar } from '@components/common/index';
+import { Typography } from '@components/Typography/index';
+import { Button } from '@components/Button/index';
+
 import {
   ChevronDownIcon,
 } from '@heroicons/react/24/outline';
@@ -49,7 +50,7 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
         >
           <Avatar
             variant="circular"
-            size="sm"
+            size="small"
             alt="User"
             src={me.profilePhoto || 'https://docs.material-tailwind.com/img/face-2.jpg'}
           />
@@ -72,7 +73,7 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
               className: 'h-4 w-4',
               strokeWidth: 2,
             })}
-            <Typography as="span" variant="small" className="font-normal">
+            <Typography variant="small" className="font-normal">
               {label}
             </Typography>
           </MenuItem>
