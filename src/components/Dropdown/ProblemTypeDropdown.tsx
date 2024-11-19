@@ -1,26 +1,40 @@
 import { Button } from '@components/Button/index';
 import { Input } from '@components/Input/index';
-import useInput from '@hook/useInput';
 import { Dropdown } from '@components/Dropdown/index';
-import useProbleTypeDropdown from '@hook/useProblemTypeDropdown';
 import { ChipWithSelected } from '@components/Chip/index';
+import { Typography } from '@components/Typography/index';
+import useInput from '@hook/useInput';
+import useProbleTypeDropdown from '@hook/useProblemTypeDropdown';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 export default function ProblemTypeDropdown() {
-  const [open,
+  const {
+    open,
     problemTypeList,
     handleSelect,
     handleReset,
     handleOk,
-    handler] = useProbleTypeDropdown();
+    handler,
+  } = useProbleTypeDropdown();
 
   const [filterValue, handleChange] = useInput();
   return (
     <Dropdown
-      handler={handler}
       open={open}
-      value="유형"
+      handler={handler}
+      className="px-0 py-0"
+      showArrow={false}
+
     >
-      <div>
+      <div className={`flex items-center gap-1 p-2 ${open ? 'bg-indigo-200 text-indigo-800 hover:bg-indigo-300' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 '} rounded-md cursor-pointer`}>
+        <Typography variant="medium">유형</Typography>
+        <ChevronDownIcon
+          className={`w-4 h-4 transition-transform ${
+            open ? 'rotate-180' : ''
+          }`}
+        />
+      </div>
+      <div className="p-4">
         <Input
           className="w-full h-10 mb-4"
           onChange={handleChange}

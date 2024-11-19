@@ -129,10 +129,12 @@ export default function useProbleTypeDropdown() {
     setOpen((open) => !open);
   }, [realProblemTypeList]);
 
-  return [open,
+  return {
+    open,
     problemTypeList,
     handleSelect,
     handleReset,
     handleOk,
-    handler] as const;
+    handler,
+  };
 }

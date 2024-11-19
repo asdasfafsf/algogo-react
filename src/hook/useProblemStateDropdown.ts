@@ -14,6 +14,8 @@ export default function useProblemStateDropdown() {
     { isSelected: false, name: '틀린 문제', value: '틀린 문제' },
   ]);
 
+  const [open, setOpen] = useState(false);
+
   const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((
     { problemOptionList, setProblemOptionList },
   ) => ({ problemOptionList, setProblemOptionList }));
@@ -83,5 +85,9 @@ export default function useProblemStateDropdown() {
     handleUpdateProblemOptionList(newProblemStateList);
   };
 
-  return [problemStateList, handleClick] as const;
+  const handler = useCallback(() => setOpen((open) => !open), [setOpen]);
+
+  return {
+    problemStateList, handleClick, open, handler,
+  };
 }

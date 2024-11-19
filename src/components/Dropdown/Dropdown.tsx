@@ -1,60 +1,52 @@
-import { Typography } from '@components/Typography/index';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import React, { ReactNode, Children, isValidElement } from 'react';
 import useDropdown from '@hook/useDropdown';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface DropdownProps {
   className?: string;
-  children: React.ReactNode;
-  value: string;
   open?: boolean;
-  handler?: () => void | Promise<void>
+  handler?: () => void | Promise<void>;
+  children: ReactNode;
+  showArrow?: boolean; // 화살표 표시 여부
 }
 
 export default function Dropdown({
   className = '',
-  children,
-  value,
-  open,
+  open = false,
   handler,
-} : DropdownProps) {
-  const [isOpen, menuRef, divRef, handleOpen] = useDropdown((typeof open === 'undefined' ? false : open), handler ?? null);
+  children,
+  showArrow = true, // 기본값으로 화살표 표시
+}: DropdownProps) {
+  const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open, handler ?? null);
+
+  const childrenArray = Children.toArray(children);
+  const header = childrenArray[0];
+  const content = childrenArray.slice(1);
 
   return (
-    <div className="z-20">
+    <div className={`relative ${className}`}>
       <div
         ref={menuRef}
         onClick={handleOpen}
-        className={`${isOpen ? 'bg-blue-100' : 'bg-gray-100'} flex items-center h-4 gap-1 px-2 py-4 rounded-md cursor-pointer`}
+        className="flex items-center cursor-pointer"
       >
-        <Typography
-          className={`${isOpen ? 'text-blue-500' : ''} font-bold`}
-          variant="medium"
-          weight="semibold"
-        >
-          {value}
-        </Typography>
-        <div
-          className="h-4"
-        >
+        {isValidElement(header) ? header : null}
+        {showArrow && (
           <ChevronDownIcon
-            strokeWidth={2.5}
-            className={` h-3.5 w-3.5 transition-transform ${
-              isOpen ? 'text-blue-400 rotate-180' : 'text-gray-400'
+            className={`w-4 h-4 transition-transform ${
+              isOpen ? 'rotate-180' : ''
             }`}
           />
+        )}
+      </div>
+      {isOpen && (
+        <div
+          ref={divRef}
+          className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg"
+        >
+          {content}
         </div>
-
-      </div>
-
-      {/* <MenuItem className="cursor:none"> */}
-      <div
-        ref={divRef}
-        className={`${isOpen ? '' : 'hidden'} ${className} border border-gray-300 shadow-lg absolute bg-white rounded-md p-4 z-10 content-border`}
-      >
-        {children}
-      </div>
-
+      )}
     </div>
-
   );
 }
