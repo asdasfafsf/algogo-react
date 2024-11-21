@@ -26,6 +26,7 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
+      "@layout/*": ["src/layout/*"],
       "@components/*": ["src/components/*"],
       "@hook/*": ["src/hook/*"],
       "@zustand/*": ["src/zustand/*"]

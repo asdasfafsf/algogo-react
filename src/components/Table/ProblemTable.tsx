@@ -103,25 +103,25 @@ export default function ProblemTable() {
           <tbody>
             {['플래티넘 5', '브론즈 1', '다이아 1', '골드 1', '실버 1'].map((elem) => (
               <tr key={elem} className="h-16 border-b border-gray-300">
-                <td className="flex items-center justify-center h-16 pl-4 animate-fadeIn">
+                <td className="flex items-center justify-center h-16 pl-4 ">
                   <ProblemStateChip state={0} value="" />
                 </td>
                 <td className=" pl-12 min-w-[400px]">
-                  <Typography className="text-gray-700 animate-fadeIn" variant="medium" weight="semilight">저는 문제입니다</Typography>
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">저는 문제입니다</Typography>
                 </td>
                 <td className="">
-                  <div className="flex items-center animate-fadeIn justify-left">
+                  <div className="flex items-center justify-left">
                     <ProblemLevelChip level={elem} />
                   </div>
                 </td>
                 <td>
-                  <Typography className="text-gray-700 animate-fadeIn" variant="medium" weight="semilight">100%</Typography>
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">100%</Typography>
                 </td>
                 <td>
-                  <Typography className="text-gray-700 animate-fadeIn" variant="medium" weight="semilight">1</Typography>
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">1</Typography>
                 </td>
                 <td>
-                  <Typography className="text-gray-700 animate-fadeIn" variant="medium" weight="semilight">
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">
                     <LinkIcon className="w-4 h-4" />
                   </Typography>
                 </td>
