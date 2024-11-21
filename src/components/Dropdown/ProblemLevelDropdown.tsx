@@ -1,18 +1,69 @@
-const alignClass = {
-  top: 'bottom-full left-1/2 transform -translate-x-1/2 -translate-y-full',
-  bottom: 'top-full left-1/2 transform -translate-x-1/2',
-  left: 'top-1/2 right-full transform -translate-y-1/2 -translate-x-full',
-  right: 'top-1/2 left-full transform -translate-y-1/2',
-  'top-left': 'bottom-full left-0 transform -translate-y-full',
-  'top-right': 'bottom-full right-0 transform -translate-y-full',
-  'bottom-left': 'top-full left-0',
-  'bottom-right': 'top-full right-0',
-  'top-left-center': 'bottom-full left-1/4 transform -translate-y-full -translate-x-1/4',
-  'top-right-center': 'bottom-full right-1/4 transform -translate-y-full translate-x-1/4',
-  'bottom-left-center': 'top-full left-1/4 transform translate-y-full -translate-x-1/4',
-  'bottom-right-center': 'top-full right-1/4 transform translate-y-full translate-x-1/4',
-  'left-top': 'top-1/4 right-full transform -translate-y-1/4 -translate-x-full',
-  'left-bottom': 'bottom-1/4 right-full transform translate-y-1/4 -translate-x-full',
-  'right-top': 'top-1/4 left-full transform -translate-y-1/4',
-  'right-bottom': 'bottom-1/4 left-full transform translate-y-1/4',
-};
+import { Button } from '@components/Button/index';
+import { Dropdown } from '@components/Dropdown/index';
+import { ChipWithSelected } from '@components/Chip/index';
+import { Typography } from '@components/Typography/index';
+import React from 'react';
+import useProblemLevelDropdown from '@hook/useProblemLevelDropdown';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+
+export default function ProblemLevelDropdown() {
+  const [
+    isOpen,
+    problemLevelList,
+    handleSelect,
+    handleReset,
+    handleOk,
+    handler,
+  ] = useProblemLevelDropdown();
+
+  return (
+    <Dropdown align="bottom-left" showArrow={false} open={isOpen} handler={handler}>
+      <div className={`flex items-center gap-1 p-2 ${isOpen ? 'bg-indigo-200 text-indigo-800 hover:bg-blue-gray-300' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 '} rounded-md cursor-pointer`}>
+        <Typography variant="medium">난이도</Typography>
+        <ChevronDownIcon
+          className={`w-4 h-4 transition-transform ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+        />
+      </div>
+
+      <div className="p-4" key="problemLevelDropdown">
+        {['브론즈', '실버', '골드', '플래티넘', '다이아', '루비'].map((level) => (
+          <React.Fragment key={level}>
+            <div className="my-2">
+              <Typography weight="light" variant="medium">{`${level}`}</Typography>
+            </div>
+            <div className="flex flex-wrap gap-2 w-80 max-w-80">
+              {problemLevelList
+                .filter(({ name }) => name.includes(level))
+                .map(({ name, isSelected }) => (
+                  <ChipWithSelected
+                    key={name}
+                    value={name}
+                    isSelected={isSelected}
+                    onClick={(e) => {
+                      handleSelect(e, name);
+                    }}
+                  />
+                ))}
+            </div>
+          </React.Fragment>
+        ))}
+
+        <div className="flex items-center justify-end gap-2 mt-4">
+          <Button
+            className="bg-gray-500"
+            color="gray"
+            size="small"
+            onClick={handleReset}
+          >
+            초기화
+          </Button>
+          <Button color="blue" size="small" onClick={handleOk}>
+            적용
+          </Button>
+        </div>
+      </div>
+    </Dropdown>
+  );
+}
