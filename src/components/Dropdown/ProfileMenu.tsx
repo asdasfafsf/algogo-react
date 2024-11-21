@@ -1,22 +1,11 @@
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-} from '@material-tailwind/react';
 import { Avatar } from '@components/common/index';
 import { Typography } from '@components/Typography/index';
-import { Button } from '@components/Button/index';
-
-import {
-  ChevronDownIcon,
-} from '@heroicons/react/24/outline';
+import { Dropdown } from '@components/Dropdown/index';
 
 import {
   UserCircleIcon,
 } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
-import { createElement, useState } from 'react';
 import useMeStore from '@zustand/MeStore';
 
 interface ProfileMenuProps {
@@ -24,61 +13,69 @@ interface ProfileMenuProps {
 }
 
 export default function ProfileMenu({ me }: ProfileMenuProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { logout } = useMeStore(({ logout }) => ({ logout }));
-  const profileMenuItems = [
-    {
-      label: '마이페이지',
-      icon: UserCircleIcon,
-      handleClick: () => { navigate('/me'); },
-    },
-    {
-      label: '로그아웃',
-      icon: UserCircleIcon,
-      handleClick: () => { logout(); },
-    },
-  ];
 
   return (
-    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <MenuHandler>
-        <Button
-          variant="text"
-          color="blue-gray"
-          className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+    <Dropdown
+      align="bottom-right"
+    >
+      <Avatar
+        variant="circular"
+        size="medium"
+        alt="User"
+        src={me.profilePhoto || 'https://docs.material-tailwind.com/img/face-2.jpg'}
+      />
+
+      <ul className="w-40 gap-2 p-1 text-gray-700 ">
+        <li
+          onClick={() => { navigate('/me'); }}
+          className="flex items-center w-full gap-1 p-2 rounded-md cursor-pointer hover:bg-gray-300"
         >
-          <Avatar
-            variant="circular"
-            size="small"
-            alt="User"
-            src={me.profilePhoto || 'https://docs.material-tailwind.com/img/face-2.jpg'}
-          />
-          <ChevronDownIcon
-            strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${
-              isMenuOpen ? 'rotate-180' : ''
-            }`}
-          />
-        </Button>
-      </MenuHandler>
-      <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon, handleClick }) => (
-          <MenuItem
-            key={label}
-            onClick={handleClick}
-            className="flex items-center gap-2 rounded"
+          <UserCircleIcon className="w-5 h-5" />
+          <Typography
+            weight="semilight"
+            variant="medium"
           >
-            {createElement(icon, {
-              className: 'h-4 w-4',
-              strokeWidth: 2,
-            })}
-            <Typography variant="small" className="font-normal">
-              {label}
-            </Typography>
-          </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
+            마이페이지
+          </Typography>
+
+        </li>
+        <li
+          onClick={() => { logout(); }}
+          className="flex items-center w-full gap-1 p-2 rounded-md cursor-pointer hover:bg-gray-300"
+        >
+          <UserCircleIcon className="w-5 h-5" />
+          <Typography
+            weight="semilight"
+            variant="medium"
+          >
+            로그아웃
+          </Typography>
+
+        </li>
+
+      </ul>
+      {/* <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+
+        <MenuList className="p-1">
+          {profileMenuItems.map(({ label, icon, handleClick }) => (
+            <MenuItem
+              key={label}
+              onClick={handleClick}
+              className="flex items-center gap-2 rounded"
+            >
+              {createElement(icon, {
+                className: 'h-4 w-4',
+                strokeWidth: 2,
+              })}
+              <Typography variant="small" className="font-normal">
+                {label}
+              </Typography>
+            </MenuItem>
+          ))}
+        </MenuList>
+      </Menu> */}
+    </Dropdown>
   );
 }
