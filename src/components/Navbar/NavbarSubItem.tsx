@@ -11,7 +11,7 @@ export default function NavbarSubItem({ isSelected, value, to }:NavbarSubItemPro
       <a href={to}>
         <Typography
           className={`${isSelected ? 'text-black' : 'text-gray-500'} font-medium`}
-          variant="small"
+          variant="medium"
         >
           {value}
         </Typography>
