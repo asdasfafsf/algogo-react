@@ -10,6 +10,7 @@ export default function ProblemStateDropdown() {
   } = useProblemStateDropdown();
   return (
     <Dropdown
+      align="bottom-left"
       open={open}
       handler={handler}
       className="px-0 py-0"

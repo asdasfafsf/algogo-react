@@ -24,6 +24,7 @@ export default function ProblemTypeDropdown() {
       handler={handler}
       className="px-0 py-0"
       showArrow={false}
+      align="bottom-left"
 
     >
       <div className={`flex items-center gap-1 p-2 ${open ? 'bg-indigo-200 text-indigo-800 hover:bg-indigo-300' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 '} rounded-md cursor-pointer`}>
