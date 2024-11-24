@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import useConfirmModal from './useConfirmModal';
 import defaultProblemTypeList from '../constant/ProblemTypeList';
-import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 
 interface ProblemType {
   name: string;

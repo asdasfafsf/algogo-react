@@ -1,4 +1,4 @@
-import { ReactNode, Children, isValidElement } from 'react';
+import { ReactNode, Children } from 'react';
 import useDropdown from '@hook/useDropdown';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
@@ -63,7 +63,7 @@ export default function Dropdown({
         onClick={handleOpen}
         className="flex items-center cursor-pointer"
       >
-        {isValidElement(header) ? header : null}
+        {header}
         {showArrow && (
           <ChevronDownIcon
             className={`w-4 h-4 transition-transform ${
