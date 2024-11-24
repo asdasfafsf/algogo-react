@@ -16,6 +16,7 @@ export default defineConfig({
       '@hook': path.resolve(__dirname, './src/hook'),
       '@zustand': path.resolve(__dirname, './src/zustand'),
       '@layout': path.resolve(__dirname, './src/layout'),
+      '@constant': path.resolve(__dirname, './src/constant'),
     },
   },
   server: {

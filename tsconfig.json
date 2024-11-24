@@ -29,7 +29,8 @@
       "@layout/*": ["src/layout/*"],
       "@components/*": ["src/components/*"],
       "@hook/*": ["src/hook/*"],
-      "@zustand/*": ["src/zustand/*"]
+      "@zustand/*": ["src/zustand/*"],
+      "@constant/*": ["src/constant/*"]
     }
   },
   "include": ["src", "svg.d.ts", "vite.config.ts"],
