@@ -2,11 +2,11 @@ import { Button } from '@components/Button/index';
 import { Dropdown } from '@components/Dropdown/index';
 import { ChipWithSelected } from '@components/Chip/index';
 import { Typography } from '@components/Typography/index';
-import React, { useMemo } from 'react';
+import React from 'react';
 import useProblemLevelDropdown from '@hook/useProblemLevelDropdown';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-export default function ProblemLevelDropdown() {
+export default React.memo(() => {
   const [
     isOpen,
     problemLevelList,
@@ -16,7 +16,7 @@ export default function ProblemLevelDropdown() {
     handler,
   ] = useProblemLevelDropdown();
 
-  return useMemo(() => (
+  return (
     <Dropdown align="bottom-left" showArrow={false} open={isOpen} handler={handler}>
       <div className={`flex items-center gap-1 p-2 ${isOpen ? 'bg-indigo-200 text-indigo-800 hover:bg-blue-gray-300' : 'bg-gray-200 text-gray-800 hover:bg-gray-300 '} rounded-md cursor-pointer`}>
         <Typography variant="medium">난이도</Typography>
@@ -65,5 +65,5 @@ export default function ProblemLevelDropdown() {
         </div>
       </div>
     </Dropdown>
-  ), [isOpen, problemLevelList]);
-}
+  );
+});
