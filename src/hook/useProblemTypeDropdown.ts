@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default */
 import { useCallback, useEffect, useState } from 'react';
 import useConfirmModal from './useConfirmModal';
 import defaultProblemTypeList from '../constant/ProblemTypeList';
@@ -7,10 +6,10 @@ import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 interface ProblemType {
   name: string;
   value: string;
-  isSelected: boolean
+  isSelected: boolean;
 }
 
-export default function useProbleTypeDropdown() {
+export default function useProblemTypeDropdown() {
   const [open, setOpen] = useState(false);
   const [problemTypeList, setProblemTypeList] = useState<ProblemType[]>(
     defaultProblemTypeList.map((elem) => ({ ...elem })),
@@ -19,114 +18,72 @@ export default function useProbleTypeDropdown() {
     defaultProblemTypeList.map((elem) => ({ ...elem })),
   );
 
-  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore(({
-    problemOptionList,
-    setProblemOptionList,
-  }) => ({ problemOptionList, setProblemOptionList }));
+  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
 
   const [confirm] = useConfirmModal();
 
   useEffect(() => {
     const filteredProblemOptionList = problemOptionList.filter(({ type }) => type === '유형');
-    setRealProblemTypeList((prevList) => {
-      const newList = [...prevList].map((problemType) => {
-        const target = filteredProblemOptionList.find((elem) => problemType.name === elem.name);
-
-        if (!target) {
-          return { ...problemType, isSelected: false };
-        }
-
-        return { ...problemType, isSelected: true };
-      });
-
-      return newList;
-    });
+    setRealProblemTypeList((prevList) => prevList.map((problemType) => {
+      const target = filteredProblemOptionList.find((elem) => problemType.name === elem.name);
+      return target ? { ...problemType, isSelected: true } : { ...problemType, isSelected: false };
+    }));
   }, [problemOptionList]);
 
-  const handleUpdateProblemOptionList = useCallback((realProblemTypeList: ProblemType[]) => {
+  const handleUpdateProblemOptionList = useCallback((updatedProblemTypes: ProblemType[]) => {
     setProblemOptionList((prevList) => {
       const newProblemOptionList = prevList.filter((problemOption) => {
-        if (problemOption.type !== '유형') {
-          return true;
-        }
-
-        const target = realProblemTypeList.find(
-          (problemType) => problemType.name === problemOption.name,
-        );
-
-        if (!target) {
-          return false;
-        }
-
-        return target.isSelected;
+        if (problemOption.type !== '유형') return true;
+        const target = updatedProblemTypes.find((ptype) => ptype.name === problemOption.name);
+        return target ? target.isSelected : false;
       });
 
-      realProblemTypeList.forEach((problemType) => {
-        const target = newProblemOptionList.find(
-          (problemOption) => problemOption.name === problemType.name,
-        );
-
-        if (target) {
-          return true;
-        }
-
-        if (problemType.isSelected) {
-          const { name, value, isSelected } = problemType;
+      updatedProblemTypes.forEach((problemType) => {
+        if (problemType.isSelected
+          && !newProblemOptionList.find((po) => po.name === problemType.name)) {
           newProblemOptionList.push({
             type: '유형',
-            name,
-            value,
-            isSelected,
+            name: problemType.name,
+            value: problemType.value,
+            isSelected: problemType.isSelected,
           });
         }
-
-        return true;
       });
 
       return newProblemOptionList;
     });
   }, [setProblemOptionList]);
 
-  const handleSelect = useCallback(async (
-    e: React.MouseEvent<Element, MouseEvent>,
-    index: number,
-  ) => {
+  const handleSelect = useCallback((e: React.MouseEvent<Element, MouseEvent>, index: number) => {
     e.stopPropagation();
-
-    const newProblemList = [...problemTypeList];
-    newProblemList[index].isSelected = !newProblemList[index].isSelected;
-
-    setProblemTypeList(newProblemList);
-  }, [problemTypeList]);
+    setProblemTypeList((prevList) => {
+      const newList = [...prevList];
+      newList[index].isSelected = !newList[index].isSelected;
+      return newList;
+    });
+  }, []);
 
   const handleReset = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
     const isOk = await confirm('초기화 하시겠습니까?');
-    if (isOk === false) {
-      return;
-    }
+    if (!isOk) return;
 
-    const newTypeProblemList = problemTypeList.map((elem) => {
-      const isSelected = false;
-      return { ...elem, isSelected };
-    });
-
-    setProblemTypeList(newTypeProblemList);
-    setRealProblemTypeList(newTypeProblemList.map((elem) => ({ ...elem })));
-    handleUpdateProblemOptionList(newTypeProblemList);
-  }, [problemTypeList]);
+    const resetList = problemTypeList.map((elem) => ({ ...elem, isSelected: false }));
+    setProblemTypeList(resetList);
+    setRealProblemTypeList(resetList);
+    handleUpdateProblemOptionList(resetList);
+  }, [problemTypeList, confirm, handleUpdateProblemOptionList]);
 
   const handleOk = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
-
-    setRealProblemTypeList(problemTypeList.map((elem) => ({ ...elem })));
     handleUpdateProblemOptionList(problemTypeList);
     setOpen(false);
-  }, [problemTypeList]);
+  }, [problemTypeList, handleUpdateProblemOptionList]);
 
-  const handler = useCallback(async () => {
+  const handler = useCallback(() => {
     setProblemTypeList(realProblemTypeList.map((elem) => ({ ...elem })));
-    setOpen((open) => !open);
+    setOpen((prev) => !prev);
   }, [realProblemTypeList]);
 
   return {

@@ -1,5 +1,4 @@
 import { Card } from '@components/Card/index';
-import { useMemo, useState } from 'react';
 import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { Pagebar } from '@components/Pagebar/index';
@@ -7,6 +6,7 @@ import { Input } from '@components/Input/index';
 import { ProblemTypeDropdown, ProblemLevelDropdown, ProblemStateDropdown } from '@components/Dropdown/index';
 import { Button } from '@components/Button/index';
 import { Typography } from '@components/Typography/index';
+import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import ProblemThSort from './ProblemThSort';
 import {
   PROBLEM_SORT_ANSWER_RATE_ASC,
@@ -19,9 +19,9 @@ import {
 import ProblemTableFilter from './ProblemTableFilter';
 
 export default function ProblemTable() {
-  const [problemSort, setProblemSort] = useState<ProblemSort>(0);
+  const problemSort = useProblemTableFilterStore((state) => state.problemSort);
 
-  return useMemo(() => (
+  return (
     <Card className="p-0">
       <div
         className="flex flex-wrap justify-between gap-4 p-6 mb-4 rounded-none"
@@ -112,7 +112,7 @@ export default function ProblemTable() {
                 </td>
                 <td className="">
                   <div className="flex items-center justify-left">
-                    <ProblemLevelChip level={elem} />
+                    <ProblemLevelChip level={elem as ProblemLevel} />
                   </div>
                 </td>
                 <td>
@@ -143,5 +143,5 @@ export default function ProblemTable() {
       </div>
 
     </Card>
-  ), [problemSort]);
+  );
 }

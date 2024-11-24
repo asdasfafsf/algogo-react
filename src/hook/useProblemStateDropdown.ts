@@ -77,13 +77,13 @@ export default function useProblemStateDropdown() {
     });
   }, [setProblemOptionList]);
 
-  const handleClick = (e: React.MouseEvent, index: number) => {
+  const handleClick = useCallback((e: React.MouseEvent, index: number) => {
     e.stopPropagation();
     const newProblemStateList = [...problemStateList];
     newProblemStateList[index].isSelected = !newProblemStateList[index].isSelected;
     setProblemStateList(newProblemStateList);
     handleUpdateProblemOptionList(newProblemStateList);
-  };
+  }, [problemStateList]);
 
   const handler = useCallback(() => setOpen((open) => !open), [setOpen]);
 

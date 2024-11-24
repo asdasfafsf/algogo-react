@@ -23,12 +23,6 @@ export default function useProblemTable() {
   });
   const [isOpenGrade] = useState(false);
 
-  const debouncedTitle = useDebounce<string>(problemTitle, 100);
-
-  useEffect(() => {
-    setProblemTitle(debouncedTitle);
-  }, [debouncedTitle]);
-
   const [maxPageNo, setMaxPageNo] = useState(1);
   const fetchProblemList = useCallback(async () => {
     setProblemList(undefined);
