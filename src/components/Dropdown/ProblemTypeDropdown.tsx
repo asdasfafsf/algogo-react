@@ -6,6 +6,7 @@ import { Typography } from '@components/Typography/index';
 import useInput from '@hook/useInput';
 import useProbleTypeDropdown from '@hook/useProblemTypeDropdown';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useMemo } from 'react';
 
 export default function ProblemTypeDropdown() {
   const {
@@ -18,7 +19,7 @@ export default function ProblemTypeDropdown() {
   } = useProbleTypeDropdown();
 
   const [filterValue, handleChange] = useInput();
-  return (
+  return useMemo(() => (
     <Dropdown
       open={open}
       handler={handler}
@@ -78,5 +79,5 @@ export default function ProblemTypeDropdown() {
         </div>
       </div>
     </Dropdown>
-  );
+  ), [open, problemTypeList]);
 }

@@ -3,12 +3,13 @@ import useProblemStateDropdown from '@hook/useProblemStateDropdown';
 import { Checkbox } from '@components/Checkbox/index';
 import { Dropdown } from '@components/Dropdown/index';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useMemo } from 'react';
 
 export default function ProblemStateDropdown() {
   const {
     open, handler, problemStateList, handleClick,
   } = useProblemStateDropdown();
-  return (
+  return useMemo(() => (
     <Dropdown
       align="bottom-left"
       open={open}
@@ -48,5 +49,5 @@ export default function ProblemStateDropdown() {
 
       </ul>
     </Dropdown>
-  );
+  ), [open, problemStateList]);
 }
