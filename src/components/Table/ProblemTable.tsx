@@ -1,5 +1,5 @@
 import { Card } from '@components/Card/index';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { Pagebar } from '@components/Pagebar/index';
@@ -16,12 +16,12 @@ import {
   PROBLEM_SORT_TITLE_ASC,
   PROBLEM_SORT_TITLE_DESC,
 } from '../../constant/ProblemSort';
+import ProblemTableFilter from './ProblemTableFilter';
 
 export default function ProblemTable() {
   const [problemSort, setProblemSort] = useState<ProblemSort>(0);
-  const [isOpenProblemGrade, setProblemOpenGrade] = useState(false);
 
-  return (
+  return useMemo(() => (
     <Card className="p-0">
       <div
         className="flex flex-wrap justify-between gap-4 p-6 mb-4 rounded-none"
@@ -53,6 +53,7 @@ export default function ProblemTable() {
             </div>
           </div>
 
+          <ProblemTableFilter />
         </div>
       </div>
 
@@ -142,5 +143,5 @@ export default function ProblemTable() {
       </div>
 
     </Card>
-  );
+  ), [problemSort]);
 }
