@@ -14,10 +14,7 @@ type ProblemTableFilterStore = {
 
 export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) => ({
   problemOptionList: [],
-  problemSort: {
-    name: '',
-    value: 1,
-  } as ProblemSort,
+  problemSort: 0 as ProblemSort,
   problemTitle: '',
   setProblemOptionList: (problemOptionList) => set((state) => ({
     problemOptionList: typeof problemOptionList === 'function'
