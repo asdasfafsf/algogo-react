@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
+import {
+  PROBLEM_SORT_ANSWER_RATE_ASC,
+  PROBLEM_SORT_ANSWER_RATE_DESC,
+  PROBLEM_SORT_LEVEL_ASC,
+  PROBLEM_SORT_LEVEL_DESC,
+  PROBLEM_SORT_TITLE_ASC,
+  PROBLEM_SORT_TITLE_DESC,
+} from '@constant/ProblemSort';
 import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
 import { getProblemList } from '../api/problems';
 import useAlertModal from './useAlertModal';
-import useDebounce from './useDebounce';
 
 export default function useProblemTable() {
   const [alert] = useAlertModal();
@@ -89,31 +96,23 @@ export default function useProblemTable() {
     [],
   );
 
-  const handleClickProblemTh = useCallback((_e: unknown, head: ProblemSortName | '출처') => {
-    if ((head === '상태' || head === '출처')) {
-      return;
-    }
+  const handleClickProblemTh = useCallback((_e: React.MouseEvent<HTMLElement>, head: string) => {
+    if (head === '상태' || head === '출처') return;
 
-    setProblemSort(({ name, value }) => {
-      if (head === name) {
-        if (value === 1) {
-          return ({
-            name,
-            value: 2,
-          });
-        } if (value === 2) {
-          return ({
-            name: '',
-            value: 1,
-          });
-        }
+    setProblemSort((prevSort) => {
+      if (head === '제목') {
+        return prevSort === PROBLEM_SORT_TITLE_ASC
+          ? PROBLEM_SORT_TITLE_DESC : PROBLEM_SORT_TITLE_ASC;
+      } if (head === '난이도') {
+        return prevSort === PROBLEM_SORT_LEVEL_ASC
+          ? PROBLEM_SORT_LEVEL_DESC : PROBLEM_SORT_LEVEL_ASC;
+      } if (head === '정답률') {
+        return prevSort === PROBLEM_SORT_ANSWER_RATE_ASC
+          ? PROBLEM_SORT_ANSWER_RATE_DESC : PROBLEM_SORT_ANSWER_RATE_ASC;
       }
-      return ({
-        name: head,
-        value: 1,
-      });
+      return prevSort;
     });
-  }, [setProblemSort]);
+  }, []);
 
   const handleChangeProblemTitle = useCallback(
     (

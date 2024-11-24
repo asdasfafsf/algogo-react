@@ -7,6 +7,8 @@ import { ProblemTypeDropdown, ProblemLevelDropdown, ProblemStateDropdown } from 
 import { Button } from '@components/Button/index';
 import { Typography } from '@components/Typography/index';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
+import { useEffect, useState } from 'react';
+import useProblemTable from '@hook/useProblemTable';
 import ProblemThSort from './ProblemThSort';
 import {
   PROBLEM_SORT_ANSWER_RATE_ASC,
@@ -19,8 +21,21 @@ import {
 import ProblemTableFilter from './ProblemTableFilter';
 
 export default function ProblemTable() {
-  const problemSort = useProblemTableFilterStore((state) => state.problemSort);
+  const {
+    isOpenGrade,
+    problemList,
+    problemSort,
+    pagingInfo,
+    maxPageNo,
+    handleChangeProblemTitle,
+    handleClickProblem,
+    handleClickProblemTh,
+    handleChangePageNo,
+  } = useProblemTable();
 
+  useEffect(() => {
+    console.log('테이블이 그려집니다');
+  }, []);
   return (
     <Card className="p-0">
       <div
@@ -102,24 +117,32 @@ export default function ProblemTable() {
             </tr>
           </thead>
           <tbody>
-            {['플래티넘 5', '브론즈 1', '다이아 1', '골드 1', '실버 1'].map((elem) => (
-              <tr key={elem} className="h-16 border-b border-gray-300">
+            {problemList?.map((elem) => (
+              <tr key={elem.uuid} className="h-16 border-b border-gray-300">
                 <td className="flex items-center justify-center h-16 pl-4 ">
                   <ProblemStateChip state={0} value="" />
                 </td>
                 <td className=" pl-12 min-w-[400px]">
-                  <Typography className="text-gray-700 " variant="medium" weight="semilight">저는 문제입니다</Typography>
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                    {elem.title}
+                  </Typography>
                 </td>
                 <td className="">
                   <div className="flex items-center justify-left">
-                    <ProblemLevelChip level={elem as ProblemLevel} />
+                    <ProblemLevelChip level={elem.levelText as unknown as ProblemLevel} />
                   </div>
                 </td>
                 <td>
-                  <Typography className="text-gray-700 " variant="medium" weight="semilight">100%</Typography>
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                    {elem.answerRate}
+                    {' '}
+                    %
+                  </Typography>
                 </td>
                 <td>
-                  <Typography className="text-gray-700 " variant="medium" weight="semilight">1</Typography>
+                  <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                    {elem.submitCount}
+                  </Typography>
                 </td>
                 <td>
                   <Typography className="text-gray-700 " variant="medium" weight="semilight">
@@ -135,9 +158,9 @@ export default function ProblemTable() {
 
       <div className="flex items-center w-full h-20">
         <Pagebar
-          currentPage={1}
+          currentPage={pagingInfo.pageNo}
           displayedPageRange={10}
-          maxPage={5}
+          maxPage={maxPageNo}
           handleChangePage={() => {}}
         />
       </div>
