@@ -111,16 +111,18 @@ export default function useProblemListTable() {
       setProblemSort((prevSort: ProblemSort) => {
         const sortMapping: Record<
         '제목' | '난이도' | '정답률' | '제출',
-        [ProblemSort, ProblemSort]
+        ProblemSort[]
         > = {
-          제목: [PROBLEM_SORT_TITLE_ASC, PROBLEM_SORT_TITLE_DESC],
-          난이도: [PROBLEM_SORT_LEVEL_ASC, PROBLEM_SORT_LEVEL_DESC],
-          정답률: [PROBLEM_SORT_ANSWER_RATE_ASC, PROBLEM_SORT_ANSWER_RATE_DESC],
-          제출: [PROBLEM_SORT_SUBMIT_COUNT_ASC, PROBLEM_SORT_SUBMIT_COUNT_DESC],
+          제목: [PROBLEM_SORT_TITLE_ASC, PROBLEM_SORT_TITLE_DESC, PROBLEM_SORT_DEFAULT],
+          난이도: [PROBLEM_SORT_LEVEL_ASC, PROBLEM_SORT_LEVEL_DESC, PROBLEM_SORT_DEFAULT],
+          정답률: [PROBLEM_SORT_ANSWER_RATE_ASC, PROBLEM_SORT_ANSWER_RATE_DESC, PROBLEM_SORT_DEFAULT],
+          제출: [PROBLEM_SORT_SUBMIT_COUNT_ASC, PROBLEM_SORT_SUBMIT_COUNT_DESC, PROBLEM_SORT_DEFAULT],
         };
 
-        const [asc, desc] = sortMapping[head];
-        return prevSort === asc ? desc : prevSort === desc ? PROBLEM_SORT_DEFAULT : asc;
+        const sorts = sortMapping[head];
+        const currentIndex = sorts.indexOf(prevSort);
+        const nextIndex = (currentIndex + 1) % sorts.length;
+        return sorts[nextIndex];
       });
     },
     [],

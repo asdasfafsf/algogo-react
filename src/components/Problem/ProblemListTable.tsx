@@ -14,7 +14,6 @@ import {
 
 export default function ProblemListTable() {
   const {
-    isOpenGrade,
     problemList,
     problemSort,
     handleClickProblem,
