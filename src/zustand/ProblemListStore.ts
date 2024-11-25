@@ -6,15 +6,24 @@ type PagingInfo = {
 };
 
 type ProblemListStore = {
+  problemList: ResponseProblem[];
+  setProblemList: (updater: Updater<ResponseProblem[]>) => void | Promise<void>;
   pagingInfo: PagingInfo;
   setPagingInfo: (updater: Updater<PagingInfo>) => void | Promise<void>;
   maxPageNo: number;
   setMaxPageNo: (updater: Updater<number>) => void | Promise<void>;
-  isFetching: boolean,
+  isFetching: boolean;
   setFetching: (updater: Updater<boolean>) => void | Promise<void>;
 };
 
 export const useProblemListStore = create<ProblemListStore>((set) => ({
+  problemList: [],
+  setProblemList: (updater) => set((state) => ({
+    problemList:
+        typeof updater === 'function'
+          ? (updater as (prev: ResponseProblem[]) => ResponseProblem[])(state.problemList)
+          : updater,
+  })),
   pagingInfo: {
     pageNo: 1,
     pageSize: 20,

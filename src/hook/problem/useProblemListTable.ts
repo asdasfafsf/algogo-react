@@ -17,7 +17,6 @@ import useAlertModal from '../useAlertModal';
 
 export default function useProblemListTable() {
   const [alert] = useAlertModal();
-  const [problemList, setProblemList] = useState<ResponseProblem[]>([]);
   const {
     problemOptionList, problemSort, setProblemSort, setProblemTitle,
   } = useProblemTableFilterStore((
@@ -29,6 +28,8 @@ export default function useProblemListTable() {
   }));
 
   const {
+    problemList,
+    setProblemList,
     pagingInfo,
     maxPageNo,
     setPagingInfo,
@@ -41,7 +42,7 @@ export default function useProblemListTable() {
 
   const fetchProblemList = useCallback(async () => {
     setFetching(true);
-    setProblemList([]);
+    // setProblemList([]);
     const { pageNo, pageSize } = pagingInfo;
     const requestProblemListDto = {
       pageNo,
@@ -66,8 +67,8 @@ export default function useProblemListTable() {
 
     const maxPageNo = Math.ceil(totalCount / pageSize);
     setMaxPageNo(maxPageNo);
-    setProblemList(problemList);
     setFetching(false);
+    setProblemList(problemList);
   }, [pagingInfo]);
 
   useEffect(() => {
