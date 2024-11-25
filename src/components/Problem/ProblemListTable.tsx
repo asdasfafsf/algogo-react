@@ -1,6 +1,6 @@
 import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon } from '@heroicons/react/24/solid';
-import { Typography } from '@components/Typography/index';
+import { Typography } from '@components/common/index';
 import useProblemListTable from '@hook/problem/useProblemListTable';
 import ProblemThSort from './ProblemListThSort';
 import {
