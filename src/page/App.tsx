@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { DefaultLayout } from '@layout/index';
 import useMeStore from '@zustand/MeStore';
-import { ProblemTable } from '@components/Table/index';
 import { MainCarousel } from '@components/Carousel';
+import ProblemListCard from '@components/Problem/ProblemListCard';
 
 function App() {
   const { updateMe } = useMeStore(({ updateMe }) => ({ updateMe }));
@@ -15,7 +15,7 @@ function App() {
       <div className="my-8">
         <MainCarousel />
         <div className="h-8" />
-        <ProblemTable />
+        <ProblemListCard />
       </div>
     </DefaultLayout>
   );

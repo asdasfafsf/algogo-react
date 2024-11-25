@@ -6,7 +6,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import { ChipWithSelected } from '@components/Chip/index';
 
-function ProblemTableFilter() {
+function ProblemListTableFilter() {
   const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore(
     ({ problemOptionList, setProblemOptionList }) => ({ problemOptionList, setProblemOptionList }),
   );
@@ -56,4 +56,4 @@ function ProblemTableFilter() {
   );
 }
 
-export default React.memo(ProblemTableFilter);
+export default React.memo(ProblemListTableFilter);
