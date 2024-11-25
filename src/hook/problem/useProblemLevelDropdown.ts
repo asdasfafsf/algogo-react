@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import useConfirmModal from './useConfirmModal';
-import defaultProblemLevelList from '../constant/ProblemLevelList';
-import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
+import useConfirmModal from '../useConfirmModal';
+import defaultProblemLevelList from '../../constant/ProblemLevelList';
+import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
 
 interface ProblemLevel {
   name: string;

@@ -1,38 +1,47 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
+  PROBLEM_SORT_DEFAULT,
   PROBLEM_SORT_ANSWER_RATE_ASC,
   PROBLEM_SORT_ANSWER_RATE_DESC,
   PROBLEM_SORT_LEVEL_ASC,
   PROBLEM_SORT_LEVEL_DESC,
   PROBLEM_SORT_TITLE_ASC,
   PROBLEM_SORT_TITLE_DESC,
+  PROBLEM_SORT_SUBMIT_COUNT_ASC,
+  PROBLEM_SORT_SUBMIT_COUNT_DESC,
 } from '@constant/ProblemSort';
-import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
-import { getProblemList } from '../api/problems';
-import useAlertModal from './useAlertModal';
+import { useProblemListStore } from '@zustand/ProblemListStore';
+import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
+import { getProblemList } from '../../api/problems';
+import useAlertModal from '../useAlertModal';
 
-export default function useProblemTable() {
+export default function useProblemListTable() {
   const [alert] = useAlertModal();
-  const [problemList, setProblemList] = useState<ResponseProblem[] | undefined>();
+  const [problemList, setProblemList] = useState<ResponseProblem[]>([]);
   const {
-    problemTitle, problemOptionList, problemSort, setProblemSort, setProblemTitle,
+    problemOptionList, problemSort, setProblemSort, setProblemTitle,
   } = useProblemTableFilterStore((
     {
-      problemTitle, problemOptionList, problemSort, setProblemSort, setProblemTitle,
+      problemOptionList, problemSort, setProblemSort, setProblemTitle,
     },
   ) => ({
-    problemTitle, problemOptionList, problemSort, setProblemSort, setProblemTitle,
+    problemOptionList, problemSort, setProblemSort, setProblemTitle,
   }));
 
-  const [pagingInfo, setPagingInfo] = useState({
-    pageNo: 1,
-    pageSize: 20,
-  });
+  const {
+    pagingInfo,
+    maxPageNo,
+    setPagingInfo,
+    setMaxPageNo,
+    isFetching,
+    setFetching,
+  } = useProblemListStore();
+
   const [isOpenGrade] = useState(false);
 
-  const [maxPageNo, setMaxPageNo] = useState(1);
   const fetchProblemList = useCallback(async () => {
-    setProblemList(undefined);
+    setFetching(true);
+    setProblemList([]);
     const { pageNo, pageSize } = pagingInfo;
     const requestProblemListDto = {
       pageNo,
@@ -58,6 +67,7 @@ export default function useProblemTable() {
     const maxPageNo = Math.ceil(totalCount / pageSize);
     setMaxPageNo(maxPageNo);
     setProblemList(problemList);
+    setFetching(false);
   }, [pagingInfo]);
 
   useEffect(() => {
@@ -96,23 +106,25 @@ export default function useProblemTable() {
     [],
   );
 
-  const handleClickProblemTh = useCallback((_e: React.MouseEvent<HTMLElement>, head: string) => {
-    if (head === '상태' || head === '출처') return;
+  const handleClickProblemTh = useCallback(
+    (_e: React.MouseEvent<HTMLElement>, head: '제목' | '난이도' | '정답률' | '제출') => {
+      setProblemSort((prevSort: ProblemSort) => {
+        const sortMapping: Record<
+        '제목' | '난이도' | '정답률' | '제출',
+        [ProblemSort, ProblemSort]
+        > = {
+          제목: [PROBLEM_SORT_TITLE_ASC, PROBLEM_SORT_TITLE_DESC],
+          난이도: [PROBLEM_SORT_LEVEL_ASC, PROBLEM_SORT_LEVEL_DESC],
+          정답률: [PROBLEM_SORT_ANSWER_RATE_ASC, PROBLEM_SORT_ANSWER_RATE_DESC],
+          제출: [PROBLEM_SORT_SUBMIT_COUNT_ASC, PROBLEM_SORT_SUBMIT_COUNT_DESC],
+        };
 
-    setProblemSort((prevSort) => {
-      if (head === '제목') {
-        return prevSort === PROBLEM_SORT_TITLE_ASC
-          ? PROBLEM_SORT_TITLE_DESC : PROBLEM_SORT_TITLE_ASC;
-      } if (head === '난이도') {
-        return prevSort === PROBLEM_SORT_LEVEL_ASC
-          ? PROBLEM_SORT_LEVEL_DESC : PROBLEM_SORT_LEVEL_ASC;
-      } if (head === '정답률') {
-        return prevSort === PROBLEM_SORT_ANSWER_RATE_ASC
-          ? PROBLEM_SORT_ANSWER_RATE_DESC : PROBLEM_SORT_ANSWER_RATE_ASC;
-      }
-      return prevSort;
-    });
-  }, []);
+        const [asc, desc] = sortMapping[head];
+        return prevSort === asc ? desc : prevSort === desc ? PROBLEM_SORT_DEFAULT : asc;
+      });
+    },
+    [],
+  );
 
   const handleChangeProblemTitle = useCallback(
     (
@@ -125,6 +137,7 @@ export default function useProblemTable() {
   );
 
   return {
+    isFetching,
     isOpenGrade,
     problemList,
     problemSort,
