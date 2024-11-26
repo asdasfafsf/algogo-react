@@ -12,11 +12,8 @@ import {
 } from '@constant/ProblemSort';
 import { useProblemListStore } from '@zustand/ProblemListStore';
 import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
-import { getProblemList } from '../../api/problems';
-import useAlertModal from '../useAlertModal';
 
 export default function useProblemListTable() {
-  const [alert] = useAlertModal();
   const {
     problemOptionList, problemSort, setProblemSort, setProblemTitle,
   } = useProblemTableFilterStore((
@@ -28,56 +25,26 @@ export default function useProblemListTable() {
   }));
 
   const {
+    isFetching,
     problemList,
-    setProblemList,
     pagingInfo,
     maxPageNo,
     setPagingInfo,
-    setMaxPageNo,
-    isFetching,
-    setFetching,
-  } = useProblemListStore();
+    fetchProblemList,
+  } = useProblemListStore((state) => ({
+    isFetching: state.isFetching,
+    problemList: state.problemList,
+    pagingInfo: state.pagingInfo,
+    maxPageNo: state.maxPageNo,
+    setPagingInfo: state.setPagingInfo,
+    fetchProblemList: state.fetchProblemList,
+  }));
 
   const [isOpenGrade] = useState(false);
 
-  const fetchProblemList = useCallback(async () => {
-    setFetching(true);
-    // setProblemList([]);
-    const { pageNo, pageSize } = pagingInfo;
-    const requestProblemListDto = {
-      pageNo,
-      pageSize,
-      levelList: problemOptionList
-        .filter((elem) => elem.isSelected && elem.type === '난이도')
-        .map((elem) => elem.value)
-        .map(Number),
-      typeList: problemOptionList
-        .filter((elem) => elem.isSelected && elem.type === '유형')
-        .map((elem) => elem.value),
-    };
-    const response = await getProblemList(requestProblemListDto);
-    if (response.statusCode !== 200) {
-      await alert(`${response.errorMessage}`);
-      return;
-    }
-
-    const {
-      problemList, totalCount,
-    } = response.data;
-
-    const maxPageNo = Math.ceil(totalCount / pageSize);
-    setMaxPageNo(maxPageNo);
-    setFetching(false);
-    setProblemList(problemList);
-  }, [pagingInfo]);
-
   useEffect(() => {
-    setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));
-  }, [problemOptionList]);
-
-  useEffect(() => {
-    fetchProblemList();
-  }, [pagingInfo]);
+    fetchProblemList(1, []);
+  }, [fetchProblemList]);
 
   const handleChangePageNo = useCallback(async (
     _e: React.MouseEvent<HTMLButtonElement>,
@@ -141,14 +108,9 @@ export default function useProblemListTable() {
 
   return {
     isFetching,
-    isOpenGrade,
     problemList,
     problemSort,
-    pagingInfo,
-    maxPageNo,
-    handleChangeProblemTitle,
     handleClickProblem,
     handleClickProblemTh,
-    handleChangePageNo,
   };
 }
