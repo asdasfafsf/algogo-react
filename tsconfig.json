@@ -30,7 +30,8 @@
       "@components/*": ["src/components/*"],
       "@hook/*": ["src/hook/*"],
       "@zustand/*": ["src/zustand/*"],
-      "@constant/*": ["src/constant/*"]
+      "@constant/*": ["src/constant/*"],
+      "@api/*": ["src/api/*"]
     }
   },
   "include": ["src", "svg.d.ts", "vite.config.ts"],

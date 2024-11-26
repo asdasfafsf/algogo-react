@@ -17,6 +17,7 @@ export default defineConfig({
       '@zustand': path.resolve(__dirname, './src/zustand'),
       '@layout': path.resolve(__dirname, './src/layout'),
       '@constant': path.resolve(__dirname, './src/constant'),
+      '@api': path.resolve(__dirname, './src/api'),
     },
   },
   server: {
