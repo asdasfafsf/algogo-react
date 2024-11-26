@@ -3,4 +3,5 @@ type RequestProblemList = {
   pageSize: number;
   typeList: string[];
   levelList: number[];
+  sort: ProblemSort
 };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   PROBLEM_SORT_DEFAULT,
   PROBLEM_SORT_ANSWER_RATE_ASC,
@@ -11,7 +11,8 @@ import {
   PROBLEM_SORT_SUBMIT_COUNT_DESC,
 } from '@constant/ProblemSort';
 import { useProblemListStore } from '@zustand/ProblemListStore';
-import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
+import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
+import useDidMountEffect from '../useDidMount';
 
 export default function useProblemListTable() {
   const {
@@ -28,37 +29,29 @@ export default function useProblemListTable() {
     isFetching,
     problemList,
     pagingInfo,
-    maxPageNo,
     setPagingInfo,
     fetchProblemList,
   } = useProblemListStore((state) => ({
     isFetching: state.isFetching,
     problemList: state.problemList,
     pagingInfo: state.pagingInfo,
-    maxPageNo: state.maxPageNo,
     setPagingInfo: state.setPagingInfo,
     fetchProblemList: state.fetchProblemList,
   }));
 
-  const [isOpenGrade] = useState(false);
-
   useEffect(() => {
-    fetchProblemList(1, []);
+    fetchProblemList({ pageNo: 1, pageSize: 20 }, []);
   }, [fetchProblemList]);
 
-  const handleChangePageNo = useCallback(async (
-    _e: React.MouseEvent<HTMLButtonElement>,
-    pageNo: number,
-  ) => {
-    if (pageNo === pagingInfo.pageNo) {
-      return;
-    }
+  useDidMountEffect(() => {
+    setPagingInfo({
+      pageNo: 1,
+      pageSize: 20,
+    });
+  }, [problemOptionList]);
 
-    if (pageNo < 0 || pageNo > maxPageNo) {
-      return;
-    }
-
-    setPagingInfo((prev) => ({ ...prev, pageNo }));
+  useDidMountEffect(() => {
+    fetchProblemList(pagingInfo, problemOptionList);
   }, [pagingInfo]);
 
   const handleClickProblem = useCallback(
@@ -92,16 +85,6 @@ export default function useProblemListTable() {
         const nextIndex = (currentIndex + 1) % sorts.length;
         return sorts[nextIndex];
       });
-    },
-    [],
-  );
-
-  const handleChangeProblemTitle = useCallback(
-    (
-      _: React.ChangeEvent<HTMLElement>,
-      value: string,
-    ) => {
-      setProblemTitle(value);
     },
     [],
   );

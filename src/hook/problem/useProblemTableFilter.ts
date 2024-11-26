@@ -1,7 +1,7 @@
 // src/hooks/useProblemTableFilter.ts
 
 import { useCallback } from 'react';
-import { useProblemTableFilterStore } from '../zustand/ProblemTableFilterStore';
+import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
 
 function useProblemTableFilter() {
   const problemTitle = useProblemTableFilterStore((state) => state.problemTitle);

@@ -1,5 +1,5 @@
-import ProblemTable from './ProblemTable';
-import SkeletonProblemTable from './SkeletonProblemTable';
+import ProblemTable from './ProblemListTable';
+import SkeletonProblemTable from './ProblemListTableSkeleton';
 
 export {
   ProblemTable,

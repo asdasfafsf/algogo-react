@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { getProblemList } from '@api/problems';
+import { PROBLEM_SORT_DEFAULT } from '@constant/ProblemSort';
 
 type PagingInfo = {
   pageNo: number;
@@ -15,7 +16,10 @@ type ProblemListStore = {
   setMaxPageNo: (updater: Updater<number>) => void | Promise<void>;
   isFetching: boolean;
   setFetching: (updater: Updater<boolean>) => void | Promise<void>;
-  fetchProblemList: (pageNo: number, problemOptionList: ProblemOption[]) => Promise<void> | void
+  fetchProblemList: (
+    pagingInfo: PagingInfo,
+    problemOptionList: ProblemOption[],
+    problemSort?: ProblemSort) => Promise<void> | void
 };
 
 export const useProblemListStore = create<ProblemListStore>((set) => ({
@@ -51,7 +55,13 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
           : updater,
   })),
 
-  fetchProblemList: async (pageNo: number, problemOptionList: ProblemOption[]) => {
+  fetchProblemList: async (
+    pagingInfo: PagingInfo,
+    problemOptionList: ProblemOption[],
+    problemSort: ProblemSort = PROBLEM_SORT_DEFAULT,
+  ) => {
+    const { pageNo, pageSize } = pagingInfo;
+
     const skeletonTimeout = setTimeout(() => {
       set({ isFetching: true });
     }, pageNo === 1 ? 0 : 200);
@@ -59,7 +69,7 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
     try {
       const response = await getProblemList({
         pageNo,
-        pageSize: 20,
+        pageSize,
         levelList: problemOptionList
           .filter((elem) => elem.isSelected && elem.type === '난이도')
           .map((elem) => elem.value)
@@ -67,16 +77,16 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
         typeList: problemOptionList
           .filter((elem) => elem.isSelected && elem.type === '유형')
           .map((elem) => elem.value),
+        sort: problemSort,
       });
       clearTimeout(skeletonTimeout);
       const { data } = response;
       const {
-        problemList, pageSize, totalCount,
+        problemList, totalCount,
       } = data;
       const maxPageNo = Math.ceil(totalCount / pageSize);
       set(() => ({
         problemList,
-        pagingInfo: { pageNo, pageSize },
         maxPageNo,
         isFetching: false,
       }));
