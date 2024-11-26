@@ -54,6 +54,10 @@ export default function useProblemListTable() {
     fetchProblemList(pagingInfo, problemOptionList);
   }, [pagingInfo]);
 
+  useDidMountEffect(() => {
+    fetchProblemList(pagingInfo, problemOptionList, problemSort);
+  }, [problemSort]);
+
   const handleClickProblem = useCallback(
     (_e: React.MouseEvent<HTMLElement>, problemUuid: string) => {
       window.open(
