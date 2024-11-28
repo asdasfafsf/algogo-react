@@ -1,5 +1,6 @@
-// src/components/Input.tsx
-import { InputHTMLAttributes, ReactNode, useId } from 'react';
+import {
+  InputHTMLAttributes, ReactNode, useId, useState,
+} from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -15,9 +16,7 @@ export default function Input({
   type = 'text',
   id,
   name,
-  value,
   className = '',
-  onChange,
   icon,
   ...props
 }: InputProps) {
@@ -27,25 +26,39 @@ export default function Input({
   const randomName = useId();
   name = name ?? randomName;
 
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    if (props.onChange) {
+      props.onChange(e);
+    }
+  };
+
+  const isFilled = props.value !== undefined ? !!props.value : !!inputValue;
+
   return (
     <div className="relative w-full md:max-w-fit">
       <input
         type={type}
         id={id}
         name={name}
-        value={value}
-        onChange={onChange}
+
         className={`${className} block w-full md:w-72 px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer ${
           icon ? 'pr-10' : ''
         } text-center md:text-left`}
         placeholder=" "
         {...props}
+
+        onChange={handleChange}
       />
       <label
         htmlFor={id}
-        className={`absolute left-3 top-1/2 transform -translate-y-1/2 bg-white px-1 text-sm text-gray-500 duration-200
-          peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm
-          peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs peer-focus:text-black`}
+        className={`absolute left-3 bg-white px-1 text-sm text-gray-500 duration-200 ${
+          isFilled
+            ? 'top-0 -translate-y-1/2 text-xs text-black'
+            : 'top-1/2 -translate-y-1/2 peer-placeholder-shown:text-sm'
+        } peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:text-xs peer-focus:text-black`}
       >
         {label}
       </label>

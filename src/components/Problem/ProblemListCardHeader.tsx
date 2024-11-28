@@ -1,11 +1,9 @@
 import { Typography } from '@components/common/index';
-import { Input } from '@components/Input/index';
-import { Button } from '@components/Button/index';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import ProblemListTableFilter from './ProblemListTableFilter';
 import ProblemLevelDropdown from './ProblemLevelDropdown';
 import ProblemTypeDropdown from './ProblemTypeDropdown';
 import ProblemStateDropdown from './ProblemStateDropdown';
+import ProblemListSearcher from './ProblemListSearcher';
 
 export default function ProblemListCardHeader() {
   return (
@@ -24,19 +22,7 @@ export default function ProblemListCardHeader() {
             <ProblemLevelDropdown />
             <ProblemStateDropdown />
           </div>
-          <div className="flex flex-wrap items-center justify-end w-full gap-4 shrink-0 md:w-max">
-            {/* <div className="md:w-72"> */}
-            <Input
-              label="제목"
-              icon={<MagnifyingGlassIcon className="w-5 h-5" />}
-            />
-            {/* </div> */}
-            <Button
-              className="w-full md:max-w-fit"
-            >
-              검색
-            </Button>
-          </div>
+          <ProblemListSearcher />
         </div>
 
         <ProblemListTableFilter />

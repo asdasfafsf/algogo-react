@@ -18,10 +18,8 @@ export default function useProblemLevelDropdown() {
     defaultProblemLevelList.map((elem) => ({ ...elem })),
   );
 
-  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((
-    { problemOptionList, setProblemOptionList },
-  ) => ({ problemOptionList, setProblemOptionList }));
-
+  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
   const [confirm] = useConfirmModal();
 
   useEffect(() => {

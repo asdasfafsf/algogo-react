@@ -16,9 +16,8 @@ export default function useProblemStateDropdown() {
 
   const [open, setOpen] = useState(false);
 
-  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore((
-    { problemOptionList, setProblemOptionList },
-  ) => ({ problemOptionList, setProblemOptionList }));
+  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
 
   useEffect(() => {
     const filteredProblemOptionList = problemOptionList.filter(({ type }) => type === '상태');

@@ -15,15 +15,9 @@ import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import useDidMountEffect from '../useDidMount';
 
 export default function useProblemListTable() {
-  const {
-    problemOptionList, problemSort, setProblemSort, setProblemTitle,
-  } = useProblemTableFilterStore((
-    {
-      problemOptionList, problemSort, setProblemSort, setProblemTitle,
-    },
-  ) => ({
-    problemOptionList, problemSort, setProblemSort, setProblemTitle,
-  }));
+  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const problemSort = useProblemTableFilterStore((state) => state.problemSort);
+  const setProblemSort = useProblemTableFilterStore((state) => state.setProblemSort);
 
   const {
     isFetching,
