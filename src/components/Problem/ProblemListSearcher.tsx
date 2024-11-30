@@ -1,12 +1,13 @@
 import { Input } from '@components/Input/index';
 import { Button } from '@components/Button/index';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import useProblemListCardHeader from '@hook/problem/useProblemListCardHeader';
+import useProblemListSearcher from '@hook/problem/useProblemListSearcher';
 
 export default function ProblemListSearcher() {
   const {
     handleChangeProblemTitle,
-  } = useProblemListCardHeader();
+    handleClickSearch,
+  } = useProblemListSearcher();
 
   return (
     <div className="flex flex-wrap items-center justify-end w-full gap-4 shrink-0 md:w-max">
@@ -18,6 +19,7 @@ export default function ProblemListSearcher() {
       />
       {/* </div> */}
       <Button
+        onClick={handleClickSearch}
         className="w-full md:max-w-fit"
       >
         검색
