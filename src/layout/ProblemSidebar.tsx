@@ -1,4 +1,3 @@
-import { Typography, Line } from '@components/common/index';
 import React, {
   useRef,
 } from 'react';
@@ -8,7 +7,8 @@ import ProblemInputOutput from '@components/problem/ProblemInputOutput';
 import ProblemContent from '@components/problem/ProblemContent';
 import ProblemTitle from '@components/problem/ProblemTitle';
 import ProblemInfo from '@components/problem/ProblemInfo';
-import ProblemCategoryViewer from '../molecule/ProblemCategoryViewer';
+import ProblemSource from '@components/problem/ProblemSource';
+import ProblemCategoryViewer from '@components/problem/ProblemCategoryViewer';
 import useProblemSidebar from '../hook/useProblemSidebar';
 import { useScreenSize } from '../context/ScreenSizeContext';
 
@@ -60,8 +60,7 @@ export function ProblemSidebar({ problem }: ProblemSidebarProps) {
           <div className="my-4 opacity-0" />
           <ProblemInputOutputList inputOutputList={inputOutputList} />
           <div className="my-4 opacity-0" />
-          <Typography variant="h5">출처</Typography>
-          <Line className="my-2" />
+          <ProblemSource />
         </div>
         <div
           ref={draggableRef}
