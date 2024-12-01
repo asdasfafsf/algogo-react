@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { DefaultLayout } from '@layout/index';
 import useMeStore from '@zustand/MeStore';
 import { MainCarousel } from '@components/Carousel';
-import ProblemListCard from '@components/Problem/ProblemListCard';
+import ProblemListCard from '@components/problem-list/ProblemListCard';
 
 function App() {
   const { updateMe } = useMeStore(({ updateMe }) => ({ updateMe }));
