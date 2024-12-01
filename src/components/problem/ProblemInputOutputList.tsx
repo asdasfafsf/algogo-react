@@ -31,14 +31,14 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
             <EnterIcon />
           </div>
           &nbsp;
-          <Typography variant="small" className="font-medium">: 다음 줄</Typography>
+          <Typography variant="medium" className="font-medium">: 다음 줄</Typography>
         </div>
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
             <SpaceIcon />
           </div>
           &nbsp;
-          <Typography variant="small" className="font-medium">: 스페이스</Typography>
+          <Typography variant="medium" className="font-medium">: 스페이스</Typography>
         </div>
       </div>
       <Line className="my-4 opacity-0" />
@@ -49,12 +49,12 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
             예시
             {index + 1}
           </Typography>
-          <Typography variant="small" className="font-medium">입력</Typography>
+          <Typography variant="medium" className="font-medium">입력</Typography>
           <ClipboardWithTooltip
             handleCopyCallback={() => { setSelectedIndex(index); }}
             content={elem.input}
           />
-          <Typography variant="small" className="mt-1 font-medium">출력</Typography>
+          <Typography variant="medium" className="mt-1 font-medium">출력</Typography>
           <ClipboardWithTooltip content={elem.output} />
         </div>
       ))}
