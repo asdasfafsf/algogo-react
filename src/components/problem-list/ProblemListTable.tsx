@@ -1,7 +1,7 @@
 import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon } from '@heroicons/react/24/solid';
 import { Typography } from '@components/common/index';
-import useProblemListTable from '@hook/problem/useProblemListTable';
+import useProblemListTable from '@/hook/problem-list/useProblemListTable';
 import ProblemThSort from './ProblemListThSort';
 import {
   PROBLEM_SORT_ANSWER_RATE_ASC,

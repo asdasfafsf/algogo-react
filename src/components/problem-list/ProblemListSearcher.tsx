@@ -1,7 +1,7 @@
 import { Input } from '@components/Input/index';
 import { Button } from '@components/Button/index';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import useProblemListSearcher from '@hook/problem/useProblemListSearcher';
+import useProblemListSearcher from '@/hook/problem-list/useProblemListSearcher';
 
 export default function ProblemListSearcher() {
   const {
