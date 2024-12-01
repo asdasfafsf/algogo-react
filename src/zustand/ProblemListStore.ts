@@ -19,7 +19,9 @@ type ProblemListStore = {
   fetchProblemList: (
     pagingInfo: PagingInfo,
     problemOptionList: ProblemOption[],
-    problemSort?: ProblemSort) => Promise<void> | void
+    problemSort?: ProblemSort,
+    problemTitle?: string) => Promise<void> | void
+
 };
 
 export const useProblemListStore = create<ProblemListStore>((set) => ({
@@ -59,6 +61,7 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
     pagingInfo: PagingInfo,
     problemOptionList: ProblemOption[],
     problemSort: ProblemSort = PROBLEM_SORT_DEFAULT,
+    problemTitle: string = '',
   ) => {
     const { pageNo, pageSize } = pagingInfo;
 
@@ -78,6 +81,7 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
           .filter((elem) => elem.isSelected && elem.type === '유형')
           .map((elem) => elem.value),
         sort: problemSort,
+        title: problemTitle,
       });
       clearTimeout(skeletonTimeout);
       const { data } = response;
