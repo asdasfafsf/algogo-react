@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
-import ProblemFooter from '../template/ProblemFooter';
-import ProblemHeader from '../template/ProblemHeader';
-import ProblemSection from '../template/ProblemSection';
-import useTestCaseListStore from '../zustand/TestCaseListStore';
-import useExecuteResultListStore from '../zustand/ExecuteResultListStore';
-import { getProblem } from '../api/problems';
+import ProblemFooter from '@layout/ProblemFooter';
+import ProblemHeader from '@layout/ProblemHeader';
+import ProblemSection from '@layout/ProblemSection';
+import useTestCaseListStore from '@zustand/TestCaseListStore';
+import { PROBLEM_HEADER_HEIGHT } from '@constant/Size';
+import useExecuteResultListStore from '@zustand/ExecuteResultListStore';
+import { getProblem } from '@api/problems';
 
 export default function ProblemPage() {
   const [problem, setProblem] = useState<ResponseProblem>();
