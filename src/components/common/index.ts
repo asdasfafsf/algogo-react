@@ -4,8 +4,10 @@ import Typography from './Typography';
 import MathJaxNode from './MathJaxNode';
 import Tooltip from './Tooltip';
 import ClipboardWithTooltip from './ClipboardWithTooltip';
+import TranslucentOverlay from './TranslucentOverlay';
 
 export {
+  TranslucentOverlay,
   ClipboardWithTooltip,
   Avatar,
   Line,
