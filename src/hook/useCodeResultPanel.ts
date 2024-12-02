@@ -11,15 +11,10 @@ export default function useCodeResultPanel() {
     setSelectedIndex(index);
   }, [selectedIndex]);
 
-  const {
-    input, output, setInput, setOutput,
-  } = useCodeEditorStore(
-    ({
-      input, output, setInput, setOutput,
-    }) => ({
-      input, output, setInput, setOutput,
-    }),
-  );
+  const input = useCodeEditorStore((state) => state.input);
+  const output = useCodeEditorStore((state) => state.output);
+  const setInput = useCodeEditorStore((state) => state.setInput);
+  const setOutput = useCodeEditorStore((state) => state.setOutput);
 
   const handleClickPasteInput = useCallback(async () => {
     const input = await navigator.clipboard.readText();
