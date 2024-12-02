@@ -7,25 +7,16 @@ import useModal from '../plugins/modal/useModal';
 import useCodeResultPanelStore from '../zustand/CodeResultPanelStore';
 
 export default function useExecuteTestCase() {
-  const {
-    setRunning, testCaseList, handleExecute, handleRun,
-  } = useTestCaseListStore(
-    ({
-      testCaseList, setRunning, handleExecute, handleRun,
-    }) => ({
-      testCaseList, setRunning, handleExecute, handleRun,
-    }),
-  );
-  const { language, code } = useCodeEditorStore(
-    ({ language, code }) => ({ language, code }),
-  );
-  const { state, run, execute } = useExecuteSocketStore(
-    ({ state, run, execute }) => ({ run, execute, state }),
-  );
+  const testCaseList = useTestCaseListStore((state) => state.testCaseList);
+  const setRunning = useTestCaseListStore((state) => state.setRunning);
+  const handleExecute = useTestCaseListStore((state) => state.handleExecute);
+  const handleRun = useTestCaseListStore((state) => state.handleRun);
 
-  const { setSelectedIndex } = useCodeResultPanelStore(
-    ({ setSelectedIndex }) => ({ setSelectedIndex }),
-  );
+  const state = useExecuteSocketStore((state) => state.state);
+  const run = useExecuteSocketStore((state) => state.run);
+  const execute = useExecuteSocketStore((state) => state.execute);
+
+  const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
 
   const [alert] = useAlertModal();
   const modal = useModal();
@@ -40,6 +31,8 @@ export default function useExecuteTestCase() {
       modal.pop();
     }
 
+    const { code, language } = useCodeEditorStore.getState();
+
     setSelectedIndex(2);
     setRunning();
     const data: RequestExecuteList = {
@@ -52,7 +45,7 @@ export default function useExecuteTestCase() {
     };
     execute(handleExecute);
     run(data, handleRun);
-  }, [testCaseList, state, language, code]);
+  }, [testCaseList, state]);
 
   return {
     state,
