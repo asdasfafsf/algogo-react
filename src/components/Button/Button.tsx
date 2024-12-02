@@ -9,6 +9,7 @@ interface ButtonProps {
   iconPosition?: 'left' | 'right';
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
+  onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   ripple?: boolean;
 }
@@ -21,7 +22,7 @@ const baseClasses = [
   'text-center',
   'uppercase',
   'transition-all',
-  'rounded-lg', // 사용자 제공: rounded-lg
+  'rounded-lg',
   'focus:opacity-[0.85]',
   'focus:shadow-none',
   'active:opacity-[0.85]',
@@ -33,10 +34,10 @@ const baseClasses = [
   'overflow-hidden',
   'flex',
   'items-center',
-  'justify-center', // 수평 중앙 정렬
+  'justify-center',
   'cursor-pointer',
-  'w-full', // 모바일에서 전체 너비
-  'md:max-w-fit', // 데스크톱에서 최대 너비 제한
+  'w-full',
+  'md:max-w-fit',
 ].join(' ');
 
 const variantColorClasses: Record<string, Record<string, string>> = {
@@ -68,7 +69,7 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     black: 'border border-black text-black shadow-black/10 hover:shadow-lg hover:shadow-black/20 hover:bg-black hover:text-white',
   },
   text: {
-    blue: 'bg-transparent text-blue-500', // 그림자 및 호버 효과 제거
+    blue: 'bg-transparent text-blue-500',
     red: 'bg-transparent text-red-600',
     green: 'bg-transparent text-green-600',
     amber: 'bg-transparent text-amber-600',
@@ -81,9 +82,9 @@ const variantColorClasses: Record<string, Record<string, string>> = {
 const sizeClasses: Record<string, string> = {
   xsmall: 'py-1 px-2 text-xs',
   small: 'py-1.5 px-3 text-xs',
-  medium: 'py-3 px-6 text-xs', // 사용자 제공: py-3 px-6 text-xs
-  large: 'py-3.5 px-7 text-xs', // 크기 약간 증가
-  xlarge: 'py-4 px-8 text-xs', // 크기 증가
+  medium: 'py-3 px-6 text-xs',
+  large: 'py-3.5 px-7 text-xs',
+  xlarge: 'py-4 px-8 text-xs',
 };
 
 export default function Button({
@@ -94,6 +95,7 @@ export default function Button({
   iconPosition = 'left',
   children,
   onClick,
+  onMouseLeave,
   disabled,
   className,
   ripple = false,
@@ -123,11 +125,14 @@ export default function Button({
 
   return (
     <button
-      className={`${baseClasses} ${variantColorClasses[variant][color]} ${sizeClasses[size]} ${className ?? ''}`}
+      className={`${baseClasses} ${variantColorClasses[variant][color]} ${sizeClasses[size]} ${
+        className ?? ''
+      }`}
       onClick={(e) => {
         if (ripple) handleAnimation(e);
         if (onClick) onClick(e);
       }}
+      onMouseLeave={onMouseLeave}
       disabled={disabled}
       type="button"
     >
