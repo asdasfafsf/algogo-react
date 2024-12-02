@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
-import TabHeader from '../atom/TabHeader';
-import Tab from '../atom/Tab';
-import TabPanel from '../atom/TabPanel';
-import TabBody from '../atom/TabBody';
+import { Tab, TabHeader, TabPanel, TabBody } from '@components/tab/index';
 import CodeEditorResizer from '../molecule/CodeEditorResizer';
 import CodeResultInput from './CodeResultInput';
 import CodeResultOutput from './CodeResultOutput';
