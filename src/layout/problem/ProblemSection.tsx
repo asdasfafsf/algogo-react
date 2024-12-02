@@ -12,6 +12,7 @@ import { useCodeEditorHeightStore } from '../../zustand/CodeResultHeightStore';
 import { useProblemScreenStore } from '../../zustand/ProblemScreenStore';
 import CodeDropUp from '../../molecule/CodeDropUp';
 import ProblemSidebarSkeleton from './ProblemSidebarSkeleton';
+import Problem from './Problem';
 
 interface ProblemSectionProps {
   problem: ResponseProblem | undefined;
@@ -52,7 +53,11 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
         className="relative w-screen h-full"
       >
         {
-          problem ? <ProblemSidebar problem={problem} /> : <ProblemSidebarSkeleton />
+          problem ? (
+            <ProblemSidebar>
+              <Problem problem={problem} />
+            </ProblemSidebar>
+          ) : <ProblemSidebarSkeleton />
         }
       </div>
 
