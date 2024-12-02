@@ -4,10 +4,9 @@ import EnterIcon from '/public/assets/enter.svg?react';
 import SpaceIcon from '/public/assets/space.svg?react'
 import React from 'react';
 import {
-  Typography, Line,
+  Typography, Line, ClipboardWithTooltip,
 } from '@components/common/index';
 import useCodeResultPanelStore from '@zustand/CodeResultPanelStore';
-import ClipboardWithTooltip from '../../atom/ClipboardWithTooltip';
 
 interface ResponseProblemInputOutput {
   input: string;
