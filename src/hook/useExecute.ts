@@ -5,29 +5,20 @@ import useAlertModal from './useAlertModal';
 import useCodeResultPanelStore from '../zustand/CodeResultPanelStore';
 
 export default function useExecute() {
-  const { language, code } = useCodeEditorStore(
-    ({ language, code }) => ({ language, code }),
-  );
-  const { state, run, execute } = useExecuteSocketStore(
-    ({ state, run, execute }) => ({ run, execute, state }),
-  );
-
-  const { setSelectedIndex } = useCodeResultPanelStore(
-    ({ setSelectedIndex }) => ({ setSelectedIndex }),
-  );
-
-  const { input, setOutput } = useCodeEditorStore(
-    ({ setOutput, input }) => ({ setOutput, input }),
-  );
+  const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
+  const setOutput = useCodeEditorStore((state) => state.setOutput);
 
   const [alert] = useAlertModal();
 
   const handleExecute = useCallback(async () => {
+    const { state, run, execute } = useExecuteSocketStore.getState();
     if (state !== 'WAITING') {
       await alert('실행 중 입니다. 잠시만 기다려주세요');
       return;
     }
 
+    const { language, code } = useCodeEditorStore.getState();
+    const { input } = useCodeEditorStore.getState();
     setSelectedIndex(1);
     const requestData = {
       provider: language,
@@ -59,10 +50,9 @@ export default function useExecute() {
         });
       }
     });
-  }, [state, language, code, input]);
+  }, []);
 
   return {
-    state,
     handleExecute,
   };
 }
