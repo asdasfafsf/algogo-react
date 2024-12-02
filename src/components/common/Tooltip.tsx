@@ -1,7 +1,7 @@
 import React, { useState, cloneElement, ReactElement } from 'react';
 
 export function Tooltip(props: {
-  children: React.ReactElement;
+  children: ReactElement;
   content: string;
   placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
   animation?: boolean;
@@ -59,7 +59,7 @@ export function Tooltip(props: {
     ? 'transition-all duration-200 ease-in-out'
     : '';
 
-  const childElement = React.cloneElement(children, {
+  const childElement = cloneElement(children, {
     onMouseEnter: (e: React.MouseEvent) => {
       if (children.props.onMouseEnter) {
         children.props.onMouseEnter(e);
