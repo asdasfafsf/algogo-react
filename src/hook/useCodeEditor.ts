@@ -15,7 +15,7 @@ export default function useCodeEditor() {
     }
     setCode(value);
     updateCodeFromLanguage(language, value);
-  }, [code]);
+  }, [setCode]);
 
   const handleEditorMount = useCallback((editor: unknown) => {
     editorRef.current = editor;

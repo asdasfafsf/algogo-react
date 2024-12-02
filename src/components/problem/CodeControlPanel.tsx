@@ -1,0 +1,73 @@
+import { Button } from '@material-tailwind/react';
+import LanguageDropdown from './LanguageDropdown';
+import useCodeControlPanel from '@hook/useCodeControlPanel';
+import useExecuteTestCase from '@hook/useExecuteTestCase';
+import useExecute from '@hook/useExecute';
+
+export default function CodeControlPanel() {
+  const {
+    handleClickReset,
+    handleClickAddTestCase,
+  } = useCodeControlPanel();
+
+  const { state, handleTest } = useExecuteTestCase();
+  const { handleExecute } = useExecute();
+
+  return (
+    <div
+      className="flex items-center justify-end w-full h-12 max-w-full px-2 overflow-hidden text-white bg-gray-900"
+    >
+      <div className="absolute sm:min-w-[520px] flex">
+        <LanguageDropdown />
+        <div className="ml-4 hidden gap-1 sm:flex">
+          <Button
+            onClick={handleClickReset}
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+            color="blue"
+            size="sm"
+          >
+            초기화
+          </Button>
+          <Button
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+            color="blue"
+            size="sm"
+            onClick={handleExecute}
+          >
+            실행
+          </Button>
+          <Button
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+            size="sm"
+            color="blue"
+            onClick={handleClickAddTestCase}
+          >
+            테스트 케이스 추가
+          </Button>
+
+          <Button
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+            color="blue"
+            size="sm"
+            onClick={handleTest}
+          >
+            테스트
+          </Button>
+
+          <Button
+            disabled={state === 'PENDING'}
+            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+            color="blue"
+            size="sm"
+          >
+            제출
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
