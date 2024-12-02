@@ -4,9 +4,9 @@ import useTestCaseListStore from '@zustand/TestCaseListStore';
 import { PROBLEM_HEADER_HEIGHT } from '@constant/Size';
 import useExecuteResultListStore from '@zustand/ExecuteResultListStore';
 import { getProblem } from '@api/problems';
-import ProblemSection from '@/layout/problem/ProblemSection';
-import ProblemHeader from '@/layout/problem/ProblemHeader';
-import ProblemFooter from '@/layout/problem/ProblemFooter';
+import ProblemSection from '@layout/problem/ProblemSection';
+import ProblemHeader from '@layout/problem/ProblemHeader';
+import ProblemFooter from '@layout/problem/ProblemFooter';
 
 export default function ProblemPage() {
   const [problem, setProblem] = useState<ResponseProblem>();
