@@ -53,6 +53,9 @@ dependencies:
   react-router-dom:
     specifier: ^6.22.2
     version: 6.22.2(react-dom@18.2.0)(react@18.2.0)
+  react-tooltip:
+    specifier: ^5.28.0
+    version: 5.28.0(react-dom@18.2.0)(react@18.2.0)
   socket.io-client:
     specifier: ^4.8.0
     version: 4.8.0
@@ -3634,6 +3637,18 @@ packages:
     dependencies:
       '@remix-run/router': 1.15.2
       react: 18.2.0
+    dev: false
+
+  /react-tooltip@5.28.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-R5cO3JPPXk6FRbBHMO0rI9nkUG/JKfalBSQfZedZYzmqaZQgq7GLzF8vcCWx6IhUCKg0yPqJhXIzmIO5ff15xg==}
+    peerDependencies:
+      react: '>=16.14.0'
+      react-dom: '>=16.14.0'
+    dependencies:
+      '@floating-ui/dom': 1.6.3
+      classnames: 2.3.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react@18.2.0:

@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Tooltip, Typography } from '@material-tailwind/react';
+import { Typography } from '@components/common/index';
 import useProblemLevelViewer from '@hook/useProblemLevelViewer';
+import React from 'react';
+import { Tooltip } from 'react-tooltip';
 import { ProblemLevelChip } from '../Chip';
 
 interface ProblemLevelViewerProps {
@@ -9,7 +11,7 @@ interface ProblemLevelViewerProps {
   level: ProblemLevel
 }
 
-export default function ProblemLevelViewer({ intialState, level }: ProblemLevelViewerProps) {
+function ProblemLevelViewer({ intialState, level }: ProblemLevelViewerProps) {
   const [levelState, tooltipContent, handleClick] = useProblemLevelViewer(intialState);
   return (
     <Tooltip
@@ -27,3 +29,5 @@ export default function ProblemLevelViewer({ intialState, level }: ProblemLevelV
     </Tooltip>
   );
 }
+
+export default React.memo(ProblemLevelViewer);
