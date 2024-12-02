@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Typography } from '@components/common/index';
+import { Typography, Tooltip } from '@components/common/index';
 import useProblemLevelViewer from '@hook/useProblemLevelViewer';
 import React from 'react';
-import { Tooltip } from 'react-tooltip';
 import { ProblemLevelChip } from '../Chip';
 
 interface ProblemLevelViewerProps {
