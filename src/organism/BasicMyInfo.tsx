@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Button, Input, Typography } from '@material-tailwind/react';
-import Card from '../atom/Card';
+import { Card } from '@components/Card/index';
 import ProfilePhoto from '../atom/ProfilePhoto';
 import useConfirmModal from '../hook/useConfirmModal';
 

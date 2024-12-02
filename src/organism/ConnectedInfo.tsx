@@ -1,5 +1,5 @@
 import { Button, Typography } from '@material-tailwind/react';
-import Card from '../atom/Card';
+import { Card } from '@components/Card/index';
 import Line from '../atom/Line';
 
 export default function ConnectedInfo() {
