@@ -57,7 +57,7 @@ export default function Dropdown({
   };
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative`}>
       <div
         ref={menuRef}
         onClick={handleOpen}
@@ -75,7 +75,7 @@ export default function Dropdown({
       {isOpen && (
         <div
           ref={divRef}
-          className={`absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg ${alignClass[align]}`}
+          className={`absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg ${alignClass[align]} ${className}`}
         >
           {content}
         </div>
