@@ -9,6 +9,7 @@ export default function useLanguageDropdown() {
     Java: 'Java',
     Python: 'Python',
   };
+  const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const {
     setCode, setLanguage, codeFromLanguage,
@@ -26,7 +27,16 @@ export default function useLanguageDropdown() {
     setCode(`${codeFromLanguage[selectedLanguage]}`);
     setLanguage(selectedLanguage);
     setSelectedIndex(index);
-  }, [selectedIndex, codeFromLanguage, setCode, setLanguage]);
+    setOpen(false);
+  }, [codeFromLanguage, setCode, setLanguage, setOpen]);
 
-  return [selectedIndex, languageList, handleUpdate] as const;
+  const handler = useCallback(() => setOpen((open) => !open), [setOpen]);
+
+  return {
+    open,
+    selectedIndex, 
+    languageList, 
+    handleUpdate, 
+    handler
+  };
 }
