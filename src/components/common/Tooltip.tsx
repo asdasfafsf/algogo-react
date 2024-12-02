@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, cloneElement, ReactElement } from 'react';
 
 export function Tooltip(props: {
-  children: React.ReactNode;
+  children: React.ReactElement;
   content: string;
   placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
   animation?: boolean;
@@ -59,13 +59,24 @@ export function Tooltip(props: {
     ? 'transition-all duration-200 ease-in-out'
     : '';
 
+  const childElement = React.cloneElement(children, {
+    onMouseEnter: (e: React.MouseEvent) => {
+      if (children.props.onMouseEnter) {
+        children.props.onMouseEnter(e);
+      }
+      handleMouseEnter();
+    },
+    onMouseLeave: (e: React.MouseEvent) => {
+      if (children.props.onMouseLeave) {
+        children.props.onMouseLeave(e);
+      }
+      handleMouseLeave();
+    },
+  });
+
   return (
-    <div
-      className="relative inline-block"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {children}
+    <div className="relative">
+      {childElement}
       {isOpen && (
         <div
           className={`absolute z-50 whitespace-nowrap rounded-lg bg-black py-1.5 px-3 font-sans text-sm font-normal text-white ${positions[placement]} ${animationClasses}`}
