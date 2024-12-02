@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Tooltip } from '@material-tailwind/react';
 import { ProblemCategoryChip } from '@components/Chip/index';
 import useProblemCategoryViewer from '@hook/useProblemCategoryViewer';
 import React from 'react';
+import { Tooltip } from '@components/common/index';
 
 interface ProblemCategoryProps {
   initialState: ProblemCategoryState;
