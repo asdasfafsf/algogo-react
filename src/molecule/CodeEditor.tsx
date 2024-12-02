@@ -1,8 +1,9 @@
 import Editor from '@monaco-editor/react';
+import React from 'react';
 import useCodeEditor from '../hook/useCodeEditor';
 import CodeControlPanel from '../organism/CodeControlPanel';
 
-export default function CodeEditor() {
+export function CodeEditor() {
   const {
     code,
     language,
@@ -51,3 +52,5 @@ export default function CodeEditor() {
     </div>
   );
 }
+
+export default React.memo(CodeEditor);

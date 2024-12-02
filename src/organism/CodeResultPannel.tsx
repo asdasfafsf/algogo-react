@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TabHeader from '../atom/TabHeader';
 import Tab from '../atom/Tab';
 import TabPanel from '../atom/TabPanel';
@@ -11,7 +11,7 @@ import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
 import useCodeResultPanel from '../hook/useCodeResultPanel';
 import useExecute from '../hook/useExecute';
 
-export default function CodeResultPannel() {
+export function CodeResultPannel() {
   const {
     input,
     output,
@@ -75,3 +75,5 @@ export default function CodeResultPannel() {
     </div>
   );
 }
+
+export default React.memo(CodeResultPannel);
