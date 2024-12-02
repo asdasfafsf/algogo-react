@@ -1,8 +1,8 @@
 import { Typography } from '@material-tailwind/react';
 import { LightBulbIcon, BookOpenIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
-import { PROBLEM_FOOTER_HEIGHT } from '../constant/Size';
-import { useScreenSize } from '../context/ScreenSizeContext';
-import { useProblemScreenStore } from '../zustand/ProblemScreenStore';
+import { PROBLEM_FOOTER_HEIGHT } from '../../constant/Size';
+import { useScreenSize } from '../../context/ScreenSizeContext';
+import { useProblemScreenStore } from '../../zustand/ProblemScreenStore';
 
 export default function ProbleFooter() {
   const { isMobile } = useScreenSize();

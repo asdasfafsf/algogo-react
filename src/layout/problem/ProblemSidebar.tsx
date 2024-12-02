@@ -9,8 +9,8 @@ import ProblemTitle from '@components/problem/ProblemTitle';
 import ProblemInfo from '@components/problem/ProblemInfo';
 import ProblemSource from '@components/problem/ProblemSource';
 import ProblemCategoryViewer from '@components/problem/ProblemCategoryViewer';
-import useProblemSidebar from '../hook/useProblemSidebar';
-import { useScreenSize } from '../context/ScreenSizeContext';
+import useProblemSidebar from '../../hook/useProblemSidebar';
+import { useScreenSize } from '../../context/ScreenSizeContext';
 
 interface ProblemSidebarProps {
   problem: ResponseProblem

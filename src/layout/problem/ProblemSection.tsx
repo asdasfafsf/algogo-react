@@ -2,15 +2,15 @@ import {
   ChevronLeftIcon, ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 
-import CodeEditor from '../molecule/CodeEditor';
-import CodeResultPannel from '../organism/CodeResultPannel';
-import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
-import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../constant/Size';
-import { useScreenSize } from '../context/ScreenSizeContext';
+import CodeEditor from '../../molecule/CodeEditor';
+import CodeResultPannel from '../../organism/CodeResultPannel';
+import { useProblemWidthStore } from '../../zustand/ProblemWidthStore';
+import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../../constant/Size';
+import { useScreenSize } from '../../context/ScreenSizeContext';
 import ProblemSidebar from './ProblemSidebar';
-import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
-import { useProblemScreenStore } from '../zustand/ProblemScreenStore';
-import CodeDropUp from '../molecule/CodeDropUp';
+import { useCodeEditorHeightStore } from '../../zustand/CodeResultHeightStore';
+import { useProblemScreenStore } from '../../zustand/ProblemScreenStore';
+import CodeDropUp from '../../molecule/CodeDropUp';
 import ProblemSidebarSkeleton from './ProblemSidebarSkeleton';
 
 interface ProblemSectionProps {
