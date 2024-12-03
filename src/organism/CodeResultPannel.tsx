@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { Tab, TabHeader, TabPanel, TabBody } from '@components/tab/index';
+import {
+  Tab, TabHeader, TabPanel, TabBody,
+} from '@components/tab/index';
 import CodeEditorResizer from '../molecule/CodeEditorResizer';
 import CodeResultInput from './CodeResultInput';
 import CodeResultOutput from './CodeResultOutput';

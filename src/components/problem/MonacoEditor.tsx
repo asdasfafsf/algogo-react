@@ -2,7 +2,9 @@ import Editor from '@monaco-editor/react';
 import useCodeEditor from '@hook/useCodeEditor';
 
 export default function CodeEditorBody() {
-  const { code, language, handleEditorMount, handleEditorChange } = useCodeEditor();
+  const {
+    code, language, handleEditorMount, handleEditorChange,
+  } = useCodeEditor();
 
   const monocoLanguageMap = {
     'Node.js': 'javascript',
