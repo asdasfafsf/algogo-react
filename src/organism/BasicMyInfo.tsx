@@ -1,8 +1,10 @@
 import { useCallback, useState } from 'react';
-import { Button, Input, Typography } from '@material-tailwind/react';
 import { Card } from '@components/Card/index';
-import ProfilePhoto from '../atom/ProfilePhoto';
-import useConfirmModal from '../hook/useConfirmModal';
+
+import { Typography, ProfilePhoto } from '@components/common/index';
+import { Button } from '@components/Button/index';
+import { Input } from '@components/Input/index';
+import useConfirmModal from '@hook/useConfirmModal';
 
 // eslint-disable-next-line
 import ColorInstagramIcon from '/public/assets/icons8-instagram_e.svg?react';
@@ -56,10 +58,10 @@ export default function BasicMyInfo() {
             <div className="flex items-center justify-center my-2">
               <div className="w-64">
                 <Input
-                  size="md"
+                  // size="md"
                   label="이름"
                   placeholder="이름을 입력하세요"
-                  success
+                  // success
                 />
               </div>
             </div>
@@ -82,7 +84,7 @@ export default function BasicMyInfo() {
               <div className="w-64">
                 <Input
                   disabled
-                  size="lg"
+                  // size="lg"
                   label="이메일"
                   value="asdasfafsf@naver.com"
                   placeholder="이메일을 입력하세요"
@@ -125,7 +127,7 @@ export default function BasicMyInfo() {
               <div className="flex items-center justify-center my-2">
                 <div className="w-64">
                   <Input
-                    size="md"
+                    // size="medium"
                     label="Instagram"
                     placeholder="Input your Instagram ID"
                     className="flex items-center"
@@ -136,7 +138,7 @@ export default function BasicMyInfo() {
               <div className="flex items-center justify-center my-2">
                 <div className="w-64">
                   <Input
-                    size="md"
+                    // size="md"
                     label="LinkedIn"
                     placeholder="Input your Linked ID"
                     className="flex items-center"
@@ -147,7 +149,7 @@ export default function BasicMyInfo() {
               <div className="flex items-center justify-center my-2">
                 <div className="w-64">
                   <Input
-                    size="md"
+                    // size="md"
                     label="Youtube"
                     placeholder="Input your Youtube Channel Link"
                     className="flex items-center"
@@ -158,7 +160,7 @@ export default function BasicMyInfo() {
               <div className="flex items-center justify-center my-2">
                 <div className="w-64">
                   <Input
-                    size="md"
+                    // size="md"
                     label="Github"
                     placeholder="Input your Github Id"
                     className="flex items-center"

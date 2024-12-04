@@ -1,6 +1,6 @@
+import ProblemBreadcrumbs from '@components/problem/ProblemBreadcrumbs';
+import ProblemNavbar from '@components/problem/ProblemNavbar';
 import { PROBLEM_HEADER_HEIGHT } from '../../constant/Size';
-import ProblemBreadcrumbs from '../../molecule/ProblemBreadcrumbs';
-import ProblemNavbar from '../../molecule/ProblemNavbar';
 
 interface ProblemHeaderProps {
   problemTitle?: string;

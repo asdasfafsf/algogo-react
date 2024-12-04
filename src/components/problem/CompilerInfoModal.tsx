@@ -1,13 +1,11 @@
 import {
-  Button,
   Card,
   CardBody,
-  Typography,
 } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
-import TranslucentOverlay from '../atom/TranslucentOverlay';
-import Line from '../atom/Line';
-import useModal from '../plugins/modal/useModal';
+import useModal from '@plugins/modal/useModal';
+import { Typography, TranslucentOverlay, Line } from '@components/common/index';
+import { Button } from '@components/Button/index';
 
 export default function CompilerInfoModal() {
   const modal = useModal();
@@ -93,7 +91,6 @@ export default function CompilerInfoModal() {
         <div className="flex justify-center mt-4">
           <Button
             onClick={handleClose}
-            color="blue-gray"
             className="bg-gray-600"
           >
             닫기

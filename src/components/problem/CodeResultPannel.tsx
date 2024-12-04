@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import {
   Tab, TabHeader, TabPanel, TabBody,
 } from '@components/tab/index';
-import CodeEditorResizer from '../molecule/CodeEditorResizer';
+import useExecute from '@hook/useExecute';
+import useCodeResultPanel from '@hook/useCodeResultPanel';
+import { useExecuteSocketStore } from '@zustand/ExecuteSocketStore';
+import CodeEditorResizer from './CodeEditorResizer';
 import CodeResultInput from './CodeResultInput';
 import CodeResultOutput from './CodeResultOutput';
 import CodeTestCaseTable from './CodeTestCaseTable';
-import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
-import useCodeResultPanel from '../hook/useCodeResultPanel';
-import useExecute from '../hook/useExecute';
 
 export function CodeResultPannel() {
   const {

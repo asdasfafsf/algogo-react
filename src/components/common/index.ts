@@ -5,8 +5,11 @@ import MathJaxNode from './MathJaxNode';
 import Tooltip from './Tooltip';
 import ClipboardWithTooltip from './ClipboardWithTooltip';
 import TranslucentOverlay from './TranslucentOverlay';
+import Textarea from './Textarea';
+import ProfilePhoto from './ProfilePhoto';
 
 export {
+  ProfilePhoto,
   TranslucentOverlay,
   ClipboardWithTooltip,
   Avatar,
@@ -14,4 +17,5 @@ export {
   Typography,
   MathJaxNode,
   Tooltip,
+  Textarea,
 };

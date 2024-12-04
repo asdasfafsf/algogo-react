@@ -1,8 +1,8 @@
-import { IconButton } from '@material-tailwind/react';
 import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
-import useModal from '../plugins/modal/useModal';
-import CompilerInfoModal from '../organism/CompilerInfoModal';
-import useAlertModal from '../hook/useAlertModal';
+import useAlertModal from '@hook/useAlertModal';
+import useModal from '@plugins/modal/useModal';
+import { IconButton } from '@components/Button/index';
+import CompilerInfoModal from './CompilerInfoModal';
 
 export default function ProblemNavbar() {
   const modal = useModal();
@@ -12,9 +12,10 @@ export default function ProblemNavbar() {
       <div className="flex items-center justify-end w-full h-full gap-1 p-0 px-4 text-white">
         <div className="flex items-center justify-center w-10 h-full">
           <IconButton
-            ripple
             className="w-10 h-10 text-white"
-            onClick={() => modal.push('CompilerInfo', CompilerInfoModal, {})}
+            onClick={() => {
+              modal.push('CompilerInfo', CompilerInfoModal, {});
+            }}
           >
             <DocumentTextIcon
               className="text-white w-7 h-7"
@@ -25,7 +26,7 @@ export default function ProblemNavbar() {
 
         <div className="flex items-center justify-center w-10 h-full">
           <IconButton
-            ripple
+            // ripple
             className="w-10 h-10 text-white"
             onClick={async () => {
               await alert('준비 중 입니다');

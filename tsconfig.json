@@ -31,7 +31,8 @@
       "@hook/*": ["src/hook/*"],
       "@zustand/*": ["src/zustand/*"],
       "@constant/*": ["src/constant/*"],
-      "@api/*": ["src/api/*"]
+      "@api/*": ["src/api/*"],
+      "@plugins/*": ["src/plugins/*"]
     }
   },
   "include": ["src", "svg.d.ts", "vite.config.ts"],

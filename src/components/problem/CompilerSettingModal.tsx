@@ -1,10 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-
+import { IconButton } from '@components/Button/index';
 import { useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { TranslucentOverlay, Typography } from '@components/common/index';
-import { IconButton } from '@components/Button/index';
 import useModal from '@plugins/modal/useModal';
+import { Typography, TranslucentOverlay } from '@components/common/index';
 
 export default function CompilerSettingModal() {
   const modal = useModal();
@@ -41,7 +40,6 @@ export default function CompilerSettingModal() {
         <header className="flex items-center w-full p-4">
           <div className="w-1/2">
             <Typography
-              className="text-white"
               variant="h6"
             >
               컴파일러 세팅

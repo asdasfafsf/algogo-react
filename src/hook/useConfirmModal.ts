@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import useModal from '../plugins/modal/useModal';
-import ConfirmModal from '../organism/ConfirmModal';
+import useModal from '@plugins/modal/useModal';
+import { ConfirmModal } from '@components/modal/index';
 
 export default function useConfirmModal() {
   const modal = useModal();

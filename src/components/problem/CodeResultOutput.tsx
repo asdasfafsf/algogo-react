@@ -3,8 +3,8 @@ import {
   ClipboardIcon, TrashIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
-import { Typography } from '@material-tailwind/react';
-import TooltipIconButton from '../atom/TooltipIconButton';
+import { Typography } from '@components/common/index';
+import { TooltipIconButton } from '@components/Button/index';
 
 interface CodeResultOutputProps {
   outputTextAreaRef:React.RefObject<HTMLTextAreaElement>
@@ -22,13 +22,13 @@ export default function CodeResultOutput(
     <div className="relative h-full">
       <nav className="flex justify-between w-full gap-1 overflow-x-hidden">
         <div className="absolute z-10 flex ml-2 top-1">
-          <Typography variant="h6" color="green">
+          <Typography variant="h6" className="text-green-500">
             실행 시간 : &nbsp;
             {output.processTime}
             ms
           </Typography>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Typography variant="h6" color="green">
+          <Typography variant="h6" className="text-green-500">
             메모리 사용량 : &nbsp;
             {output.memory}
             MB

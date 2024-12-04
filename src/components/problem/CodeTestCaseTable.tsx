@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { Button, Card, Typography } from '@material-tailwind/react';
-import useModal from '../plugins/modal/useModal';
+import useExecuteTestCase from '@hook/useExecuteTestCase';
+import useModal from '@plugins/modal/useModal';
 import TestCaseModal from './TestCaseModal';
-import useExecuteTestCase from '../hook/useExecuteTestCase';
 
 interface CodeTestCaseTableProps {
   executeResultList: TestCase[];

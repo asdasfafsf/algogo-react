@@ -31,6 +31,7 @@ module.exports = {
       'react/no-array-index-key': 'off',
       'react/jsx-props-no-multi-spaces': 'off',
       'react/no-array-index-key': 'off',
-      'jsx-a11y/control-has-associated-label': 'off'
+      'jsx-a11y/control-has-associated-label': 'off',
+      'jsx-a11y/label-has-associated-control': 'off',
   }
 }

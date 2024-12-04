@@ -3,14 +3,14 @@ import {
 } from '@heroicons/react/24/outline';
 
 import CodeEditor from '@components/problem/CodeEditor';
+import CodeDropUp from '@components/problem/CodeDropUp';
+import CodeResultPannel from '@components/problem/CodeResultPannel';
 import { useProblemWidthStore } from '@zustand/ProblemWidthStore';
 import { useCodeEditorHeightStore } from '@zustand/CodeResultHeightStore';
 import { useProblemScreenStore } from '@zustand/ProblemScreenStore';
-import CodeResultPannel from '../../organism/CodeResultPannel';
 import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../../constant/Size';
 import { useScreenSize } from '../../context/ScreenSizeContext';
 import ProblemSidebar from './ProblemSidebar';
-import CodeDropUp from '../../molecule/CodeDropUp';
 import ProblemSidebarSkeleton from './ProblemSidebarSkeleton';
 import Problem from './Problem';
 

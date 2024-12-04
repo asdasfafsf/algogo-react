@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface IconButtonProps {
+export interface IconButtonProps {
   color?: 'blue' | 'red' | 'green' | 'amber' | 'slate' | 'gray' | 'white' | 'black';
   variant?: 'filled' | 'gradient' | 'outlined' | 'text';
   size?: 'small' | 'medium' | 'large';

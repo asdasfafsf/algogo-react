@@ -1,11 +1,11 @@
-import {
-  Button, Chip, Textarea, Typography,
-} from '@material-tailwind/react';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import TranslucentOverlay from '../atom/TranslucentOverlay';
-import Line from '../atom/Line';
-import useTestCase from '../hook/useTestCase';
-import useExecuteTestCase from '../hook/useExecuteTestCase';
+import useTestCase from '@hook/useTestCase';
+import useExecuteTestCase from '@hook/useExecuteTestCase';
+import {
+  TranslucentOverlay, Line, Typography, Textarea,
+} from '@components/common/index';
+import { Button } from '@components/Button/index';
+import { Chip } from '@components/Chip/index';
 
 export default function TestCaseModal() {
   const {
@@ -64,7 +64,9 @@ export default function TestCaseModal() {
                   <Textarea
                     value={input}
                     className="font-D2Coding"
-                    onChange={(e) => handleChangeInput(index, e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                      handleChangeInput(index, e.target.value);
+                    }}
                     placeholder="입력을 입력하세요"
                   />
                 )}
@@ -87,7 +89,11 @@ export default function TestCaseModal() {
                   <Textarea
                     value={expected}
                     className="font-D2Coding"
-                    onChange={(e) => handleChangeOutput(index, e.target.value)}
+                    onChange={
+                      (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        handleChangeOutput(index, e.target.value);
+                      }
+                    }
                     placeholder="출력을 입력하세요"
                   />
                 )}
@@ -111,8 +117,19 @@ export default function TestCaseModal() {
           )
           : ''}
         <div className="flex justify-end gap-1">
-          <Button onClick={handleTest} color="blue">테스트</Button>
-          <Button onClick={handleClickClose} className="bg-gray-600" color="blue-gray">닫기</Button>
+          <Button
+            onClick={handleTest}
+            color="blue"
+          >
+            테스트
+          </Button>
+          <Button
+            onClick={handleClickClose}
+            className="bg-gray-600"
+
+          >
+            닫기
+          </Button>
         </div>
       </div>
     </TranslucentOverlay>

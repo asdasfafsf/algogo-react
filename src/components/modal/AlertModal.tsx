@@ -1,29 +1,20 @@
-import {
-  Button,
-} from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import TranslucentOverlay from '../atom/TranslucentOverlay';
-import useModal from '../plugins/modal/useModal';
+import useModal from '@plugins/modal/useModal';
+import { TranslucentOverlay } from '@components/common/index';
+import { Button } from '@components/Button/index';
 
 interface AlertModalProps {
   content: string;
 }
 
-export default function ComfirmModal({ content }: AlertModalProps) {
+export default function AlertModal({ content }: AlertModalProps) {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleCancel = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClose = () => {
     setIsVisible(false);
     modal.top().resolve(false);
-  };
-
-  const handleOk = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsVisible(false);
-    modal.top().resolve(true);
   };
 
   useEffect(() => {
@@ -32,16 +23,9 @@ export default function ComfirmModal({ content }: AlertModalProps) {
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
-      event.stopPropagation();
-      event.stopImmediatePropagation();
       switch (event.key) {
         case 'Escape':
-          setIsVisible(false);
-          modal.top().resolve(false);
-          break;
-        case 'Enter':
-          setIsVisible(false);
-          modal.top().resolve(true);
+          handleClose();
           break;
         default:
           break;
@@ -64,29 +48,21 @@ export default function ComfirmModal({ content }: AlertModalProps) {
           <div
             color="white"
             className="cursor-pointer"
-            onClick={handleCancel}
+            onClick={handleClose}
           >
             <XMarkIcon className="w-6 h-6" />
           </div>
         </header>
-        <section className="flex items-center justify-center h-24">
+        <section className="flex items-center justify-center h-24 p-8">
           {content}
         </section>
-        <footer className="flex items-end justify-end w-full gap-1 p-2">
+        <footer className="flex items-end justify-end w-full p-2">
           <Button
-            size="sm"
-            onClick={handleOk}
+            size="small"
+            onClick={handleClose}
             color="blue"
           >
             확인
-          </Button>
-          <Button
-            size="sm"
-            onClick={handleOk}
-            className="bg-gray-500"
-            color="gray"
-          >
-            취소
           </Button>
         </footer>
       </div>

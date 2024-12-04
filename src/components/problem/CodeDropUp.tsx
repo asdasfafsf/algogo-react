@@ -1,9 +1,8 @@
 import {
   ComputerDesktopIcon, PlayIcon, PlusIcon, RocketLaunchIcon, TrashIcon,
 } from '@heroicons/react/16/solid';
-import DropUpItem from '../atom/DropUpItem';
-import DropUp from '../atom/DropUp';
-import useCodeDropUp from '../hook/useCodeDropUp';
+import useCodeDropUp from '@hook/useCodeDropUp';
+import { DropUp, DropUpItem } from '@components/Dropdown/index';
 
 export default function CodeDropUp() {
   const [handleClickAddTestCase, handleClickReset] = useCodeDropUp();

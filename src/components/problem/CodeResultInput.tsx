@@ -1,6 +1,6 @@
 import { ClipboardDocumentListIcon, PlayIcon, TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import TooltipIconButton from '../atom/TooltipIconButton';
+import { TooltipIconButton } from '@components/Button/index';
 
 interface CodeResultInputProps {
   inputTextAreaRef: React.RefObject<HTMLTextAreaElement>
