@@ -19,11 +19,11 @@ interface ProblemSectionProps {
 }
 
 export default function ProblemSection({ problem }: ProblemSectionProps) {
-  const problemWidth = useProblemWidthStore(({ problemWidth }) => problemWidth);
+  const problemWidth = useProblemWidthStore((state) => state.problemWidth);
   const problemHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
   const { isMobile } = useScreenSize();
-  const { selectedIndex, setSelectedIndex } = useProblemScreenStore(((state) => state));
-
+  const selectedIndex = useProblemScreenStore((state) => state.selectedIndex);
+  const setSelectedIndex = useProblemScreenStore((state) => state.setSelectedIndex);
   return (
     <section
       className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full relative"

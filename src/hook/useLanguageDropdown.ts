@@ -11,13 +11,9 @@ export default function useLanguageDropdown() {
   };
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const {
-    setCode, setLanguage, codeFromLanguage,
-  } = useCodeEditorStore((state) => ({
-    setLanguage: state.setLanguage,
-    setCode: state.setCode,
-    codeFromLanguage: state.codeFromLanguage,
-  }));
+  const setCode = useCodeEditorStore((state) => state.setCode);
+  const setLanguage = useCodeEditorStore((state) => state.setLanguage);
+  const codeFromLanguage = useCodeEditorStore((state) => state.codeFromLanguage);
 
   const handleUpdate = useCallback((
     _e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -34,9 +30,9 @@ export default function useLanguageDropdown() {
 
   return {
     open,
-    selectedIndex, 
-    languageList, 
-    handleUpdate, 
-    handler
+    selectedIndex,
+    languageList,
+    handleUpdate,
+    handler,
   };
 }

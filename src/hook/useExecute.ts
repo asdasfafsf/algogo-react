@@ -17,8 +17,7 @@ export default function useExecute() {
       return;
     }
 
-    const { language, code } = useCodeEditorStore.getState();
-    const { input } = useCodeEditorStore.getState();
+    const { language, code, input } = useCodeEditorStore.getState();
     setSelectedIndex(1);
     const requestData = {
       provider: language,
