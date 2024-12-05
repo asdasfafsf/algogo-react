@@ -4,7 +4,7 @@ const variants = {
   static: 'border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5',
   standard: 'border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5',
   outlined:
-    'rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5',
+    'rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5',
 };
 
 const sizes = {
@@ -25,6 +25,7 @@ interface TextAreaProps {
   color?: keyof typeof colors;
   label?: string;
   disabled?: boolean;
+  className?: string;
   [key: string]: unknown;
 }
 
@@ -34,6 +35,7 @@ export default function Textarea({
   color = 'gray',
   label = '',
   disabled = false,
+  className = '',
   ...props
 }: TextAreaProps) {
   const [value, setValue] = useState('');
@@ -48,7 +50,7 @@ export default function Textarea({
       <textarea
         className={`peer h-full w-full resize-none ${variantClass} ${sizeClass} font-sans font-normal text-blue-gray-700 outline-none transition-all disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 ${
           disabled ? 'cursor-not-allowed' : ''
-        } ${colorClass}`}
+        } ${colorClass} ${className}`}
         placeholder=" "
         disabled={disabled}
         value={value}

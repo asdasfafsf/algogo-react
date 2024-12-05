@@ -62,9 +62,9 @@ const variantBaseClasses: Record<string, string> = {
 };
 
 const sizeClasses: Record<string, string> = {
-  small: 'p-1.5 w-8 h-8 text-xs',
-  medium: 'p-2.5 w-10 h-10 text-xs',
-  large: 'p-4 w-12 h-12 text-base',
+  small: 'w-8 h-8 text-xs',
+  medium: 'w-10 h-10 text-xs',
+  large: 'w-12 h-12 text-base',
 };
 
 function IconButton({
@@ -90,7 +90,7 @@ function IconButton({
 
   return (
     <button
-      className={`${className} ${newClass}`}
+      className={`flex items-center justify-center ${className} ${newClass}`}
       onClick={onClick}
       disabled={disabled}
       type="button"

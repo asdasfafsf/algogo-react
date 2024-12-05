@@ -23,9 +23,11 @@ export default function CodeEditorBody() {
       defaultValue="input your code"
       theme="vs-dark"
       value={code}
+
       onMount={handleEditorMount}
       onChange={handleEditorChange}
       options={{
+        contextmenu: false,
         fontSize: 14,
         minimap: { enabled: false },
         scrollbar: { vertical: 'auto', horizontal: 'auto' },

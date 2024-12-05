@@ -12,7 +12,7 @@ export default function ProblemNavbar() {
       <div className="flex items-center justify-end w-full h-full gap-1 p-0 px-4 text-white">
         <div className="flex items-center justify-center w-10 h-full">
           <IconButton
-            className="w-10 h-10 text-white"
+            className="w-10 h-10 text-white bg-gray-900"
             onClick={() => {
               modal.push('CompilerInfo', CompilerInfoModal, {});
             }}
@@ -27,7 +27,7 @@ export default function ProblemNavbar() {
         <div className="flex items-center justify-center w-10 h-full">
           <IconButton
             // ripple
-            className="w-10 h-10 text-white"
+            className="w-10 h-10 text-white bg-gray-900"
             onClick={async () => {
               await alert('준비 중 입니다');
             }}
