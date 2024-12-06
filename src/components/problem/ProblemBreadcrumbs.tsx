@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Breadcrumbs } from '@material-tailwind/react';
+import { Breadcrumbs } from '@components/common/index';
 
 type ProblemBreadCrumbsPath = {
   to: string;
@@ -16,8 +16,6 @@ export default function ProblemBreadcrumbs({ pathList, current }: ProblemBreadCr
   return (
     <Breadcrumbs
       className="text-white bg-gray-900"
-      color="black"
-      fullWidth
       separator=">"
     >
       <a

@@ -16,7 +16,7 @@ export default function useLanguageDropdown() {
   const codeFromLanguage = useCodeEditorStore((state) => state.codeFromLanguage);
 
   const handleUpdate = useCallback((
-    _e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    _e: React.MouseEvent,
     index: number,
   ) => {
     const selectedLanguage = languageMap[languageList[index]];

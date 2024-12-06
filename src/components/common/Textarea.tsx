@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const variants = {
   static: 'border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5',

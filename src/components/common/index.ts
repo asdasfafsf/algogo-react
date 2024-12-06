@@ -7,8 +7,10 @@ import ClipboardWithTooltip from './ClipboardWithTooltip';
 import TranslucentOverlay from './TranslucentOverlay';
 import Textarea from './Textarea';
 import ProfilePhoto from './ProfilePhoto';
+import Breadcrumbs from './BreadCrumbs';
 
 export {
+  Breadcrumbs,
   ProfilePhoto,
   TranslucentOverlay,
   ClipboardWithTooltip,

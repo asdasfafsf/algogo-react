@@ -33,7 +33,12 @@ export function ProblemCategoryViewer(
               ? <ProblemCategoryChip category="알고리즘 유형 숨김" />
               : categoryState === 'none'
                 ? <ProblemCategoryChip category="알 수 없음" />
-                : categoryList.map((category) => <ProblemCategoryChip category={category} />)}
+                : categoryList.map((category) => (
+                  <ProblemCategoryChip
+                    key={category}
+                    category={category}
+                  />
+                ))}
           </div>
         </div>
       </div>
