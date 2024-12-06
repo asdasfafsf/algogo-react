@@ -2,7 +2,7 @@
 const withMT = require("@material-tailwind/react/utils/withMT");
 const plugin = require('tailwindcss/plugin');
 
-export default withMT({
+export default {
   content: ["./src/**/*.{html,js,ts,tsx,jsx}"],
   theme: {
     extend: { 
@@ -81,4 +81,4 @@ export default withMT({
       },
     });
   })],
-});
+};
