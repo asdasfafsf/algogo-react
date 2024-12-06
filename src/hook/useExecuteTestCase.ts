@@ -7,7 +7,6 @@ import useModal from '../plugins/modal/useModal';
 import useCodeResultPanelStore from '../zustand/CodeResultPanelStore';
 
 export default function useExecuteTestCase() {
-  const testCaseList = useTestCaseListStore((state) => state.testCaseList);
   const setRunning = useTestCaseListStore((state) => state.setRunning);
   const handleExecute = useTestCaseListStore((state) => state.handleExecute);
   const handleRun = useTestCaseListStore((state) => state.handleRun);
@@ -31,6 +30,7 @@ export default function useExecuteTestCase() {
       modal.pop();
     }
 
+    const { testCaseList } = useTestCaseListStore.getState();
     const { code, language } = useCodeEditorStore.getState();
 
     setSelectedIndex(2);
@@ -45,7 +45,7 @@ export default function useExecuteTestCase() {
     };
     execute(handleExecute);
     run(data, handleRun);
-  }, [testCaseList, state]);
+  }, [state]);
 
   return {
     state,

@@ -38,7 +38,7 @@ export default function TestCaseModal() {
                 <Chip
                   value={`입력 ${index + 1}`}
                   variant="ghost"
-                  className="flex items-center w-14"
+                  className="flex items-center w-16"
                   color={readOnly ? 'red' : 'blue'}
                 />
                 {readOnly
@@ -74,7 +74,7 @@ export default function TestCaseModal() {
               <Chip
                 value={`출력 ${index + 1}`}
                 variant="ghost"
-                className="flex items-center mb-2 w-14"
+                className="flex items-center w-16 mb-2"
                 color={readOnly ? 'red' : 'blue'}
               />
               {' '}

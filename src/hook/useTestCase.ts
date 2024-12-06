@@ -4,11 +4,8 @@ import { useTestCaseListStore } from '../zustand/TestCaseListStore';
 
 export default function useTestCase() {
   const modal = useModal();
-  const {
-    testCaseList, setTestCaseList,
-  } = useTestCaseListStore(
-    ({ testCaseList, setTestCaseList }) => ({ testCaseList, setTestCaseList }),
-  );
+  const testCaseList = useTestCaseListStore((state) => state.testCaseList);
+  const setTestCaseList = useTestCaseListStore((state) => state.setTestCaseList);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
