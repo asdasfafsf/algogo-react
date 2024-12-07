@@ -57,7 +57,6 @@ export default function Login({ name = '로그인' }: LoginProps) {
             color="white"
             size="large"
             className="flex items-center justify-center h-12 gap-2 mt-4"
-            fullWidth
             onClick={(_e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(_e, 'github')}
           >
             <img
@@ -69,6 +68,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
           </Button>
           <Typography
             color="gray"
+            variant="medium"
             className="mt-6 font-normal text-center"
           >
             {name === '로그인' ? '회원이 아니신가요?' : '회원이신가요?'}
@@ -81,8 +81,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
             <hr className="w-full bg-blue-gray-50" />
             <Typography
               variant="small"
-              color="blue-gray"
-              className="font-medium opacity-50"
+              className="font-medium opacity-50 text-blue-gray"
             >
               OR
             </Typography>
