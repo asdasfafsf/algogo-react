@@ -17,7 +17,7 @@ export default function CodeControlPanel() {
     <div
       className="flex items-center justify-end w-full h-12 max-w-full px-2 overflow-hidden text-white bg-gray-900"
     >
-      <div className="absolute sm:min-w-[520px] flex">
+      <div className="absolute sm:min-w-[480px] flex">
         <LanguageDropdown />
         <div className="hidden gap-1 ml-4 sm:flex">
           <Button
@@ -25,7 +25,7 @@ export default function CodeControlPanel() {
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
-            size="sm"
+            size="small"
           >
             초기화
           </Button>
@@ -33,7 +33,7 @@ export default function CodeControlPanel() {
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
-            size="sm"
+            size="small"
             onClick={handleExecute}
           >
             실행
@@ -41,7 +41,7 @@ export default function CodeControlPanel() {
           <Button
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
-            size="sm"
+            size="small"
             color="blue"
             onClick={handleClickAddTestCase}
           >
@@ -50,9 +50,9 @@ export default function CodeControlPanel() {
 
           <Button
             disabled={state === 'PENDING'}
-            className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
+            className={`${state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}`}
             color="blue"
-            size="sm"
+            size="small"
             onClick={handleTest}
           >
             테스트
@@ -62,7 +62,7 @@ export default function CodeControlPanel() {
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
-            size="sm"
+            size="small"
           >
             제출
           </Button>
