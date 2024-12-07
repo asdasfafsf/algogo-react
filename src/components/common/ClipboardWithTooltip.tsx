@@ -44,7 +44,7 @@ export default function ClipboardWithTooltip({
         onKeyDown={handleKeyDown}
         role="button"
         tabIndex={0}
-        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 lowercase w-full cursor-pointer focus:outline-none bg-black text-white border ${className}`}
+        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 lowercase w-full cursor-pointer focus:outline-none bg-black text-white border rounded-md${className}`}
       >
         <div className="w-full">
           {content
