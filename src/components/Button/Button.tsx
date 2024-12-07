@@ -13,8 +13,8 @@ interface ButtonProps {
   disabled?: boolean;
   ripple?: boolean;
 }
-
 const baseClasses = [
+  'inline-flex',
   'align-middle',
   'select-none',
   'font-sans',
@@ -32,12 +32,10 @@ const baseClasses = [
   'disabled:pointer-events-none',
   'relative',
   'overflow-hidden',
-  'flex',
   'items-center',
   'justify-center',
   'cursor-pointer',
-  'w-full',
-  'md:max-w-fit',
+  'whitespace-nowrap', // 줄바꿈 방지
 ].join(' ');
 
 const variantColorClasses: Record<string, Record<string, string>> = {
