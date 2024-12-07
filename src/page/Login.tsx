@@ -29,7 +29,6 @@ export default function Login({ name = '로그인' }: LoginProps) {
             size="large"
             className="flex items-center justify-center h-12 gap-2 mt-4 text-white"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'google')}
-            fullWidth
           >
             <img
               src="google-mark.png"

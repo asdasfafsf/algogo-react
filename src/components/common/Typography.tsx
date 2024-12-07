@@ -116,7 +116,7 @@ export default function Typography({
     ? 'p'
     : variant as keyof JSX.IntrinsicElements;
 
-  const classes = `${className} ${headingClasses[variant][weight]} ${colorClasses[color]}`;
+  const classes = `${headingClasses[variant][weight]} ${colorClasses[color]} ${className} `;
 
   return (
     <Tag className={classes}>

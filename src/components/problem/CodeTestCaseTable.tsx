@@ -39,7 +39,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
         </div>
       </div>
       <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-black">
-        <table className="w-full text-center table-fixed min-w-max">
+        <table className="w-full text-center bg-black table-fixed min-w-max">
           <thead>
             <tr>
               {['입력', '출력', '예상 결과', '일치 여부'].map((head, index, arr) => (
@@ -57,7 +57,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-black">
             {executeResultList.map(({
               input, output, expected, state,
             }, index, arr) => {
