@@ -9,7 +9,7 @@ export default function useCodeControlPanel() {
   const modal = useModal();
   const [confirm] = useConfirmModal();
 
-  const handleClickReset = useCallback(async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleClickReset = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
     const isOk = await confirm('초기화 하시겠습니까?');
 
