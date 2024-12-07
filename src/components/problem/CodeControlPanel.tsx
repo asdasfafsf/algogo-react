@@ -1,8 +1,8 @@
-import { Button } from '@material-tailwind/react';
-import LanguageDropdown from './LanguageDropdown';
 import useCodeControlPanel from '@hook/useCodeControlPanel';
 import useExecuteTestCase from '@hook/useExecuteTestCase';
 import useExecute from '@hook/useExecute';
+import { Button } from '@components/Button';
+import LanguageDropdown from './LanguageDropdown';
 
 export default function CodeControlPanel() {
   const {
@@ -19,7 +19,7 @@ export default function CodeControlPanel() {
     >
       <div className="absolute sm:min-w-[520px] flex">
         <LanguageDropdown />
-        <div className="ml-4 hidden gap-1 sm:flex">
+        <div className="hidden gap-1 ml-4 sm:flex">
           <Button
             onClick={handleClickReset}
             disabled={state === 'PENDING'}

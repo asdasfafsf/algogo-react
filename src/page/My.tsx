@@ -1,5 +1,5 @@
-import { Typography } from '@material-tailwind/react';
 import { BasicMyInfo, ConnectedInfo } from '@components/me';
+import { Typography } from '@components/common';
 import DefaultLayout from '../layout/DefaultLayout';
 
 function My() {

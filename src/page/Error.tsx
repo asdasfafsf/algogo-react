@@ -1,5 +1,7 @@
-import { Button, Typography } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+
+import { Button } from '@components/Button';
+import { Typography } from '@components/common';
 
 export default function Error() {
   const navigate = useNavigate();
@@ -17,15 +19,13 @@ export default function Error() {
             />
             <Typography
               variant="h1"
-              color="blue-gray"
-              className="mt-7 text-4xl !leading-snug lg:text-4xl"
+              className="text-blue-gray mt-7 text-4xl !leading-snug lg:text-4xl"
             >
               알 수 없는 오류
             </Typography>
             <Typography
-              variant="lead"
-              color="blue-gray"
-              className="w-full mt-4 mb-6 md:max-w-full lg:mb-12 lg:max-w-3xl"
+              variant="medium"
+              className="w-full mt-4 mb-6 text-blue-gray md:max-w-full lg:mb-12 lg:max-w-3xl"
             >
               처음부터 다시 시도해주세요!
             </Typography>

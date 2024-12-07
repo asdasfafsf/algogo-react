@@ -1,7 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-import { Button, Card, Typography } from '@material-tailwind/react';
 import useExecuteTestCase from '@hook/useExecuteTestCase';
 import useModal from '@plugins/modal/useModal';
+import { Button } from '@components/Button';
+import { Card } from '@components/Card';
+import { Typography } from '@components/common';
 import TestCaseModal from './TestCaseModal';
 
 interface CodeTestCaseTableProps {
@@ -18,7 +20,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
       <div className="w-full py-2 overflow-x-hidden">
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
           <Button
-            onClick={() => modal.push('TESTCASE', TestCaseModal, {})}
+            onClick={() => modal.push('TESTCASE', TestCaseModal, {}) as Promise<void>}
             color="blue"
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
@@ -47,8 +49,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                 >
                   <Typography
                     variant="small"
-                    color="white"
-                    className="font-normal leading-none opacity-70"
+                    className="font-normal leading-none text-white opacity-70"
                   >
                     {head}
                   </Typography>

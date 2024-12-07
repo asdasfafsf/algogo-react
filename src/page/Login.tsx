@@ -1,7 +1,6 @@
-import {
-  Typography, Button,
-} from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
+import { Typography } from '@components/common';
+import { Button } from '@components/Button';
 
 const { VITE_ENV } = import.meta.env;
 
@@ -20,15 +19,15 @@ export default function Login({ name = '로그인' }: LoginProps) {
   return (
     <section className="grid items-center h-screen p-8">
       <div className="text-center">
-        <Typography variant="h3" color="blue-gray" className="mb-2">
+        <Typography variant="h3" className="mb-2">
           {name}
         </Typography>
         {/* <Typography color="gray" className="mb-12 font-normal" /> */}
         <form action="#" className="mx-auto max-w-[24rem] text-left">
           <Button
             color="white"
-            size="lg"
-            className="flex items-center justify-center h-12 gap-2 mt-4"
+            size="large"
+            className="flex items-center justify-center h-12 gap-2 mt-4 text-white"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'google')}
             fullWidth
           >
@@ -42,7 +41,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
           </Button>
           <Button
             color="yellow"
-            size="lg"
+            size="large"
             className="flex items-center justify-center h-12 gap-2 mt-4"
             fullWidth
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'kakao')}
@@ -56,7 +55,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
           </Button>
           <Button
             color="white"
-            size="lg"
+            size="large"
             className="flex items-center justify-center h-12 gap-2 mt-4"
             fullWidth
             onClick={(_e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(_e, 'github')}

@@ -8,8 +8,8 @@ interface BreadCrumbsProps {
 
 export default function BreadCrumbs({ className = '', children, separator = '/' }: BreadCrumbsProps) {
   return (
-    <nav aria-label="breadcrumb" className={`w-max ${className}`}>
-      <ol className="flex flex-wrap items-center w-full px-4 py-2 rounded-md bg-slate-50">
+    <nav aria-label="breadcrumb" className={`w-max h-full ${className}`}>
+      <ol className="flex flex-wrap items-center w-full px-4 py-2 rounded-md">
         {React.Children.map(children, (child, index) => (
           <li
             key={index}

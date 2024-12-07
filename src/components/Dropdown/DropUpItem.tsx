@@ -1,4 +1,4 @@
-import { Typography } from '@material-tailwind/react';
+import { Typography } from '@components/common';
 
 interface DropUpItemProps {
   children: React.ReactNode;
@@ -10,7 +10,8 @@ export default function DropUpItem({ children, content }: DropUpItemProps) {
   return (
     <li className="flex items-center justify-end gap-2 my-2 list-none h-14">
       <Typography
-        color="white"
+        variant="medium"
+        className="text-white"
       >
         {content}
       </Typography>
