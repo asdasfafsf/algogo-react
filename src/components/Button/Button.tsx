@@ -3,7 +3,7 @@ import React, { MouseEvent } from 'react';
 interface ButtonProps {
   variant?: 'filled' | 'gradient' | 'outlined' | 'text';
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-  color?: 'blue' | 'red' | 'green' | 'amber' | 'slate' | 'gray' | 'black';
+  color?: 'blue' | 'red' | 'green' | 'amber' | 'slate' | 'gray' | 'black' | 'yellow' | 'white';
   icon?: React.ReactNode;
   className?: string;
   iconPosition?: 'left' | 'right';
@@ -13,6 +13,7 @@ interface ButtonProps {
   disabled?: boolean;
   ripple?: boolean;
 }
+
 const baseClasses = [
   'inline-flex',
   'align-middle',
@@ -47,6 +48,8 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     slate: 'bg-slate-800 text-white shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20',
     gray: 'bg-gray-600 text-white shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20',
     black: 'bg-black text-white shadow-black/10 hover:shadow-lg hover:shadow-black/20',
+    yellow: 'bg-yellow-500 text-white shadow-yellow-500/10 hover:shadow-lg hover:shadow-yellow-500/20',
+    white: 'bg-white text-black shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20',
   },
   gradient: {
     blue: 'bg-gradient-to-tr from-blue-600 to-blue-700 text-white shadow-blue-700/10 hover:shadow-lg hover:shadow-blue-700/20',
@@ -56,6 +59,8 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white shadow-slate-700/10 hover:shadow-lg hover:shadow-slate-700/20',
     gray: 'bg-gradient-to-tr from-gray-600 to-gray-700 text-white shadow-gray-700/10 hover:shadow-lg hover:shadow-gray-700/20',
     black: 'bg-gradient-to-tr from-black to-gray-800 text-white shadow-gray-800/10 hover:shadow-lg hover:shadow-gray-800/20',
+    yellow: 'bg-gradient-to-tr from-yellow-500 to-yellow-600 text-white shadow-yellow-600/10 hover:shadow-lg hover:shadow-yellow-600/20',
+    white: 'bg-gradient-to-tr from-white to-gray-200 text-black shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20',
   },
   outlined: {
     blue: 'border border-blue-500 text-blue-500 shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 hover:bg-blue-500 hover:text-white',
@@ -65,6 +70,8 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     slate: 'border border-slate-800 text-slate-800 shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20 hover:bg-slate-800 hover:text-white',
     gray: 'border border-gray-600 text-gray-600 shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20 hover:bg-gray-600 hover:text-white',
     black: 'border border-black text-black shadow-black/10 hover:shadow-lg hover:shadow-black/20 hover:bg-black hover:text-white',
+    yellow: 'border border-yellow-500 text-yellow-500 shadow-yellow-500/10 hover:shadow-lg hover:shadow-yellow-500/20 hover:bg-yellow-500 hover:text-white',
+    white: 'border border-white text-white shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20 hover:bg-white hover:text-black',
   },
   text: {
     blue: 'bg-transparent text-blue-500',
@@ -74,6 +81,8 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     slate: 'bg-transparent text-slate-800',
     gray: 'bg-transparent text-gray-600',
     black: 'bg-transparent text-black',
+    yellow: 'bg-transparent text-yellow-500',
+    white: 'bg-transparent text-white',
   },
 };
 
