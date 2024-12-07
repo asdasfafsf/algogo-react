@@ -5,5 +5,5 @@ interface TabPanelProps {
 }
 
 export default function TabPanel({ children, isSelected, style }: TabPanelProps) {
-  return <div style={style} className={`${isSelected ? '' : 'hidden'} w-full h-full bg-gray-900 p-2 box-border`}>{children}</div>;
+  return <div style={style} className={`${isSelected ? '' : 'hidden'} w-full h-full bg-black p-2 box-border`}>{children}</div>;
 }
