@@ -1,4 +1,4 @@
-import { Typography } from '@components/Typography/index';
+import { Typography } from '@components/common';
 import { Line } from '@components/Line/index';
 
 interface NavbarItemProps {

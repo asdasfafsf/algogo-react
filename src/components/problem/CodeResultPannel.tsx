@@ -45,9 +45,21 @@ export function CodeResultPannel() {
     >
       <CodeEditorResizer />
       <TabHeader className="h-10 min-w-[360px] overflow-hidden">
-        <Tab text="입력" isSelected={selectedIndex === 0} handleClick={(e) => { handleClickTab(e, 0); }} />
-        <Tab text="실행 결과" isSelected={selectedIndex === 1} handleClick={(e) => { handleClickTab(e, 1); }} />
-        <Tab text="테스트 케이스" isSelected={selectedIndex === 2} handleClick={(e) => { handleClickTab(e, 2); }} />
+        <Tab
+          text="입력"
+          isSelected={selectedIndex === 0}
+          handleClick={(e) => { handleClickTab(e, 0); }}
+        />
+        <Tab
+          text="실행 결과"
+          isSelected={selectedIndex === 1}
+          handleClick={(e) => { handleClickTab(e, 1); }}
+        />
+        <Tab
+          text="테스트 케이스"
+          isSelected={selectedIndex === 2}
+          handleClick={(e) => { handleClickTab(e, 2); }}
+        />
       </TabHeader>
       <TabBody className="h-[calc(100%-44px)]">
         <TabPanel isSelected={selectedIndex === 0}>

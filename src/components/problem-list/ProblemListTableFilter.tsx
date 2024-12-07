@@ -1,7 +1,7 @@
 // src/components/Table/ProblemTableFilter.tsx
 
 import React, { useCallback } from 'react';
-import { Typography } from '@components/Typography/index';
+import { Typography } from '@components/common';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import { ChipWithSelected } from '@components/Chip/index';

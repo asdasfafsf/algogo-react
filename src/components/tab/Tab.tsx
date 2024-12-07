@@ -1,4 +1,4 @@
-import { Typography } from "@components/common/index";
+import { Typography } from '@components/common/index';
 
 interface TabProps {
   text: string;

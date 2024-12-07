@@ -15,7 +15,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
   const { state, handleTest } = useExecuteTestCase();
   return (
     <div
-      className="w-full h-full bg-gray-900"
+      className="w-full h-full bg-black"
     >
       <div className="w-full py-2 overflow-x-hidden">
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
@@ -38,7 +38,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
           </Button>
         </div>
       </div>
-      <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-gray-900">
+      <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-black">
         <table className="w-full text-center table-fixed min-w-max">
           <thead>
             <tr>
@@ -62,7 +62,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
               input, output, expected, state,
             }, index, arr) => {
               const isLast = index === arr.length - 1;
-              const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
+              const classes = `bg-black p-4 ${isLast ? '' : 'border-b'}`;
 
               return (
                 <tr className="h-12" key={index}>

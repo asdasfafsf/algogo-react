@@ -1,5 +1,5 @@
 import { Avatar } from '@components/common/index';
-import { Typography } from '@components/Typography/index';
+import { Typography } from '@components/common';
 import { Dropdown } from '@components/Dropdown/index';
 
 import {

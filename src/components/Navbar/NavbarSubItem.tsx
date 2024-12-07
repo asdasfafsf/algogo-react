@@ -1,4 +1,4 @@
-import { Typography } from '@components/Typography/index';
+import { Typography } from '@components/common';
 
 interface NavbarSubItemProps {
   isSelected: boolean

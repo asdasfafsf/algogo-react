@@ -1,4 +1,4 @@
-import { Typography } from '@components/Typography/index';
+import { Typography } from '@components/common';
 import { PlayIcon } from '@heroicons/react/24/solid';
 
 interface ProblemThSortProps {
