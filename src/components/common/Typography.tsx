@@ -2,17 +2,19 @@ import React from 'react';
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'paragraph' | 'small' | 'medium';
 type Weight = 'bold' | 'light' | 'semibold' | 'regular' | 'semilight' | 'extralight' | 'ultralight';
+type Color = 'black' | 'white' | 'gray' | 'red' | 'blue' | 'green';
 
 export interface HeadingProps {
   children: React.ReactNode;
   variant: Variant;
   weight?: Weight;
+  color?: Color;
   className?: string;
 }
 
 const headingClasses: Record<Variant, Record<Weight, string>> = {
   h1: {
-    bold: 'font-bold leading-tight text-5xl', // 실제 h1 크기
+    bold: 'font-bold leading-tight text-5xl',
     light: 'font-light leading-tight text-5xl',
     semibold: 'font-semibold leading-tight text-5xl',
     regular: 'font-medium leading-tight text-5xl',
@@ -21,7 +23,7 @@ const headingClasses: Record<Variant, Record<Weight, string>> = {
     ultralight: 'font-thin leading-tight text-5xl',
   },
   h2: {
-    bold: 'font-bold leading-tight text-4xl', // 실제 h2 크기
+    bold: 'font-bold leading-tight text-4xl',
     light: 'font-light leading-tight text-4xl',
     semibold: 'font-semibold leading-tight text-4xl',
     regular: 'font-medium leading-tight text-4xl',
@@ -94,20 +96,30 @@ const headingClasses: Record<Variant, Record<Weight, string>> = {
   },
 };
 
+const colorClasses: Record<Color, string> = {
+  black: 'text-black',
+  white: 'text-white',
+  gray: 'text-gray-500',
+  red: 'text-red-500',
+  blue: 'text-blue-500',
+  green: 'text-green-500',
+};
+
 export default function Typography({
   children,
   variant,
   weight = 'bold',
+  color = 'black',
   className = '',
 }: HeadingProps) {
   const Tag = (variant === 'paragraph' || variant === 'small' || variant === 'medium')
     ? 'p'
     : variant as keyof JSX.IntrinsicElements;
 
-  const classes = headingClasses[variant][weight] || headingClasses.h1.bold;
+  const classes = `${className} ${headingClasses[variant][weight]} ${colorClasses[color]}`;
 
   return (
-    <Tag className={`${className} ${classes}`}>
+    <Tag className={classes}>
       {children}
     </Tag>
   );
