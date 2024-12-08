@@ -39,6 +39,7 @@ export default function LanguageDropdown() {
         {
           languageList.map((elem, index) => (
             <li
+              key={elem}
               onClick={(e) => handleUpdate(e, index)}
               className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-pointer hover:bg-gray-600"
             >
