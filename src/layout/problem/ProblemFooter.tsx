@@ -39,7 +39,7 @@ export default function ProbleFooter() {
             </li>
           </ul>
         )
-        : <Typography variant="h6">1/1</Typography>}
+        : <Typography color="white" variant="h6" weight="regular">1/1</Typography>}
 
     </footer>
   );

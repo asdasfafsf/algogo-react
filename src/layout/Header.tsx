@@ -15,7 +15,7 @@ export default function Header() {
   return (
     <header className="w-screen">
       <div className="flex items-center justify-center pt-4">
-        <div className="container flex items-center justify-between h-12 p-4">
+        <div className="container flex items-center justify-between h-12 max-w-screen-xl p-4">
           <div className="flex items-center gap-1">
             {/* <img
                 className="w-12 h-12"
@@ -56,7 +56,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center">
+      <div className="container flex items-center justify-center w-full max-w-screen-xl">
         <Navbar>
           <NavbarItem
             onClick={() => {}}

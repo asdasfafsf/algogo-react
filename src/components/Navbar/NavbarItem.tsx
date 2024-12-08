@@ -1,5 +1,4 @@
-import { Typography } from '@components/common';
-import { Line } from '@components/Line/index';
+import { Typography, Line } from '@components/common/index';
 
 interface NavbarItemProps {
   children: React.ReactNode;
@@ -18,7 +17,7 @@ export default function NavbarItem({
     >
       <ul className="w-screen">
         <div className="flex items-center justify-center w-screen">
-          <div className="container flex items-center px-4 py-2">
+          <div className="container flex items-center max-w-screen-xl px-4 py-2 ">
             <Typography
               variant="h6"
             >
@@ -32,7 +31,7 @@ export default function NavbarItem({
           <Line />
           {!!(children) && (
             <div className="flex justify-center">
-              <div className="container flex items-center h-12 gap-4 px-4">
+              <div className="container flex items-center h-12 max-w-screen-xl gap-4 px-4">
                 {children}
               </div>
             </div>
