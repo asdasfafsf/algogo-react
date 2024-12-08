@@ -1,6 +1,6 @@
 import { ClipboardDocumentListIcon, PlayIcon, TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { TooltipIconButton } from '@components/Button/index';
+import { Tooltip } from '@components/common';
 
 interface CodeResultInputProps {
   inputTextAreaRef: React.RefObject<HTMLTextAreaElement>
@@ -18,34 +18,40 @@ export default function CodeResultInput(
   return (
     <div className="relative h-full">
       <nav className="flex justify-end w-full gap-1 overflow-x-hidden">
-        <div className="absolute z-10 flex overflow-x-hidden bg-gray-900 right-6">
-          <TooltipIconButton
-            onClick={handleClickRun}
-            className="w-8 h-8"
+        <div className="absolute z-10 flex gap-2 bg-gray-900 right-6">
+          <Tooltip
             content="실행"
           >
-            <PlayIcon className="w-6 h-6 text-green-500" />
-          </TooltipIconButton>
-          <TooltipIconButton
-            onClick={handleClickPaste}
-            className="w-8 h-8"
+            <div className="cursor-pointer" onClick={handleClickRun}>
+              <PlayIcon
+                className="w-6 h-6 text-green-500"
+              />
+            </div>
+          </Tooltip>
+          <Tooltip
             content="붙여넣기"
           >
-            <ClipboardDocumentListIcon className="w-6 h-6 text-white" />
-          </TooltipIconButton>
-          <TooltipIconButton
-            onClick={() => {
-              if (inputTextAreaRef.current) {
-                inputTextAreaRef.current.value = '';
-                const event = new Event('input', { bubbles: true });
-                inputTextAreaRef.current.dispatchEvent(event);
-              }
-            }}
-            className="w-8 h-8"
+            <div className="cursor-pointer" onClick={handleClickPaste}>
+              <ClipboardDocumentListIcon className="w-6 h-6 text-white" />
+            </div>
+          </Tooltip>
+          <Tooltip
+
             content="지우기"
           >
-            <TrashIcon className="w-6 h-6 text-red-500" />
-          </TooltipIconButton>
+            <div
+              onClick={() => {
+                if (inputTextAreaRef.current) {
+                  inputTextAreaRef.current.value = '';
+                  const event = new Event('input', { bubbles: true });
+                  inputTextAreaRef.current.dispatchEvent(event);
+                }
+              }}
+              className="cursor-pointer"
+            >
+              <TrashIcon className="w-6 h-6 text-red-500" />
+            </div>
+          </Tooltip>
         </div>
       </nav>
       <textarea
