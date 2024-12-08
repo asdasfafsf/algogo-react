@@ -39,49 +39,46 @@ export default function CompilerInfoModal() {
       <div
         className={`min-h-64 h-auto rounded-md bg-white w-[600px] p-8 transition-transform transform duration-500 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
       >
-        <div className="flex">
-          <Typography variant="h6">
+        <div className="flex w-full">
+          <Typography variant="h4" weight="bold">
             컴파일러 정보
           </Typography>
-          <div className="w-[calc(100%-90px)]" />
+          {/* <div className="w-[calc(100%-90px)]" /> */}
         </div>
         <Line className="my-2 bg-white" />
 
-        <Card className="my-2">
+        <Card className="p-4 my-2">
 
-          <Typography variant="h6">C++</Typography>
-          <Typography variant="small">
+          <Typography variant="h5" weight="bold">C++</Typography>
+          <Typography variant="medium" weight="semilight">
             컴파일: g++ Main.cc -o Main -O2 -Wall -lm -static -std=gnu++17 -DONLINE_JUDGE -DBOJ
           </Typography>
-          <Typography variant="small">실행: ./Main </Typography>
-          <Typography variant="small">버전: g++ (GCC) 11.1.0</Typography>
+          <Typography variant="medium" weight="semilight">실행: ./Main </Typography>
+          <Typography variant="medium" weight="semilight">버전: g++ (GCC) 11.1.0</Typography>
 
         </Card>
+        <Card className="p-4 my-2">
 
-        <Card className="my-2">
-
-          <Typography variant="h6">Java</Typography>
-          <Typography variant="small">
+          <Typography variant="h5" weight="bold">Java</Typography>
+          <Typography variant="medium" weight="semilight">
             컴파일: javac --release 17 -J-Xms128m -J-Xmx256m -J-Xss512k -encoding UTF-8 Main.java
           </Typography>
-          <Typography variant="small">실행: ./Main </Typography>
-          <Typography variant="small">버전: aws coretto JDK 17</Typography>
+          <Typography variant="medium" weight="semilight">실행: ./Main </Typography>
+          <Typography variant="medium" weight="semilight">버전: aws coretto JDK 17</Typography>
 
         </Card>
+        <Card className="p-4 my-2">
 
-        <Card className="my-2">
-
-          <Typography variant="h6">Node.js</Typography>
-          <Typography variant="small">실행: ./Main </Typography>
-          <Typography variant="small">버전: nodejs 22</Typography>
+          <Typography variant="h5" weight="bold">Node.js</Typography>
+          <Typography variant="medium" weight="semilight">실행: ./Main </Typography>
+          <Typography variant="medium" weight="semilight">버전: nodejs 22</Typography>
 
         </Card>
+        <Card className="p-4 my-2">
 
-        <Card className="my-2">
-
-          <Typography variant="h6">Python</Typography>
-          <Typography variant="small">실행: ./Main </Typography>
-          <Typography variant="small">버전: Python 3.6</Typography>
+          <Typography variant="h5" weight="bold">Python</Typography>
+          <Typography variant="medium" weight="semilight">실행: ./Main </Typography>
+          <Typography variant="medium" weight="semilight">버전: Python 3.6</Typography>
 
         </Card>
 
