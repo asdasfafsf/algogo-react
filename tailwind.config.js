@@ -25,6 +25,7 @@ export default {
         'default': ['Noto Sans KR', 'sans-serif'],
       },
       colors: {
+        kakao: '#FEE500',
         ruby: '#ff0062',
         diamond: '#01b5fc',
         platinum: '#26e2a5',

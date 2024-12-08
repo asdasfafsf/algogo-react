@@ -27,7 +27,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
           <Button
             color="white"
             size="large"
-            className="flex items-center justify-center h-12 gap-2 mt-4 text-white"
+            className="flex items-center justify-center w-full h-12 gap-2 mt-4 text-black"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'google')}
           >
             <img
@@ -39,10 +39,8 @@ export default function Login({ name = '로그인' }: LoginProps) {
             구글로 시작하기
           </Button>
           <Button
-            color="yellow"
             size="large"
-            className="flex items-center justify-center h-12 gap-2 mt-4"
-            fullWidth
+            className="!bg-kakao flex items-center justify-center w-full h-12 gap-2 mt-4 !text-black"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'kakao')}
           >
             <img
@@ -55,7 +53,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
           <Button
             color="white"
             size="large"
-            className="flex items-center justify-center h-12 gap-2 mt-4"
+            className="flex items-center justify-center w-full h-12 gap-2 mt-4"
             onClick={(_e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(_e, 'github')}
           >
             <img

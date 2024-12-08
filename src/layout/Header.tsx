@@ -37,14 +37,14 @@ export default function Header() {
                   <>
                     <Button
                       variant="text"
-                      className="text-sm font-medium"
+                      className="!text-sm font-medium"
                       onClick={() => navigate('/login')}
                     >
                       로그인
                     </Button>
                     <Button
                       variant="text"
-                      className="text-sm font-medium"
+                      className="!text-sm font-medium"
                       onClick={() => navigate('/signup')}
                     >
                       회원가입
@@ -67,7 +67,7 @@ export default function Header() {
               ? (
                 <>
                   <NavbarSubItem isSelected value="모든 문제" to="/" />
-                  <NavbarSubItem isSelected={false} value="출제하기" to="/" />
+                  {/* <NavbarSubItem isSelected={false} value="출제하기" to="/" /> */}
                 </>
               )
               : ''}
