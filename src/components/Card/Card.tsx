@@ -7,7 +7,7 @@ type CardProps = {
 
 export default function Card({ children, className = '' }: CardProps) {
   return (
-    <div className={`bg-white rounded-lg shadow-lg ${className}`}>
+    <div className={`${!className.includes('bg-') ? 'bg-white' : ''} rounded-lg shadow-lg ${className}`}>
       <div>{children}</div>
     </div>
   );

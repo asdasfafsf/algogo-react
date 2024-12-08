@@ -18,7 +18,8 @@ export default function Tab({
       {isSelected ? <div className="absolute top-0 left-0 w-full h-1 bg-blue-500" /> : ''}
       <Typography
         color="white"
-        variant="small"
+        weight="regular"
+        variant="medium"
         className="flex items-center justify-center pt-1 font-bold cursor-pointer"
       >
         {text}
