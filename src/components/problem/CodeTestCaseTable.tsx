@@ -15,7 +15,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
   const { state, handleTest } = useExecuteTestCase();
   return (
     <div
-      className="w-full h-full bg-black"
+      className="w-full h-full bg-gray-900"
     >
       <div className="w-full py-2 overflow-x-hidden">
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
@@ -38,14 +38,14 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
           </Button>
         </div>
       </div>
-      <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-black">
-        <table className="w-full text-center bg-black table-fixed min-w-max">
+      <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-gray-900">
+        <table className="w-full text-center bg-gray-900 table-fixed min-w-max">
           <thead>
             <tr>
               {['입력', '출력', '예상 결과', '일치 여부'].map((head, index, arr) => (
                 <th
                   key={head}
-                  className={`${index + 1 !== arr.length ? 'w-[28%]' : 'w-[16%]'} border-b border-blue-gray-100 bg-black p-4`}
+                  className={`${index + 1 !== arr.length ? 'w-[28%]' : 'w-[16%]'} border-b border-blue-gray-100 bg-gray-900 p-4`}
                 >
                   <Typography
                     variant="small"
@@ -57,12 +57,12 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
               ))}
             </tr>
           </thead>
-          <tbody className="bg-black">
+          <tbody className="bg-gray-900">
             {executeResultList.map(({
               input, output, expected, state,
             }, index, arr) => {
               const isLast = index === arr.length - 1;
-              const classes = `bg-black p-4 ${isLast ? '' : 'border-b'}`;
+              const classes = `bg-gray-900 p-4 ${isLast ? '' : 'border-b'}`;
 
               return (
                 <tr className="h-12" key={index}>

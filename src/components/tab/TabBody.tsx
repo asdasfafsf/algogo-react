@@ -5,5 +5,5 @@ interface TabBodyProps {
 }
 
 export default function TabBody({ style, children, className = '' }: TabBodyProps) {
-  return <div style={style} className={`${className} h-full bg-black`}>{children}</div>;
+  return <div style={style} className={`${className} h-full bg-gray-900`}>{children}</div>;
 }

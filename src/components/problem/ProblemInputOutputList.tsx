@@ -26,14 +26,14 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
 
       <div className="flex items-center gap-4">
         <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
+          <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-gray-900 rounded-sm">
             <EnterIcon />
           </div>
           &nbsp;
           <Typography variant="medium" className="font-medium">: 다음 줄</Typography>
         </div>
         <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-black rounded-sm">
+          <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-gray-900 rounded-sm">
             <SpaceIcon />
           </div>
           &nbsp;
