@@ -3,8 +3,7 @@ import {
   ClipboardIcon, TrashIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
-import { Typography } from '@components/common/index';
-import { TooltipIconButton } from '@components/Button/index';
+import { Typography, Tooltip } from '@components/common/index';
 
 interface CodeResultOutputProps {
   outputTextAreaRef:React.RefObject<HTMLTextAreaElement>
@@ -22,33 +21,35 @@ export default function CodeResultOutput(
     <div className="relative h-full">
       <nav className="flex justify-between w-full gap-1 overflow-x-hidden">
         <div className="absolute z-10 flex ml-2 top-1">
-          <Typography variant="h6" className="text-green-500">
+          <Typography weight="regular" variant="medium" className="text-green-500">
             실행 시간 : &nbsp;
             {output.processTime}
             ms
           </Typography>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Typography variant="h6" className="text-green-500">
+          <Typography weight="regular" variant="medium" className="text-green-500">
             메모리 사용량 : &nbsp;
             {output.memory}
             MB
           </Typography>
         </div>
-        <div className="absolute z-10 flex overflow-x-hidden bg-gray-900 right-6">
-          <TooltipIconButton
-            onClick={handleClickCopy}
-            className="w-8 h-8"
+        <div className="absolute z-10 flex gap-1 overflow-x-hidden bg-gray-900 right-6">
+          <Tooltip
             content="복사"
           >
-            <ClipboardIcon className="w-6 h-6 text-white" />
-          </TooltipIconButton>
-          <TooltipIconButton
-            onClick={handleClickReset}
+            <div onClick={handleClickCopy} className="cursor-pointer">
+              <ClipboardIcon className="w-6 h-6 text-white" />
+            </div>
+          </Tooltip>
+          <Tooltip
+
             className="w-8 h-8"
             content="지우기"
           >
-            <TrashIcon className="w-6 h-6 text-red-500" />
-          </TooltipIconButton>
+            <div className="cursor-pointer" onClick={handleClickReset}>
+              <TrashIcon className="w-6 h-6 text-red-500" />
+            </div>
+          </Tooltip>
         </div>
       </nav>
       <textarea
