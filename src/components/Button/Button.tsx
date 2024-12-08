@@ -48,7 +48,7 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     slate: 'bg-slate-800 text-white shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20',
     gray: 'bg-gray-600 text-white shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20',
     black: 'bg-black text-white shadow-black/10 hover:shadow-lg hover:shadow-black/20',
-    yellow: 'bg-yellow-500 text-white shadow-yellow-500/10 hover:shadow-lg hover:shadow-yellow-500/20',
+    yellow: 'bg-yellow-300 text-white shadow-yellow-300/10 hover:shadow-lg hover:shadow-yellow-500/20',
     white: 'bg-white text-black shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20',
   },
   gradient: {
@@ -104,7 +104,7 @@ export default function Button({
   onClick,
   onMouseLeave,
   disabled,
-  className,
+  className = '',
   ripple = false,
 }: ButtonProps) {
   const handleAnimation = (e: MouseEvent<HTMLButtonElement>) => {
@@ -132,9 +132,8 @@ export default function Button({
 
   return (
     <button
-      className={`${baseClasses} ${variantColorClasses[variant][color]} ${sizeClasses[size]} ${
-        className ?? ''
-      }`}
+      className={`${className} ${baseClasses} ${variantColorClasses[variant][color]} ${sizeClasses[size]} ${
+        className}`}
       onClick={(e) => {
         if (ripple) handleAnimation(e);
         if (onClick) onClick(e);
