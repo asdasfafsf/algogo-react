@@ -3,6 +3,7 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
 interface WrappedTooltipProps {
+  className?: string;
   children: React.ReactElement;
   content: string;
   placement?:
@@ -23,6 +24,7 @@ interface WrappedTooltipProps {
 function Tooltip({
   children,
   content,
+  className = '',
   placement = 'top',
   ...props
 }: WrappedTooltipProps) {
@@ -35,7 +37,7 @@ function Tooltip({
         'data-tooltip-content': content,
         'data-tooltip-place': placement,
       })}
-      <ReactTooltip id={id} {...props} />
+      <ReactTooltip id={id} className={className} {...props} />
     </>
   );
 }
