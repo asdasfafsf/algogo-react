@@ -10,7 +10,7 @@ export default function ConnectedInfo() {
         { imageSrc: 'kakao-mark.jpg', name: '카카오톡', isConnected: false }]
         .map(({ imageSrc, name }) => (
           <>
-            <div className="flex items-end justify-between my-4">
+            <div className="flex items-end justify-between p-4 my-4">
               <div className="w-20">
                 <img
                   className="w-20 h-20 mb-4"
@@ -19,6 +19,7 @@ export default function ConnectedInfo() {
                 />
                 <Typography
                   variant="h6"
+                  weight="regular"
                   className="w-20 text-center"
                 >
                   {name}

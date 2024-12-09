@@ -45,7 +45,7 @@ export default function BasicMyInfo() {
   }, [setEditMode]);
 
   return (
-    <Card>
+    <Card className="p-4">
 
       <ProfilePhoto isEditable={isEditMode} />
       {isEditMode
