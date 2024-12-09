@@ -33,7 +33,7 @@ export default function CodeResultOutput(
             MB
           </Typography>
         </div>
-        <div className="absolute z-10 flex gap-1 overflow-x-hidden bg-gray-900 right-6">
+        <div className="absolute z-10 flex gap-1 bg-gray-900 right-6">
           <Tooltip
             content="복사"
           >

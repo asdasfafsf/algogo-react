@@ -37,7 +37,15 @@ function Tooltip({
         'data-tooltip-content': content,
         'data-tooltip-place': placement,
       })}
-      <ReactTooltip id={id} className={className} {...props} />
+      <ReactTooltip
+        id={id}
+        className={className}
+        style={{
+          position: 'fixed', // 부모 overflow 무시
+          zIndex: 10, // 다른 요소 위에 렌더링
+        }}
+        {...props}
+      />
     </>
   );
 }
