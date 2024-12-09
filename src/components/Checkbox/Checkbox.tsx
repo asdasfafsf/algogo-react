@@ -1,23 +1,39 @@
 type CheckboxColor = 'blue' | 'indigo' | 'red' | 'amber' | 'green' | 'teal' | 'purple' | 'pink' | 'gray';
+
 interface CheckboxProps {
   className?: string;
   color?: CheckboxColor;
   checked: boolean;
-  onClick?: (e:React.MouseEvent) => void | Promise<void>
+  onClick?: (e: React.MouseEvent) => void | Promise<void>;
 }
 
 export default function Checkbox({
-  className = '', checked, color = 'blue', ...props
+  className = '',
+  checked,
+  color = 'blue',
+  ...props
 }: CheckboxProps) {
   const checkboxId = Math.random().toString();
-  return (
 
+  const colorClasses = {
+    blue: 'checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500',
+    indigo: 'checked:border-indigo-500 checked:bg-indigo-500 checked:before:bg-indigo-500',
+    red: 'checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500',
+    amber: 'checked:border-amber-500 checked:bg-amber-500 checked:before:bg-amber-500',
+    green: 'checked:border-green-500 checked:bg-green-500 checked:before:bg-green-500',
+    teal: 'checked:border-teal-500 checked:bg-teal-500 checked:before:bg-teal-500',
+    purple: 'checked:border-purple-500 checked:bg-purple-500 checked:before:bg-purple-500',
+    pink: 'checked:border-pink-500 checked:bg-pink-500 checked:before:bg-pink-500',
+    gray: 'checked:border-gray-500 checked:bg-gray-500 checked:before:bg-gray-500',
+  };
+
+  return (
     <div className="inline-flex items-center">
       <label className="relative flex items-center p-1 rounded-full cursor-pointer" htmlFor={checkboxId}>
         <input
           onChange={() => {}}
           type="checkbox"
-          className={`${className} before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-8 before:w-8 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-${color}-500 checked:bg-${color}-500 checked:before:bg-${color}-500 hover:before:opacity-10`}
+          className={`before:content[""] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-8 before:w-8 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity hover:before:opacity-10 ${colorClasses[color]} ${className}`}
           id={checkboxId}
           checked={checked}
           {...props}
@@ -42,6 +58,5 @@ export default function Checkbox({
         </span>
       </label>
     </div>
-
   );
 }
