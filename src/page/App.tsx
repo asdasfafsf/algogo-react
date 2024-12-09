@@ -5,9 +5,9 @@ import { MainCarousel } from '@components/Carousel';
 import ProblemListCard from '@components/problem-list/ProblemListCard';
 
 function App() {
-  const { updateMe } = useMeStore(({ updateMe }) => ({ updateMe }));
+  const fetchMe = useMeStore((state) => state.fetchMe);
   useEffect(() => {
-    updateMe();
+    fetchMe();
   }, []);
 
   return (
