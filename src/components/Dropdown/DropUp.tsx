@@ -10,7 +10,7 @@ export default function DropUp({
   children,
   className = '',
 } : DropUpProps) {
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
   const handleClickOpen = useCallback(() => {
     setOpen(!isOpen);
   }, [isOpen]);
