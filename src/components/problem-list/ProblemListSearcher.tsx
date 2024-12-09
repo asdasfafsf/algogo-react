@@ -11,7 +11,7 @@ export default function ProblemListSearcher() {
 
   return (
     <div className="flex flex-wrap items-center justify-end w-full gap-4 shrink-0 md:w-max">
-      <div className="md:w-72">
+      <div className="w-full md:w-72">
         <Input
           onChange={handleChangeProblemTitle}
           label="제목"
