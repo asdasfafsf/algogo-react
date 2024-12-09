@@ -19,7 +19,7 @@ export const updateMe = async (requestUpdateMeDto: RequestUpdateMe): Promise<Api
     formData.append('socialList', JSON.stringify(requestUpdateMeDto.socialList));
   }
 
-  const response: AxiosResponse<ApiResponse<Me>> = await apiClient.patch('/api/v1/me', formData, {
+  const response: AxiosResponse<ApiResponse<Me>> = await apiClient.patch('/api/v1/me/profile', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

@@ -29,6 +29,8 @@ export default function BasicMyInfo() {
     handleEditMode,
     handleSave,
     handleCancel,
+    name,
+    handleChangeName,
   } = useMyInfo();
   return (
     <Card className="p-4">
@@ -46,7 +48,8 @@ export default function BasicMyInfo() {
                 <Input
                   // size="md"
                   label="이름"
-                  value={me?.name}
+                  onChange={handleChangeName}
+                  value={name}
                   // success
                 />
               </div>

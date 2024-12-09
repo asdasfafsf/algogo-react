@@ -4,9 +4,12 @@ import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
 
 export default function useMyInfo() {
+  const me = useMeStore((state) => state.me);
+  const updateMe = useMeStore((state) => state.updateMe);
+  const [name, setName] = useState(me?.name ?? '');
+
   const [confirm] = useConfirmModal();
   const [alert] = useAlertModal();
-  const me = useMeStore((state) => state.me);
 
   const [isEditMode, setEditMode] = useState(false);
   const handleEditMode = useCallback(async () => {
@@ -15,8 +18,9 @@ export default function useMyInfo() {
       return;
     }
 
+    setName(me?.name || '');
     setEditMode((prev) => !prev);
-  }, [setEditMode]);
+  }, [setEditMode, me]);
   const handleSave = useCallback(async () => {
     if (me === null) {
       alert('로그인 후 이용해주세요.');
@@ -28,8 +32,13 @@ export default function useMyInfo() {
       return;
     }
 
-    console.log('save');
-  }, []);
+    const requestUpdateMeDto = {
+      name,
+    };
+
+    await updateMe(requestUpdateMeDto);
+    setEditMode(false);
+  }, [me, name]);
 
   const handleCancel = useCallback(() => {
     if (me === null) {
@@ -38,12 +47,21 @@ export default function useMyInfo() {
     }
 
     setEditMode((prev) => !prev);
-  }, [setEditMode]);
+  }, [setEditMode, me]);
+
+  const handleChangeName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setName(e.target.value);
+    },
+    [setName],
+  );
   return {
     me,
     isEditMode,
     handleEditMode,
     handleSave,
     handleCancel,
+    name,
+    handleChangeName,
   };
 }
