@@ -49,7 +49,7 @@ export default function CompilerInfoModal() {
 
         <Card className="p-4 my-2">
 
-          <Typography variant="h5" weight="bold">C++</Typography>
+          <Typography variant="h5" weight="semibold">C++</Typography>
           <Typography variant="medium" weight="semilight">
             컴파일: g++ Main.cc -o Main -O2 -Wall -lm -static -std=gnu++17 -DONLINE_JUDGE -DBOJ
           </Typography>
@@ -59,7 +59,7 @@ export default function CompilerInfoModal() {
         </Card>
         <Card className="p-4 my-2">
 
-          <Typography variant="h5" weight="bold">Java</Typography>
+          <Typography variant="h5" weight="semibold">Java</Typography>
           <Typography variant="medium" weight="semilight">
             컴파일: javac --release 17 -J-Xms128m -J-Xmx256m -J-Xss512k -encoding UTF-8 Main.java
           </Typography>
@@ -69,14 +69,14 @@ export default function CompilerInfoModal() {
         </Card>
         <Card className="p-4 my-2">
 
-          <Typography variant="h5" weight="bold">Node.js</Typography>
+          <Typography variant="h5" weight="semibold">Node.js</Typography>
           <Typography variant="medium" weight="semilight">실행: ./Main </Typography>
           <Typography variant="medium" weight="semilight">버전: nodejs 22</Typography>
 
         </Card>
         <Card className="p-4 my-2">
 
-          <Typography variant="h5" weight="bold">Python</Typography>
+          <Typography variant="h5" weight="semibold">Python</Typography>
           <Typography variant="medium" weight="semilight">실행: ./Main </Typography>
           <Typography variant="medium" weight="semilight">버전: Python 3.6</Typography>
 
