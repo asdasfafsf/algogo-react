@@ -1,16 +1,18 @@
 import { Card } from '@components/Card/index';
 import { Line, Typography } from '@components/common/index';
 import { Button } from '@components/Button/index';
+import useConnectedInfo from '@hook/me/useConnectedInfo';
 
 export default function ConnectedInfo() {
+  const { me } = useConnectedInfo();
   return (
     <Card>
-      {[{ imageSrc: 'github-mark.png', name: 'Github', isConnected: false },
-        { imageSrc: 'google-mark.png', name: 'Google', isConnected: false },
-        { imageSrc: 'kakao-mark.jpg', name: '카카오톡', isConnected: false }]
-        .map(({ imageSrc, name }) => (
+      {[{ imageSrc: 'github-mark.png', name: 'Github', isConnected: me?.socialList.find((elem) => elem.provider === 'google') },
+        { imageSrc: 'google-mark.png', name: 'Google', isConnected: me?.socialList.find((elem) => elem.provider === 'github') },
+        { imageSrc: 'kakao-mark.jpg', name: '카카오톡', isConnected: me?.socialList.find((elem) => elem.provider === 'kakao') }]
+        .map(({ imageSrc, name, isConnected }) => (
           <>
-            <div className="flex items-end justify-between p-4 my-4">
+            <div key={name} className="flex items-end justify-between p-4 my-4">
               <div className="w-20">
                 <img
                   className="w-20 h-20 mb-4"
@@ -26,10 +28,13 @@ export default function ConnectedInfo() {
                 </Typography>
               </div>
               <div>
-                <Button color="blue">연동하기</Button>
+                {isConnected
+                  ? <Button color="gray">연동해제</Button>
+                  : <Button color="blue">연동</Button>}
+
               </div>
             </div>
-            <Line />
+            <Line key={name} />
           </>
         ))}
     </Card>
