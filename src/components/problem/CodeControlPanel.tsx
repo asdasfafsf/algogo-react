@@ -2,6 +2,7 @@ import useCodeControlPanel from '@hook/useCodeControlPanel';
 import useExecuteTestCase from '@hook/useExecuteTestCase';
 import useExecute from '@hook/useExecute';
 import { Button } from '@components/Button';
+import useSubmit from '@hook/useSubmit';
 import LanguageDropdown from './LanguageDropdown';
 
 export default function CodeControlPanel() {
@@ -12,6 +13,7 @@ export default function CodeControlPanel() {
 
   const { state, handleTest } = useExecuteTestCase();
   const { handleExecute } = useExecute();
+  const { handleSubmit } = useSubmit();
 
   return (
     <div
@@ -63,6 +65,7 @@ export default function CodeControlPanel() {
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
             color="blue"
             size="small"
+            onClick={handleSubmit}
           >
             제출
           </Button>
