@@ -1,10 +1,8 @@
-import { useCallback, useState } from 'react';
 import { Card } from '@components/Card/index';
 
 import { Typography, ProfilePhoto } from '@components/common/index';
 import { Button } from '@components/Button/index';
 import { Input } from '@components/Input/index';
-import useConfirmModal from '@hook/useConfirmModal';
 
 // eslint-disable-next-line
 import ColorInstagramIcon from '/public/assets/icons8-instagram_e.svg?react';
@@ -20,30 +18,18 @@ import ColorYoutubeInIcon from '/public/assets/icons8-youtube_e.svg?react';
 // import DisabledYoutubeIcon from '/public/assets/icons8-youtube_d.svg?react';
 // eslint-disable-next-line
 import ColorGithubIcon from '/public/assets/icons8-github-48.svg?react';
+import useMyInfo from '@hook/me/useMyInfo';
 // eslint-disable-next-line
 // import DisabledGithubIcon from '/public/assets/icons8-github-48.svg?react';
 
 export default function BasicMyInfo() {
-  const [isEditMode, setEditMode] = useState(false);
-  const [confirm] = useConfirmModal();
-
-  const handleClickEdit = useCallback(async () => {
-    setEditMode((prev) => !prev);
-  }, [setEditMode]);
-
-  const handleClickSave = useCallback(async () => {
-    const isOk = await confirm('적용하시겠습니까?');
-    if (!isOk) {
-      return;
-    }
-
-    console.log('save');
-  }, []);
-
-  const handleClickCancel = useCallback(() => {
-    setEditMode((prev) => !prev);
-  }, [setEditMode]);
-
+  const {
+    me,
+    isEditMode,
+    handleEditMode,
+    handleSave,
+    handleCancel,
+  } = useMyInfo();
   return (
     <Card className="p-4">
 
@@ -60,6 +46,7 @@ export default function BasicMyInfo() {
                 <Input
                   // size="md"
                   label="이름"
+                  value={me?.name}
                   // success
                 />
               </div>
@@ -72,7 +59,7 @@ export default function BasicMyInfo() {
             variant="h5"
             className="flex items-center justify-center my-4"
           >
-            한원근
+            {me?.name || '이름 없음'}
           </Typography>
         )}
 
@@ -85,7 +72,7 @@ export default function BasicMyInfo() {
                   disabled
                   // size="lg"
                   label="이메일"
-                  value="asdasfafsf@naver.com"
+                  value={me?.email}
                 />
 
                 <Typography
@@ -100,16 +87,18 @@ export default function BasicMyInfo() {
           : (
             <>
               <Typography
-                variant="paragraph"
+                variant="medium"
+                weight="regular"
+                color="gray"
                 className="flex items-center justify-center mt-2"
               >
-                asdasfafsf@naver.com
+                {me?.email || '이메일 정보가 없습니다.'}
               </Typography>
               <Typography
                 variant="small"
                 className="flex items-center justify-center py-0 text-sm text-gray-500"
               >
-                처음 가입한 이메일로 등록됩니다.
+                {me?.email ? '처음 가입한 이메일로 등록됩니다.' : ''}
               </Typography>
             </>
           )
@@ -191,14 +180,14 @@ export default function BasicMyInfo() {
           ? (
             <>
               <Button
-                onClick={handleClickCancel}
+                onClick={handleCancel}
                 className="bg-gray-500"
                 color="gray"
               >
                 취소
               </Button>
               <Button
-                onClick={handleClickSave}
+                onClick={handleSave}
                 color="blue"
               >
                 저장
@@ -207,7 +196,7 @@ export default function BasicMyInfo() {
           )
           : (
             <Button
-              onClick={handleClickEdit}
+              onClick={handleEditMode}
               color="blue"
             >
               수정하기
