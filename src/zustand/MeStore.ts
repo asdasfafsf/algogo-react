@@ -1,12 +1,12 @@
 import { create } from 'zustand';
-import { getMe } from '../api/me';
+import { getMe, updateMe } from '../api/me';
 import { getToken } from '../api/auth';
 
 type MeStore = {
   me: Me | null;
   setMe: (me: Me | null) => void;
   isLogin: () => Promise<boolean>;
-  updateMe: () => Promise<void>;
+  updateMe: (requestUpdateMeDto: RequestUpdateMe) => Promise<void>;
   fetchMe: () => Promise<Me | null>;
   fetchToken: () => Promise<void>,
   logout: () => void;
@@ -24,20 +24,10 @@ export const useMeStore = create<MeStore>((set) => ({
 
     return true;
   },
-  updateMe: async () => {
-    const meString = localStorage.getItem('me');
-    let me;
-    if (meString) {
-      me = JSON.parse(meString);
-    } else {
-      const response = await getMe();
-      if (response.statusCode === 200) {
-        me = response.data;
-      } else {
-        me = null;
-      }
-    }
-
+  updateMe: async (requestUpdateMeDto: RequestUpdateMe) => {
+    const response = await updateMe(requestUpdateMeDto);
+    const { data } = response;
+    const me = data;
     set({ me });
   },
   fetchMe: async () => {
