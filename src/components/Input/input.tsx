@@ -38,18 +38,14 @@ export default function Input({
   const isFilled = props.value !== undefined ? !!props.value : !!inputValue;
 
   return (
-    <div className="relative w-full md:max-w-fit">
+    <div className="relative w-full">
       <input
         type={type}
         id={id}
         name={name}
-
-        className={`${className} block w-full md:w-72 px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer ${
-          icon ? 'pr-10' : ''
-        } text-center md:text-left`}
+        className={`${className} block w-full px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer text-center md:text-left`}
         placeholder=" "
         {...props}
-
         onChange={handleChange}
       />
       <label
@@ -63,7 +59,7 @@ export default function Input({
         {label}
       </label>
       {icon && (
-        <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+        <span className="absolute z-10 -translate-y-1/2 pointer-events-none right-3 top-1/2">
           {icon}
         </span>
       )}

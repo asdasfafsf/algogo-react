@@ -11,13 +11,13 @@ export default function ProblemListSearcher() {
 
   return (
     <div className="flex flex-wrap items-center justify-end w-full gap-4 shrink-0 md:w-max">
-      {/* <div className="md:w-72"> */}
-      <Input
-        onChange={handleChangeProblemTitle}
-        label="제목"
-        icon={<MagnifyingGlassIcon className="w-5 h-5" />}
-      />
-      {/* </div> */}
+      <div className="md:w-72">
+        <Input
+          onChange={handleChangeProblemTitle}
+          label="제목"
+          icon={<MagnifyingGlassIcon className="w-5 h-5" />}
+        />
+      </div>
       <Button
         onClick={handleClickSearch}
         className="w-full md:max-w-fit"

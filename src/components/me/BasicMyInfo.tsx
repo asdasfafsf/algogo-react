@@ -60,7 +60,6 @@ export default function BasicMyInfo() {
                 <Input
                   // size="md"
                   label="이름"
-                  placeholder="이름을 입력하세요"
                   // success
                 />
               </div>
@@ -87,7 +86,6 @@ export default function BasicMyInfo() {
                   // size="lg"
                   label="이메일"
                   value="asdasfafsf@naver.com"
-                  placeholder="이메일을 입력하세요"
                 />
 
                 <Typography
@@ -129,7 +127,7 @@ export default function BasicMyInfo() {
                   <Input
                     // size="medium"
                     label="Instagram"
-                    placeholder="Input your Instagram ID"
+                    // placeholder="Input your Instagram ID"
                     className="flex items-center"
                     icon={<ColorInstagramIcon className="w-8 h-full" />}
                   />
@@ -140,7 +138,7 @@ export default function BasicMyInfo() {
                   <Input
                     // size="md"
                     label="LinkedIn"
-                    placeholder="Input your Linked ID"
+                    // placeholder="Input your Linked ID"
                     className="flex items-center"
                     icon={<ColorLinkdedInIcon className="w-8 h-full" />}
                   />
@@ -151,7 +149,7 @@ export default function BasicMyInfo() {
                   <Input
                     // size="md"
                     label="Youtube"
-                    placeholder="Input your Youtube Channel Link"
+                    // placeholder="Input your Youtube Channel Link"
                     className="flex items-center"
                     icon={<ColorYoutubeInIcon className="w-8 h-full" />}
                   />
@@ -162,7 +160,7 @@ export default function BasicMyInfo() {
                   <Input
                     // size="md"
                     label="Github"
-                    placeholder="Input your Github Id"
+                    // placeholder="Input your Github Id"
                     className="flex items-center"
                     icon={<ColorGithubIcon className="w-8 h-full" />}
                   />
