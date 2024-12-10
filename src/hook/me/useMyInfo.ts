@@ -1,4 +1,6 @@
-import { useCallback, useState } from 'react';
+import {
+  useCallback, useState,
+} from 'react';
 import useMeStore from '@zustand/MeStore';
 import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
@@ -10,7 +12,6 @@ export default function useMyInfo() {
 
   const [confirm] = useConfirmModal();
   const [alert] = useAlertModal();
-
   const [isEditMode, setEditMode] = useState(false);
   const handleEditMode = useCallback(async () => {
     if (me === null) {
@@ -21,6 +22,7 @@ export default function useMyInfo() {
     setName(me?.name || '');
     setEditMode((prev) => !prev);
   }, [setEditMode, me]);
+
   const handleSave = useCallback(async () => {
     if (me === null) {
       alert('로그인 후 이용해주세요.');
@@ -36,9 +38,13 @@ export default function useMyInfo() {
       name,
     };
 
-    await updateMe(requestUpdateMeDto);
-    setEditMode(false);
-  }, [me, name]);
+    try {
+      await updateMe(requestUpdateMeDto);
+      setEditMode(false);
+    } catch (error) {
+      alert('저장 중 오류가 발생했습니다.');
+    }
+  }, [me, name, updateMe]);
 
   const handleCancel = useCallback(() => {
     if (me === null) {

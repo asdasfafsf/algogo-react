@@ -4,21 +4,8 @@ import { Typography, ProfilePhoto } from '@components/common/index';
 import { Button } from '@components/Button/index';
 import { Input } from '@components/Input/index';
 
-// eslint-disable-next-line
-import ColorInstagramIcon from '/public/assets/icons8-instagram_e.svg?react';
-// eslint-disable-next-line
-// import DisabledInstragramIcon from '/public/assets/icons8-instagram_d.svg?react';
-// eslint-disable-next-line
-import ColorLinkdedInIcon from '/public/assets/icons8-linkedin_e.svg?react';
-// eslint-disable-next-line
-// import DisabledLinkedInIcon from '/public/assets/icons8-linkedin_d.svg?react';
-// eslint-disable-next-line
-import ColorYoutubeInIcon from '/public/assets/icons8-youtube_e.svg?react';
-// eslint-disable-next-line
-// import DisabledYoutubeIcon from '/public/assets/icons8-youtube_d.svg?react';
-// eslint-disable-next-line
-import ColorGithubIcon from '/public/assets/icons8-github-48.svg?react';
 import useMyInfo from '@hook/me/useMyInfo';
+import SocialInput from './SocialInput';
 // eslint-disable-next-line
 // import DisabledGithubIcon from '/public/assets/icons8-github-48.svg?react';
 
@@ -107,76 +94,7 @@ export default function BasicMyInfo() {
           )
     }
 
-      {
-        isEditMode
-          ? (
-            <>
-              <div className="flex justify-center">
-                <Typography variant="h5" className="flex justify-start w-64">소셜미디어</Typography>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                <div className="w-64">
-                  <Input
-                    // size="medium"
-                    label="Instagram"
-                    // placeholder="Input your Instagram ID"
-                    className="flex items-center"
-                    icon={<ColorInstagramIcon className="w-8 h-full" />}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                <div className="w-64">
-                  <Input
-                    // size="md"
-                    label="LinkedIn"
-                    // placeholder="Input your Linked ID"
-                    className="flex items-center"
-                    icon={<ColorLinkdedInIcon className="w-8 h-full" />}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                <div className="w-64">
-                  <Input
-                    // size="md"
-                    label="Youtube"
-                    // placeholder="Input your Youtube Channel Link"
-                    className="flex items-center"
-                    icon={<ColorYoutubeInIcon className="w-8 h-full" />}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center justify-center my-2">
-                <div className="w-64">
-                  <Input
-                    // size="md"
-                    label="Github"
-                    // placeholder="Input your Github Id"
-                    className="flex items-center"
-                    icon={<ColorGithubIcon className="w-8 h-full" />}
-                  />
-                </div>
-              </div>
-            </>
-          )
-          : (
-            <div className="flex items-center justify-center gap-2 my-3">
-              <ColorInstagramIcon
-                className="w-8 h-8 text-gray-500 cursor-pointer"
-              />
-              <ColorLinkdedInIcon
-                className="w-8 h-8 cursor-pointer"
-              />
-              <ColorYoutubeInIcon
-                className="w-8 h-8 cursor-pointer"
-              />
-              <ColorGithubIcon
-                className="w-8 h-8 cursor-pointer"
-              />
-            </div>
-          )
-    }
+      <SocialInput socialList={me?.socialList ?? []} isEditMode={isEditMode} />
 
       <div className="flex items-end justify-center gap-1 mt-8 mb-2">
         {isEditMode

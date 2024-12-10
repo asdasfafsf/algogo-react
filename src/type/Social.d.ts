@@ -1,5 +1,5 @@
 type Social = {
-  provider: OAuthProvider
+  provider: SocialProvider
   content: string;
 };
 

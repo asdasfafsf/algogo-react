@@ -7,9 +7,9 @@ export default function ConnectedInfo() {
   const { me } = useConnectedInfo();
   return (
     <Card>
-      {[{ imageSrc: 'github-mark.png', name: 'Github', isConnected: me?.socialList.find((elem) => elem.provider === 'google') },
-        { imageSrc: 'google-mark.png', name: 'Google', isConnected: me?.socialList.find((elem) => elem.provider === 'github') },
-        { imageSrc: 'kakao-mark.jpg', name: '카카오톡', isConnected: me?.socialList.find((elem) => elem.provider === 'kakao') }]
+      {[{ imageSrc: 'github-mark.png', name: 'Github', isConnected: me?.oauthList.find((elem) => elem.provider === 'google') },
+        { imageSrc: 'google-mark.png', name: 'Google', isConnected: me?.oauthList.find((elem) => elem.provider === 'github') },
+        { imageSrc: 'kakao-mark.jpg', name: '카카오톡', isConnected: me?.oauthList.find((elem) => elem.provider === 'kakao') }]
         .map(({ imageSrc, name, isConnected }) => (
           <>
             <div key={name} className="flex items-end justify-between p-4 my-4">
