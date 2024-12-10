@@ -4,6 +4,7 @@ import {
 import useMeStore from '@zustand/MeStore';
 import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
+import useSocialInputStore from '@zustand/SocialInputStore';
 
 export default function useMyInfo() {
   const me = useMeStore((state) => state.me);
@@ -34,8 +35,13 @@ export default function useMyInfo() {
       return;
     }
 
+    const { values } = useSocialInputStore.getState();
+    const socialList = (Object.keys(values) as SocialProvider[])
+      .map((provider) => ({ provider, content: values[provider] } as Social));
+
     const requestUpdateMeDto = {
       name,
+      socialList,
     };
 
     try {
