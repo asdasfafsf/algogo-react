@@ -8,7 +8,7 @@ interface ButtonProps {
   className?: string;
   iconPosition?: 'left' | 'right';
   children: React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown | Promise<unknown>;
   onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   ripple?: boolean;
