@@ -14,7 +14,9 @@ export default function Login({ name = '로그인' }: LoginProps) {
     const url = VITE_ENV === 'development'
       ? `http://localhost:3001/v1/oauth/${provider}`
       : `https://www.algogo.co.kr/v1/oauth${provider}`;
-    window.location.href = url;
+
+    const redirectUrl = `${url}/callback`;
+    window.location.href = `${url}?redirectUrl=${redirectUrl}`;
   };
   return (
     <section className="grid items-center h-screen p-8">

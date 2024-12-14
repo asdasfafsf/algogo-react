@@ -68,7 +68,7 @@ export default function ComfirmModal({ content }: AlertModalProps) {
           </div>
         </header>
         <section className="flex items-center justify-center h-24">
-          {content}
+          <div className="p-4">{content}</div>
         </section>
         <footer className="flex items-end justify-end w-full gap-1 p-2">
           <Button
