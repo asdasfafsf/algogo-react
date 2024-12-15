@@ -16,15 +16,15 @@ export default function useConnectedInfo() {
 
     const { oauthList } = me;
 
-    console.log(oauthList);
     if (oauthList?.find((elem) => elem.provider === provider)) {
       await alert('이미 연동된 계정입니다. 연동 해제 후 이용하시거나 로그아웃 후 신규 가입으로 진행해주세요.');
       return;
     }
     const url = VITE_ENV === 'development'
-      ? `http://localhost:3001/v1/oauth/${provider}/add`
-      : `https://www.algogo.co.kr/v1/oauth/${provider}/add`;
-    window.location.href = `${url}?redirectUrl=${url}/callback`;
+      ? `http://localhost:3001/v1/oauth/${provider}/connect`
+      : `https://www.algogo.co.kr/v1/oauth/${provider}/connect`;
+
+    window.location.href = `${url}`;
   }, [me]);
   const handleDisconnect = useCallback(async () => {
     const oauthList = me?.oauthList ?? [];

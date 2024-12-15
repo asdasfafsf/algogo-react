@@ -15,8 +15,11 @@ export default function Login({ name = '로그인' }: LoginProps) {
       ? `http://localhost:3001/v1/oauth/${provider}`
       : `https://www.algogo.co.kr/v1/oauth${provider}`;
 
-    const redirectUrl = `${url}/callback`;
-    window.location.href = `${url}?redirectUrl=${redirectUrl}`;
+    const redirectUrl = VITE_ENV === 'development'
+      ? 'http://localhost:3001/oauth/token'
+      : 'https://www.algogo.co.kr/oauth/token';
+
+    window.location.href = url;
   };
   return (
     <section className="grid items-center h-screen p-8">
