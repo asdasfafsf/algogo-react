@@ -5,11 +5,6 @@ import { MainCarousel } from '@components/Carousel';
 import ProblemListCard from '@components/problem-list/ProblemListCard';
 
 function App() {
-  const fetchMe = useMeStore((state) => state.fetchMe);
-  useEffect(() => {
-    fetchMe();
-  }, []);
-
   return (
     <DefaultLayout>
       <div className="my-8">

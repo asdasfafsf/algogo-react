@@ -1,5 +1,5 @@
 import {
-  useCallback, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import useMeStore from '@zustand/MeStore';
 import useAlertModal from '@hook/useAlertModal';
@@ -9,7 +9,12 @@ import useSocialInputStore from '@zustand/SocialInputStore';
 export default function useMyInfo() {
   const me = useMeStore((state) => state.me);
   const updateMe = useMeStore((state) => state.updateMe);
+  const fetchMe = useMeStore((state) => state.fetchMe);
   const [name, setName] = useState(me?.name ?? '');
+
+  useEffect(() => {
+    fetchMe();
+  }, []);
 
   const [confirm] = useConfirmModal();
   const [alert] = useAlertModal();

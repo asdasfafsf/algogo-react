@@ -7,13 +7,16 @@ import {
 import router from './Router';
 import ModalProvider from './plugins/modal/ModalProvider';
 import { ScreenSizeProvider } from './context/ScreenSizeContext';
+import { AppProvider } from './context/AppContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
   <ScreenSizeProvider>
-    <ModalProvider>
-      <RouterProvider router={router} />
-    </ModalProvider>
+    <AppProvider>
+      <ModalProvider>
+        <RouterProvider router={router} />
+      </ModalProvider>
+    </AppProvider>
   </ScreenSizeProvider>,
   // </React.StrictMode>,
 );

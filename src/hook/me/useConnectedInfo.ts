@@ -2,6 +2,7 @@ import useMeStore from '@zustand/MeStore';
 import { useCallback } from 'react';
 import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
+import { setOAuthCookie } from '@api/oauth';
 
 const { VITE_ENV } = import.meta.env;
 
@@ -11,6 +12,13 @@ export default function useConnectedInfo() {
   const [confirm] = useConfirmModal();
   const handleConnect = useCallback(async (_: unknown, provider: OAuthProvider) => {
     if (!me) {
+      return;
+    }
+
+    const cookieResponse = await setOAuthCookie();
+
+    if (cookieResponse.statusCode !== 200) {
+      await alert('인증 요청 중 오류가 발생하였습니다. 다시 시도해주세요');
       return;
     }
 
