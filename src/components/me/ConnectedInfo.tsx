@@ -48,7 +48,7 @@ export default function ConnectedInfo() {
                 {isConnected
                   ? (
                     <Button
-                      onClick={() => handleDisconnect()}
+                      onClick={(_) => handleDisconnect(_, provider)}
                       color="gray"
                     >
                       연동해제

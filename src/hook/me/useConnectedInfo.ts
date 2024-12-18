@@ -2,12 +2,13 @@ import useMeStore from '@zustand/MeStore';
 import { useCallback } from 'react';
 import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
-import { setOAuthCookie } from '@api/oauth';
+import { disconnectOAuth, setOAuthCookie } from '@api/oauth';
 
 const { VITE_ENV } = import.meta.env;
 
 export default function useConnectedInfo() {
   const me = useMeStore((state) => state.me);
+  const fetchMe = useMeStore((state) => state.fetchMe);
   const [alert] = useAlertModal();
   const [confirm] = useConfirmModal();
   const handleConnect = useCallback(async (_: unknown, provider: OAuthProvider) => {
@@ -34,18 +35,25 @@ export default function useConnectedInfo() {
 
     window.location.href = `${url}`;
   }, [me]);
-  const handleDisconnect = useCallback(async () => {
+  const handleDisconnect = useCallback(async (_:unknown, provider: OAuthProvider) => {
     const oauthList = me?.oauthList ?? [];
+    const message = oauthList.length === 1
+      ? '연동 정보가 1개입니다. 연동 취소하면 회원 탈퇴됩니다. 진행하시겠습니까?'
+      : '연동 취소하시겠습니까?';
+    const isOk = await confirm(message);
 
-    if (oauthList.length === 1) {
-      const isOk = await confirm('연동 정보가 1개입니다. 연동 취소하면 회원 탈퇴됩니다. 진행하시겠습니까?');
-
-      if (!isOk) {
-        return;
-      }
-
-      console.log('');
+    if (!isOk) {
+      return;
     }
+
+    const disconnectResponse = await disconnectOAuth(provider);
+
+    if (disconnectResponse.statusCode !== 200) {
+      await alert(disconnectResponse?.errorMessage || '연동 해제 중 오류가 발생하였습니다.');
+      return;
+    }
+
+    await fetchMe();
   }, [me]);
 
   return {
