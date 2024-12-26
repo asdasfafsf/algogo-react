@@ -50,7 +50,7 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
           </Typography>
           <Typography variant="medium" className="font-medium">입력</Typography>
           <ClipboardWithTooltip
-            handleCopyCallback={() => { setSelectedIndex(index); }}
+            handleCopyCallback={() => { setSelectedIndex(0); }}
             content={elem.input}
           />
           <Typography variant="medium" className="mt-1 font-medium">출력</Typography>
