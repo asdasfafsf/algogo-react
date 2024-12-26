@@ -28,8 +28,8 @@ export default function ConnectedInfo() {
         .map(({
           provider, imageSrc, name, isConnected,
         }) => (
-          <>
-            <div key={provider} className="flex items-end justify-between p-4 my-4">
+          <div key={provider}>
+            <div className="flex items-end justify-between p-4 my-4">
               <div className="w-20">
                 <img
                   className="w-20 h-20 mb-4"
@@ -62,11 +62,10 @@ export default function ConnectedInfo() {
                       연동
                     </Button>
                   )}
-
               </div>
             </div>
-            <Line key={name} />
-          </>
+            <Line />
+          </div>
         ))}
     </Card>
   );
