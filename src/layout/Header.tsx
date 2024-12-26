@@ -63,14 +63,10 @@ export default function Header() {
             value="문제"
             isSelected
           >
-            {location.pathname === '/'
-              ? (
-                <>
-                  <NavbarSubItem isSelected value="모든 문제" to="/" />
-                  {/* <NavbarSubItem isSelected={false} value="출제하기" to="/" /> */}
-                </>
-              )
-              : ''}
+            <>
+              <NavbarSubItem isSelected value="모든 문제" to="/" />
+              {/* <NavbarSubItem isSelected={false} value="출제하기" to="/" /> */}
+            </>
 
           </NavbarItem>
         </Navbar>
