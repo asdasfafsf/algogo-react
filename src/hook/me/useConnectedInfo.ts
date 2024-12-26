@@ -16,6 +16,12 @@ export default function useConnectedInfo() {
       return;
     }
 
+    const isOk = (await confirm('연동하시겠습니까?'));
+
+    if (!isOk) {
+      return;
+    }
+
     const cookieResponse = await setOAuthCookie();
 
     if (cookieResponse.statusCode !== 200) {
