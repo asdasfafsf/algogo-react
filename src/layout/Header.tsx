@@ -1,8 +1,7 @@
 import { Button } from '@components/Button/index';
-import { Typography } from '@components/common';
+import { Typography, Line } from '@components/common';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, NavbarItem, NavbarSubItem } from '@components/Navbar/index';
-import { Line } from '@components/Line/index';
 import useMeStore from '@zustand/MeStore';
 
 import { ProfileMenu } from '@components/Dropdown/index';
