@@ -30,6 +30,7 @@ export default function ProblemNavbar() {
             className="w-10 h-10 text-white bg-gray-900"
             onClick={async () => {
               await alert('준비 중 입니다');
+              modal.push('CODE_EDITOR_SETTINGS', <></>, {});
             }}
           >
             <Cog6ToothIcon

@@ -27,6 +27,7 @@ export default function CodeEditorBody() {
       onMount={handleEditorMount}
       onChange={handleEditorChange}
       options={{
+        insertSpaces: true,
         contextmenu: false,
         fontSize: 14,
         minimap: { enabled: false },
