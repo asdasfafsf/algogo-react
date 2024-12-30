@@ -8,7 +8,7 @@ const { VITE_ENV } = import.meta.env;
 
 export default function useConnectedInfo() {
   const me = useMeStore((state) => state.me);
-  const fetchMe = useMeStore((state) => state.fetchMe);
+  const logout = useMeStore((state) => state.logout);
   const [alert] = useAlertModal();
   const [confirm] = useConfirmModal();
   const handleConnect = useCallback(async (_: unknown, provider: OAuthProvider) => {
@@ -59,7 +59,8 @@ export default function useConnectedInfo() {
       return;
     }
 
-    await fetchMe();
+    await alert('회원 탈퇴되었습니다.');
+    logout();
   }, [me]);
 
   return {
