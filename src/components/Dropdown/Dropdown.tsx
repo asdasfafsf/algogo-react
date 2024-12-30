@@ -57,7 +57,7 @@ export default function Dropdown({
   };
 
   return (
-    <div className={`relative`}>
+    <div className="relative">
       <div
         ref={menuRef}
         onClick={handleOpen}

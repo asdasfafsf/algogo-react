@@ -43,7 +43,7 @@ export default function Input({
         type={type}
         id={id}
         name={name}
-        className={`${className} block w-full px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer text-center md:text-left`}
+        className={`${className} block w-full px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer text-center md:text-left ${className}`}
         placeholder=" "
         {...props}
         onChange={handleChange}
