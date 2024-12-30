@@ -7,6 +7,7 @@ import useModal from '@plugins/modal/useModal';
 import CodeEditorFontSizeDropdown from './CodeEditorFontSizeDropdown';
 import CodeEditorThemeDropdown from './CodeEditorThemeDropdown';
 import CodeEditorTabSizer from './CodeEditorTabSizer';
+import CodeEditorLineNumberDropdown from './CodeEditorLineNumberDropdown';
 
 export default function CodeEditorSettingsModal() {
   const modal = useModal();
@@ -34,7 +35,7 @@ export default function CodeEditorSettingsModal() {
   return (
     <TranslucentOverlay className="items-start py-16">
       <div
-        className="rounded-md bg-white w-full max-w-[640px] p-0"
+        className="rounded-md bg-white w-full max-w-[600px] p-0"
       >
         <div className="flex px-8 py-4">
           <Typography variant="h6">
@@ -44,15 +45,30 @@ export default function CodeEditorSettingsModal() {
         <Line className="mb-4" />
 
         <div className="h-full">
-          <div className="px-8">
-            <div className="flex mb-2">
-              <CodeEditorThemeDropdown theme="vs-dark" />
+          <div className="flex w-full px-8">
+            <div className="w-1/2">
+              <Typography variant="paragraph" weight="semilight">
+                문제 설정
+              </Typography>
+              <div className="mb-2" />
             </div>
-            <div className="flex mb-2">
-              <CodeEditorFontSizeDropdown fontSize={14} />
-            </div>
-            <div className="flex mb-2">
-              <CodeEditorTabSizer tabSize={4} />
+            <div className="w-1/2">
+              <Typography variant="paragraph" weight="semilight">
+                에디터 설정
+              </Typography>
+              <div className="mb-2" />
+              <div className="flex mb-2">
+                <CodeEditorThemeDropdown theme="vs-dark" />
+              </div>
+              <div className="flex mb-2">
+                <CodeEditorFontSizeDropdown fontSize={14} />
+              </div>
+              <div className="flex mb-2">
+                <CodeEditorTabSizer tabSize={4} />
+              </div>
+              <div className="flex mb-2">
+                <CodeEditorLineNumberDropdown lineNumber="on" />
+              </div>
             </div>
           </div>
         </div>
