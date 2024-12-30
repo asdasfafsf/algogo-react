@@ -37,7 +37,7 @@ export default function CodeEditorSettingsModal() {
       >
         <div className="flex px-8 py-4">
           <Typography variant="h6">
-            에디터 설정
+            화면 설정
           </Typography>
         </div>
         <Line className="mb-4" />
