@@ -80,7 +80,7 @@ export default function ComfirmModal({ content }: AlertModalProps) {
           </Button>
           <Button
             size="small"
-            onClick={handleOk}
+            onClick={handleCancel}
             className="bg-gray-500"
             color="gray"
           >
