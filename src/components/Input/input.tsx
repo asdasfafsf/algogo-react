@@ -3,7 +3,7 @@ import {
 } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   className?: string;
   id?: string;
   name?: string;
@@ -48,6 +48,9 @@ export default function Input({
         {...props}
         onChange={handleChange}
       />
+
+      {label
+      && (
       <label
         htmlFor={id}
         className={`absolute left-3 bg-white px-1 text-sm text-gray-500 duration-200 ${
@@ -58,6 +61,7 @@ export default function Input({
       >
         {label}
       </label>
+      )}
       {icon && (
         <span className="absolute z-10 -translate-y-1/2 pointer-events-none right-3 top-1/2">
           {icon}
