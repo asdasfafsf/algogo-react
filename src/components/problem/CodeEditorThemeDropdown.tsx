@@ -1,18 +1,18 @@
 import { Dropdown } from '@components/Dropdown';
-
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useCallback, useState } from 'react';
 import { Typography } from '@components/common';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-interface CodeEditorFontSizeProps {
-  fontSize: number;
+type Theme = 'vs-dark' | 'light';
+interface CodeEditorThemeDropdownProps {
+  theme: Theme;
 }
 
-export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontSizeProps) {
-  const [displayedFontSize, setFontSize] = useState(fontSize);
+export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdownProps) {
+  const [displayedTheme, setTheme] = useState(theme);
   const [open, setOpen] = useState(false);
-  const handleClickFontSize = useCallback(async (e: unknown, fontSize: number) => {
-    setFontSize(fontSize);
+  const handleClickFontSize = useCallback(async (e: unknown, theme: Theme) => {
+    setTheme(theme);
     setOpen(false);
   }, []);
 
@@ -23,7 +23,7 @@ export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontS
           weight="semibold"
           variant="medium"
         >
-          글자 크기
+          테마
         </Typography>
       </div>
       <Dropdown
@@ -33,7 +33,7 @@ export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontS
         showArrow={false}
       >
         <div className="flex items-center justify-between w-32 p-2 border-gray-200 border-solid border-[1px] rounded-md ">
-          <Typography weight="semilight" variant="medium">{displayedFontSize}</Typography>
+          <Typography weight="semilight" variant="medium">{displayedTheme}</Typography>
           <ChevronDownIcon
             strokeWidth={2.5}
             className={` h-3.5 w-3.5 transition-transform text-gray-400 ${
@@ -44,7 +44,7 @@ export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontS
 
         <ul className="overflow-y-auto max-h-24">
           {
-            [14, 15, 16, 17, 18, 19, 20, 21].map((elem) => (
+            (['vs-dark', 'light'] as Theme[]).map((elem) => (
               <li
                 className="w-32 cursor-pointer hover:bg-gray-200"
                 onClick={(_) => handleClickFontSize(_, elem)}
