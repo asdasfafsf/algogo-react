@@ -10,8 +10,8 @@ type CodeEditorSettings = {
   fontSize: Range9To32
   theme: 'Light' | 'Dark'
   insertSpace: boolean
-
 };
+
 type EditorStore = {
   language: Language;
   setLanguage: (language: Language) => void | Promise<void>
