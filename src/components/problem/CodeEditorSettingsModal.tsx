@@ -6,6 +6,7 @@ import { useCallback, useEffect } from 'react';
 import useModal from '@plugins/modal/useModal';
 import CodeEditorFontSizeDropdown from './CodeEditorFontSizeDropdown';
 import CodeEditorThemeDropdown from './CodeEditorThemeDropdown';
+import CodeEditorTabSizer from './CodeEditorTabSizer';
 
 export default function CodeEditorSettingsModal() {
   const modal = useModal();
@@ -47,8 +48,11 @@ export default function CodeEditorSettingsModal() {
             <div className="flex mb-2">
               <CodeEditorThemeDropdown theme="vs-dark" />
             </div>
-            <div className="flex">
+            <div className="flex mb-2">
               <CodeEditorFontSizeDropdown fontSize={14} />
+            </div>
+            <div className="flex mb-2">
+              <CodeEditorTabSizer tabSize={4} />
             </div>
           </div>
         </div>
