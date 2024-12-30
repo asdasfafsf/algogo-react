@@ -25,9 +25,9 @@ export default function useDropdown(open: boolean, handler: HandleDropdown | nul
 
   useEffect(() => {
     const handleClickArea = (e: MouseEvent) => {
-      if (modal.top()) {
-        return;
-      }
+      // if (modal.top()) {
+      //   return;
+      // }
 
       if (divRef.current && menuRef.current) {
         const { target } = e;
