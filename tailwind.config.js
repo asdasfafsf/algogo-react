@@ -32,6 +32,9 @@ export default {
         gold: '#ec9a00',
         silver: '#425e7a',
         bronze: '#ad5701',
+        gray: {
+          900: 'rgb(33, 33, 33)',
+        }
       },
     },
   },
