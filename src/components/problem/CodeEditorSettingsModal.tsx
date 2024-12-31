@@ -8,6 +8,7 @@ import CodeEditorFontSizeDropdown from './CodeEditorFontSizeDropdown';
 import CodeEditorThemeDropdown from './CodeEditorThemeDropdown';
 import CodeEditorTabSizer from './CodeEditorTabSizer';
 import CodeEditorLineNumberDropdown from './CodeEditorLineNumberDropdown';
+import CodeEditorProblemResizer from './CodeEditorProblemResizer';
 
 export default function CodeEditorSettingsModal() {
   const modal = useModal();
@@ -51,6 +52,7 @@ export default function CodeEditorSettingsModal() {
                 문제 설정
               </Typography>
               <div className="mb-2" />
+              <CodeEditorProblemResizer />
             </div>
             <div className="w-1/2">
               <Typography variant="paragraph" weight="semilight">
