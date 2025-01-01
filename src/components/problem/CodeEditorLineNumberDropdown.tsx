@@ -45,7 +45,7 @@ export default function CodeEditorLineNumberDropdown(
 
         <ul className="overflow-y-auto max-h-24">
           {
-            (['relative', 'on', 'off'] as LineNumber[]).map((elem) => (
+            (['relative', 'on', 'off'] as CodeEditorLineNumber[]).map((elem) => (
               <li
                 className="w-32 cursor-pointer hover:bg-gray-200"
                 onClick={(_) => handleClickFontSize(_, elem)}
