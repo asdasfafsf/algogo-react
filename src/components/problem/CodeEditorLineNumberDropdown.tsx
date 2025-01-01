@@ -3,9 +3,8 @@ import { useCallback, useState } from 'react';
 import { Typography } from '@components/common';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-type LineNumber = 'relative' | 'on' | 'off';
 interface CodeEditorLineNumberDropdownProps {
-  lineNumber: LineNumber;
+  lineNumber: CodeEditorLineNumber;
 }
 
 export default function CodeEditorLineNumberDropdown(

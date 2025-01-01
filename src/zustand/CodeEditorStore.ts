@@ -9,6 +9,7 @@ type Range9To32 = 9 | 10 | 11 | 12 | 13
 type CodeEditorSettings = {
   fontSize: Range9To32
   theme: 'Light' | 'Dark'
+  lineNumer: LineNumber,
   insertSpace: boolean
 };
 
@@ -23,6 +24,8 @@ type EditorStore = {
   setInput: (input: string) => void | Promise<void>
   output: ResponseExecuteResult,
   setOutput: (output: ResponseExecuteResult) => void | Promise<void>
+  settings: CodeEditorSettings,
+  setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
 };
 
 export const useCodeEditorStore = create<EditorStore>((set) => ({

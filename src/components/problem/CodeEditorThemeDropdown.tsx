@@ -3,9 +3,8 @@ import { useCallback, useState } from 'react';
 import { Typography } from '@components/common';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-type Theme = 'vs-dark' | 'light';
 interface CodeEditorThemeDropdownProps {
-  theme: Theme;
+  theme: CodeEditorTheme;
 }
 
 export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdownProps) {
