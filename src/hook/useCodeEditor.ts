@@ -3,9 +3,11 @@ import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 
 export default function useCodeEditor() {
   const editorRef = useRef<unknown>(null);
-  const {
-    code, setCode, language, updateCodeFromLanguage,
-  } = useCodeEditorStore((state) => state);
+  const code = useCodeEditorStore((state) => state.code);
+  const setCode = useCodeEditorStore((state) => state.setCode);
+  const language = useCodeEditorStore((state) => state.language);
+  const updateCodeFromLanguage = useCodeEditorStore((state) => state.updateCodeFromLanguage);
+  const settings = useCodeEditorStore((state) => state.settings);
 
   const handleEditorChange = useCallback((
     value: string | undefined,
@@ -23,6 +25,7 @@ export default function useCodeEditor() {
 
   return {
     code,
+    settings,
     language,
     handleEditorMount,
     handleEditorChange,

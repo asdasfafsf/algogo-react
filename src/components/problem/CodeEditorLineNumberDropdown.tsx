@@ -1,21 +1,17 @@
 import { Dropdown } from '@components/Dropdown';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Typography } from '@components/common';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface CodeEditorLineNumberDropdownProps {
   lineNumber: CodeEditorLineNumber;
+  handleSelect: (_: unknown, lineNumber: CodeEditorLineNumber) => void | Promise<void>
 }
 
 export default function CodeEditorLineNumberDropdown(
-  { lineNumber }: CodeEditorLineNumberDropdownProps,
+  { lineNumber, handleSelect }: CodeEditorLineNumberDropdownProps,
 ) {
-  const [displayedTheme, setTheme] = useState(lineNumber);
   const [open, setOpen] = useState(false);
-  const handleClickFontSize = useCallback(async (e: unknown, theme: LineNumber) => {
-    setTheme(theme);
-    setOpen(false);
-  }, []);
 
   return (
     <div className="flex">
@@ -34,7 +30,7 @@ export default function CodeEditorLineNumberDropdown(
         showArrow={false}
       >
         <div className="flex items-center justify-between w-32 p-2 border-gray-200 border-solid border-[1px] rounded-md ">
-          <Typography weight="semilight" variant="medium">{displayedTheme}</Typography>
+          <Typography weight="semilight" variant="medium">{lineNumber}</Typography>
           <ChevronDownIcon
             strokeWidth={2.5}
             className={` h-3.5 w-3.5 transition-transform text-gray-400 ${
@@ -45,10 +41,13 @@ export default function CodeEditorLineNumberDropdown(
 
         <ul className="overflow-y-auto max-h-24">
           {
-            (['relative', 'on', 'off'] as CodeEditorLineNumber[]).map((elem) => (
+            (['on', 'off', 'relative'] as CodeEditorLineNumber[]).map((elem) => (
               <li
                 className="w-32 cursor-pointer hover:bg-gray-200"
-                onClick={(_) => handleClickFontSize(_, elem)}
+                onClick={(_) => {
+                  handleSelect(_, elem);
+                  setOpen(false);
+                }}
                 key={elem}
               >
                 <div className="flex p-2">

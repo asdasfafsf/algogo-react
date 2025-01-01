@@ -3,7 +3,7 @@ import useCodeEditor from '@hook/useCodeEditor';
 
 export default function CodeEditorBody() {
   const {
-    code, language, handleEditorMount, handleEditorChange,
+    code, settings, language, handleEditorMount, handleEditorChange,
   } = useCodeEditor();
 
   const monocoLanguageMap = {
@@ -21,15 +21,17 @@ export default function CodeEditorBody() {
       language={monocoLanguageMap[language]}
       defaultLanguage={monocoLanguageMap[language]}
       defaultValue="input your code"
-      theme="vs-dark"
+      theme={settings.theme}
       value={code}
 
       onMount={handleEditorMount}
       onChange={handleEditorChange}
       options={{
         insertSpaces: true,
+        lineNumbers: settings.lineNumber,
         contextmenu: false,
-        fontSize: 14,
+        fontSize: settings.fontSize,
+        tabSize: settings.tabSize,
         minimap: { enabled: false },
         scrollbar: { vertical: 'auto', horizontal: 'auto' },
         codeLens: false,

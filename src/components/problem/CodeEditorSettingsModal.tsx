@@ -2,8 +2,10 @@ import {
   TranslucentOverlay, Line, Typography,
 } from '@components/common/index';
 import { Button } from '@components/Button/index';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useModal from '@plugins/modal/useModal';
+import useCodeEditorStore from '@zustand/CodeEditorStore';
+import { useProblemContentSizeStore } from '@zustand/ProblemContentSizeStore';
 import CodeEditorFontSizeDropdown from './CodeEditorFontSizeDropdown';
 import CodeEditorThemeDropdown from './CodeEditorThemeDropdown';
 import CodeEditorTabSizer from './CodeEditorTabSizer';
@@ -22,7 +24,6 @@ export default function CodeEditorSettingsModal() {
     const handleKeydown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape':
-          console.log(modal.top());
           if (modal.top().Component !== null) {
             modal.top().resolve(false);
           }
@@ -38,6 +39,22 @@ export default function CodeEditorSettingsModal() {
       window.removeEventListener('keydown', handleKeydown);
     };
   }, [modal]);
+
+  const problemContentSize = useProblemContentSizeStore((state) => state.size);
+  const setProblemContentSize = useProblemContentSizeStore((state) => state.setSize);
+  const codeEditorSettings = useCodeEditorStore((state) => state.settings);
+  const setCodeEditorSettings = useCodeEditorStore((state) => state.setSettings);
+  const [settings, setSettings] = useState(codeEditorSettings);
+  const [size, setSize] = useState(problemContentSize);
+
+  const handleOk = useCallback(async () => {
+    setProblemContentSize(size);
+    setCodeEditorSettings(settings);
+    while (modal.top().Component === null) {
+      modal.top().resolve(false);
+    }
+    modal.top().resolve(false);
+  }, [size, settings, setSettings, setProblemContentSize]);
 
   return (
     <TranslucentOverlay className="items-start py-16">
@@ -58,7 +75,10 @@ export default function CodeEditorSettingsModal() {
                 문제 설정
               </Typography>
               <div className="mb-2" />
-              <CodeEditorProblemResizer />
+              <CodeEditorProblemResizer
+                selectedIndex={Math.floor((size - 100) / 10)}
+                handleSelect={(_, size) => { setSize(size); }}
+              />
             </div>
             <div className="w-1/2">
               <Typography variant="paragraph" weight="semilight">
@@ -66,16 +86,39 @@ export default function CodeEditorSettingsModal() {
               </Typography>
               <div className="mb-2" />
               <div className="flex mb-2">
-                <CodeEditorThemeDropdown theme="vs-dark" />
+                <CodeEditorThemeDropdown
+                  handleSelect={(_, theme) => {
+                    setSettings((prev) => ({ ...prev, theme }));
+                  }}
+                  theme={settings.theme}
+                />
               </div>
               <div className="flex mb-2">
-                <CodeEditorFontSizeDropdown fontSize={14} />
+                <CodeEditorFontSizeDropdown
+                  handleSelect={(_, fontSize) => {
+                    setSettings((prev) => ({ ...prev, fontSize }));
+                  }}
+                  fontSize={settings.fontSize}
+                />
               </div>
               <div className="flex mb-2">
-                <CodeEditorTabSizer tabSize={4} />
+                <CodeEditorTabSizer
+                  handleChange={(e) => {
+                    const tabSize = Number(e.target.value || 4);
+                    setSettings((prev) => ({ ...prev, tabSize }));
+                  }}
+                  tabSize={settings.tabSize}
+                />
               </div>
               <div className="flex mb-2">
-                <CodeEditorLineNumberDropdown lineNumber="on" />
+                <CodeEditorLineNumberDropdown
+                  handleSelect={
+                    (_, lineNumber) => {
+                      setSettings((prev) => ({ ...prev, lineNumber }));
+                    }
+                  }
+                  lineNumber={settings.lineNumber}
+                />
               </div>
             </div>
           </div>
@@ -83,6 +126,7 @@ export default function CodeEditorSettingsModal() {
 
         <div className="flex justify-center gap-1 px-8 my-4">
           <Button
+            onClick={handleOk}
             color="blue"
           >
             설정

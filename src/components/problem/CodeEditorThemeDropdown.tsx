@@ -1,19 +1,17 @@
 import { Dropdown } from '@components/Dropdown';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Typography } from '@components/common';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface CodeEditorThemeDropdownProps {
   theme: CodeEditorTheme;
+  handleSelect: (_: unknown, theme: CodeEditorTheme) => void | Promise<void>
 }
 
-export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdownProps) {
-  const [displayedTheme, setTheme] = useState(theme);
+export default function CodeEditorThemeDropdown(
+  { theme, handleSelect }: CodeEditorThemeDropdownProps,
+) {
   const [open, setOpen] = useState(false);
-  const handleClickFontSize = useCallback(async (e: unknown, theme: CodeEditorTheme) => {
-    setTheme(theme);
-    setOpen(false);
-  }, []);
 
   return (
     <div className="flex">
@@ -32,7 +30,7 @@ export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdo
         showArrow={false}
       >
         <div className="flex items-center justify-between w-32 p-2 border-gray-200 border-solid border-[1px] rounded-md ">
-          <Typography weight="semilight" variant="medium">{displayedTheme}</Typography>
+          <Typography weight="semilight" variant="medium">{theme}</Typography>
           <ChevronDownIcon
             strokeWidth={2.5}
             className={` h-3.5 w-3.5 transition-transform text-gray-400 ${
@@ -46,7 +44,10 @@ export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdo
             (['vs-dark', 'light'] as CodeEditorTheme[]).map((elem) => (
               <li
                 className="w-32 cursor-pointer hover:bg-gray-200"
-                onClick={(_) => handleClickFontSize(_, elem)}
+                onClick={(_) => {
+                  handleSelect(_, elem);
+                  setOpen(false);
+                }}
                 key={elem}
               >
                 <div className="flex p-2">

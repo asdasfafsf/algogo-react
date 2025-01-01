@@ -1,20 +1,18 @@
 import { Dropdown } from '@components/Dropdown';
 
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Typography } from '@components/common';
 
 interface CodeEditorFontSizeProps {
   fontSize: number;
+  handleSelect: (_: unknown, fontSize: number) => void | Promise<void>
 }
 
-export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontSizeProps) {
-  const [displayedFontSize, setFontSize] = useState(fontSize);
+export default function CodeEditorFontSizeDropdown(
+  { fontSize, handleSelect }: CodeEditorFontSizeProps,
+) {
   const [open, setOpen] = useState(false);
-  const handleClickFontSize = useCallback(async (e: unknown, fontSize: number) => {
-    setFontSize(fontSize);
-    setOpen(false);
-  }, []);
 
   return (
     <div className="flex">
@@ -33,7 +31,7 @@ export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontS
         showArrow={false}
       >
         <div className="flex items-center justify-between w-32 p-2 border-gray-200 border-solid border-[1px] rounded-md ">
-          <Typography weight="semilight" variant="medium">{displayedFontSize}</Typography>
+          <Typography weight="semilight" variant="medium">{fontSize}</Typography>
           <ChevronDownIcon
             strokeWidth={2.5}
             className={` h-3.5 w-3.5 transition-transform text-gray-400 ${
@@ -47,7 +45,10 @@ export default function CodeEditorFontSizeDropdown({ fontSize }: CodeEditorFontS
             [14, 15, 16, 17, 18, 19, 20, 21].map((elem) => (
               <li
                 className="w-32 cursor-pointer hover:bg-gray-200"
-                onClick={(_) => handleClickFontSize(_, elem)}
+                onClick={(_) => {
+                  handleSelect(_, elem);
+                  setOpen(false);
+                }}
                 key={elem}
               >
                 <div className="flex p-2">

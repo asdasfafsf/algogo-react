@@ -43,7 +43,7 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
     theme: 'vs-dark',
     fontSize: 14,
     tabSize: 4,
-    lineNumer: 'on',
+    lineNumber: 'on',
   },
   setSettings: (updator) => {
     if (typeof updator === 'function') {

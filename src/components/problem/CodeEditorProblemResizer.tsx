@@ -1,12 +1,15 @@
 import { Typography } from '@components/common';
 import { SelectBox, SelectBoxItem } from '@components/SelectBox';
-import { useCallback, useState } from 'react';
 
-export default function CodeEditorProblemResizer() {
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const handleSelect = useCallback((_: unknown, index: number) => {
-    setSelectedIndex(index);
-  }, []);
+interface CodeEditorProblemResizerProps {
+  handleSelect: (e: unknown, index: number) => void | Promise<void>,
+  selectedIndex: number;
+}
+
+export default function CodeEditorProblemResizer({
+  selectedIndex,
+  handleSelect,
+} : CodeEditorProblemResizerProps) {
   return (
     <div className="flex">
       <div className="flex w-20 py-2">
@@ -18,9 +21,9 @@ export default function CodeEditorProblemResizer() {
         </Typography>
       </div>
       <SelectBox className="h-24 w-36">
-        {[80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200].map((elem, index) => (
+        {[100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200].map((elem, index) => (
           <SelectBoxItem
-            onClick={(e) => handleSelect(e, index)}
+            onClick={(e) => handleSelect(e, elem)}
             className={`${selectedIndex === index ? 'bg-blue-300 text-white' : ''} cursor-pointer`}
             key={elem}
           >
