@@ -10,7 +10,7 @@ interface CodeEditorThemeDropdownProps {
 export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdownProps) {
   const [displayedTheme, setTheme] = useState(theme);
   const [open, setOpen] = useState(false);
-  const handleClickFontSize = useCallback(async (e: unknown, theme: Theme) => {
+  const handleClickFontSize = useCallback(async (e: unknown, theme: CodeEditorTheme) => {
     setTheme(theme);
     setOpen(false);
   }, []);
@@ -43,7 +43,7 @@ export default function CodeEditorThemeDropdown({ theme }: CodeEditorThemeDropdo
 
         <ul className="overflow-y-auto max-h-24">
           {
-            (['vs-dark', 'light'] as Theme[]).map((elem) => (
+            (['vs-dark', 'light'] as CodeEditorTheme[]).map((elem) => (
               <li
                 className="w-32 cursor-pointer hover:bg-gray-200"
                 onClick={(_) => handleClickFontSize(_, elem)}
