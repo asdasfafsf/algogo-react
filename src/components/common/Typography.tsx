@@ -10,6 +10,7 @@ export interface HeadingProps {
   weight?: Weight;
   color?: Color;
   className?: string;
+  scale?: number;
 }
 
 const headingClasses: Record<Variant, Record<Weight, string>> = {
@@ -111,15 +112,17 @@ export default function Typography({
   weight = 'bold',
   color = 'black',
   className = '',
+  scale = 1, // 기본값 추가
 }: HeadingProps) {
   const Tag = (variant === 'paragraph' || variant === 'small' || variant === 'medium')
     ? 'p'
     : variant as keyof JSX.IntrinsicElements;
 
-  const classes = `${headingClasses[variant][weight]} ${colorClasses[color]} ${className} `;
+  const classes = `${headingClasses[variant][weight]} ${colorClasses[color]} ${className}`;
+  const style = { transform: `scale(${scale})` };
 
   return (
-    <Tag className={classes}>
+    <Tag className={classes} style={style}>
       {children}
     </Tag>
   );
