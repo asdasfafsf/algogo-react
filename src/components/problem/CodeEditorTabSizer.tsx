@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Typography } from '@components/common';
 import { Input } from '@components/Input';
 

@@ -12,7 +12,9 @@ export default function CompilerSettingModal() {
     const handleKeydown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape':
-          modal.top()?.resolve(false);
+          if (modal?.top().Component !== null) {
+            modal.top()?.resolve(false);
+          }
           break;
         default:
           break;

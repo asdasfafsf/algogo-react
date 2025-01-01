@@ -13,13 +13,19 @@ import CodeEditorProblemResizer from './CodeEditorProblemResizer';
 export default function CodeEditorSettingsModal() {
   const modal = useModal();
   const handleClose = useCallback(async () => {
+    while (modal?.top()?.Component === null) {
+      modal.top().resolve(false);
+    }
     modal.top().resolve(false);
   }, [modal]);
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape':
-          handleClose();
+          console.log(modal.top());
+          if (modal.top().Component !== null) {
+            modal.top().resolve(false);
+          }
           break;
         default:
           break;
@@ -82,6 +88,7 @@ export default function CodeEditorSettingsModal() {
             설정
           </Button>
           <Button
+            onClick={handleClose}
             className="bg-gray-600"
 
           >

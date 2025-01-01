@@ -1,5 +1,7 @@
 import {
   useState, useRef, useEffect,
+  useCallback,
+  useMemo,
 } from 'react';
 import useModal from '../plugins/modal/useModal';
 
@@ -10,24 +12,33 @@ export default function useDropdown(open: boolean, handler: HandleDropdown | nul
   const divRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const modal = useModal();
+  const randomKey = useMemo(() => `${new Date().getTime()}${Math.random()}`, []);
 
   useEffect(() => {
     setOpen(open);
   }, [open]);
 
-  const handleOpen = () => {
+  useEffect(() => {
+    if (isOpen === true) {
+      modal.push(randomKey, null, {});
+    } else if (modal?.top()?.key === randomKey) {
+      modal.top()?.resolve(true);
+    }
+  }, [isOpen]);
+
+  const handleOpen = useCallback(() => {
     if (handler) {
       handler();
     } else {
       setOpen((prevOpen) => !prevOpen);
     }
-  };
+  }, [open]);
 
   useEffect(() => {
     const handleClickArea = (e: MouseEvent) => {
-      // if (modal.top()) {
-      //   return;
-      // }
+      if (modal.top().key !== randomKey) {
+        return;
+      }
 
       if (divRef.current && menuRef.current) {
         const { target } = e;
@@ -42,7 +53,7 @@ export default function useDropdown(open: boolean, handler: HandleDropdown | nul
     };
 
     const handleKeyEvent = (e: KeyboardEvent) => {
-      if (modal.top()) {
+      if (modal.top().key !== randomKey) {
         return;
       }
 

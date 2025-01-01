@@ -8,7 +8,9 @@ interface CodeEditorLineNumberDropdownProps {
   lineNumber: LineNumber;
 }
 
-export default function CodeEditorLineNumberDropdown({ lineNumber }: CodeEditorThemeDropdownProps) {
+export default function CodeEditorLineNumberDropdown(
+  { lineNumber }: CodeEditorLineNumberDropdownProps,
+) {
   const [displayedTheme, setTheme] = useState(lineNumber);
   const [open, setOpen] = useState(false);
   const handleClickFontSize = useCallback(async (e: unknown, theme: LineNumber) => {

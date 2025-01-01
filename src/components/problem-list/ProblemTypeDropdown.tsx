@@ -4,9 +4,9 @@ import { Dropdown } from '@components/Dropdown/index';
 import { ChipWithSelected } from '@components/Chip/index';
 import { Typography } from '@components/common';
 import useInput from '@hook/useInput';
-import useProbleTypeDropdown from '@/hook/problem-list/useProblemTypeDropdown';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import useProbleTypeDropdown from '@hook/problem-list/useProblemTypeDropdown';
 
 export default React.memo(() => {
   const {

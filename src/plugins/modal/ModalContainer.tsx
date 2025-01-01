@@ -7,7 +7,6 @@ import useModal from './useModal';
 const MODAL_ID = 'modal-container';
 export default function ModalContainer() {
   const modal = useModal();
-  const topComponentInfo = modal.top();
 
   useEffect(() => {
     if (document.getElementById(MODAL_ID)) {
@@ -20,17 +19,22 @@ export default function ModalContainer() {
     document.body.append(modalDOM);
   }, []);
 
-  if (!topComponentInfo) {
-    return <></>;
-  }
-
   return ReactDOM.createPortal(
-    <topComponentInfo.Component
-      resolve={topComponentInfo.resolve}
-      reject={topComponentInfo.reject}
-      {...(topComponentInfo?.props ?? {})}
-    />,
+    <>
+      {modal.list()
+        .filter((elem) => elem.Component !== null)
+        .map((elem, index) => {
+          const Component = elem.Component as React.ComponentType<any>;
+          return (
+            <Component
+              key={index}
+              resolve={elem.resolve}
+              reject={elem.reject}
+              {...(elem?.props ?? {})}
+            />
+          );
+        })}
+    </>,
     window.document.getElementById(MODAL_ID)!,
-
   );
 }
