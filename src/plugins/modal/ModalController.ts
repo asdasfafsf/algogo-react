@@ -27,6 +27,14 @@ export default class ModalController {
     return this.modalInfos;
   }
 
+  remove(key: string) {
+    const target = this.modalInfos.find((elem) => elem.key !== key);
+    if (target) {
+      this.flush();
+    }
+    this.modalInfos = this.modalInfos.filter((elem) => elem.key !== key);
+  }
+
   top() {
     return this.modalInfos[this.modalInfos.length - 1];
   }

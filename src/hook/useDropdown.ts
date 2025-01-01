@@ -21,8 +21,8 @@ export default function useDropdown(open: boolean, handler: HandleDropdown | nul
   useEffect(() => {
     if (isOpen === true) {
       modal.push(randomKey, null, {});
-    } else if (modal?.top()?.key === randomKey) {
-      modal.top()?.resolve(true);
+    } else {
+      modal.remove(randomKey);
     }
   }, [isOpen]);
 
