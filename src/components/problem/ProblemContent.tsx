@@ -4,9 +4,10 @@ import ProblemImage from './ProblemImage';
 
 interface ProblemContentProps {
   contentList: ResponseProblemContent[];
+  scale?: number;
 }
 
-function ProblemContent({ contentList }: ProblemContentProps) {
+function ProblemContent({ contentList, scale = 1 }: ProblemContentProps) {
   return (
     <>
       {contentList.map((elem, index) => (
@@ -22,6 +23,7 @@ function ProblemContent({ contentList }: ProblemContentProps) {
             key={`content-${index}`}
             variant="paragraph"
             className="mt-1 font-normal"
+            scale={scale}
           >
             <MathJaxNode>{elem.content}</MathJaxNode>
           </Typography>

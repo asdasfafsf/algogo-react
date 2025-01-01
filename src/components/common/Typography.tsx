@@ -119,8 +119,12 @@ export default function Typography({
     : variant as keyof JSX.IntrinsicElements;
 
   const classes = `${headingClasses[variant][weight]} ${colorClasses[color]} ${className}`;
-  const style = { transform: `scale(${scale})` };
-
+  const style = {
+    // zoom: `scale(${scale})`,
+    zoom: scale,
+    // transformOrigin: 'left',
+    // lineHeight: 1.5,
+  };
   return (
     <Tag className={classes} style={style}>
       {children}

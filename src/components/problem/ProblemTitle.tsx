@@ -4,12 +4,20 @@ import {
 import React from 'react';
 
 interface ProblemTitleProps {
-  title: string
+  title: string,
+  scale?: number
 }
-function ProblemTitle({ title }: ProblemTitleProps) {
+function ProblemTitle({ title, scale = 1 }: ProblemTitleProps) {
   return (
     <>
-      <Typography variant="h4">{title}</Typography>
+      <div className="flex items-center">
+        <Typography
+          scale={scale}
+          variant="h4"
+        >
+          {title}
+        </Typography>
+      </div>
       <Line className="my-2" />
     </>
   );
