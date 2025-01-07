@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Tab, TabHeader, TabPanel, TabBody,
 } from '@components/tab/index';
 import useExecute from '@hook/useExecute';
 import useCodeResultPanel from '@hook/useCodeResultPanel';
-import { useExecuteSocketStore } from '@zustand/ExecuteSocketStore';
 import CodeEditorResizer from './CodeEditorResizer';
 import CodeResultInput from './CodeResultInput';
 import CodeResultOutput from './CodeResultOutput';
