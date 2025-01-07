@@ -9,10 +9,13 @@ export default function useExecute() {
   const setOutput = useCodeEditorStore((state) => state.setOutput);
 
   const [alert] = useAlertModal();
+  // const state = useExecuteSocketStore((state) => state.state);
 
   const handleExecute = useCallback(async () => {
-    const { state, run, execute } = useExecuteSocketStore.getState();
-    if (state !== 'WAITING') {
+    const {
+      state, run, execute, connect,
+    } = useExecuteSocketStore.getState();
+    if (state === 'PENDING') {
       await alert('실행 중 입니다. 잠시만 기다려주세요');
       return;
     }
@@ -28,15 +31,16 @@ export default function useExecute() {
       }],
     };
 
+    if (state === 'DISCONNECTED') {
+      await connect();
+    }
+
     setOutput({
       seq: 0,
       processTime: 0,
       memory: 0,
       code: '',
       result: '',
-    });
-    execute((executeResult) => {
-      setOutput(executeResult);
     });
     run(requestData, (response) => {
       if (response.code !== '0000') {
@@ -49,7 +53,10 @@ export default function useExecute() {
         });
       }
     });
-  }, []);
+    execute((executeResult) => {
+      setOutput(executeResult);
+    });
+  }, [setOutput]);
 
   return {
     handleExecute,

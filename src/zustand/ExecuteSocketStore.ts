@@ -6,7 +6,6 @@ type ExecuteSocketStore = {
   state: 'PENDING' | 'WAITING' | 'DISCONNECTED';
   connect: () => Promise<void>;
   disconnect: () => void;
-  auth: () => Promise<void>;
   run: (data: RequestExecuteList
     , handler: (response: ResponseExecuteResult) => Promise<void> | void) => Promise<void> | void;
   execute: (
@@ -34,8 +33,7 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
 
     socket.on('connect', async () => {
       set({ socket });
-      const { auth } = get();
-      await auth();
+      socket?.emit('auth', { token: localStorage.getItem('accessToken') });
     });
 
     socket.on('connect_error', (error) => {
@@ -43,8 +41,7 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     });
 
     socket.on('disconnect', () => {
-      set({ state: 'DISCONNECTED' });
-      set({ socket: null });
+      set({ socket: null, state: 'DISCONNECTED' });
     });
 
     socket.connect();
@@ -53,22 +50,15 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   disconnect: () => {
     const { socket } = get();
     if (socket) {
+      socket.off('execute');
       socket.disconnect();
     }
   },
 
-  auth: () => new Promise<void>((resolve) => {
-    const { socket } = get();
-
-    socket?.emit('auth', {
-      token: localStorage.getItem('accessToken'),
-    }, () => resolve());
-  }),
-
   run: async (data, handler) => {
     let { socket } = get();
 
-    if (!socket || !socket.connected) {
+    if (!socket || socket.disconnected) {
       const { connect } = get();
       await connect();
       socket = get().socket;
@@ -77,17 +67,18 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     if (socket) {
       set({ state: 'PENDING' });
       socket.emit('execute', data, async (response: ResponseExecuteResult) => {
-        await handler(response);
+        if (response.code !== '0000') {
+          await handler(response);
+        }
         set({ state: 'WAITING' });
-        socket.off('execute');
       });
     }
   },
 
-  execute: (handler) => {
+  execute: async (handler) => {
     const { socket } = get();
-    if (socket) {
-      socket.on('execute', handler); // 실행 응답을 받아 처리
+    if (socket?.connected) {
+      socket.on('executeResult', handler); // 실행 응답을 받아 처리
     }
   },
 }));

@@ -7,7 +7,7 @@ import ProblemSource from '@components/problem/ProblemSource';
 import ProblemCategoryViewer from '@components/problem/ProblemCategoryViewer';
 import React from 'react';
 import ProblemContentResizer from '@components/problem/ProblemContentSizeResizer';
-import { useProblemContentSizeStore } from '@/zustand/ProblemContentSizeStore';
+import { useProblemContentSizeStore } from '@zustand/ProblemContentSizeStore';
 
 interface ProblemProps {
   problem: ResponseProblem
@@ -53,7 +53,6 @@ function Problem({ problem }: ProblemProps) {
       />
       <div className="my-4 opacity-0" />
       <ProblemInputOutputList
-        scale={(problemContentSize / 100)}
         inputOutputList={inputOutputList}
       />
       <div className="my-4 opacity-0" />

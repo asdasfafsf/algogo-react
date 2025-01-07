@@ -26,19 +26,6 @@ export function CodeResultPannel() {
   } = useCodeResultPanel();
 
   const { handleExecute } = useExecute();
-
-  const { connect } = useExecuteSocketStore(
-    ({ connect }) => ({ connect }),
-  );
-
-  const handleWs = async () => {
-    await connect('ws://localhost:3001');
-  };
-
-  useEffect(() => {
-    handleWs();
-  }, []);
-
   return (
     <div
       className="w-full h-full overflow-x-hidden overflow-y-hidden"

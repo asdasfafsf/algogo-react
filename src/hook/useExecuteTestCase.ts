@@ -12,8 +12,6 @@ export default function useExecuteTestCase() {
   const handleRun = useTestCaseListStore((state) => state.handleRun);
 
   const state = useExecuteSocketStore((state) => state.state);
-  const run = useExecuteSocketStore((state) => state.run);
-  const execute = useExecuteSocketStore((state) => state.execute);
 
   const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
 
@@ -21,10 +19,17 @@ export default function useExecuteTestCase() {
   const modal = useModal();
 
   const handleTest = useCallback(async () => {
-    if (state !== 'WAITING') {
+    const { connect } = useExecuteSocketStore.getState();
+    if (state === 'PENDING') {
       await alert('실행 중 입니다. 잠시만 기다려주세요');
       return;
     }
+
+    if (state === 'DISCONNECTED') {
+      await connect();
+    }
+
+    const { run, execute } = useExecuteSocketStore.getState();
 
     if (modal?.top()?.key === 'TESTCASE') {
       modal.pop();
@@ -45,7 +50,7 @@ export default function useExecuteTestCase() {
     };
     execute(handleExecute);
     run(data, handleRun);
-  }, [state]);
+  }, []);
 
   return {
     state,
