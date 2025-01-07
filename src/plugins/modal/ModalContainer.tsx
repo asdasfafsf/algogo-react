@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useEffect } from 'react';
