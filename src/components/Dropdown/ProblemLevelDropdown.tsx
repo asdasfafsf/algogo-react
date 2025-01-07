@@ -3,7 +3,7 @@ import { Dropdown } from '@components/Dropdown/index';
 import { ChipWithSelected } from '@components/Chip/index';
 import { Typography } from '@components/common';
 import React from 'react';
-import useProblemLevelDropdown from '@hook/useProblemLevelDropdown';
+import useProblemLevelDropdown from '@hook/problem-list/useProblemLevelDropdown';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 export default React.memo(() => {
