@@ -4,7 +4,7 @@ import { create } from 'zustand';
 type ExecuteSocketStore = {
   socket: Socket | null;
   state: 'PENDING' | 'WAITING' | 'DISCONNECTED';
-  connect: (url: string) => Promise<void>;
+  connect: () => Promise<void>;
   disconnect: () => void;
   auth: () => Promise<void>;
   run: (data: RequestExecuteList
@@ -16,21 +16,26 @@ type ExecuteSocketStore = {
 
 export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   socket: null,
-  state: 'PENDING',
-  connect: (url: string) => new Promise<void>((resolve, reject) => {
-    const socket = io(url, {
-      autoConnect: true,
+  state: 'DISCONNECTED',
+  connect: () => new Promise<void>((resolve, reject) => {
+    const url = location.host.replace('5173', '3001');
+    const { protocol } = location;
+
+    const wsUrl = protocol === 'http:' ? `ws://${url}` : `wss://${url}`;
+
+    const socket = io(wsUrl, {
+      autoConnect: false,
       transports: ['websocket'],
+    });
+    socket.on('auth', async () => {
+      set({ state: 'WAITING' });
+      resolve();
     });
 
     socket.on('connect', async () => {
       set({ socket });
       const { auth } = get();
-      setTimeout(async () => {
-        await auth();
-        set({ state: 'WAITING' });
-        resolve();
-      }, 2000);
+      await auth();
     });
 
     socket.on('connect_error', (error) => {
@@ -41,6 +46,8 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       set({ state: 'DISCONNECTED' });
       set({ socket: null });
     });
+
+    socket.connect();
   }),
 
   disconnect: () => {
@@ -59,7 +66,14 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   }),
 
   run: async (data, handler) => {
-    const { socket } = get();
+    let { socket } = get();
+
+    if (!socket || !socket.connected) {
+      const { connect } = get();
+      await connect();
+      socket = get().socket;
+    }
+
     if (socket) {
       set({ state: 'PENDING' });
       socket.emit('execute', data, async (response: ResponseExecuteResult) => {
