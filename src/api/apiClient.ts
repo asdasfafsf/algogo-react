@@ -24,6 +24,10 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
+      if (error.statusCode === 404) {
+
+      }
+
       return error.response;
     }
     return { statusCode: error.statusCode, errorCode: '9999', errorMessage: '정의되지 않은 오류가 발생하였습니다.' };
