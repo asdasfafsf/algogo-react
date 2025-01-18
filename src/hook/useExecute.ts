@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import useCodeEditorStore from '../zustand/CodeEditorStore';
 import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
 import useAlertModal from './useAlertModal';
@@ -58,7 +58,7 @@ export default function useExecute() {
     });
   }, [setOutput]);
 
-  return {
+  return useMemo(() => ({
     handleExecute,
-  };
+  }), [handleExecute]);
 }

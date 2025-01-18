@@ -1,5 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import { create } from 'zustand';
+import useMeStore from './MeStore';
 
 type ExecuteSocketStore = {
   socket: Socket | null;
@@ -26,14 +27,20 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       autoConnect: false,
       transports: ['websocket'],
     });
-    socket.on('auth', async () => {
+    socket.on('auth', async (data) => {
+      console.log('auth', data);
+      if (data === 'UNAUTHORIZED') {
+        await useMeStore.getState().refresh();
+        socket?.emit('auth', { token: localStorage.getItem('accessToken') });
+        return;
+      }
+
       set({ state: 'WAITING' });
       resolve();
     });
 
     socket.on('connect', async () => {
       set({ socket });
-      socket?.emit('auth', { token: localStorage.getItem('accessToken') });
     });
 
     socket.on('connect_error', (error) => {

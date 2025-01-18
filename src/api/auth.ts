@@ -6,7 +6,8 @@ export const getToken = async (): Promise<ApiResponse<Token>> => {
   return response.data;
 };
 
-export const refreshToken = async (): Promise<ApiResponse<Token>> => {
-  const response: AxiosResponse<ApiResponse<Token>> = await apiClient.post('/api/v1/auth/refresh');
+export const refresh = async ({ refreshToken }: { refreshToken: string })
+: Promise<ApiResponse<Token>> => {
+  const response: AxiosResponse<ApiResponse<Token>> = await apiClient.post('/api/v1/auth/refresh', { refreshToken });
   return response.data;
 };
