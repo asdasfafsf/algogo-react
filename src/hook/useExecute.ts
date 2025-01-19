@@ -3,6 +3,8 @@ import useCodeEditorStore from '../zustand/CodeEditorStore';
 import { useExecuteSocketStore } from '../zustand/ExecuteSocketStore';
 import useAlertModal from './useAlertModal';
 import useCodeResultPanelStore from '../zustand/CodeResultPanelStore';
+import useMeStore from '@zustand/MeStore';
+
 
 export default function useExecute() {
   const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
@@ -31,8 +33,14 @@ export default function useExecute() {
       }],
     };
 
-    if (state === 'DISCONNECTED') {
-      await connect();
+    let currentState = state;
+    if (currentState !== 'WAITING') {
+      currentState = await connect();
+
+      if (currentState === 'TOKEN_EXPIRED') {
+        await useMeStore.getState().refresh();
+      }
+      currentState = await connect();
     }
 
     setOutput({
@@ -40,22 +48,23 @@ export default function useExecute() {
       processTime: 0,
       memory: 0,
       code: '',
-      result: '',
-    });
-    run(requestData, (response) => {
-      if (response.code !== '0000') {
-        setOutput({
-          seq: 0,
-          processTime: 0,
-          memory: 0,
-          code: '',
-          result: response.result,
-        });
-      }
+      result: ''
     });
     execute((executeResult) => {
+      console.log(executeResult)
       setOutput(executeResult);
     });
+    const result = await run(requestData);
+
+    if (result.code === 'JWT_EXPIRED') {
+      await useMeStore.getState().refresh();
+      await connect();
+      await run(requestData);
+      execute((executeResult) => {
+        setOutput(executeResult);
+      });
+    }
+
   }, [setOutput]);
 
   return useMemo(() => ({

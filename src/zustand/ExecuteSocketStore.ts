@@ -2,13 +2,14 @@ import { io, Socket } from 'socket.io-client';
 import { create } from 'zustand';
 import useMeStore from './MeStore';
 
+
+type SocketState = 'PENDING' | 'WAITING' | 'DISCONNECTED' | 'TOKEN_EXPIRED';
 type ExecuteSocketStore = {
   socket: Socket | null;
-  state: 'PENDING' | 'WAITING' | 'DISCONNECTED';
-  connect: () => Promise<void>;
+  state: SocketState;
+  connect: () => Promise<SocketState>;
   disconnect: () => void;
-  run: (data: RequestExecuteList
-    , handler: (response: ResponseExecuteResult) => Promise<void> | void) => Promise<void> | void;
+  run: (data: RequestExecuteList) => Promise<ResponseExecuteResult>;
   execute: (
     handler: (executeResult: ResponseExecuteResult) => Promise<void> | void)
   => Promise<void> | void;
@@ -17,7 +18,7 @@ type ExecuteSocketStore = {
 export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   socket: null,
   state: 'DISCONNECTED',
-  connect: () => new Promise<void>((resolve, reject) => {
+  connect: () => new Promise<SocketState>((resolve, reject) => {
     const url = location.host.replace('5173', '3001');
     const { protocol } = location;
 
@@ -28,15 +29,16 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       transports: ['websocket'],
     });
     socket.on('auth', async (data) => {
-      console.log('auth', data);
-      if (data === 'UNAUTHORIZED') {
-        await useMeStore.getState().refresh();
-        socket?.emit('auth', { token: localStorage.getItem('accessToken') });
-        return;
+      console.log(data)
+      if (data.code !== '0000') {
+        if (data.code === 'JWT_EXPIRED') {
+          socket.disconnect();
+          set({ socket: null, state: 'TOKEN_EXPIRED'});
+          resolve('TOKEN_EXPIRED')
+        }
       }
-
       set({ state: 'WAITING' });
-      resolve();
+      resolve('WAITING');
     });
 
     socket.on('connect', async () => {
@@ -44,48 +46,76 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     });
 
     socket.on('connect_error', (error) => {
+      console.error(error)
       reject(error); // 연결 실패 시 reject 호출
     });
+
+    socket.on('error', (error) => {
+      console.log(error);
+      console.log('오류는여기양')
+
+      socket.emit('execute', error);
+    })
 
     socket.on('disconnect', () => {
       set({ socket: null, state: 'DISCONNECTED' });
     });
 
     socket.connect();
+    socket.emit('auth', { token: localStorage.getItem('accessToken')});
   }),
 
   disconnect: () => {
     const { socket } = get();
     if (socket) {
-      socket.off('execute');
+      set({ socket: null, state: 'DISCONNECTED' });
       socket.disconnect();
     }
   },
 
-  run: async (data, handler) => {
+  run: async (data) => {
+
+
     let { socket } = get();
 
     if (!socket || socket.disconnected) {
       const { connect } = get();
-      await connect();
+      let result = await connect();
+      if (result === 'TOKEN_EXPIRED') {
+        await useMeStore.getState().refresh();
+        result = await connect();
+      }
+
       socket = get().socket;
     }
 
-    if (socket) {
-      set({ state: 'PENDING' });
-      socket.emit('execute', data, async (response: ResponseExecuteResult) => {
-        if (response.code !== '0000') {
-          await handler(response);
+    return new Promise(async (resolve, reject) => {
+      if (socket) {
+        const handleError = async () => {
+          socket.off('error');
+          socket.on('error', (data) => {
+            set({ state: 'WAITING' });
+            resolve(data);
+          });
         }
-        set({ state: 'WAITING' });
-      });
-    }
+
+        set({ state: 'PENDING' });
+        await handleError();
+  
+        socket.emit('execute', data, async (response: ResponseExecuteResult) => {
+          resolve(response);
+          set({ state: 'WAITING' });
+        });
+      }
+    })
+
+
   },
 
   execute: async (handler) => {
     const { socket } = get();
-    if (socket?.connected) {
-      socket.on('executeResult', handler); // 실행 응답을 받아 처리
+    if (!socket?.hasListeners('executeResult')) {
+      socket?.on('executeResult', handler); // 실행 응답을 받아 처리
     }
   },
 }));
