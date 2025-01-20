@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { getMe, updateMe } from '../api/me';
-import { getToken } from '../api/auth';
+import { getToken, refresh } from '../api/auth';
 
 type MeStore = {
   me: Me | null;
@@ -9,6 +9,7 @@ type MeStore = {
   updateMe: (requestUpdateMeDto: RequestUpdateMe) => Promise<void>;
   fetchMe: () => Promise<Me | null>;
   fetchToken: () => Promise<void>,
+  refresh: () => Promise<void>;
   logout: () => void;
 };
 
@@ -55,7 +56,26 @@ export const useMeStore = create<MeStore>((set) => ({
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   },
+  refresh: async () => {
+    const oldRefreshToken = localStorage.getItem('refreshToken');
 
+    if (!oldRefreshToken) {
+      throw new Error('refreshToken이 없습니다.');
+    }
+
+    const param = {
+      refreshToken: oldRefreshToken,
+    } as { refreshToken: string };
+    const response = await refresh(param);
+
+    if (response.statusCode !== 200) {
+      throw new Error(response.errorMessage);
+    }
+
+    const { accessToken, refreshToken } = response.data;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  },
   logout: () => {
     set({ me: null });
     localStorage.removeItem('accessToken');

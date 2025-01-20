@@ -3,11 +3,10 @@ import { create } from 'zustand';
 
 type ExecuteSocketStore = {
   socket: Socket | null;
-  state: 'PENDING' | 'WAITING' | 'DISCONNECTED';
-  connect: () => Promise<void>;
+  state: SocketState;
+  connect: () => Promise<SocketState>;
   disconnect: () => void;
-  run: (data: RequestExecuteList
-    , handler: (response: ResponseExecuteResult) => Promise<void> | void) => Promise<void> | void;
+  run: (data: RequestExecuteList) => Promise<ResponseExecuteResult>;
   execute: (
     handler: (executeResult: ResponseExecuteResult) => Promise<void> | void)
   => Promise<void> | void;
@@ -16,7 +15,9 @@ type ExecuteSocketStore = {
 export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   socket: null,
   state: 'DISCONNECTED',
-  connect: () => new Promise<void>((resolve, reject) => {
+  connect: () => new Promise<SocketState>((resolve, reject) => {
+    get()?.socket?.disconnect();
+
     const url = location.host.replace('5173', '3001');
     const { protocol } = location;
 
@@ -26,14 +27,20 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       autoConnect: false,
       transports: ['websocket'],
     });
-    socket.on('auth', async () => {
+    socket.on('auth', async (data) => {
+      if (data.code !== '0000') {
+        if (data.code === 'JWT_EXPIRED') {
+          socket.disconnect();
+          set({ socket: null, state: 'JWT_EXPIRED' });
+          resolve('JWT_EXPIRED');
+        }
+      }
       set({ state: 'WAITING' });
-      resolve();
+      resolve('WAITING');
     });
 
     socket.on('connect', async () => {
       set({ socket });
-      socket?.emit('auth', { token: localStorage.getItem('accessToken') });
     });
 
     socket.on('connect_error', (error) => {
@@ -45,40 +52,41 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     });
 
     socket.connect();
+    socket.emit('auth', { token: localStorage.getItem('accessToken') });
   }),
 
   disconnect: () => {
-    const { socket } = get();
-    if (socket) {
-      socket.off('execute');
-      socket.disconnect();
-    }
+    get()?.socket?.disconnect();
   },
 
-  run: async (data, handler) => {
-    let { socket } = get();
+  run: async (data) => {
+    const { socket } = get();
 
-    if (!socket || socket.disconnected) {
-      const { connect } = get();
-      await connect();
-      socket = get().socket;
-    }
+    return new Promise((resolve) => {
+      if (socket) {
+        const handleError = async () => {
+          socket.off('error');
+          socket.on('error', (data) => {
+            set({ state: 'WAITING' });
+            resolve(data);
+          });
+        };
 
-    if (socket) {
-      set({ state: 'PENDING' });
-      socket.emit('execute', data, async (response: ResponseExecuteResult) => {
-        if (response.code !== '0000') {
-          await handler(response);
-        }
-        set({ state: 'WAITING' });
-      });
-    }
+        set({ state: 'PENDING' });
+        handleError();
+
+        socket.emit('execute', data, async (response: ResponseExecuteResult) => {
+          resolve(response);
+          set({ state: 'WAITING' });
+        });
+      }
+    });
   },
 
   execute: async (handler) => {
     const { socket } = get();
-    if (socket?.connected) {
-      socket.on('executeResult', handler); // 실행 응답을 받아 처리
+    if (!socket?.hasListeners('executeResult')) {
+      socket?.on('executeResult', handler); // 실행 응답을 받아 처리
     }
   },
 }));
