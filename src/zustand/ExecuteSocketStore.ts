@@ -1,9 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import { create } from 'zustand';
-import useMeStore from './MeStore';
 
-
-type SocketState = 'PENDING' | 'WAITING' | 'DISCONNECTED' | 'TOKEN_EXPIRED';
 type ExecuteSocketStore = {
   socket: Socket | null;
   state: SocketState;
@@ -19,6 +16,8 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   socket: null,
   state: 'DISCONNECTED',
   connect: () => new Promise<SocketState>((resolve, reject) => {
+    get()?.socket?.disconnect();
+
     const url = location.host.replace('5173', '3001');
     const { protocol } = location;
 
@@ -29,12 +28,11 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       transports: ['websocket'],
     });
     socket.on('auth', async (data) => {
-      console.log(data)
       if (data.code !== '0000') {
         if (data.code === 'JWT_EXPIRED') {
           socket.disconnect();
-          set({ socket: null, state: 'TOKEN_EXPIRED'});
-          resolve('TOKEN_EXPIRED')
+          set({ socket: null, state: 'JWT_EXPIRED' });
+          resolve('JWT_EXPIRED');
         }
       }
       set({ state: 'WAITING' });
@@ -46,50 +44,25 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
     });
 
     socket.on('connect_error', (error) => {
-      console.error(error)
       reject(error); // 연결 실패 시 reject 호출
     });
-
-    socket.on('error', (error) => {
-      console.log(error);
-      console.log('오류는여기양')
-
-      socket.emit('execute', error);
-    })
 
     socket.on('disconnect', () => {
       set({ socket: null, state: 'DISCONNECTED' });
     });
 
     socket.connect();
-    socket.emit('auth', { token: localStorage.getItem('accessToken')});
+    socket.emit('auth', { token: localStorage.getItem('accessToken') });
   }),
 
   disconnect: () => {
-    const { socket } = get();
-    if (socket) {
-      set({ socket: null, state: 'DISCONNECTED' });
-      socket.disconnect();
-    }
+    get()?.socket?.disconnect();
   },
 
   run: async (data) => {
+    const { socket } = get();
 
-
-    let { socket } = get();
-
-    if (!socket || socket.disconnected) {
-      const { connect } = get();
-      let result = await connect();
-      if (result === 'TOKEN_EXPIRED') {
-        await useMeStore.getState().refresh();
-        result = await connect();
-      }
-
-      socket = get().socket;
-    }
-
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve) => {
       if (socket) {
         const handleError = async () => {
           socket.off('error');
@@ -97,19 +70,17 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
             set({ state: 'WAITING' });
             resolve(data);
           });
-        }
+        };
 
         set({ state: 'PENDING' });
-        await handleError();
-  
+        handleError();
+
         socket.emit('execute', data, async (response: ResponseExecuteResult) => {
           resolve(response);
           set({ state: 'WAITING' });
         });
       }
-    })
-
-
+    });
   },
 
   execute: async (handler) => {
