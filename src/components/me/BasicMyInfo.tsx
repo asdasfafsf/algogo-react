@@ -18,14 +18,19 @@ export default function BasicMyInfo() {
     handleCancel,
     name,
     handleChangeName,
+    handleChangeProfilePhoto,
   } = useMyInfo();
   return (
     <Card className="p-4">
 
-      <ProfilePhoto isEditable={isEditMode} />
       {isEditMode
         ? (
           <>
+            <ProfilePhoto
+              handleChange={handleChangeProfilePhoto}
+              src={me?.profilePhoto}
+              isEditable={isEditMode}
+            />
             {' '}
             <div className="flex justify-center">
               <Typography variant="h5" className="flex justify-start w-64">기본정보</Typography>
@@ -45,12 +50,15 @@ export default function BasicMyInfo() {
         )
 
         : (
-          <Typography
-            variant="h5"
-            className="flex items-center justify-center my-4"
-          >
-            {me?.name || '이름 없음'}
-          </Typography>
+          <>
+            <ProfilePhoto src={me?.profilePhoto} isEditable={isEditMode} />
+            <Typography
+              variant="h5"
+              className="flex items-center justify-center my-4"
+            >
+              {me?.name || '이름 없음'}
+            </Typography>
+          </>
         )}
 
       {

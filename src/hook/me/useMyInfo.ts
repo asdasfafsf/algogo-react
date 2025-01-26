@@ -5,12 +5,14 @@ import useMeStore from '@zustand/MeStore';
 import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
 import useSocialInputStore from '@zustand/SocialInputStore';
+import { AxiosError } from 'axios';
 
 export default function useMyInfo() {
   const me = useMeStore((state) => state.me);
   const updateMe = useMeStore((state) => state.updateMe);
   const fetchMe = useMeStore((state) => state.fetchMe);
   const [name, setName] = useState(me?.name ?? '');
+  const [profilePhoto, setProfilePhoto] = useState<File>();
 
   useEffect(() => {
     fetchMe();
@@ -46,6 +48,7 @@ export default function useMyInfo() {
 
     const requestUpdateMeDto = {
       name,
+      file: profilePhoto,
       socialList,
     };
 
@@ -53,9 +56,11 @@ export default function useMyInfo() {
       await updateMe(requestUpdateMeDto);
       setEditMode(false);
     } catch (error) {
-      alert('저장 중 오류가 발생했습니다.');
+      if (error instanceof AxiosError) {
+        alert(error?.response?.errorMessage ?? '저장 중 오류가 발생했습니다.');
+      }
     }
-  }, [me, name, updateMe]);
+  }, [me, name, profilePhoto, updateMe]);
 
   const handleCancel = useCallback(() => {
     if (me === null) {
@@ -63,6 +68,7 @@ export default function useMyInfo() {
       return;
     }
 
+    setProfilePhoto(undefined);
     setEditMode((prev) => !prev);
   }, [setEditMode, me]);
 
@@ -72,6 +78,11 @@ export default function useMyInfo() {
     },
     [setName],
   );
+
+  const handleChangeProfilePhoto = useCallback(async (_: unknown, src: File) => {
+    setProfilePhoto(src);
+  }, [setProfilePhoto]);
+
   return {
     me,
     isEditMode,
@@ -80,5 +91,6 @@ export default function useMyInfo() {
     handleCancel,
     name,
     handleChangeName,
+    handleChangeProfilePhoto,
   };
 }
