@@ -15,7 +15,7 @@ interface PromptModalProps {
 export default function PromptModal({ title, defaultValue = '', content }: PromptModalProps) {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
-  const [value, handleChange] = useInput();
+  const { value, handleChange, setValue } = useInput();
 
   const handleOk = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -88,7 +88,19 @@ export default function PromptModal({ title, defaultValue = '', content }: Promp
               placeholder={content}
               value={value}
               onChange={handleChange}
-              icon={<Tooltip content="붙여넣기"><ClipboardDocumentListIcon className="z-10 w-5 h-5 cursor-pointer" /></Tooltip>}
+              icon={(
+                <Tooltip content="붙여넣기">
+                  <div
+                    onClick={async () => {
+                      const text = await navigator.clipboard.readText();
+                      setValue(text);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <ClipboardDocumentListIcon className="z-10 w-5 h-5" />
+                  </div>
+                </Tooltip>
+              )}
             />
           </div>
         </section>
