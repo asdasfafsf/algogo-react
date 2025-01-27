@@ -137,6 +137,7 @@ export default function Button({
       onClick={(e) => {
         if (ripple) handleAnimation(e);
         if (onClick) onClick(e);
+        e.currentTarget.blur();
       }}
       onMouseLeave={onMouseLeave}
       disabled={disabled}
