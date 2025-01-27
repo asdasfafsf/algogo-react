@@ -1,11 +1,6 @@
 import { useCallback, useState, ChangeEvent } from 'react';
 
-type UseInputReturnType = [
-  string,
-  (e: ChangeEvent<HTMLInputElement>) => void | Promise<void>,
-];
-
-export default function useInput(): UseInputReturnType {
+export default function useInput() {
   const [value, setValue] = useState<string>('');
 
   const handleChange = useCallback(
@@ -15,5 +10,5 @@ export default function useInput(): UseInputReturnType {
     [],
   );
 
-  return [value, handleChange];
+  return { value, handleChange, setValue };
 }
