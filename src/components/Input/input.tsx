@@ -63,7 +63,7 @@ export default function Input({
       </label>
       )}
       {icon && (
-        <span className="absolute z-10 -translate-y-1/2 pointer-events-none right-3 top-1/2">
+        <span className="absolute z-10 -translate-y-1/2 right-3 top-1/2">
           {icon}
         </span>
       )}
