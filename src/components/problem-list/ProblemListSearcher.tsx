@@ -7,6 +7,9 @@ import useProblemListSearcher from '@hook/problem-list/useProblemListSearcher';
 export default function ProblemListSearcher() {
   const {
     inputRef,
+    handleFocus,
+    handleBlur,
+    handleKeyUp,
     handleChangeProblemTitle,
     handleClickSearch,
   } = useProblemListSearcher();
@@ -18,6 +21,9 @@ export default function ProblemListSearcher() {
       <div className="w-full md:w-72">
         <Input
           ref={inputRef}
+          onKeyUp={handleKeyUp}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           onChange={handleChangeProblemTitle}
           label="제목"
           icon={<MagnifyingGlassIcon className="w-5 h-5" />}

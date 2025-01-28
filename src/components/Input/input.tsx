@@ -53,6 +53,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
     }
   };
 
+
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (props.onKeyUp) {
+      props.onKeyUp(e)
+    }
+  }
   const isFilled = props.value !== undefined ? !!props.value : !!inputValue;
 
   return (
@@ -60,14 +67,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
       <input
         type={type}
         id={id}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
         name={name}
         className={`${className} block w-full px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer text-center md:text-left ${className}`}
         placeholder=" "
         {...props}
         ref={ref ?? inputRef}
         onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeyUp={handleKeyUp}
       />
 
       {label && (
