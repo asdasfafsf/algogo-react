@@ -1,23 +1,21 @@
 import { create } from 'zustand';
 
 type ProblemTableFilterStore = {
+  problemTitle: string;
   problemOptionList: ProblemOption[];
   problemSort: ProblemSort;
-  problemCurrentPageNo: number;
+  setProblemTitle: (
+    problemSort: string | ((prev: string) => string)) => void;
   setProblemOptionList: (
     problemOptionList: ProblemOption[] | ((prev: ProblemOption[]) => ProblemOption[])) => void;
   setProblemSort: (
     problemSort: ProblemSort | ((prev: ProblemSort) => ProblemSort)) => void;
-
 };
 
 export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) => ({
   problemOptionList: [],
-  problemCurrentPageNo: 1,
-  problemSort: {
-    name: '',
-    value: 1,
-  } as ProblemSort,
+  problemSort: 0 as ProblemSort,
+  problemTitle: '',
   setProblemOptionList: (problemOptionList) => set((state) => ({
     problemOptionList: typeof problemOptionList === 'function'
       ? problemOptionList(state.problemOptionList)
@@ -28,6 +26,9 @@ export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) 
       ? problemSort(state.problemSort)
       : problemSort,
   })),
+  setProblemTitle: (problemTitle) => set((state) => ({
+    problemTitle: typeof problemTitle === 'function'
+      ? problemTitle(state.problemTitle)
+      : problemTitle,
+  })),
 }));
-
-export default useProblemTableFilterStore;

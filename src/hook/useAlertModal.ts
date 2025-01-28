@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import useModal from '../plugins/modal/useModal';
-import AlertModal from '../organism/AlertModal';
+import useModal from '@plugins/modal/useModal';
+import AlertModal from '@components/modal/AlertModal';
 
 export default function useAlertModal() {
   const modal = useModal();

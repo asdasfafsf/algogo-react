@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface ModalInfo {
   key: string;
-  Component: React.FC<any>;
+  Component: React.FC<any> | null;
   props: unknown;
   resolve: (value: any) => void;
   reject: (value: any) => void;
@@ -21,6 +21,18 @@ export default class ModalController {
   private flush() {
     const setFlag = this.flagState[1];
     setFlag((prev) => prev + 1);
+  }
+
+  list() {
+    return this.modalInfos;
+  }
+
+  remove(key: string) {
+    const target = this.modalInfos.find((elem) => elem.key !== key);
+    if (target) {
+      this.flush();
+    }
+    this.modalInfos = this.modalInfos.filter((elem) => elem.key !== key);
   }
 
   top() {
@@ -46,7 +58,7 @@ export default class ModalController {
     this.flush();
   }
 
-  async push(key: string, Component: React.FC<any>, props: unknown) {
+  async push(key: string, Component: React.FC<any> | null, props: unknown) {
     return new Promise((resolve, reject) => {
       this.modalInfos.push({
         key,

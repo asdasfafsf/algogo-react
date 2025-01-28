@@ -3,74 +3,90 @@ import { create } from 'zustand';
 
 type ExecuteSocketStore = {
   socket: Socket | null;
-  connect: (url: string) => Promise<void>;
+  state: SocketState;
+  connect: () => Promise<SocketState>;
   disconnect: () => void;
-  execute: (data: any, callback: (response: any) => void) => Promise<void>;
-  setMessageHandler: (handler: (response: any) => void) => void;
+  run: (data: RequestExecuteList) => Promise<ResponseExecuteResult>;
+  execute: (
+    handler: (executeResult: ResponseExecuteResult) => Promise<void> | void)
+  => Promise<void> | void;
 };
 
 export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   socket: null,
+  state: 'DISCONNECTED',
+  connect: () => new Promise<SocketState>((resolve, reject) => {
+    get()?.socket?.disconnect();
 
-  connect: (url: string) => new Promise<void>((resolve, reject) => {
-    const socket = io(url, {
-      autoConnect: true,
+    const url = location.host.replace('5173', '3001');
+    const { protocol } = location;
+
+    const wsUrl = protocol === 'http:' ? `ws://${url}` : `wss://${url}`;
+
+    const socket = io(wsUrl, {
+      autoConnect: false,
       transports: ['websocket'],
-      extraHeaders: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+    });
+    socket.on('auth', async (data) => {
+      if (data.code !== '0000') {
+        if (data.code === 'JWT_EXPIRED') {
+          socket.disconnect();
+          set({ socket: null, state: 'JWT_EXPIRED' });
+          resolve('JWT_EXPIRED');
+        }
+      }
+      set({ state: 'WAITING' });
+      resolve('WAITING');
     });
 
-    console.log(`Bearer ${localStorage.getItem('accessToken')}`);
-    socket.on('connect', () => {
+    socket.on('connect', async () => {
       set({ socket });
-      console.log('socket connected');
-      resolve(); // 연결 성공 시 resolve 호출
     });
 
     socket.on('connect_error', (error) => {
-      console.error('Socket connection error:', error);
       reject(error); // 연결 실패 시 reject 호출
     });
 
     socket.on('disconnect', () => {
-      set({ socket: null });
-      console.log('socket disconnected');
+      set({ socket: null, state: 'DISCONNECTED' });
     });
+
+    socket.connect();
+    socket.emit('auth', { token: localStorage.getItem('accessToken') });
   }),
 
   disconnect: () => {
-    const { socket } = get();
-    if (socket) {
-      socket.disconnect();
-      set({ socket: null });
-      console.log('WebSocket 연결 해제됨');
-    }
+    get()?.socket?.disconnect();
   },
 
-  execute: async (data, callback) => {
-    let { socket } = get();
+  run: async (data) => {
+    const { socket } = get();
 
-    if (!socket) {
-      console.log('Socket is not connected, trying to connect...');
-      await get().connect('ws://localhost:3001'); // 연결 시도
-      socket = get().socket;
-    }
+    return new Promise((resolve) => {
+      if (socket) {
+        const handleError = async () => {
+          socket.off('error');
+          socket.on('error', (data) => {
+            set({ state: 'WAITING' });
+            resolve(data);
+          });
+        };
 
-    if (socket) {
-      console.log('execute');
-      socket.send('execute', data, (response: any) => {
-        console.log(response);
-        callback(response);
-      });
-    }
+        set({ state: 'PENDING' });
+        handleError();
+
+        socket.emit('execute', data, async (response: ResponseExecuteResult) => {
+          resolve(response);
+          set({ state: 'WAITING' });
+        });
+      }
+    });
   },
 
-  setMessageHandler: (handler: (response: any) => void) => {
+  execute: async (handler) => {
     const { socket } = get();
-    if (socket) {
-      socket.on('executeResponse', handler); // 실행 응답을 받아 처리
+    if (!socket?.hasListeners('executeResult')) {
+      socket?.on('executeResult', handler); // 실행 응답을 받아 처리
     }
   },
 }));

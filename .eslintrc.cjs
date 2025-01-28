@@ -29,5 +29,9 @@ module.exports = {
       'no-param-reassign': 'off',
       'no-restricted-globals': 'off',
       'react/no-array-index-key': 'off',
+      'react/jsx-props-no-multi-spaces': 'off',
+      'react/no-array-index-key': 'off',
+      'jsx-a11y/control-has-associated-label': 'off',
+      'jsx-a11y/label-has-associated-control': 'off',
   }
 }

@@ -1,29 +1,29 @@
 import { create } from 'zustand';
-import * as defaultCodeFromLanguage from '../constant/Code';
-
-type CodeFromLanguage = {
-  [key in MonacoEditorLanguage]: string
-};
+import { defaultCodeFromLanguage } from '../constant/Code';
 
 type EditorStore = {
-  language: MonacoEditorLanguage;
-  setLanguage: (language: MonacoEditorLanguage) => void | Promise<void>
+  language: Language;
+  setLanguage: (language: Language) => void | Promise<void>
   code: string
   setCode: (code: string) => void | Promise<void>
   codeFromLanguage: CodeFromLanguage
-  updateCodeFromLanguage: (languge: MonacoEditorLanguage, code: string) => void | Promise<void>
+  updateCodeFromLanguage: (languge: Language, code: string) => void | Promise<void>
   input: string,
   setInput: (input: string) => void | Promise<void>
-  output: string,
-  setOutput: (output: string) => void | Promise<void>
+  output: ResponseExecuteResult,
+  setOutput: (output: ResponseExecuteResult) => void | Promise<void>
+  settings: CodeEditorSettings,
+  setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
 };
 
 export const useCodeEditorStore = create<EditorStore>((set) => ({
-  code: defaultCodeFromLanguage.cpp,
+  code: defaultCodeFromLanguage['C++'],
   setCode: (code: string) => set({ code }),
-  language: 'cpp',
-  setLanguage: (language: MonacoEditorLanguage) => set({ language }),
-  codeFromLanguage: { ...defaultCodeFromLanguage },
+  language: 'C++' as Language,
+  setLanguage: (language: Language) => set({ language }),
+  codeFromLanguage: {
+    ...defaultCodeFromLanguage,
+  },
   updateCodeFromLanguage: (languge, code) => set((state) => {
     const { codeFromLanguage } = state;
     codeFromLanguage[languge] = code;
@@ -31,8 +31,29 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
   }),
   input: '',
   setInput: (input: string) => set({ input }),
-  output: '',
-  setOutput: (output: string) => set({ output }),
+  output: {
+    seq: 0,
+    processTime: 0,
+    memory: 0,
+    code: '',
+    result: '',
+  },
+  setOutput: (output: ResponseExecuteResult) => set({ output }),
+  settings: {
+    theme: 'vs-dark',
+    fontSize: 14,
+    tabSize: 4,
+    lineNumber: 'on',
+  },
+  setSettings: (updator) => {
+    if (typeof updator === 'function') {
+      set((state) => ({
+        settings: (updator(state.settings)) as CodeEditorSettings,
+      }));
+    } else {
+      set({ settings: updator });
+    }
+  },
 }));
 
 export default useCodeEditorStore;

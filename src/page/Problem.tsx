@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PROBLEM_HEADER_HEIGHT } from '../constant/Size';
-import ProblemFooter from '../template/ProblemFooter';
-import ProblemHeader from '../template/ProblemHeader';
-import ProblemSection from '../template/ProblemSection';
-import useTestCaseListStore from '../zustand/TestCaseListStore';
-import useExecuteResultListStore from '../zustand/ExecuteResultListStore';
-import { getProblem } from '../api/problems';
+import useTestCaseListStore from '@zustand/TestCaseListStore';
+import { PROBLEM_HEADER_HEIGHT } from '@constant/Size';
+import useExecuteResultListStore from '@zustand/ExecuteResultListStore';
+import { getProblem } from '@api/problems';
+import ProblemSection from '@layout/problem/ProblemSection';
+import ProblemHeader from '@layout/problem/ProblemHeader';
+import ProblemFooter from '@layout/problem/ProblemFooter';
 
 export default function ProblemPage() {
   const [problem, setProblem] = useState<ResponseProblem>();
@@ -24,7 +24,7 @@ export default function ProblemPage() {
     const problem = response.data;
     setProblem(problem);
     setTestCaseList(problem.inputOutputList.map(({ input, output }) => ({
-      input, output, readOnly: true,
+      input, output: '', expected: output, readOnly: true, state: '실행 전',
     })));
     setExecuteResultList(problem.inputOutputList.map(({ input, output }) => ({
       input, output: '', expected: output, state: '실행 전',

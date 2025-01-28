@@ -16,3 +16,9 @@ export const getProblem = async (problemUuid: string): Promise<ApiResponse<Respo
   const problem = response.data;
   return problem;
 };
+
+export const collectProblem = async (param: { url: string }): Promise<ApiResponse<string>> => {
+  const response: AxiosResponse<ApiResponse<string>> = await apiClient.post('/api/v1/problems/collect', param);
+  const uuid = response.data;
+  return uuid;
+};

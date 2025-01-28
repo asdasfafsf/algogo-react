@@ -1,14 +1,15 @@
 import { create } from 'zustand';
-import { getMe } from '../api/me';
-import { getToken } from '../api/auth';
+import { getMe, updateMe } from '../api/me';
+import { getToken, refresh } from '../api/auth';
 
 type MeStore = {
   me: Me | null;
   setMe: (me: Me | null) => void;
   isLogin: () => Promise<boolean>;
-  updateMe: () => Promise<void>;
+  updateMe: (requestUpdateMeDto: RequestUpdateMe) => Promise<void>;
   fetchMe: () => Promise<Me | null>;
   fetchToken: () => Promise<void>,
+  refresh: () => Promise<void>;
   logout: () => void;
 };
 
@@ -24,20 +25,10 @@ export const useMeStore = create<MeStore>((set) => ({
 
     return true;
   },
-  updateMe: async () => {
-    const meString = localStorage.getItem('me');
-    let me;
-    if (meString) {
-      me = JSON.parse(meString);
-    } else {
-      const response = await getMe();
-      if (response.statusCode === 200) {
-        me = response.data;
-      } else {
-        me = null;
-      }
-    }
-
+  updateMe: async (requestUpdateMeDto: RequestUpdateMe) => {
+    const response = await updateMe(requestUpdateMeDto);
+    const { data } = response;
+    const me = data;
     set({ me });
   },
   fetchMe: async () => {
@@ -65,7 +56,26 @@ export const useMeStore = create<MeStore>((set) => ({
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   },
+  refresh: async () => {
+    const oldRefreshToken = localStorage.getItem('refreshToken');
 
+    if (!oldRefreshToken) {
+      throw new Error('refreshToken이 없습니다.');
+    }
+
+    const param = {
+      refreshToken: oldRefreshToken,
+    } as { refreshToken: string };
+    const response = await refresh(param);
+
+    if (response.statusCode !== 200) {
+      throw new Error(response.errorMessage);
+    }
+
+    const { accessToken, refreshToken } = response.data;
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  },
   logout: () => {
     set({ me: null });
     localStorage.removeItem('accessToken');

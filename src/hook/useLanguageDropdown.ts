@@ -2,31 +2,37 @@ import { useCallback, useState } from 'react';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 
 export default function useLanguageDropdown() {
-  const languageList: Language[] = ['C++', 'Node.js', 'Java 11', 'Python 3'];
+  const languageList: Language[] = ['C++', 'Node.js', 'Java', 'Python'];
   const languageMap: LanguageView = {
-    'Node.js': 'javascript',
-    'C++': 'cpp',
-    'Java 11': 'java',
-    'Python 3': 'python',
+    'Node.js': 'Node.js',
+    'C++': 'C++',
+    Java: 'Java',
+    Python: 'Python',
   };
+  const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const {
-    setCode, setLanguage, codeFromLanguage,
-  } = useCodeEditorStore((state) => ({
-    setLanguage: state.setLanguage,
-    setCode: state.setCode,
-    codeFromLanguage: state.codeFromLanguage,
-  }));
+  const setCode = useCodeEditorStore((state) => state.setCode);
+  const setLanguage = useCodeEditorStore((state) => state.setLanguage);
+  const codeFromLanguage = useCodeEditorStore((state) => state.codeFromLanguage);
 
   const handleUpdate = useCallback((
-    _e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    _e: React.MouseEvent,
     index: number,
   ) => {
     const selectedLanguage = languageMap[languageList[index]];
     setCode(`${codeFromLanguage[selectedLanguage]}`);
     setLanguage(selectedLanguage);
     setSelectedIndex(index);
-  }, [selectedIndex, codeFromLanguage, setCode, setLanguage]);
+    setOpen(false);
+  }, [codeFromLanguage, setCode, setLanguage, setOpen]);
 
-  return [selectedIndex, languageList, handleUpdate] as const;
+  const handler = useCallback(() => setOpen((open) => !open), [setOpen]);
+
+  return {
+    open,
+    selectedIndex,
+    languageList,
+    handleUpdate,
+    handler,
+  };
 }

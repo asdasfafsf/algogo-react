@@ -1,12 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import useModal from '../plugins/modal/useModal';
 import { useTestCaseListStore } from '../zustand/TestCaseListStore';
-import { useExecuteResultListStore } from '../zustand/ExecuteResultListStore';
 
 export default function useTestCase() {
   const modal = useModal();
-  const { testCaseList, setTestCaseList } = useTestCaseListStore((state) => state);
-  const { executeResultList, setExecuteResultList } = useExecuteResultListStore((state) => state);
+  const testCaseList = useTestCaseListStore((state) => state.testCaseList);
+  const setTestCaseList = useTestCaseListStore((state) => state.setTestCaseList);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -33,64 +32,52 @@ export default function useTestCase() {
   }, [modal]);
 
   const handleClickAddTestCase = useCallback(() => {
-    const newTestCaseList = [...testCaseList, {
-      input: '',
-      output: '',
-      readOnly: false,
-    }];
-    const newExecuteResultList = [...executeResultList, {
+    const newTestCase: TestCase = {
       input: '',
       output: '',
       expected: '',
-      state: Math.random() > 0.5 ? '일치' : '불일치',
-    } as ExecuteResult];
+      state: '실행 전',
+      readOnly: false,
+    };
+
+    const newTestCaseList = [...testCaseList.map((elem) => {
+      const newElem = { ...elem };
+      elem.expected = '실행 전';
+      return newElem;
+    }), newTestCase];
+
     setTestCaseList(newTestCaseList);
-    setExecuteResultList(newExecuteResultList);
-  }, [testCaseList]);
-
-  const handleClickTest = useCallback(() => {
-
   }, [testCaseList]);
 
   const removeTestCase = useCallback((testCaseIndex: number) => {
     const newTestCaseList = testCaseList.filter((_e, index) => testCaseIndex !== index);
-    const newExecuteResultList = executeResultList.filter((_e, index) => testCaseIndex !== index);
-
     setTestCaseList(newTestCaseList);
-    setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
 
   const handleClickClose = useCallback(() => {
     modal.top()?.resolve(false);
   }, [modal]);
 
-  const handleInputChange = useCallback((index:number, value: string) => {
+  const handleChangeInput = useCallback((index:number, value: string) => {
     const newTestCaseList = [...testCaseList];
-    const newExecuteResultList = [...executeResultList];
-
     newTestCaseList[index].input = value;
-    newExecuteResultList[index].input = value;
-
+    newTestCaseList[index].state = '실행 전';
     setTestCaseList(newTestCaseList);
-    setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
 
-  const handleOutputChange = useCallback((index:number, value: string) => {
+  const handleChangeOutput = useCallback((index:number, value: string) => {
     const newTestCaseList = [...testCaseList];
-    const newExecuteResultList = [...executeResultList];
-
-    newTestCaseList[index].output = value;
-    newExecuteResultList[index].output = value;
-
+    newTestCaseList[index].expected = value;
+    newTestCaseList[index].state = '실행 전';
     setTestCaseList(newTestCaseList);
-    setExecuteResultList(newExecuteResultList);
   }, [testCaseList]);
 
-  return [testCaseList,
+  return {
+    testCaseList,
     handleClickAddTestCase,
-    handleClickTest,
     removeTestCase,
     handleClickClose,
-    handleInputChange,
-    handleOutputChange] as const;
+    handleChangeInput,
+    handleChangeOutput,
+  };
 }
