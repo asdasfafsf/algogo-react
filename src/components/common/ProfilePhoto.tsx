@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PencilIcon } from '@heroicons/react/24/outline';
 
 interface ProfilePhotoProps {
   size?: 'default' | 'mini' | 'large';
   className?: string;
   isEditable: boolean;
+  src?: string;
+  handleChange?: (_: unknown, src: File) => void | Promise<void>
 }
 
 const sizeClasses = {
@@ -17,9 +19,17 @@ export default function ProfilePhoto({
   size = 'default',
   className = '',
   isEditable = false,
+  src,
+  handleChange = () => {},
 }: ProfilePhotoProps) {
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (src) {
+      setImage(src);
+    }
+  }, [src]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -27,6 +37,7 @@ export default function ProfilePhoto({
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
+        handleChange(e, file);
       };
       reader.readAsDataURL(file);
     }

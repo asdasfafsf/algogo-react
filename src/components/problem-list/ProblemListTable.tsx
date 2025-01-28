@@ -12,14 +12,17 @@ import {
   PROBLEM_SORT_TITLE_DESC,
 } from '../../constant/ProblemSort';
 import ProblemListTableSkeleton from './ProblemListTableSkeleton';
+import { Button } from '../Button';
 
 export default function ProblemListTable() {
   const {
+    isSearching,
     isFetching,
     problemList,
     problemSort,
     handleClickProblem,
     handleClickProblemTh,
+    handleClickProblemCollectModal,
   } = useProblemListTable();
 
   return (
@@ -73,49 +76,86 @@ export default function ProblemListTable() {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {problemList?.map((elem) => (
-                <tr
-                  key={elem.uuid}
-                  className="h-16 border-b border-gray-300"
-                >
-                  <td className="flex items-center justify-center h-16 pl-4 ">
-                    <ProblemStateChip state={0} value="" />
-                  </td>
-                  <td
-                    onClick={(e) => handleClickProblem(e, elem.uuid)}
-                    className=" pl-12 min-w-[400px] cursor-pointer"
-                  >
-                    <Typography className="text-gray-700 " variant="medium" weight="semilight">
-                      {elem.title}
-                    </Typography>
-                  </td>
-                  <td className="">
-                    <div className="flex items-center justify-left">
-                      <ProblemLevelChip level={elem.levelText as unknown as ProblemLevel} />
-                    </div>
-                  </td>
-                  <td>
-                    <Typography className="text-gray-700 " variant="medium" weight="semilight">
-                      {elem.answerRate}
-                      {' '}
-                      %
-                    </Typography>
-                  </td>
-                  <td>
-                    <Typography className="text-gray-700 " variant="medium" weight="semilight">
-                      {elem.submitCount}
-                    </Typography>
-                  </td>
-                  <td>
-                    <Typography className="text-gray-700 " variant="medium" weight="semilight">
-                      <LinkIcon className="w-4 h-4" />
-                    </Typography>
-                  </td>
-                </tr>
-              ))}
 
-            </tbody>
+            {problemList.length === 0
+              ? (
+                <tbody className="w-full">
+                  <tr className="h-[720px] items-center justify-center">
+                    <td colSpan={5} rowSpan={5} className="w-full h-full">
+                      <div className="flex w-full h-full justify-center items-center">
+                        <div>
+
+                          <Typography
+                            className="flex items-center justify-center"
+                            weight="semilight"
+                            color="gray"
+                            variant="medium"
+                          >
+                            찾으시는 문제가 없나요? URL을 입력해 문제를 추가해보세요!
+                          </Typography>
+                          <div className="h-2" />
+                          <div className="flex items-center justify-center">
+                            <Button
+                              disabled={isSearching}
+                              onClick={handleClickProblemCollectModal}
+                              color="blue"
+                            >
+                              문제 추가하기
+                            </Button>
+                          </div>
+
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              )
+
+              : (
+                <tbody className="w-full">
+                  {problemList?.map((elem) => (
+                    <tr
+                      key={elem.uuid}
+                      className="h-16 border-b border-gray-300"
+                    >
+                      <td className="flex items-center justify-center h-16 pl-4 ">
+                        <ProblemStateChip state={0} value="" />
+                      </td>
+                      <td
+                        onClick={(e) => handleClickProblem(e, elem.uuid)}
+                        className=" pl-12 min-w-[400px] cursor-pointer"
+                      >
+                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                          {elem.title}
+                        </Typography>
+                      </td>
+                      <td className="">
+                        <div className="flex items-center justify-left">
+                          <ProblemLevelChip level={elem.levelText as unknown as ProblemLevel} />
+                        </div>
+                      </td>
+                      <td>
+                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                          {elem.answerRate}
+                          {' '}
+                          %
+                        </Typography>
+                      </td>
+                      <td>
+                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                          {elem.submitCount}
+                        </Typography>
+                      </td>
+                      <td>
+                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                          <LinkIcon className="w-4 h-4" />
+                        </Typography>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              )}
+
           </table>
         </div>
       )

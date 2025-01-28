@@ -18,7 +18,7 @@ export default React.memo(() => {
     handler,
   } = useProbleTypeDropdown();
 
-  const [filterValue, handleChange] = useInput();
+  const { value: filterValue, handleChange } = useInput();
   return (
     <Dropdown
       open={open}

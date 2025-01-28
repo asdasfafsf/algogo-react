@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   PROBLEM_SORT_DEFAULT,
   PROBLEM_SORT_ANSWER_RATE_ASC,
@@ -12,12 +12,21 @@ import {
 } from '@constant/ProblemSort';
 import { useProblemListStore } from '@zustand/ProblemListStore';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
+import { collectProblem } from '@api/problems';
 import useDidMountEffect from '../useDidMount';
+import usePromptModal from '../modal/usePromptModal';
+import useAlertModal from '../useAlertModal';
+import useConfirmModal from '../useConfirmModal';
 
 export default function useProblemListTable() {
   const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
   const problemSort = useProblemTableFilterStore((state) => state.problemSort);
   const setProblemSort = useProblemTableFilterStore((state) => state.setProblemSort);
+  const [prompt] = usePromptModal();
+  const [alert] = useAlertModal();
+  const [confirm] = useConfirmModal();
+
+  const [isSearching, setSearching] = useState(false);
 
   const {
     isFetching,
@@ -84,11 +93,46 @@ export default function useProblemListTable() {
     [],
   );
 
+  const handleClickProblemCollectModal = useCallback(async () => {
+    setSearching(true);
+    const res = await prompt('URL을 입력하세요', false, 'URL 입력');
+
+    if (res === false) {
+      setSearching(false);
+      return;
+    }
+
+    const url = res as string;
+
+    if (!url.includes('https://www.acmicpc.net/problem/')) {
+      await alert('지원하지 않는 사이트의 url입니다.');
+      setSearching(false);
+      return;
+    }
+
+    const collectResult = await collectProblem({ url });
+
+    if (collectResult.errorCode !== '0000') {
+      await alert(collectResult.errorMessage);
+      setSearching(false);
+      return;
+    }
+
+    const isOk = await confirm('추가가 완료되었습니다. 새 페이지로 이동할까요?');
+    if (isOk) {
+      window.open(`/problem/${collectResult.data}`);
+    }
+
+    setSearching(false);
+  }, [setSearching]);
+
   return {
+    isSearching,
     isFetching,
     problemList,
     problemSort,
     handleClickProblem,
     handleClickProblemTh,
+    handleClickProblemCollectModal,
   };
 }
