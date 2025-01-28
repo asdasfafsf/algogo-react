@@ -1,5 +1,5 @@
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useProblemListStore } from '@zustand/ProblemListStore';
 import useModal from '@plugins/modal/useModal';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -47,7 +47,7 @@ export default function useProblemListSearcher() {
 
   useHotkeys(
     'mod+k',
-    (event) => {
+    () => {
       if (!modal?.top()?.Component && !focus) {
         inputRef.current?.focus();
       }

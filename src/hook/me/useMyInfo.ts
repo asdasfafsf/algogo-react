@@ -57,7 +57,7 @@ export default function useMyInfo() {
       setEditMode(false);
     } catch (error) {
       if (error instanceof AxiosError) {
-        alert(error?.response?.errorMessage ?? '저장 중 오류가 발생했습니다.');
+        alert('저장 중 오류가 발생했습니다.');
       }
     }
   }, [me, name, profilePhoto, updateMe]);
