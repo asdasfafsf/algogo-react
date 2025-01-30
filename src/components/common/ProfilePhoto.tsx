@@ -5,8 +5,8 @@ interface ProfilePhotoProps {
   size?: 'default' | 'mini' | 'large';
   className?: string;
   isEditable: boolean;
-  src?: string;
-  handleChange?: (_: unknown, src: File) => void | Promise<void>
+  src: string;
+  handleChange?: (_: unknown, src: File, b64: string) => void | Promise<void>
 }
 
 const sizeClasses = {
@@ -33,13 +33,17 @@ export default function ProfilePhoto({
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    
+    if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
-        handleChange(e, file);
+        handleChange(e, file, (reader.result as string).toString());
+        e.target.value = '';
       };
       reader.readAsDataURL(file);
+    } else {
+      alert("이미지 파일만 업로드 가능합니다.");
     }
   };
 
@@ -61,7 +65,7 @@ export default function ProfilePhoto({
           onClick={handleImageClick}
         >
           {image ? (
-            <img src={image} alt="Profile" className="object-cover w-full h-full" />
+            <img src={src} alt="Profile" className="object-cover w-full h-full" />
           ) : (
             <div className="text-gray-500">No Image</div>
           )}
@@ -80,6 +84,7 @@ export default function ProfilePhoto({
       </div>
       <input
         type="file"
+        accept='image/*'
         ref={fileInputRef}
         onChange={handleImageChange}
         className="hidden"

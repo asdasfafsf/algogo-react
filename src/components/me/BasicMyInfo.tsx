@@ -13,6 +13,7 @@ export default function BasicMyInfo() {
   const {
     me,
     isEditMode,
+    image,
     handleEditMode,
     handleSave,
     handleCancel,
@@ -28,8 +29,8 @@ export default function BasicMyInfo() {
           <>
             <ProfilePhoto
               handleChange={handleChangeProfilePhoto}
-              src={me?.profilePhoto}
-              isEditable={isEditMode}
+              src={image}
+              isEditable={true}
             />
             {' '}
             <div className="flex justify-center">
@@ -51,7 +52,10 @@ export default function BasicMyInfo() {
 
         : (
           <>
-            <ProfilePhoto src={me?.profilePhoto} isEditable={isEditMode} />
+            <ProfilePhoto 
+              src={image} 
+              isEditable={false} 
+              />
             <Typography
               variant="h5"
               className="flex items-center justify-center my-4"

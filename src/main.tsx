@@ -24,7 +24,8 @@ const root = ReactDOM.createRoot(document.getElementById('root')!);
 
 // 개발 환경에서만 StrictMode 적용
 if (process.env.NODE_ENV === 'development') {
-  root.render(<React.StrictMode>{RootComponent}</React.StrictMode>);
+  root.render(RootComponent);
+  // root.render(<React.StrictMode>{RootComponent}</React.StrictMode>);
 } else {
   root.render(RootComponent);
 }
