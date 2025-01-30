@@ -13,9 +13,15 @@ export default function useMyInfo() {
   const fetchMe = useMeStore((state) => state.fetchMe);
   const [name, setName] = useState(me?.name ?? '');
   const [profilePhoto, setProfilePhoto] = useState<File>();
+  const [image, setImage] = useState<string>(me?.profilePhoto ?? '');
 
   useEffect(() => {
-    fetchMe();
+    fetchMe()
+      .then(me => {
+        if (me) {
+          setImage(me.profilePhoto ?? '');
+        }
+      })
   }, []);
 
   const [confirm] = useConfirmModal();
@@ -53,12 +59,19 @@ export default function useMyInfo() {
     };
 
     try {
-      await updateMe(requestUpdateMeDto);
-      setEditMode(false);
+      const res = await updateMe(requestUpdateMeDto);
+      setImage(res.data?.profilePhoto ?? '');
+      if (res.errorCode !== '0000') {
+        setImage(me.profilePhoto ?? '')
+        alert(res.errorMessage);
+      }
     } catch (error) {
+      setImage(me.profilePhoto ?? '')
       if (error instanceof AxiosError) {
         alert('저장 중 오류가 발생했습니다.');
       }
+    } finally {
+      setEditMode(false);
     }
   }, [me, name, profilePhoto, updateMe]);
 
@@ -68,6 +81,7 @@ export default function useMyInfo() {
       return;
     }
 
+    setImage(me.profilePhoto ?? '')
     setProfilePhoto(undefined);
     setEditMode((prev) => !prev);
   }, [setEditMode, me]);
@@ -79,13 +93,15 @@ export default function useMyInfo() {
     [setName],
   );
 
-  const handleChangeProfilePhoto = useCallback(async (_: unknown, src: File) => {
+  const handleChangeProfilePhoto = useCallback(async (_: unknown, src: File, b64: string) => {
     setProfilePhoto(src);
+    setImage(b64)
   }, [setProfilePhoto]);
 
   return {
     me,
     isEditMode,
+    image,
     handleEditMode,
     handleSave,
     handleCancel,

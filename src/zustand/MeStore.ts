@@ -6,14 +6,14 @@ type MeStore = {
   me: Me | null;
   setMe: (me: Me | null) => void;
   isLogin: () => Promise<boolean>;
-  updateMe: (requestUpdateMeDto: RequestUpdateMe) => Promise<void>;
+  updateMe: (requestUpdateMeDto: RequestUpdateMe) => Promise<ApiResponse<Me | null>>;
   fetchMe: () => Promise<Me | null>;
   fetchToken: () => Promise<void>,
   refresh: () => Promise<void>;
   logout: () => void;
 };
 
-export const useMeStore = create<MeStore>((set) => ({
+export const useMeStore = create<MeStore>((set, get) => ({
   me: null,
   setMe: (me: Me | null) => set({ me }),
   isLogin: async () => {
@@ -27,9 +27,17 @@ export const useMeStore = create<MeStore>((set) => ({
   },
   updateMe: async (requestUpdateMeDto: RequestUpdateMe) => {
     const response = await updateMe(requestUpdateMeDto);
-    const { data } = response;
-    const me = data;
-    set({ me });
+    
+    if (response.errorCode === '0000') {
+      const { data } = response;
+      const me = data;
+      set({ me });
+    } else {
+      const { me } = get();
+      set({ me });
+    }
+    
+    return response;
   },
   fetchMe: async () => {
     try {
