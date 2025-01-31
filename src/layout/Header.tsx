@@ -12,15 +12,10 @@ export default function Header() {
   const { me } = meStore;
 
   return (
-    <header className="w-screen">
-      <div className="flex items-center justify-center pt-4">
+    <header className="w-full">
+      <div className="w-full flex items-center justify-center pt-4">
         <div className="container flex items-center justify-between h-12 max-w-screen-xl p-4">
           <div className="flex items-center gap-1">
-            {/* <img
-                className="w-12 h-12"
-                alt="Logo"
-                src="/Logo.webp"
-              /> */}
             <Typography
               className="relative top-1 font-WavvePADO-Regular"
               variant="h2"
@@ -55,7 +50,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="container flex items-center justify-center w-full max-w-screen-xl">
+      <div className="flex items-center justify-center w-full">
         <Navbar>
           <NavbarItem
             onClick={() => {}}
