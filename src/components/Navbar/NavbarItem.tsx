@@ -13,10 +13,10 @@ export default function NavbarItem({
   return (
     <li
       onClick={onClick}
-      className={`${!isSelected ? 'hidden' : ''} w-screen`}
+      className={`${!isSelected ? 'hidden' : ''} w-full`}
     >
-      <ul className="w-screen">
-        <div className="flex items-center justify-center w-screen">
+      <ul className="w-full">
+        <div className="flex items-center justify-center w-full">
           <div className="container flex items-center max-w-screen-xl px-4 py-2 ">
             <Typography
               variant="h6"
