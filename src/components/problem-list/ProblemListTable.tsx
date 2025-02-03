@@ -20,10 +20,12 @@ export default function ProblemListTable() {
     isFetching,
     problemList,
     problemSort,
+    problemHidden,
     handleClickProblem,
     handleClickProblemTh,
     handleClickProblemCollectModal,
   } = useProblemListTable();
+  
 
   return (
     isFetching ? <ProblemListTableSkeleton />
@@ -48,9 +50,13 @@ export default function ProblemListTable() {
 
                 <ProblemThSort
                   onClick={(e) => handleClickProblemTh(e, '난이도')}
-                  className="pl-2 text-center w-36"
-                  sort={problemSort === PROBLEM_SORT_LEVEL_ASC
-                    ? 1 : problemSort === PROBLEM_SORT_LEVEL_DESC ? 2 : 0}
+                  className={`pl-2 text-center w-36 ${problemHidden['난이도'] ? '!cursor-help' : ''} `}
+                  sort={problemHidden['난이도'] === true 
+                    ? 0 
+                      : problemSort === PROBLEM_SORT_LEVEL_ASC
+                        ? 1 
+                        : problemSort === PROBLEM_SORT_LEVEL_DESC 
+                          ? 2 : 0}
                 >
                   난이도
                 </ProblemThSort>
@@ -131,7 +137,7 @@ export default function ProblemListTable() {
                       </td>
                       <td className="">
                         <div className="flex items-center justify-left">
-                          <ProblemLevelChip level={elem.levelText as unknown as ProblemLevel} />
+                          <ProblemLevelChip level={problemHidden['난이도'] ? '알 수 없음' : elem.levelText as unknown as ProblemLevel} />
                         </div>
                       </td>
                       <td>
