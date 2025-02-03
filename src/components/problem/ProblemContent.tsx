@@ -10,10 +10,10 @@ interface ProblemContentProps {
 function ProblemContent({ contentList, scale = 1 }: ProblemContentProps) {
   return (
     <>
-      {contentList.map((elem, index) => (
+      {contentList.map((elem, index, arr) => (
         elem.type === 'image' ? (
           <ProblemImage
-            className="mt-1"
+            className="my-1"
             alt={elem.content}
             key={`image-${index}`}
             src={elem.content}
@@ -22,7 +22,7 @@ function ProblemContent({ contentList, scale = 1 }: ProblemContentProps) {
           <Typography
             key={`content-${index}`}
             variant="paragraph"
-            className="mt-1 font-normal"
+            className={`${index === 0 ? 'mb-4' : index === arr.length - 1 ? 'mt-4' : 'my-4'} font-normal`}
             scale={scale}
           >
             <MathJaxNode>{elem.content}</MathJaxNode>

@@ -4,9 +4,7 @@ import { useProblemListStore } from '@zustand/ProblemListStore';
 import useModal from '@plugins/modal/useModal';
 import { useHotkeys } from 'react-hotkeys-hook';
 
-
 export default function useProblemListSearcher() {
-
   const setProblemTitle = useProblemTableFilterStore((state) => state.setProblemTitle);
 
   const handleChangeProblemTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,17 +25,16 @@ export default function useProblemListSearcher() {
   const handleFocus = useCallback(async () => {
     setFocus(true);
     modal.push('PROBLEM_SEARCH_INPUT', null, {});
-  }, [setFocus])
+  }, [setFocus]);
 
   const handleBlur = useCallback(async () => {
     setFocus(false);
     modal.remove('PROBLEM_SEARCH_INPUT');
   }, [setFocus]);
 
-
   const handleKeyUp = useCallback(async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      console.log('나가야해요')
+      console.log('나가야해요');
       inputRef.current?.blur();
     } else if (e.key === 'Enter') {
       setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));
@@ -52,12 +49,8 @@ export default function useProblemListSearcher() {
         inputRef.current?.focus();
       }
     },
-    [modal, focus]
+    [modal, focus],
   );
-
-
-
-
 
   return {
     inputRef,

@@ -41,7 +41,7 @@ function Tooltip({
         id={id}
         className={className}
         style={{
-          position: 'fixed', // 부모 overflow 무시
+          position: 'absolute', // 부모 overflow 무시
           zIndex: 10, // 다른 요소 위에 렌더링
         }}
         {...props}
