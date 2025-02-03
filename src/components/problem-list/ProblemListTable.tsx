@@ -1,6 +1,6 @@
-import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
+import { ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon } from '@heroicons/react/24/solid';
-import { Typography } from '@components/common/index';
+import { Tooltip, Typography } from '@components/common/index';
 import useProblemListTable from '@hook/problem-list/useProblemListTable';
 import ProblemThSort from './ProblemListThSort';
 import {
@@ -82,7 +82,7 @@ export default function ProblemListTable() {
                 <tbody className="w-full">
                   <tr className="h-[720px] items-center justify-center">
                     <td colSpan={5} rowSpan={5} className="w-full h-full">
-                      <div className="flex w-full h-full justify-center items-center">
+                      <div className="flex items-center justify-center w-full h-full">
                         <div>
 
                           <Typography
@@ -119,7 +119,7 @@ export default function ProblemListTable() {
                       className="h-16 border-b border-gray-300"
                     >
                       <td className="flex items-center justify-center h-16 pl-4 ">
-                        <ProblemStateChip state={0} value="" />
+                        {/* <ProblemStateChip state={} value="" /> */}
                       </td>
                       <td
                         onClick={(e) => handleClickProblem(e, elem.uuid)}
@@ -147,9 +147,13 @@ export default function ProblemListTable() {
                         </Typography>
                       </td>
                       <td>
-                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
-                          <LinkIcon className="w-4 h-4" />
-                        </Typography>
+                          <Tooltip content='새 창에서 열기'>
+                            <LinkIcon 
+                              onClick={() => {window.open(elem.sourceUrl)}}
+                              className="w-4 h-4 cursor-pointer" 
+                            />
+                          </Tooltip>
+                       
                       </td>
                     </tr>
                   ))}
