@@ -33,8 +33,8 @@ export default function ProfilePhoto({
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    
-    if (file && file.type.startsWith("image/")) {
+
+    if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
@@ -43,7 +43,8 @@ export default function ProfilePhoto({
       };
       reader.readAsDataURL(file);
     } else {
-      alert("이미지 파일만 업로드 가능합니다.");
+      // eslint-disable-next-line no-alert
+      alert('이미지 파일만 업로드 가능합니다.');
     }
   };
 
@@ -84,7 +85,7 @@ export default function ProfilePhoto({
       </div>
       <input
         type="file"
-        accept='image/*'
+        accept="image/*"
         ref={fileInputRef}
         onChange={handleImageChange}
         className="hidden"
