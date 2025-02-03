@@ -58,7 +58,6 @@ export default function AlertModal({ content }: AlertModalProps) {
         </section>
         <footer className="flex items-end justify-end w-full p-2">
           <Button
-            size="small"
             onClick={handleClose}
             color="blue"
           >

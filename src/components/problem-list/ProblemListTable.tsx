@@ -1,6 +1,6 @@
-import { ProblemStateChip, ProblemLevelChip } from '@components/Chip/index';
+import { ProblemLevelChip } from '@components/Chip/index';
 import { LinkIcon } from '@heroicons/react/24/solid';
-import { Typography } from '@components/common/index';
+import { Tooltip, Typography } from '@components/common/index';
 import useProblemListTable from '@hook/problem-list/useProblemListTable';
 import ProblemThSort from './ProblemListThSort';
 import {
@@ -20,10 +20,12 @@ export default function ProblemListTable() {
     isFetching,
     problemList,
     problemSort,
+    problemHidden,
     handleClickProblem,
     handleClickProblemTh,
     handleClickProblemCollectModal,
   } = useProblemListTable();
+  
 
   return (
     isFetching ? <ProblemListTableSkeleton />
@@ -48,9 +50,13 @@ export default function ProblemListTable() {
 
                 <ProblemThSort
                   onClick={(e) => handleClickProblemTh(e, '난이도')}
-                  className="pl-2 text-center w-36"
-                  sort={problemSort === PROBLEM_SORT_LEVEL_ASC
-                    ? 1 : problemSort === PROBLEM_SORT_LEVEL_DESC ? 2 : 0}
+                  className={`pl-2 text-center w-36 ${problemHidden['난이도'] ? '!cursor-help' : ''} `}
+                  sort={problemHidden['난이도'] === true 
+                    ? 0 
+                      : problemSort === PROBLEM_SORT_LEVEL_ASC
+                        ? 1 
+                        : problemSort === PROBLEM_SORT_LEVEL_DESC 
+                          ? 2 : 0}
                 >
                   난이도
                 </ProblemThSort>
@@ -82,7 +88,7 @@ export default function ProblemListTable() {
                 <tbody className="w-full">
                   <tr className="h-[720px] items-center justify-center">
                     <td colSpan={5} rowSpan={5} className="w-full h-full">
-                      <div className="flex w-full h-full justify-center items-center">
+                      <div className="flex items-center justify-center w-full h-full">
                         <div>
 
                           <Typography
@@ -119,7 +125,7 @@ export default function ProblemListTable() {
                       className="h-16 border-b border-gray-300"
                     >
                       <td className="flex items-center justify-center h-16 pl-4 ">
-                        <ProblemStateChip state={0} value="" />
+                        {/* <ProblemStateChip state={} value="" /> */}
                       </td>
                       <td
                         onClick={(e) => handleClickProblem(e, elem.uuid)}
@@ -131,7 +137,7 @@ export default function ProblemListTable() {
                       </td>
                       <td className="">
                         <div className="flex items-center justify-left">
-                          <ProblemLevelChip level={elem.levelText as unknown as ProblemLevel} />
+                          <ProblemLevelChip level={problemHidden['난이도'] ? '알 수 없음' : elem.levelText as unknown as ProblemLevel} />
                         </div>
                       </td>
                       <td>
@@ -147,9 +153,13 @@ export default function ProblemListTable() {
                         </Typography>
                       </td>
                       <td>
-                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
-                          <LinkIcon className="w-4 h-4" />
-                        </Typography>
+                          <Tooltip content='새 창에서 열기'>
+                            <LinkIcon 
+                              onClick={() => {window.open(elem.sourceUrl)}}
+                              className="w-4 h-4 cursor-pointer" 
+                            />
+                          </Tooltip>
+                       
                       </td>
                     </tr>
                   ))}

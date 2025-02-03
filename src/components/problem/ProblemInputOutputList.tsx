@@ -44,16 +44,19 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
 
       {inputOutputList.map((elem, index) => (
         <div key={`example-${index}`}>
-          <Typography variant="h6" className="pt-2 font-bold">
+          <Typography variant="h5" className="pt-2 font-bold">
             예시
             {index + 1}
           </Typography>
-          <Typography variant="medium" className="font-medium">입력</Typography>
+          <Line className="relative my-2">
+            {/* <div className="absolute w-1/6 h-[2px] bg-blue-500"></div> */}
+          </Line>
+          <Typography variant="h6" className="my-2 font-medium">입력</Typography>
           <ClipboardWithTooltip
             handleCopyCallback={() => { setSelectedIndex(0); }}
             content={elem.input}
           />
-          <Typography variant="medium" className="mt-1 font-medium">출력</Typography>
+          <Typography variant="h6" className="my-2 font-medium">출력</Typography>
           <ClipboardWithTooltip content={elem.output} />
         </div>
       ))}

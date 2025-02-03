@@ -51,11 +51,11 @@ function Problem({ problem }: ProblemProps) {
         output={output}
         scale={(problemContentSize / 100)}
       />
-      <div className="my-4 opacity-0" />
+      <div className="my-8 opacity-0" />
       <ProblemInputOutputList
         inputOutputList={inputOutputList}
       />
-      <div className="my-4 opacity-0" />
+      <div className="my-8 opacity-0" />
       <ProblemSource />
     </div>
   );
