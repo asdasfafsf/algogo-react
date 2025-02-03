@@ -20,7 +20,7 @@ export default function CodeResultOutput(
 ) {
   return (
     <div className="relative h-full">
-      <nav className="flex justify-between w-full gap-1 overflow-x-hidden">
+      <nav className="flex justify-between w-full gap-0 overflow-x-hidden">
         <div className="absolute z-10 flex ml-2 top-1">
           <Typography weight="regular" variant="medium" className="text-green-500">
             실행 시간 : &nbsp;
@@ -35,7 +35,7 @@ export default function CodeResultOutput(
           </Typography>
         </div>
 
-        <div className="absolute z-10 flex gap-1 bg-gray-900 right-6">
+        <div className="absolute z-10 flex gap-2 bg-gray-900 right-6">
           <Tooltip
             content="실행"
           >
