@@ -4,9 +4,10 @@ import { PROBLEM_HEADER_HEIGHT } from '../../constant/Size';
 
 interface ProblemHeaderProps {
   problemTitle?: string;
+  problem?: ResponseProblem;
 }
 
-export default function ProblemHeader({ problemTitle = '' }: ProblemHeaderProps) {
+export default function ProblemHeader({ problem }: ProblemHeaderProps) {
   return (
     <header
       style={{
@@ -17,10 +18,10 @@ export default function ProblemHeader({ problemTitle = '' }: ProblemHeaderProps)
       <div className="flex">
         <ProblemBreadcrumbs
           pathList={[{ path: '문제', to: '/' }]}
-          current={`${problemTitle}`}
+          current={`${problem?.title}`}
         />
       </div>
-      <ProblemNavbar />
+      <ProblemNavbar problem={problem}/>
     </header>
   );
 }

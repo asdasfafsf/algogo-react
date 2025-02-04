@@ -22,6 +22,7 @@ type ResponseProblem = {
   source: string;
   sourceId: string;
   sourceUrl: string;
+  updatedAt: Date;
   contentList: ResponseProblemContent[];
   inputOutputList: ResponseProblemInputOutput[];
   typeList: ResponseTypeList[];
