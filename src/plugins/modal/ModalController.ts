@@ -28,9 +28,10 @@ export default class ModalController {
   }
 
   remove(key: string) {
-    const target = this.modalInfos.find((elem) => elem.key !== key);
+    const target = this.modalInfos.find((elem) => elem.key === key);
     if (target) {
       this.flush();
+      target.resolve(true);
     }
     this.modalInfos = this.modalInfos.filter((elem) => elem.key !== key);
   }
