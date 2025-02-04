@@ -10,7 +10,7 @@ import CodeEditorSettingsModal from './CodeEditorSettingsModal';
 import CompilerInfoModal from './CompilerInfoModal';
 
 interface ProblemNavbarProps {
-  problem: ResponseProblem;
+  problem?: ResponseProblem;
 }
 export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
   const modal = useModal();
@@ -19,6 +19,9 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
   const { startLoading, endLoading } = useLoadingModal();
 
   const handleClickUpdate = useCallback(async () => {
+    if (!problem) {
+      return;
+    }
     try {
       const isOk = await confirm('문제를 업데이트 할까요?');
 

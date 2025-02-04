@@ -36,7 +36,7 @@ export default function ProblemPage() {
   }, []);
   return (
     <div className="h-screen overflow-x-hidden">
-      <ProblemHeader problem={problem} problemTitle={problem ? problem.title : '불러오는 중'} />
+      <ProblemHeader problem={problem} />
       <div
         className="relative w-screen overflow-x-hidden"
         style={{

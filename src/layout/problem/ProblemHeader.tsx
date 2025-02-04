@@ -3,7 +3,6 @@ import ProblemNavbar from '@components/problem/ProblemNavbar';
 import { PROBLEM_HEADER_HEIGHT } from '../../constant/Size';
 
 interface ProblemHeaderProps {
-  problemTitle?: string;
   problem?: ResponseProblem;
 }
 
@@ -18,10 +17,10 @@ export default function ProblemHeader({ problem }: ProblemHeaderProps) {
       <div className="flex">
         <ProblemBreadcrumbs
           pathList={[{ path: '문제', to: '/' }]}
-          current={`${problem?.title}`}
+          current={`${problem?.title ?? '불러오는 중'}`}
         />
       </div>
-      <ProblemNavbar problem={problem}/>
+      <ProblemNavbar problem={problem} />
     </header>
   );
 }
