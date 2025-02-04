@@ -1,14 +1,63 @@
-import { Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import useModal from '@plugins/modal/useModal';
 import { IconButton } from '@components/Button/index';
-import CompilerInfoModal from './CompilerInfoModal';
+import { useCallback } from 'react';
+import useConfirmModal from '@hook/useConfirmModal';
+import { collectProblem } from '@api/problems';
+import useAlertModal from '@hook/useAlertModal';
+import useLoadingModal from '@hook/modal/useLoadingModal';
 import CodeEditorSettingsModal from './CodeEditorSettingsModal';
+import CompilerInfoModal from './CompilerInfoModal';
 
-export default function ProblemNavbar() {
+interface ProblemNavbarProps {
+  problem: ResponseProblem;
+}
+export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
   const modal = useModal();
+  const [confirm] = useConfirmModal();
+  const [alert] = useAlertModal();
+  const { startLoading, endLoading } = useLoadingModal();
+
+  const handleClickUpdate = useCallback(async () => {
+    try {
+      const isOk = await confirm('문제를 업데이트 할까요?');
+
+      if (!isOk) {
+        return;
+      }
+      startLoading();
+      const response = await collectProblem({ url: problem.sourceUrl });
+
+      if (response.errorCode !== '0000') {
+        await alert(response.errorMessage);
+        endLoading();
+        return;
+      }
+
+      window.location.reload();
+    } catch (e) {
+      await alert(`예외 오류가 발생하였습니다.${e.message}`);
+      endLoading();
+    } finally {
+      endLoading();
+    }
+  }, [problem]);
+
   return (
     <nav className="flex w-full">
       <div className="flex items-center justify-end w-full h-full gap-1 p-0 px-4 text-white">
+
+        <div className="flex items-center justify-center w-10 h-full">
+          <IconButton
+            onClick={handleClickUpdate}
+            className="w-10 h-10 text-white bg-gray-900"
+          >
+            <ArrowPathIcon
+              className="text-white w-7 h-7"
+              color="white"
+            />
+          </IconButton>
+        </div>
         <div className="flex items-center justify-center w-10 h-full">
           <IconButton
             className="w-10 h-10 text-white bg-gray-900"
