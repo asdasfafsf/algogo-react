@@ -25,7 +25,19 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
       if (!isOk) {
         return;
       }
+
+      const today = new Date();
+      const updatedAt = new Date(problem.updatedAt);
+
+      if (today.getFullYear() === updatedAt.getFullYear()
+          && today.getMonth() === updatedAt.getMonth()
+          && today.getDate() === updatedAt.getDate()) {
+        await alert('금일 해당 문제의 업데이트가 이미 수행되었습니다. 다음 날 다시 요청해주세요');
+        return;
+      }
+
       startLoading();
+
       const response = await collectProblem({ url: problem.sourceUrl });
 
       if (response.errorCode !== '0000') {
@@ -36,7 +48,7 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
 
       window.location.reload();
     } catch (e) {
-      await alert(`예외 오류가 발생하였습니다.${e.message}`);
+      await alert('예외 오류가 발생하였습니다.');
       endLoading();
     } finally {
       endLoading();
