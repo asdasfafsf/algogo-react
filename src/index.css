@@ -19,8 +19,11 @@
   font-style: normal;
 }
 
-html {
-  font-family: "Noto Sans KR", sans-serif;
+@font-face {
+  font-family: "Pretendard";
+  src: url("/assets/font/PretendardVariable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
 }
 
 /* 스크롤바 전체 스타일 */
@@ -116,4 +119,8 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html {
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
 }
