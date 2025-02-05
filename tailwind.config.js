@@ -30,11 +30,16 @@ export default {
   			D2Coding: [
   				'D2Coding'
   			],
+        Pretendard: [
+          'Pretendard'
+        ],
   			x: [
+          'Pretendard',
   				'Noto Sans KR',
   				'sans-serif'
   			],
   			default: [
+          'Pretendard',
   				'Noto Sans KR',
   				'sans-serif'
   			]
