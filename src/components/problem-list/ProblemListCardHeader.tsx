@@ -1,9 +1,10 @@
 import { Typography } from '@components/common/index';
-import ProblemListTableFilter from './ProblemListTableFilter';
 import ProblemLevelDropdown from './ProblemLevelDropdown';
-import ProblemTypeDropdown from './ProblemTypeDropdown';
-import ProblemStateDropdown from './ProblemStateDropdown';
+import ProblemListLevelHiddenToggle from './ProblemListLevelHiddenToggle';
 import ProblemListSearcher from './ProblemListSearcher';
+import ProblemListTableFilter from './ProblemListTableFilter';
+import ProblemStateDropdown from './ProblemStateDropdown';
+import ProblemTypeDropdown from './ProblemTypeDropdown';
 
 export default function ProblemListCardHeader() {
   return (
@@ -21,6 +22,7 @@ export default function ProblemListCardHeader() {
             <ProblemTypeDropdown />
             <ProblemLevelDropdown />
             <ProblemStateDropdown />
+            <ProblemListLevelHiddenToggle />
           </div>
           <ProblemListSearcher />
         </div>
