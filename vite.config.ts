@@ -19,6 +19,7 @@ export default defineConfig({
       '@constant': path.resolve(__dirname, './src/constant'),
       '@api': path.resolve(__dirname, './src/api'),
       '@plugins': path.resolve(__dirname, './src/plugins'),
+      '@lib': path.resolve(__dirname, './src/lib'),
     },
   },
   server: {

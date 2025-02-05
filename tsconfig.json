@@ -32,7 +32,8 @@
       "@zustand/*": ["src/zustand/*"],
       "@constant/*": ["src/constant/*"],
       "@api/*": ["src/api/*"],
-      "@plugins/*": ["src/plugins/*"]
+      "@plugins/*": ["src/plugins/*"],
+      "@lib/*": ["src/lib/*"]
     }
   },
   "include": ["src", "svg.d.ts", "vite.config.ts"],

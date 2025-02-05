@@ -1,6 +1,7 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
-import { Tooltip, Toggle } from '../common';
+import { Toggle } from '@components/ui/toggle';
+import { Tooltip } from '../common';
 
 export default function ProblemListLevelHiddenToggle() {
   const problemHidden = useProblemTableFilterStore((state) => state.problemHidden);
