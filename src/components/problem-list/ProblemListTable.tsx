@@ -50,12 +50,8 @@ export default function ProblemListTable() {
                 <ProblemThSort
                   onClick={(e) => handleClickProblemTh(e, '난이도')}
                   className={`pl-2 text-center w-36 ${problemHidden['난이도'] ? '!cursor-help' : ''} `}
-                  sort={problemHidden['난이도'] === true
-                    ? 0
-                    : problemSort === PROBLEM_SORT_LEVEL_ASC
-                      ? 1
-                      : problemSort === PROBLEM_SORT_LEVEL_DESC
-                        ? 2 : 0}
+                  sort={problemSort === PROBLEM_SORT_LEVEL_ASC
+                    ? 1 : problemSort === PROBLEM_SORT_LEVEL_DESC ? 2 : 0}
                 >
                   난이도
                 </ProblemThSort>
