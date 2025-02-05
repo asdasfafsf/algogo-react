@@ -25,7 +25,6 @@ export default function ProblemListTable() {
     handleClickProblemTh,
     handleClickProblemCollectModal,
   } = useProblemListTable();
-  
 
   return (
     isFetching ? <ProblemListTableSkeleton />
@@ -51,12 +50,12 @@ export default function ProblemListTable() {
                 <ProblemThSort
                   onClick={(e) => handleClickProblemTh(e, '난이도')}
                   className={`pl-2 text-center w-36 ${problemHidden['난이도'] ? '!cursor-help' : ''} `}
-                  sort={problemHidden['난이도'] === true 
-                    ? 0 
-                      : problemSort === PROBLEM_SORT_LEVEL_ASC
-                        ? 1 
-                        : problemSort === PROBLEM_SORT_LEVEL_DESC 
-                          ? 2 : 0}
+                  sort={problemHidden['난이도'] === true
+                    ? 0
+                    : problemSort === PROBLEM_SORT_LEVEL_ASC
+                      ? 1
+                      : problemSort === PROBLEM_SORT_LEVEL_DESC
+                        ? 2 : 0}
                 >
                   난이도
                 </ProblemThSort>
@@ -153,13 +152,13 @@ export default function ProblemListTable() {
                         </Typography>
                       </td>
                       <td>
-                          <Tooltip content='새 창에서 열기'>
-                            <LinkIcon 
-                              onClick={() => {window.open(elem.sourceUrl)}}
-                              className="w-4 h-4 cursor-pointer" 
-                            />
-                          </Tooltip>
-                       
+                        <Tooltip content="새 창에서 열기">
+                          <LinkIcon
+                            onClick={() => { window.open(elem.sourceUrl); }}
+                            className="w-4 h-4 cursor-pointer"
+                          />
+                        </Tooltip>
+
                       </td>
                     </tr>
                   ))}
