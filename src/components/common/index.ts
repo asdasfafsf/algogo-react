@@ -8,6 +8,7 @@ import TranslucentOverlay from './TranslucentOverlay';
 import Textarea from './Textarea';
 import ProfilePhoto from './ProfilePhoto';
 import Breadcrumbs from './BreadCrumbs';
+import Toggle from './Toggle';
 
 export {
   Breadcrumbs,
@@ -20,4 +21,5 @@ export {
   MathJaxNode,
   Tooltip,
   Textarea,
+  Toggle,
 };
