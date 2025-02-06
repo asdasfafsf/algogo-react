@@ -7,13 +7,15 @@ export default function OAuth() {
   const [alert] = useAlertModal();
   const navigate = useNavigate();
   const { fetchToken, fetchMe } = useMeStore((state) => state);
+  const params = new URLSearchParams(window.location.search);
+  const destination = params.get('destination') || '';
 
   useEffect(() => {
     const handleTokens = async () => {
       try {
         await fetchToken();
         await fetchMe();
-        navigate('/');
+        navigate(destination || '/');
       } catch (e) {
         await alert('토큰 발급 중 오류가 발생했습니다. 처음부터 다시 시도해주세요!');
         navigate('/login');

@@ -9,11 +9,14 @@ interface LoginProps {
 }
 
 export default function Login({ name = '로그인' }: LoginProps) {
+  const params = new URLSearchParams(window.location.search);
+  const destination = params.get('destination') || '';
+
   const navigate = useNavigate();
   const handleOAuth = async (_e: React.MouseEvent<HTMLButtonElement>, provider: 'google' | 'kakao' | 'github') => {
     const url = VITE_ENV === 'development'
-      ? `http://localhost:3001/v1/oauth/${provider}`
-      : `https://www.algogo.co.kr/v1/oauth/${provider}`;
+      ? `http://localhost:3001/v1/oauth/${provider}?destination=${destination}`
+      : `https://www.algogo.co.kr/v1/oauth/${provider}?destination=${destination}`;
 
     window.location.href = url;
   };

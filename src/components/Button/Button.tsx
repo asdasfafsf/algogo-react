@@ -18,7 +18,6 @@ const baseClasses = [
   'inline-flex',
   'align-middle',
   'select-none',
-  'font-sans',
   'font-bold',
   'text-center',
   'uppercase',
