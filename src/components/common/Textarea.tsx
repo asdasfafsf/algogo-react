@@ -48,7 +48,7 @@ export default function Textarea({
   return (
     <div className="relative w-full min-w-[200px]">
       <textarea
-        className={`peer h-full w-full resize-none ${variantClass} ${sizeClass} font-sans font-normal text-blue-gray-700 outline-none transition-all disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 ${
+        className={`peer h-full w-full resize-none ${variantClass} ${sizeClass} font-normal text-blue-gray-700 outline-none transition-all disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 ${
           disabled ? 'cursor-not-allowed' : ''
         } ${colorClass} ${className}`}
         placeholder=" "
