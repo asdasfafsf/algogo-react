@@ -76,8 +76,8 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
         handleError();
 
         socket.emit('execute', data, async (response: ResponseExecuteResult) => {
-          resolve(response);
           set({ state: 'WAITING' });
+          resolve(response);
         });
       }
     });

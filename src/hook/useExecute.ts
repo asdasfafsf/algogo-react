@@ -9,13 +9,13 @@ export default function useExecute() {
   const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
   const setOutput = useCodeEditorStore((state) => state.setOutput);
   const socketState = useExecuteSocketStore((state) => state.state);
+  const run = useExecuteSocketStore((state) => state.run);
+  const execute = useExecuteSocketStore((state) => state.execute);
+  const connect = useExecuteSocketStore((state) => state.connect);
 
   const [alert] = useAlertModal();
 
   const handleExecute = useCallback(async () => {
-    const {
-      run, execute, connect,
-    } = useExecuteSocketStore.getState();
     if (socketState === 'PENDING') {
       await alert('실행 중 입니다. 잠시만 기다려주세요');
       return;
@@ -79,5 +79,5 @@ export default function useExecute() {
 
   return useMemo(() => ({
     handleExecute,
-  }), []);
+  }), [socketState]);
 }
