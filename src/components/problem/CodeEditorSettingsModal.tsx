@@ -13,32 +13,24 @@ import CodeEditorLineNumberDropdown from './CodeEditorLineNumberDropdown';
 import CodeEditorProblemResizer from './CodeEditorProblemResizer';
 
 export default function CodeEditorSettingsModal() {
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   const modal = useModal();
-  const handleClose = useCallback(async () => {
-    while (modal?.top()?.Component === null) {
-      modal.top().resolve(false);
-    }
+
+  const handleClose = useCallback(() => {
     modal.top().resolve(false);
   }, [modal]);
+
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'Escape':
-          if (modal.top().Component !== null) {
-            modal.top().resolve(false);
-          }
-          break;
-        default:
-          break;
-      }
+      if (event.key === 'Escape') handleClose();
     };
-
     window.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeydown);
-    };
-  }, [modal]);
+    return () => window.removeEventListener('keydown', handleKeydown);
+  }, [handleClose]);
 
   const problemContentSize = useProblemContentSizeStore((state) => state.size);
   const setProblemContentSize = useProblemContentSizeStore((state) => state.setSize);
@@ -47,27 +39,23 @@ export default function CodeEditorSettingsModal() {
   const [settings, setSettings] = useState(codeEditorSettings);
   const [size, setSize] = useState(problemContentSize);
 
-  const handleOk = useCallback(async () => {
+  const handleOk = useCallback(() => {
     setProblemContentSize(size);
     setCodeEditorSettings(settings);
-    while (modal.top().Component === null) {
-      modal.top().resolve(false);
-    }
     modal.top().resolve(false);
-  }, [size, settings, setSettings, setProblemContentSize]);
+  }, [size, settings, setCodeEditorSettings, setProblemContentSize, modal]);
 
   return (
     <TranslucentOverlay className="items-start py-16">
       <div
-        className="rounded-md bg-white w-full max-w-[600px] p-0"
+        className={`rounded-md bg-white w-full max-w-[600px] p-0 shadow-xl transform transition-transform duration-500 ${
+          isVisible ? 'translate-y-0' : 'translate-y-full'
+        }`}
       >
         <div className="flex px-8 py-4">
-          <Typography variant="h6">
-            화면 설정
-          </Typography>
+          <Typography variant="h6">화면 설정</Typography>
         </div>
         <Line className="mb-4" />
-
         <div className="h-full">
           <div className="flex w-full px-8">
             <div className="w-1/2">
@@ -112,30 +100,20 @@ export default function CodeEditorSettingsModal() {
               </div>
               <div className="flex mb-2">
                 <CodeEditorLineNumberDropdown
-                  handleSelect={
-                    (_, lineNumber) => {
-                      setSettings((prev) => ({ ...prev, lineNumber }));
-                    }
-                  }
+                  handleSelect={(_, lineNumber) => {
+                    setSettings((prev) => ({ ...prev, lineNumber }));
+                  }}
                   lineNumber={settings.lineNumber}
                 />
               </div>
             </div>
           </div>
         </div>
-
         <div className="flex justify-center gap-1 px-8 my-4">
-          <Button
-            onClick={handleOk}
-            color="blue"
-          >
+          <Button onClick={handleOk} color="blue">
             설정
           </Button>
-          <Button
-            onClick={handleClose}
-            className="bg-gray-600"
-
-          >
+          <Button onClick={handleClose} className="bg-gray-600">
             닫기
           </Button>
         </div>
