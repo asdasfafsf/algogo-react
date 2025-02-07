@@ -18,12 +18,12 @@ function ProblemLevelViewer({ intialState, level }: ProblemLevelViewerProps) {
     >
       <div
         onClick={handleClick}
-        className="flex flex-wrap items-center w-32 cursor-pointer"
+        className="flex flex-wrap items-center mr-1 cursor-pointer"
       >
-        <Typography variant="small" className="font-bold">난이도 : </Typography>
-  &nbsp;
-        {levelState === 'hide' ? <ProblemLevelChip level="숨김" /> : <ProblemLevelChip level={level} />}
-
+        <Typography variant="medium" className="font-bold whitespace-nowrap">난이도 : </Typography>
+        <span className="ml-1">
+          {levelState === 'hide' ? <ProblemLevelChip level="숨김" /> : <ProblemLevelChip level={level} />}
+        </span>
       </div>
     </Tooltip>
   );
