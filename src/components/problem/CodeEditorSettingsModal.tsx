@@ -110,12 +110,13 @@ export default function CodeEditorSettingsModal() {
           </div>
         </div>
         <div className="flex justify-center gap-1 px-8 my-4">
+          <Button onClick={handleClose} className="bg-gray-600">
+            취소
+          </Button>
           <Button onClick={handleOk} color="blue">
             설정
           </Button>
-          <Button onClick={handleClose} className="bg-gray-600">
-            닫기
-          </Button>
+
         </div>
       </div>
     </TranslucentOverlay>
