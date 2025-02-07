@@ -8,6 +8,7 @@ import TranslucentOverlay from './TranslucentOverlay';
 import Textarea from './Textarea';
 import ProfilePhoto from './ProfilePhoto';
 import Breadcrumbs from './BreadCrumbs';
+import Logo from './Logo';
 
 export {
   Breadcrumbs,
@@ -20,5 +21,5 @@ export {
   MathJaxNode,
   Tooltip,
   Textarea,
-
+  Logo,
 };

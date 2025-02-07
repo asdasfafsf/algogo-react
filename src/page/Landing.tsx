@@ -187,8 +187,8 @@ export default function Landing() {
           </FadeInSection>
 
           {/* Final CTA Section */}
-          <FadeInSection className="py-40 relative overflow-hidden">
-            <div className="max-w-4xl mx-auto text-center space-y-8">
+          <FadeInSection className="py-40 relative">
+            <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
               <h2 className="text-4xl font-bold">
                 지금 바로 시작해보세요
               </h2>
@@ -213,7 +213,7 @@ export default function Landing() {
             </div>
 
             {/* Background Decoration */}
-            <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute inset-0 -z-10 overflow-hidden bottom-0">
               {/* Main circles */}
               <div className="absolute -right-1/4 -top-1/4 w-96 h-96 rounded-full bg-blue-100/50 animate-pulse" />
               <div className="absolute -left-1/4 -bottom-1/4 w-96 h-96 rounded-full bg-blue-100/50 animate-pulse" />
