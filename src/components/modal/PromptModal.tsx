@@ -79,7 +79,7 @@ export default function PromptModal({ title, defaultValue = '', content }: Promp
             <XMarkIcon className="w-6 h-6" />
           </div>
         </header>
-        <section className="h-28 px-4 py-2">
+        <section className="px-4 py-2 h-28">
           <div>
             {title ? <Typography variant="medium" weight="regular">{title}</Typography> : ''}
             <div className="h-4" />
@@ -104,18 +104,18 @@ export default function PromptModal({ title, defaultValue = '', content }: Promp
             />
           </div>
         </section>
-        <footer className="flex items-end justify-end w-full p-2 gap-1">
-          <Button
-            onClick={handleOk}
-            color="blue"
-          >
-            확인
-          </Button>
+        <footer className="flex items-end justify-end w-full gap-1 p-2">
           <Button
             onClick={handleClose}
             color="gray"
           >
             취소
+          </Button>
+          <Button
+            onClick={handleOk}
+            color="blue"
+          >
+            확인
           </Button>
         </footer>
       </div>
