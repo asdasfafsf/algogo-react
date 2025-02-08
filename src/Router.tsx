@@ -26,7 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/problem',
-    element: <Problem />,
+    element: <App />,
   },
   {
     path: '/problem/:problemUuid',

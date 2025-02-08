@@ -16,10 +16,10 @@ export default function LogoWithText({ size = 'medium' }: LogoWithTextProps) {
   return (
     <a href="/" className="inline-flex items-center min-w-fit">
       <div className="flex items-center">
-        <Logo size={size} className="relative" />
+        <Logo color="black" size={size} className="relative" />
         <Typography
-          color="blue"
-          className="relative p-0 font-Tenada text-blue-600 m-0 top-1"
+          color="black"
+          className="relative p-0 font-Tenada  m-0 top-1"
           variant={textVarient[size] as Variant}
         >
           알고고

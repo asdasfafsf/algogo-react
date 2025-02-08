@@ -1,62 +1,173 @@
-import { Button } from '@components/Button/index';
-import { Line, LogoWithText } from '@components/common';
+import { LogoWithText } from '@components/common';
 import { useNavigate } from 'react-router-dom';
-import { Navbar, NavbarItem, NavbarSubItem } from '@components/Navbar/index';
 import useMeStore from '@zustand/MeStore';
 
 import { ProfileMenu } from '@components/Dropdown/index';
 
+import { Button } from '@components/Button';
+import HeaderMenu from './HeaderMenu';
+import { useState } from 'react';
+import { Bars3Icon } from '@heroicons/react/24/outline';
+
 export default function Header() {
   const navigate = useNavigate();
-  const meStore = useMeStore(({ me }) => ({ me }));
-  const { me } = meStore;
+  const me = useMeStore((state) => state.me);
+  const logout = useMeStore((state) => state.logout);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+
+  const memuItemList = [
+    {
+      title: '문제',
+      subTitle: '문제 풀기',
+      pathList: ['/problem', '/'],
+      subMenuList: [
+        { title: '전체 문제', pathList: ['/problem', '/'] },
+      ],
+    }
+  ];
+  
   return (
-    <header className="w-full">
-      <div className="flex items-center justify-center w-full pt-4">
-        <div className="container flex items-center justify-between h-12 max-w-screen-xl">
-          <LogoWithText size="medium" />
-          <div className="flex items-center h-full gap">
-            {
-                me === null ? (
-                  <>
-                    <Button
-                      variant="text"
-                      className="!text-sm font-medium"
-                      onClick={() => navigate('/login')}
-                    >
-                      로그인
-                    </Button>
-                    <Button
-                      variant="text"
-                      className="!text-sm font-medium"
-                      onClick={() => navigate('/signup')}
-                    >
-                      회원가입
-                    </Button>
-                  </>
-                )
-                  : <ProfileMenu me={me as Me} />
-              }
+    <header className="sticky top-0 w-full bg-white z-20">
+      <div className="container max-w-screen-xl mx-auto">
+        <div className="flex h-16 items-center justify-between">
+          {/* Left: Logo + Nav */}
+          <div className="flex items-center gap-8 h-full">
+            <LogoWithText size="small" />
+            <div className="w-6" />
+            {/* Desktop Menu */}
+            <div className="relative h-full hidden md:flex items-center">
+              {memuItemList.map((item) => (
+                <HeaderMenu key={item.title} menuItem={item} />
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Auth buttons */}
+          <div className="flex items-center gap-2">
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <Bars3Icon className="w-6 h-6" />
+            </button>
+
+            {/* Auth Buttons / Profile Menu */}
+            <div className="hidden md:flex items-center gap-2">
+              {me === null ? (
+                <>
+                  <Button variant='text' onClick={() => navigate('/login')}>
+                    로그인
+                  </Button>
+                  <Button onClick={() => navigate('/signup')}>
+                    회원가입
+                  </Button>
+                </>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <ProfileMenu me={me} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="flex items-center justify-center w-full">
-        <Navbar>
-          <NavbarItem
-            onClick={() => {}}
-            value="문제"
-            isSelected
-          >
-            <>
-              <NavbarSubItem isSelected value="모든 문제" to="/" />
-              {/* <NavbarSubItem isSelected={false} value="출제하기" to="/" /> */}
-            </>
 
-          </NavbarItem>
-        </Navbar>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 bg-white z-50 md:hidden">
+            <div className="container max-w-screen-xl mx-auto p-4">
+              {/* Mobile Menu Header */}
+              <div className="flex items-center justify-end mb-6">
+                <button
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Bars3Icon className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Mobile Menu Items */}
+              <div className="space-y-6">
+                {memuItemList.map((item) => (
+                  <div key={item.title} className="py-2">
+                    <div className="text-xl font-semibold text-gray-900 mb-3">
+                      {item.title}
+                    </div>
+                    <div className="space-y-3">
+                      {item.subMenuList?.map((subItem) => (
+                        <div
+                          key={subItem.title}
+                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => {
+                            navigate(subItem.pathList[0]);
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          {subItem.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+
+                {/* 회원 섹션 */}
+                <div className="py-2">
+                  <div className="text-xl font-semibold text-gray-900 mb-3">
+                    회원
+                  </div>
+                  <div className="space-y-3">
+                    {me === null ? (
+                      <>
+                        <div
+                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => {
+                            navigate('/login');
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          로그인
+                        </div>
+                        <div
+                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => {
+                            navigate('/signup');
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          회원가입
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => {
+                            navigate('/me');
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          마이페이지
+                        </div>
+                        <div
+                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => {
+                            logout();
+                            // TODO: 로그 아웃 로직 추가 필요
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          로그아웃
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      <Line />
     </header>
   );
 }
