@@ -12,7 +12,7 @@ const sizeMap = {
 export default function Logo({ size = 'medium', className = '' }: LogoProps) {
   return (
     <div className={`relative ${sizeMap[size]} ${className}`}>
-      <div className="w-full h-full relative flex justify-center items-center bg-white rounded-full">
+      <div className="relative flex items-center justify-center w-full h-full rounded-full">
         {/* Left Bracket */}
         <div className="absolute left-[20%] w-[25%] h-[60%] border-2 border-r-0 border-blue-500 rounded-l-md animate-pulse" />
         {/* Right Bracket */}

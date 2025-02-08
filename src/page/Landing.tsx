@@ -15,11 +15,11 @@ interface FeatureCardProps {
 
 function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow bg-white text-center">
-      <div className="flex justify-center text-blue-600 mb-4">
+    <div className="p-6 text-center transition-shadow bg-white shadow-lg rounded-xl hover:shadow-xl">
+      <div className="flex justify-center mb-4 text-blue-600">
         {icon}
       </div>
-      <h3 className="text-xl font-semibold mb-3">
+      <h3 className="mb-3 text-xl font-semibold">
         {title}
       </h3>
       <p className="text-gray-600">
@@ -37,15 +37,15 @@ export default function Landing() {
     <>
       <LandingHeader />
       <main className="pt-16">
-        <div className="container mx-auto px-4">
+        <div className="container max-w-screen-xl px-4 mx-auto">
           {/* Hero Section */}
           <FadeInSection className="min-h-[70vh] flex flex-col justify-center items-center text-center py-16">
-            <h1 className="text-5xl font-bold mb-6">
+            <h1 className="mb-6 text-5xl font-bold">
               알고고와 함께라면
               <br />
               코테 준비가 더 쉬워져요
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl">
+            <p className="max-w-2xl mb-8 text-xl text-gray-600">
               컴파일러 없는 알고리즘 사이트도 걱정 마세요!
               <br />
               알고고가 실시간 테스트부터 제출까지 도와드릴게요 ✨
@@ -61,10 +61,10 @@ export default function Landing() {
           </FadeInSection>
 
           <FadeInSection className="py-32">
-            <h2 className="text-4xl font-bold text-center mb-12">
+            <h2 className="mb-12 text-4xl font-bold text-center">
               알고고는 이런 게 특별해요
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid max-w-6xl grid-cols-1 gap-8 mx-auto md:grid-cols-3">
               <FeatureCard
                 icon={<CodeBracketIcon className="w-12 h-12" />}
                 title="실시간 코드 실행"
@@ -84,37 +84,37 @@ export default function Landing() {
           </FadeInSection>
 
           <FadeInSection className="py-32">
-            <h2 className="text-4xl font-bold text-center mb-12">
+            <h2 className="mb-12 text-4xl font-bold text-center">
               이런 곳에서 사용할 수 있어요
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow bg-white text-center">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+            <div className="grid max-w-4xl grid-cols-1 gap-8 mx-auto md:grid-cols-3">
+              <div className="p-6 text-center transition-shadow bg-white shadow-lg rounded-xl hover:shadow-xl">
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 text-2xl font-bold text-white bg-blue-600 rounded-full">
                   BOJ
                 </div>
-                <h3 className="text-xl font-semibold mb-3">백준</h3>
+                <h3 className="mb-3 text-xl font-semibold">백준</h3>
                 <p className="text-gray-600">
                   모든 문제 유형 지원
                   <br />
                   실시간 테스트 케이스 실행
                 </p>
               </div>
-              <div className="p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow bg-white text-center opacity-50">
-                <div className="w-16 h-16 bg-gray-400 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+              <div className="p-6 text-center transition-shadow bg-white shadow-lg opacity-50 rounded-xl hover:shadow-xl">
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 text-2xl font-bold text-white bg-gray-400 rounded-full">
                   ?
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Coming Soon</h3>
+                <h3 className="mb-3 text-xl font-semibold">Coming Soon</h3>
                 <p className="text-gray-600">
                   더 많은 코딩테스트 플랫폼을
                   <br />
                   지원할 예정이에요
                 </p>
               </div>
-              <div className="p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow bg-white text-center opacity-50">
-                <div className="w-16 h-16 bg-gray-400 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+              <div className="p-6 text-center transition-shadow bg-white shadow-lg opacity-50 rounded-xl hover:shadow-xl">
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 text-2xl font-bold text-white bg-gray-400 rounded-full">
                   ?
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Coming Soon</h3>
+                <h3 className="mb-3 text-xl font-semibold">Coming Soon</h3>
                 <p className="text-gray-600">
                   더 많은 코딩테스트 플랫폼을
                   <br />
@@ -125,21 +125,21 @@ export default function Landing() {
           </FadeInSection>
 
           <FadeInSection className="py-32">
-            <h2 className="text-4xl font-bold text-center mb-12">
+            <h2 className="mb-12 text-4xl font-bold text-center">
               이렇게 시작하세요
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            <div className="grid max-w-6xl grid-cols-1 gap-12 mx-auto md:grid-cols-3">
               <div className="relative">
-                <div className="absolute -left-4 -top-4 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+                <div className="absolute flex items-center justify-center w-12 h-12 text-2xl font-bold text-white bg-blue-600 rounded-full -left-4 -top-4">
                   1
                 </div>
-                <div className="p-6 rounded-xl shadow-lg bg-white text-center h-full">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-4">
+                <div className="h-full p-6 text-center bg-white shadow-lg rounded-xl">
+                  <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 text-blue-600 bg-blue-100 rounded-full">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">간편 가입</h3>
+                  <h3 className="mb-3 text-xl font-semibold">간편 가입</h3>
                   <p className="text-gray-600">
                     구글 계정으로
                     <br />
@@ -148,16 +148,16 @@ export default function Landing() {
                 </div>
               </div>
               <div className="relative">
-                <div className="absolute -left-4 -top-4 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+                <div className="absolute flex items-center justify-center w-12 h-12 text-2xl font-bold text-white bg-blue-600 rounded-full -left-4 -top-4">
                   2
                 </div>
-                <div className="p-6 rounded-xl shadow-lg bg-white text-center h-full">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-4">
+                <div className="h-full p-6 text-center bg-white shadow-lg rounded-xl">
+                  <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 text-blue-600 bg-blue-100 rounded-full">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">코딩 시작</h3>
+                  <h3 className="mb-3 text-xl font-semibold">코딩 시작</h3>
                   <p className="text-gray-600">
                     백준 문제 페이지에서
                     <br />
@@ -166,16 +166,16 @@ export default function Landing() {
                 </div>
               </div>
               <div className="relative">
-                <div className="absolute -left-4 -top-4 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+                <div className="absolute flex items-center justify-center w-12 h-12 text-2xl font-bold text-white bg-blue-600 rounded-full -left-4 -top-4">
                   3
                 </div>
-                <div className="p-6 rounded-xl shadow-lg bg-white text-center h-full">
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-4">
+                <div className="h-full p-6 text-center bg-white shadow-lg rounded-xl">
+                  <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 text-blue-600 bg-blue-100 rounded-full">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">확장 프로그램 설치</h3>
+                  <h3 className="mb-3 text-xl font-semibold">확장 프로그램 설치</h3>
                   <p className="text-gray-600">
                     클릭 한 번으로
                     <br />
@@ -187,8 +187,8 @@ export default function Landing() {
           </FadeInSection>
 
           {/* Final CTA Section */}
-          <FadeInSection className="py-40 relative">
-            <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
+          <FadeInSection className="relative py-40">
+            <div className="relative z-10 max-w-4xl mx-auto space-y-8 text-center">
               <h2 className="text-4xl font-bold">
                 지금 바로 시작해보세요
               </h2>
@@ -213,18 +213,18 @@ export default function Landing() {
             </div>
 
             {/* Background Decoration */}
-            <div className="absolute inset-0 -z-10 overflow-hidden bottom-0">
+            <div className="absolute inset-0 bottom-0 overflow-hidden bg-white -z-10">
               {/* Main circles */}
-              <div className="absolute -right-1/4 -top-1/4 w-96 h-96 rounded-full bg-blue-100/50 animate-pulse" />
-              <div className="absolute -left-1/4 -bottom-1/4 w-96 h-96 rounded-full bg-blue-100/50 animate-pulse" />
+              <div className="absolute rounded-full -right-1/4 -top-1/4 w-96 h-96 bg-blue-100/50 animate-pulse" />
+              <div className="absolute rounded-full -left-1/4 -bottom-1/4 w-96 h-96 bg-blue-100/50 animate-pulse" />
 
               {/* Additional decorative elements */}
-              <div className="absolute right-1/4 bottom-1/3 w-48 h-48 rounded-full bg-blue-200/30 animate-bounce" />
-              <div className="absolute left-1/3 top-1/4 w-32 h-32 rounded-full bg-blue-200/30 animate-bounce" />
+              <div className="absolute w-48 h-48 rounded-full right-1/4 bottom-1/3 bg-blue-200/30 animate-bounce" />
+              <div className="absolute w-32 h-32 rounded-full left-1/3 top-1/4 bg-blue-200/30 animate-bounce" />
 
               {/* Small floating dots */}
-              <div className="absolute right-1/3 top-1/2 w-4 h-4 rounded-full bg-blue-400/40 animate-ping" />
-              <div className="absolute left-1/2 bottom-1/3 w-4 h-4 rounded-full bg-blue-400/40 animate-ping" />
+              <div className="absolute w-4 h-4 rounded-full right-1/3 top-1/2 bg-blue-400/40 animate-ping" />
+              <div className="absolute w-4 h-4 rounded-full left-1/2 bottom-1/3 bg-blue-400/40 animate-ping" />
 
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-50/10 to-transparent" />
@@ -232,6 +232,8 @@ export default function Landing() {
           </FadeInSection>
         </div>
       </main>
+
+      <div className="h-8" />
       <LandingFooter />
     </>
   );

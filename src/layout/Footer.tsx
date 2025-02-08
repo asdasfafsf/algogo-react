@@ -1,18 +1,11 @@
-import { Typography } from '@components/common';
+import { Typography, LogoWithText } from '@components/common';
 
 export default function Footer() {
   return (
     <footer className="px-8 py-8">
       <div className="container max-w-screen-xl mx-auto">
         <div className="flex items-center gap-24">
-          <Typography
-            className="relative top-1 font-WavvePADO-Regular"
-            variant="h3"
-          >
-            <a href="/">
-              알고고
-            </a>
-          </Typography>
+          <LogoWithText size="small" />
 
           <div>
             <div className="flex items-center gap-4">
