@@ -27,7 +27,7 @@ export const useMeStore = create<MeStore>((set, get) => ({
   },
   updateMe: async (requestUpdateMeDto: RequestUpdateMe) => {
     const response = await updateMe(requestUpdateMeDto);
-    
+
     if (response.errorCode === '0000') {
       const { data } = response;
       const me = data;
@@ -36,7 +36,7 @@ export const useMeStore = create<MeStore>((set, get) => ({
       const { me } = get();
       set({ me });
     }
-    
+
     return response;
   },
   fetchMe: async () => {

@@ -1,6 +1,7 @@
-import Footer from './Footer';
+// import Footer from './Footer';
 import Header from './Header';
 import Section from './Section';
+import { LandingFooter } from './landing';
 
 export default function DefaultLayout(props: {
   children: React.ReactNode
@@ -11,7 +12,7 @@ export default function DefaultLayout(props: {
       <Section>
         {props.children}
       </Section>
-      <Footer />
+      <LandingFooter />
     </div>
   );
 }

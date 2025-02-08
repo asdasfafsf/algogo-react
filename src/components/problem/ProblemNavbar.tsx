@@ -1,4 +1,6 @@
-import { ArrowPathIcon, Cog6ToothIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowPathIcon, Cog6ToothIcon, DocumentTextIcon,
+} from '@heroicons/react/24/outline';
 import useModal from '@plugins/modal/useModal';
 import { IconButton } from '@components/Button/index';
 import { useCallback } from 'react';
@@ -8,6 +10,7 @@ import useAlertModal from '@hook/useAlertModal';
 import useLoadingModal from '@hook/modal/useLoadingModal';
 import CodeEditorSettingsModal from './CodeEditorSettingsModal';
 import CompilerInfoModal from './CompilerInfoModal';
+import { Tooltip } from '../common';
 
 interface ProblemNavbarProps {
   problem?: ResponseProblem;
@@ -60,47 +63,53 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
 
   return (
     <nav className="flex w-full">
-      <div className="flex items-center justify-end w-full h-full gap-1 p-0 px-4 text-white">
+      <div className="flex items-center justify-end w-full h-full gap-0 p-0 px-4 text-white">
 
-        <div className="flex items-center justify-center w-10 h-full">
-          <IconButton
-            onClick={handleClickUpdate}
-            className="w-10 h-10 text-white bg-gray-900"
-          >
-            <ArrowPathIcon
-              className="text-white w-7 h-7"
-              color="white"
-            />
-          </IconButton>
-        </div>
-        <div className="flex items-center justify-center w-10 h-full">
-          <IconButton
-            className="w-10 h-10 text-white bg-gray-900"
-            onClick={() => {
-              modal.push('CompilerInfo', CompilerInfoModal, {});
-            }}
-          >
-            <DocumentTextIcon
-              className="text-white w-7 h-7"
-              color="white"
-            />
-          </IconButton>
-        </div>
+        <Tooltip className="bg-slate-500" content="문제 새로고침" placement="bottom">
+          <div className="flex items-center justify-center w-10 h-full">
+            <IconButton
+              onClick={handleClickUpdate}
+              className="text-white bg-gray-900 w-9 h-9"
+            >
+              <ArrowPathIcon
+                className="w-6 h-6 text-white"
+                color="white"
+              />
+            </IconButton>
+          </div>
+        </Tooltip>
+        <Tooltip className="bg-slate-500" content="컴파일러 정보" placement="bottom">
+          <div className="flex items-center justify-center w-10 h-full">
+            <IconButton
+              className="text-white bg-gray-900 w-9 h-9"
+              onClick={() => {
+                modal.push('CompilerInfo', CompilerInfoModal, {});
+              }}
+            >
+              <DocumentTextIcon
+                className="w-6 h-6 text-white"
+                color="white"
+              />
+            </IconButton>
+          </div>
+        </Tooltip>
 
-        <div className="flex items-center justify-center w-10 h-full">
-          <IconButton
+        <Tooltip className="bg-slate-500" content="설정" placement="bottom-end">
+          <div className="flex items-center justify-center w-10 h-full">
+            <IconButton
             // ripple
-            className="w-10 h-10 text-white bg-gray-900"
-            onClick={async () => {
-              modal.push('CODE_EDITOR_SETTINGS', CodeEditorSettingsModal, {});
-            }}
-          >
-            <Cog6ToothIcon
-              className="text-white w-7 h-7"
-              color="white"
-            />
-          </IconButton>
-        </div>
+              className="text-white bg-gray-900 w-9 h-9"
+              onClick={async () => {
+                modal.push('CODE_EDITOR_SETTINGS', CodeEditorSettingsModal, {});
+              }}
+            >
+              <Cog6ToothIcon
+                className="w-6 h-6 text-white"
+                color="white"
+              />
+            </IconButton>
+          </div>
+        </Tooltip>
       </div>
     </nav>
   );

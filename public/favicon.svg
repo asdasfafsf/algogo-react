@@ -1,0 +1,20 @@
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="w-full h-full">
+        <circle cx="50" cy="50" r="50" fill="#fff" />
+        <path
+          d="M43,22 H28 A6,6 0 0 0 22,28 V72 A6,6 0 0 0 28,78 H43"
+          stroke="#2196F3"
+          strokeWidth="3"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M57,22 H72 A6,6 0 0 1 78,28 V72 A6,6 0 0 1 72,78 H57"
+          stroke="#2196F3"
+          strokeWidth="3"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="50" cy="50" r="10" fill="#2196F3" />
+      </svg>
