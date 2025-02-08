@@ -72,17 +72,17 @@ export default function ComfirmModal({ content }: AlertModalProps) {
         </section>
         <footer className="flex items-end justify-end w-full gap-1 p-2">
           <Button
-            onClick={handleOk}
-            color="blue"
-          >
-            확인
-          </Button>
-          <Button
             onClick={handleCancel}
             className="bg-gray-500"
             color="gray"
           >
             취소
+          </Button>
+          <Button
+            onClick={handleOk}
+            color="blue"
+          >
+            확인
           </Button>
         </footer>
       </div>

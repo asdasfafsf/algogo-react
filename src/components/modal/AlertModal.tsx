@@ -40,30 +40,31 @@ export default function AlertModal({ content }: AlertModalProps) {
   }, [modal]);
 
   return (
-    <TranslucentOverlay className={`flex items-center justify-center fixed inset-0 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-      <div
-        className={`min-h-50 h-auto rounded-md bg-white w-[400px] transform transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
-      >
-        <header className="flex items-end justify-end w-full p-2">
-          <div
-            color="white"
-            className="cursor-pointer"
-            onClick={handleClose}
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </div>
-        </header>
-        <section className="flex items-center justify-center h-24 p-8">
-          {content}
-        </section>
-        <footer className="flex items-end justify-end w-full p-2">
+    <TranslucentOverlay className={`flex items-center justify-center fixed inset-0 bg-black/30 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div className="w-[400px] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200">
+        <div className="flex justify-between items-center px-7 py-5">
+          <h2 className="text-[17px] font-semibold text-gray-800">알림</h2>
           <Button
             onClick={handleClose}
-            color="blue"
+            variant="text"
+            className="w-8 h-8 rounded-full hover:bg-gray-100/80"
+          >
+            <XMarkIcon className="w-[18px] h-[18px] text-gray-400" />
+          </Button>
+        </div>
+
+        <div className="px-7 pb-7 pt-2 text-[15px] leading-relaxed text-gray-600">
+          {content}
+        </div>
+
+        <div className="flex justify-end px-7 pb-7 pt-2">
+          <Button
+            onClick={handleClose}
+            className="min-w-[80px] h-[38px] rounded-lg text-[14px]"
           >
             확인
           </Button>
-        </footer>
+        </div>
       </div>
     </TranslucentOverlay>
   );

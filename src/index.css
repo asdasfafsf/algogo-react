@@ -26,6 +26,21 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "레코체";
+  src: url("/assets/font/Recipekorea레코체FONT.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Tenada";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
 /* 스크롤바 전체 스타일 */
 ::-webkit-scrollbar {
   width: 8px;
