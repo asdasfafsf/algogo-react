@@ -14,7 +14,7 @@ import CodeEditorLineNumberDropdown from './CodeEditorLineNumberDropdown';
 import CodeEditorProblemResizer from './CodeEditorProblemResizer';
 
 export default function CodeEditorSettingsModal() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [, setIsVisible] = useState(false);
   useEffect(() => {
     setIsVisible(true);
   }, []);
