@@ -73,7 +73,7 @@ export default function useExecuteTestCase() {
     if (result.code === '9002') {
       handleRun(result);
     }
-  }, []);
+  }, [state]);
 
   return {
     state,
