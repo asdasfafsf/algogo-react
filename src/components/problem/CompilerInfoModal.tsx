@@ -80,14 +80,12 @@ export default function CompilerInfoModal() {
 
   return (
     <TranslucentOverlay
-      className={`py-16 items-start ${
+      className={`flex items-center justify-center fixed inset-0 bg-black/30 transition-opacity ${
         isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
       <div
-        className={`min-h-64 h-auto rounded-lg bg-white w-[700px] p-8 shadow-xl transition-transform transform duration-500 ${
-          isVisible ? 'translate-y-0' : 'translate-y-full'
-        }`}
+        className="min-h-64 h-auto rounded-2xl bg-white w-[700px] p-8 shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
       >
         <Typography variant="h4" weight="bold" className="mb-4">
           컴파일러 정보

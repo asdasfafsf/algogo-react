@@ -1,14 +1,21 @@
 import { Button } from '@components/Button/index';
 import { useEffect, useState } from 'react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import useModal from '@plugins/modal/useModal';
 import { TranslucentOverlay } from '@components/common/index';
 
-interface AlertModalProps {
+interface ConfirmModalProps {
   content: string;
+  title?: string;
+  cancelText?: string;
+  confirmText?: string;
 }
 
-export default function ComfirmModal({ content }: AlertModalProps) {
+export default function ConfirmModal({
+  content,
+  title = '확인',
+  cancelText = '취소',
+  confirmText = '확인',
+}: ConfirmModalProps) {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -54,37 +61,39 @@ export default function ComfirmModal({ content }: AlertModalProps) {
   }, [modal]);
 
   return (
-    <TranslucentOverlay className={`flex items-center justify-center fixed inset-0 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+    <TranslucentOverlay
+      onClick={(e) => e.target === e.currentTarget && handleCancel(e)}
+      className={`flex items-center justify-center fixed inset-0 bg-black/30 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+    >
       <div
-        className={`min-h-50 h-auto rounded-md bg-white w-[400px] transform transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
+        role="dialog"
+        aria-labelledby="confirm-title"
+        className="w-[28rem] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
       >
-        <header className="flex items-end justify-end w-full p-2">
-          <div
-            color="white"
-            className="cursor-pointer"
-            onClick={handleCancel}
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </div>
-        </header>
-        <section className="flex items-center justify-center h-24">
-          <div className="p-4">{content}</div>
-        </section>
-        <footer className="flex items-end justify-end w-full gap-1 p-2">
+        <div className="flex justify-between items-center px-6 py-5">
+          <h2 id="confirm-title" className="text-[17px] font-semibold text-gray-800">{title}</h2>
+        </div>
+
+        <div className="px-6 pb-5 pt-1 text-[15px] leading-relaxed text-gray-600 min-h-[60px]">
+          {content}
+        </div>
+
+        <div className="flex justify-end gap-1 px-4 pb-4">
           <Button
-            onClick={handleCancel}
-            className="bg-gray-500"
             color="gray"
+            onClick={handleCancel}
+            className="min-w-[80px] rounded-2xl"
           >
-            취소
+            {cancelText}
           </Button>
           <Button
-            onClick={handleOk}
             color="blue"
+            onClick={handleOk}
+            className="min-w-[80px] rounded-2xl"
           >
-            확인
+            {confirmText}
           </Button>
-        </footer>
+        </div>
       </div>
     </TranslucentOverlay>
   );

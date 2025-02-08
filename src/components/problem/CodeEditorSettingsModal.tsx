@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   TranslucentOverlay, Line, Typography,
 } from '@components/common/index';
@@ -46,11 +47,9 @@ export default function CodeEditorSettingsModal() {
   }, [size, settings, setCodeEditorSettings, setProblemContentSize, modal]);
 
   return (
-    <TranslucentOverlay className="items-start py-16">
+    <TranslucentOverlay className="flex items-center justify-center fixed inset-0 bg-black/30">
       <div
-        className={`rounded-md bg-white w-full max-w-[600px] p-0 shadow-xl transform transition-transform duration-500 ${
-          isVisible ? 'translate-y-0' : 'translate-y-full'
-        }`}
+        className="rounded-2xl bg-white w-full max-w-[600px] p-0 shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
       >
         <div className="flex px-8 py-4">
           <Typography variant="h6">화면 설정</Typography>
