@@ -98,10 +98,16 @@ export default function Header() {
                       {item.subMenuList?.map((subItem) => (
                         <div
                           key={subItem.title}
-                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          className={`pl-4 py-3 ${
+                            subItem.canAccess
+                              ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 cursor-pointer'
+                              : 'text-gray-400 cursor-not-allowed'
+                          } rounded-lg transition-colors`}
                           onClick={() => {
-                            navigate(subItem.pathList[0]);
-                            setIsMobileMenuOpen(false);
+                            if (subItem.canAccess) {
+                              navigate(subItem.pathList[0]);
+                              setIsMobileMenuOpen(false);
+                            }
                           }}
                         >
                           {subItem.title}
