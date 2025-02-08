@@ -20,9 +20,11 @@ export default function TestCaseModal() {
   const { handleTest } = useExecuteTestCase();
 
   return (
-    <TranslucentOverlay className="items-start py-16">
+    <TranslucentOverlay
+      className="flex items-center justify-center fixed inset-0"
+    >
       <div
-        className="min-h-64 rounded-md bg-white w-[600px] p-0"
+        className="min-h-64 rounded-2xl bg-white w-[600px] p-0 shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
       >
         <div className="flex px-8 pt-8">
           <Typography variant="h6">

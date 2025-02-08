@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ClipboardDocumentListIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import useModal from '@plugins/modal/useModal';
 import { Tooltip, TranslucentOverlay, Typography } from '@components/common/index';
 import { Button } from '@components/Button/index';
@@ -29,9 +29,11 @@ export default function PromptModal({ title, defaultValue = '', content }: Promp
   }, [value]);
 
   const handleClose = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsVisible(false);
-    modal.top().resolve(false);
+    if (e.target === e.currentTarget) {
+      e.stopPropagation();
+      setIsVisible(false);
+      modal.top().resolve(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -66,19 +68,13 @@ export default function PromptModal({ title, defaultValue = '', content }: Promp
   }, [modal, value]);
 
   return (
-    <TranslucentOverlay className={`flex items-center justify-center fixed inset-0 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+    <TranslucentOverlay
+      className={`flex items-center justify-center fixed inset-0 bg-black/30 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+    >
       <div
-        className={`min-h-52 h-auto rounded-md bg-white w-[400px] transform transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}
+        className="w-[400px] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
       >
-        <header className="flex items-end justify-end w-full p-2">
-          <div
-            color="white"
-            className="cursor-pointer"
-            onClick={handleClose}
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </div>
-        </header>
+        <header className="flex items-end justify-end w-full p-2" />
         <section className="px-4 py-2 h-28">
           <div>
             {title ? <Typography variant="medium" weight="regular">{title}</Typography> : ''}
@@ -108,12 +104,14 @@ export default function PromptModal({ title, defaultValue = '', content }: Promp
           <Button
             onClick={handleClose}
             color="gray"
+            className="rounded-2xl"
           >
             취소
           </Button>
           <Button
             onClick={handleOk}
             color="blue"
+            className="rounded-2xl"
           >
             확인
           </Button>
