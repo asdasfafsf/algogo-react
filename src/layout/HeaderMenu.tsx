@@ -10,6 +10,7 @@ type HeaderMenuItem = {
   subMenuList: {
     title: string;
     pathList: string[];
+    canAccess: boolean;
   }[];
 };
 
@@ -47,11 +48,12 @@ export default function HeaderMenu({ menuItem }: HeaderMenuProps) {
                   {
                         menuItem.subMenuList.map((subMenu, index) => {
                           const isActive = subMenu.pathList.some((path) => path === currentPath);
+                          const { canAccess } = subMenu;
                           return (
                             <li
-                              onClick={() => navigate(subMenu.pathList[0])}
+                              onClick={() => canAccess && navigate(subMenu.pathList[0])}
                               key={index}
-                              className="py-2 flex items-center gap-1"
+                              className={`py-2 flex items-center gap-1 ${!canAccess && 'cursor-not-allowed'}`}
                             >
                               <div className="flex items-center gap-2">
                                 {isActive && <ArrowRightIcon className="w-5 h-5 text-blue-500" />}
@@ -60,7 +62,11 @@ export default function HeaderMenu({ menuItem }: HeaderMenuProps) {
                                 weight={isActive ? 'semibold' : 'semilight'}
                                 variant="medium"
                                 color={isActive ? 'blue' : 'gray'}
-                                className={` hover:text-blue-500 cursor-pointer hover:font-semibold ${isActive ? 'text-blue-500 font-semibold' : 'text-gray-600'}`}
+                                className={`${
+                                  canAccess
+                                    ? `hover:text-blue-500 cursor-pointer hover:font-semibold ${isActive ? 'text-blue-500 font-semibold' : 'text-gray-600'}`
+                                    : 'text-gray-400'
+                                }`}
                               >
                                 {subMenu.title}
                               </Typography>

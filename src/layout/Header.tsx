@@ -5,9 +5,9 @@ import useMeStore from '@zustand/MeStore';
 import { ProfileMenu } from '@components/Dropdown/index';
 
 import { Button } from '@components/Button';
-import HeaderMenu from './HeaderMenu';
 import { useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
+import HeaderMenu from './HeaderMenu';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -15,18 +15,18 @@ export default function Header() {
   const logout = useMeStore((state) => state.logout);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-
   const memuItemList = [
     {
       title: '문제',
       subTitle: '문제 풀기',
       pathList: ['/problem', '/'],
       subMenuList: [
-        { title: '전체 문제', pathList: ['/problem', '/'] },
+        { title: '전체 문제', pathList: ['/problem', '/'], canAccess: true },
+        { title: '오늘의 문제(준비중)', pathList: ['/problem/today'], canAccess: false },
       ],
-    }
+    },
   ];
-  
+
   return (
     <header className="sticky top-0 w-full bg-white z-20">
       <div className="container max-w-screen-xl mx-auto">
@@ -46,18 +46,18 @@ export default function Header() {
           {/* Right: Auth buttons */}
           <div className="flex items-center gap-2">
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2"
+            <div
+              className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <Bars3Icon className="w-6 h-6" />
-            </button>
+            </div>
 
             {/* Auth Buttons / Profile Menu */}
             <div className="hidden md:flex items-center gap-2">
               {me === null ? (
                 <>
-                  <Button variant='text' onClick={() => navigate('/login')}>
+                  <Button variant="text" onClick={() => navigate('/login')}>
                     로그인
                   </Button>
                   <Button onClick={() => navigate('/signup')}>
@@ -79,12 +79,12 @@ export default function Header() {
             <div className="container max-w-screen-xl mx-auto p-4">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-end mb-6">
-                <button
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                <div
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <Bars3Icon className="w-6 h-6" />
-                </button>
+                </div>
               </div>
 
               {/* Mobile Menu Items */}
