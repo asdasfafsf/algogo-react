@@ -24,6 +24,12 @@ export default {
   			height: 'height'
   		},
   		fontFamily: {
+        'Tenada': [
+          'Tenada'
+        ],
+        '레코체': [
+          '레코체'
+        ],
   			'WavvePADO-Regular': [
   				'WavvePADO-Regular'
   			],

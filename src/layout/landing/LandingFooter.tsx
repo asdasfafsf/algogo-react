@@ -1,4 +1,4 @@
-import { Typography, Logo } from '@components/common';
+import { LogoWithText } from '@components/common';
 
 export default function LandingFooter() {
   return (
@@ -7,16 +7,7 @@ export default function LandingFooter() {
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
-            <div className="flex items-center">
-              <Logo size="medium" />
-              <Typography
-                color="blue"
-                className="font-WavvePADO-Regular"
-                variant="h3"
-              >
-                알고고
-              </Typography>
-            </div>
+            <LogoWithText size="small" />
             <p className="text-sm text-gray-600">
               더 나은 코딩 테스트 준비를 위한
               <br />

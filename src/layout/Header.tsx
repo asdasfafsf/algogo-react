@@ -1,5 +1,5 @@
 import { Button } from '@components/Button/index';
-import { Typography, Line } from '@components/common';
+import { Line, LogoWithText } from '@components/common';
 import { useNavigate } from 'react-router-dom';
 import { Navbar, NavbarItem, NavbarSubItem } from '@components/Navbar/index';
 import useMeStore from '@zustand/MeStore';
@@ -13,18 +13,9 @@ export default function Header() {
 
   return (
     <header className="w-full">
-      <div className="w-full flex items-center justify-center pt-4">
-        <div className="container flex items-center justify-between h-12 max-w-screen-xl p-4">
-          <div className="flex items-center gap-1">
-            <Typography
-              className="relative top-1 font-WavvePADO-Regular"
-              variant="h2"
-            >
-              <a href="/">
-                알고고
-              </a>
-            </Typography>
-          </div>
+      <div className="flex items-center justify-center w-full pt-4">
+        <div className="container flex items-center justify-between h-12 max-w-screen-xl">
+          <LogoWithText size="medium" />
           <div className="flex items-center h-full gap">
             {
                 me === null ? (

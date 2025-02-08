@@ -4,7 +4,7 @@ import { Button } from '@components/Button/index';
 
 export default function LandingHeader() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 bg-white shadow-sm backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-30 shadow-sm bg-white/80 backdrop-blur-md">
       <div className="container max-w-screen-xl px-4 mx-auto">
         <div className="flex items-center justify-between h-16">
           <LogoWithText size="medium" />
