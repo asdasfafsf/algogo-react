@@ -14,17 +14,17 @@ export default function LogoWithText({ size = 'medium' }: LogoWithTextProps) {
   };
 
   return (
-    <div className="flex items-center">
-      <Logo size={size === 'large' ? size : 'medium'} className="relative top-1" />
-      <Typography
-        color="blue"
-        className="relative top-1 font-Tenada"
-        variant={textVarient[size] as Variant}
-      >
-        <a href="/">
+    <a href="/" className="inline-flex items-center min-w-fit">
+      <div className="flex items-center">
+        <Logo size={size} className="relative" />
+        <Typography
+          color="blue"
+          className="relative p-0 font-Tenada text-blue-600 m-0 top-1"
+          variant={textVarient[size] as Variant}
+        >
           알고고
-        </a>
-      </Typography>
-    </div>
+        </Typography>
+      </div>
+    </a>
   );
 }
