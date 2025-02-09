@@ -13,8 +13,6 @@ export default function useExecuteTestCase() {
   const handleRun = useTestCaseListStore((state) => state.handleRun);
 
   const state = useExecuteSocketStore((state) => state.state);
-  const socket = useExecuteSocketStore((state) => state.socket);
-
   const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
   const refresh = useMeStore((state) => state.refresh);
   const [alert] = useAlertModal();
@@ -74,7 +72,7 @@ export default function useExecuteTestCase() {
     if (result.code === '9002') {
       handleRun(result);
     }
-  }, [state, socket]);
+  }, [state]);
 
   return {
     state,
