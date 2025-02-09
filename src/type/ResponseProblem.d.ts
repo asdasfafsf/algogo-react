@@ -34,9 +34,18 @@ type ResponseTypeList = {
 
 type ResponseProblemContent = {
   order: number;
-  type: 'image' | 'text'
+  type: 'image' | 'text' | 'table' | 'list';
   content: string;
+  cellList:ResponseProblemContentCell[]
 };
+
+type ResponseProblemContentCell = {
+  rowIndex: number;
+  columnIndex: number;
+  content: string;
+  isHeader: boolean;
+};
+
 type ResponseProblemInputOutput = {
   order: number;
   input: string;
