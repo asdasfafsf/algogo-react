@@ -41,7 +41,7 @@ export const useTestCaseListStore = create<TestCaseListStore>((set, get) => ({
     const newTarget = {
       ...target,
       output: executeResult.result,
-      state: (target?.expected === executeResult.result ? '일치' : '불일치'),
+      state: (target?.expected?.trim() === executeResult.result?.trim() ? '일치' : '불일치'),
     } as TestCase;
     newTestCaseList[index] = newTarget;
     set({ testCaseList: newTestCaseList });
