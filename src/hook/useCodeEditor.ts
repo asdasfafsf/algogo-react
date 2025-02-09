@@ -1,5 +1,7 @@
 /* eslint-disable no-bitwise */
-import { useCallback, useRef, useState } from 'react';
+import {
+  useCallback, useRef, useState, useEffect,
+} from 'react';
 import { editor, KeyCode, KeyMod } from 'monaco-editor';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import useExecute from './useExecute';
@@ -14,6 +16,12 @@ export default function useCodeEditor() {
 
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
+  const executeRef = useRef(() => handleExecute());
+
+  useEffect(() => {
+    executeRef.current = () => handleExecute();
+  }, [handleExecute]);
+
   const handleEditorChange = useCallback((
     value: string | undefined,
   ) => {
@@ -36,10 +44,18 @@ export default function useCodeEditor() {
     editorRef.current = editor;
     editor.onDidBlurEditorText(handleBlur);
     editor.onDidFocusEditorText(handleFocus);
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => {
-      handleExecute();
+    editor.onKeyDown((e) => {
+      if (e.metaKey || e.keyCode === 49) {
+        e.preventDefault();
+        return false;
+      }
+      return true;
     });
-  }, [editorRef, handleExecute]);
+
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => {
+      executeRef.current();
+    });
+  }, [editorRef]);
 
   return {
     code,
