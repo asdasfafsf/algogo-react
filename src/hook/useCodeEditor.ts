@@ -45,7 +45,7 @@ export default function useCodeEditor() {
     editor.onDidBlurEditorText(handleBlur);
     editor.onDidFocusEditorText(handleFocus);
     editor.onKeyDown((e) => {
-      if (e.metaKey || e.keyCode === 49) {
+      if (e.ctrlKey || e.metaKey || e.keyCode === 49) {
         e.preventDefault();
         return false;
       }
