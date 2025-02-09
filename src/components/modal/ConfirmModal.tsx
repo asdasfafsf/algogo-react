@@ -68,7 +68,7 @@ export default function ConfirmModal({
       <div
         role="dialog"
         aria-labelledby="confirm-title"
-        className="w-[28rem] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
+        className="w-[400px] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
       >
         <div className="flex justify-between items-center px-6 py-5">
           <h2 id="confirm-title" className="text-[17px] font-semibold text-gray-800">{title}</h2>
