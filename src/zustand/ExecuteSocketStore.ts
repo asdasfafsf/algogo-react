@@ -86,7 +86,8 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
   execute: async (handler) => {
     const { socket } = get();
     if (!socket?.hasListeners('executeResult')) {
-      socket?.on('executeResult', handler); // 실행 응답을 받아 처리
+      socket?.removeAllListeners('executeResult');
     }
+    socket?.on('executeResult', handler);
   },
 }));

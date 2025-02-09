@@ -13,7 +13,6 @@ export default function useExecuteTestCase() {
   const handleRun = useTestCaseListStore((state) => state.handleRun);
 
   const state = useExecuteSocketStore((state) => state.state);
-
   const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
   const refresh = useMeStore((state) => state.refresh);
   const [alert] = useAlertModal();
