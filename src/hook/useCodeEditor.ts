@@ -1,5 +1,10 @@
-import { useCallback, useRef } from 'react';
+/* eslint-disable no-bitwise */
+import {
+  useCallback, useRef, useState, useEffect,
+} from 'react';
+import { editor, KeyCode, KeyMod } from 'monaco-editor';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
+import useExecute from './useExecute';
 
 export default function useCodeEditor() {
   const editorRef = useRef<unknown>(null);
@@ -8,6 +13,14 @@ export default function useCodeEditor() {
   const language = useCodeEditorStore((state) => state.language);
   const updateCodeFromLanguage = useCodeEditorStore((state) => state.updateCodeFromLanguage);
   const settings = useCodeEditorStore((state) => state.settings);
+
+  const [, setFocus] = useState(false);
+  const { handleExecute } = useExecute();
+  const executeRef = useRef(() => handleExecute());
+
+  useEffect(() => {
+    executeRef.current = () => handleExecute();
+  }, [handleExecute]);
 
   const handleEditorChange = useCallback((
     value: string | undefined,
@@ -19,8 +32,29 @@ export default function useCodeEditor() {
     updateCodeFromLanguage(language, value);
   }, [setCode]);
 
-  const handleEditorMount = useCallback((editor: unknown) => {
+  const handleFocus = useCallback(() => {
+    setFocus(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setFocus(false);
+  }, []);
+
+  const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
+    editor.onDidBlurEditorText(handleBlur);
+    editor.onDidFocusEditorText(handleFocus);
+    editor.onKeyDown((e) => {
+      if (e.ctrlKey || e.metaKey || e.keyCode === 49) {
+        e.preventDefault();
+        return false;
+      }
+      return true;
+    });
+
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => {
+      executeRef.current();
+    });
   }, [editorRef]);
 
   return {

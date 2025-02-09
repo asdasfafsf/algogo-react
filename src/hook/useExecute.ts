@@ -79,5 +79,5 @@ export default function useExecute() {
 
   return useMemo(() => ({
     handleExecute,
-  }), [socketState]);
+  }), [socketState, handleExecute]);
 }
