@@ -19,7 +19,7 @@ export default function LogoWithText({ size = 'medium' }: LogoWithTextProps) {
         <Logo color="black" size={size} className="relative" />
         <Typography
           color="black"
-          className="relative p-0 font-Tenada  m-0 top-1"
+          className="relative p-0 m-0 font-Tenada top-1"
           variant={textVarient[size] as Variant}
         >
           알고고
