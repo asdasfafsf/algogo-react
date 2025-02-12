@@ -20,7 +20,7 @@ function ProblemContent({ contentList, scale = 1 }: ProblemContentProps) {
             <Typography
               key={`content-${index}`}
               variant="paragraph"
-              className="font-normal leading-[2.0rem] my-2"
+              className="font-normal !leading-[2.0rem] my-2"
               scale={scale}
             >
               -
@@ -44,7 +44,7 @@ function ProblemContent({ contentList, scale = 1 }: ProblemContentProps) {
           <Typography
             key={`content-${index}`}
             variant="paragraph"
-            className="font-normal leading-[2.0rem] my-2"
+            className="font-normal !leading-[2.0rem] my-2"
             scale={scale}
           >
             <MathJaxNode>{elem.content}</MathJaxNode>
