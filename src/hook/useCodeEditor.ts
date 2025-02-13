@@ -13,14 +13,20 @@ export default function useCodeEditor() {
   const language = useCodeEditorStore((state) => state.language);
   const updateCodeFromLanguage = useCodeEditorStore((state) => state.updateCodeFromLanguage);
   const settings = useCodeEditorStore((state) => state.settings);
-
+  const updateCode = useCodeEditorStore((state) => state.updateCode);
+  const loadCode = useCodeEditorStore((state) => state.loadCode);
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     executeRef.current = () => handleExecute();
   }, [handleExecute]);
+
+  useEffect(() => {
+    loadCode();
+  }, []);
 
   const handleEditorChange = useCallback((
     value: string | undefined,
@@ -55,7 +61,18 @@ export default function useCodeEditor() {
     editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => {
       executeRef.current();
     });
-  }, [editorRef]);
+
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, async () => {
+      if (isSaving) return;
+
+      try {
+        setIsSaving(true);
+        await updateCode();
+      } finally {
+        setIsSaving(false);
+      }
+    });
+  }, [editorRef, isSaving, updateCode]);
 
   return {
     code,

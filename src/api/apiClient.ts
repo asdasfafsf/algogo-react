@@ -29,7 +29,7 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const data = error.response?.data;
-    const config = error.config;
+    const { config } = error;
 
     if (data?.statusCode === 401 && data?.errorMessage.includes('만료')) {
       if (isRefreshing) {

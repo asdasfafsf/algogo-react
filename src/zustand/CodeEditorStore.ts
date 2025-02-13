@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { loadCode, saveCode } from '@api/code';
 import { defaultCodeFromLanguage } from '../constant/Code';
 
 type EditorStore = {
@@ -14,9 +15,12 @@ type EditorStore = {
   setOutput: (output: ResponseExecuteResult) => void | Promise<void>
   settings: CodeEditorSettings,
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
-};
+  updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>
+  loadCode: () => Promise<ApiResponse<string>> | ApiResponse<string>
+}
+;
 
-export const useCodeEditorStore = create<EditorStore>((set) => ({
+export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   code: defaultCodeFromLanguage['C++'],
   setCode: (code: string) => set({ code }),
   language: 'C++' as Language,
@@ -53,6 +57,22 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
     } else {
       set({ settings: updator });
     }
+  },
+  updateCode: async () => {
+    const problemUuid = location.pathname.split('/')[2];
+    const { code, language } = get();
+    const response = await saveCode({
+      problemUuid,
+      content: code,
+      language,
+    });
+    return response;
+  },
+  loadCode: async () => {
+    const problemUuid = location.pathname.split('/')[2];
+    const { language } = get();
+    const response = await loadCode(problemUuid, language);
+    return response;
   },
 }));
 
