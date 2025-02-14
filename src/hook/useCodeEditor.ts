@@ -26,7 +26,7 @@ export default function useCodeEditor() {
 
   useEffect(() => {
     loadCode();
-  }, []);
+  }, [language]);
 
   const handleEditorChange = useCallback((
     value: string | undefined,
@@ -36,7 +36,8 @@ export default function useCodeEditor() {
     }
     setCode(value);
     updateCodeFromLanguage(language, value);
-  }, [setCode]);
+    setIsSaving(false);
+  }, [setCode, setIsSaving]);
 
   const handleFocus = useCallback(() => {
     setFocus(true);
@@ -46,6 +47,19 @@ export default function useCodeEditor() {
     setFocus(false);
   }, []);
 
+  const handleSave = useCallback(async (e) => {
+    if (isSaving) {
+      return;
+    }
+    setIsSaving(true);
+    await updateCode();
+  }, [isSaving]);
+  const saveRef = useRef(handleSave);
+
+  useEffect(() => {
+    saveRef.current = handleSave;
+  }, [isSaving]);
+
   const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
     editor.onDidBlurEditorText(handleBlur);
@@ -53,26 +67,16 @@ export default function useCodeEditor() {
     editor.onKeyDown((e) => {
       if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCode.KeyS) {
         e.preventDefault();
-        return false;
+        if (e.browserEvent.repeat) {
+          return false;
+        }
       }
       return true;
     });
 
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => {
-      executeRef.current();
-    });
-
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, async () => {
-      if (isSaving) return;
-
-      try {
-        setIsSaving(true);
-        await updateCode();
-      } finally {
-        setIsSaving(false);
-      }
-    });
-  }, [editorRef, isSaving, updateCode]);
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => executeRef.current());
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, (e) => saveRef.current(e));
+  }, [executeRef, saveRef]);
 
   return {
     code,
