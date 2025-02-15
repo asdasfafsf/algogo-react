@@ -27,7 +27,15 @@ export default function useCodeEditor() {
   }, [handleExecute]);
 
   useEffect(() => {
-    loadCode();
+    const handleFetch = async () => {
+      const response = await loadCode();
+      if (response.statusCode === 200) {
+        const code = response.data.content;
+        setCode(code);
+      }
+    };
+
+    handleFetch();
   }, []);
 
   const handleEditorChange = useCallback((
