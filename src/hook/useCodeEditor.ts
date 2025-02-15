@@ -7,6 +7,7 @@ import {
 } from 'monaco-editor';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import useExecute from './useExecute';
+import useToastModal from './modal/useToastModal';
 
 export default function useCodeEditor() {
   const editorRef = useRef<unknown>(null);
@@ -21,6 +22,8 @@ export default function useCodeEditor() {
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
   const [isSaving, setIsSaving] = useState(false);
+
+  const { toast } = useToastModal();
 
   useEffect(() => {
     executeRef.current = () => handleExecute();
@@ -59,6 +62,7 @@ export default function useCodeEditor() {
     }
     setIsSaving(true);
     await updateCode();
+    toast('Code saved successfully');
   }, [isSaving]);
   const saveRef = useRef(handleSave);
 
