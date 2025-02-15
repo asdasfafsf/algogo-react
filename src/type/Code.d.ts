@@ -3,3 +3,7 @@ type RequestSaveCode = {
   content: string;
   language: Language
 };
+
+type ResponseCode = {
+  content: string;
+};

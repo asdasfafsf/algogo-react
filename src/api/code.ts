@@ -7,6 +7,6 @@ export const saveCode = async (saveCode: RequestSaveCode) => {
 };
 
 export const loadCode = async (problemUuid: string, language: Language) => {
-  const response: AxiosResponse<ApiResponse<string>> = await apiClient.get(`/api/v1/code/problem/${problemUuid}?language=${language}`);
+  const response: AxiosResponse<ApiResponse<ResponseCode>> = await apiClient.get(`/api/v1/code/problem/${problemUuid}?language=${encodeURIComponent(language)}`);
   return response.data;
 };

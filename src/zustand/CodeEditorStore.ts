@@ -16,7 +16,7 @@ type EditorStore = {
   settings: CodeEditorSettings,
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
   updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>
-  loadCode: () => Promise<ApiResponse<string>> | ApiResponse<string>
+  loadCode: () => Promise<ApiResponse<ResponseCode>> | ApiResponse<ResponseCode>
 }
 ;
 
@@ -28,11 +28,12 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   codeFromLanguage: {
     ...defaultCodeFromLanguage,
   },
-  updateCodeFromLanguage: (languge, code) => set((state) => {
-    const { codeFromLanguage } = state;
-    codeFromLanguage[languge] = code;
-    return state;
-  }),
+  updateCodeFromLanguage: (language, code) => set((state) => ({
+    codeFromLanguage: {
+      ...state.codeFromLanguage,
+      [language]: code,
+    },
+  })),
   input: '',
   setInput: (input: string) => set({ input }),
   output: {
@@ -72,6 +73,12 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     const problemUuid = location.pathname.split('/')[2];
     const { language } = get();
     const response = await loadCode(problemUuid, language);
+
+    if (response.statusCode === 200) {
+      const code = response.data.content;
+      set({ code });
+    }
+
     return response;
   },
 }));

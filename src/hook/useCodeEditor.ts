@@ -2,7 +2,9 @@
 import {
   useCallback, useRef, useState, useEffect,
 } from 'react';
-import { editor, KeyCode, KeyMod } from 'monaco-editor';
+import {
+  editor, IKeyboardEvent, KeyCode, KeyMod,
+} from 'monaco-editor';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import useExecute from './useExecute';
 
@@ -26,7 +28,7 @@ export default function useCodeEditor() {
 
   useEffect(() => {
     loadCode();
-  }, [language]);
+  }, []);
 
   const handleEditorChange = useCallback((
     value: string | undefined,
@@ -47,7 +49,7 @@ export default function useCodeEditor() {
     setFocus(false);
   }, []);
 
-  const handleSave = useCallback(async (e) => {
+  const handleSave = useCallback(async () => {
     if (isSaving) {
       return;
     }
@@ -60,22 +62,23 @@ export default function useCodeEditor() {
     saveRef.current = handleSave;
   }, [isSaving]);
 
+  const handleEditorKeydown = useCallback((e: IKeyboardEvent) => {
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCode.KeyS) {
+      e.preventDefault();
+      if (e.browserEvent.repeat) {
+        return false;
+      }
+    }
+    return true;
+  }, []);
+
   const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
     editor.onDidBlurEditorText(handleBlur);
     editor.onDidFocusEditorText(handleFocus);
-    editor.onKeyDown((e) => {
-      if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCode.KeyS) {
-        e.preventDefault();
-        if (e.browserEvent.repeat) {
-          return false;
-        }
-      }
-      return true;
-    });
-
+    editor.onKeyDown(handleEditorKeydown);
     editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => executeRef.current());
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, (e) => saveRef.current(e));
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current());
   }, [executeRef, saveRef]);
 
   return {
