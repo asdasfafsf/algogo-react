@@ -73,6 +73,12 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     const problemUuid = location.pathname.split('/')[2];
     const { language } = get();
     const response = await loadCode(problemUuid, language);
+
+    if (response.statusCode === 200) {
+      const code = response.data.content;
+      set({ code });
+    }
+
     return response;
   },
 }));
