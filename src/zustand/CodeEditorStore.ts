@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { loadCode, saveCode } from '@api/code';
 import { defaultCodeFromLanguage } from '../constant/Code';
 
 type EditorStore = {
@@ -14,9 +15,12 @@ type EditorStore = {
   setOutput: (output: ResponseExecuteResult) => void | Promise<void>
   settings: CodeEditorSettings,
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
-};
+  updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>
+  loadCode: () => Promise<ApiResponse<ResponseCode>> | ApiResponse<ResponseCode>
+}
+;
 
-export const useCodeEditorStore = create<EditorStore>((set) => ({
+export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   code: defaultCodeFromLanguage['C++'],
   setCode: (code: string) => set({ code }),
   language: 'C++' as Language,
@@ -24,11 +28,12 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
   codeFromLanguage: {
     ...defaultCodeFromLanguage,
   },
-  updateCodeFromLanguage: (languge, code) => set((state) => {
-    const { codeFromLanguage } = state;
-    codeFromLanguage[languge] = code;
-    return state;
-  }),
+  updateCodeFromLanguage: (language, code) => set((state) => ({
+    codeFromLanguage: {
+      ...state.codeFromLanguage,
+      [language]: code,
+    },
+  })),
   input: '',
   setInput: (input: string) => set({ input }),
   output: {
@@ -53,6 +58,28 @@ export const useCodeEditorStore = create<EditorStore>((set) => ({
     } else {
       set({ settings: updator });
     }
+  },
+  updateCode: async () => {
+    const problemUuid = location.pathname.split('/')[2];
+    const { code, language } = get();
+    const response = await saveCode({
+      problemUuid,
+      content: code,
+      language,
+    });
+    return response;
+  },
+  loadCode: async () => {
+    const problemUuid = location.pathname.split('/')[2];
+    const { language } = get();
+    const response = await loadCode(problemUuid, language);
+
+    if (response.statusCode === 200) {
+      const code = response.data.content;
+      set({ code });
+    }
+
+    return response;
   },
 }));
 
