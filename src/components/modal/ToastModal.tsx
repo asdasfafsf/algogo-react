@@ -6,19 +6,21 @@ interface ToastModalProps {
   content: string;
   duration?: number;
   variant?: 'default' | 'success' | 'fail';
+  modalKey: string;
 }
 
 export default function ToastModal({
   content,
   duration = 3000,
   variant = 'default',
+  modalKey,
 }: ToastModalProps) {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClose = () => {
     setIsVisible(false);
-    if (modal?.top().key === 'Toast') {
+    if (modal?.top().key === `Toast-${modalKey}`) {
       modal.top().resolve(true);
     }
   };
@@ -26,7 +28,7 @@ export default function ToastModal({
   useEffect(() => {
     setIsVisible(true);
     const timer = setTimeout(() => {
-      handleClose();
+      modal.remove(`Toast-${modalKey}`);
     }, duration);
     return () => clearTimeout(timer);
   }, [duration, modal]);
@@ -67,7 +69,9 @@ export default function ToastModal({
   return (
     <div
       role="alert"
-      className="fixed z-30 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 transition-opacity duration-500 ease-out bg-white rounded-lg shadow-sm right-4 bottom-4 dark:text-gray-400 dark:bg-gray-800"
+      className="fixed z-30 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm right-4 bottom-4 dark:text-gray-400 dark:bg-gray-800
+        animate-[toast-enter_0.3s_ease-out] data-[leaving=true]:animate-[toast-leave_0.3s_ease-in]"
+      data-leaving={!isVisible}
     >
       <div className={iconContainerClass}>
         {iconElement}
@@ -105,4 +109,34 @@ export default function ToastModal({
       </button>
     </div>
   );
+}
+
+const styles = `
+  @keyframes toast-enter {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes toast-leave {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+`;
+
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
 }
