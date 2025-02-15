@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  TranslucentOverlay, Line, Typography,
+  TranslucentOverlay, Typography,
 } from '@components/common/index';
 import { Button } from '@components/Button/index';
 import { useCallback, useEffect, useState } from 'react';
