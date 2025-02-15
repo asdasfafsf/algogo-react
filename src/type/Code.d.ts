@@ -11,17 +11,17 @@ type ResponseCode = {
 type ResponseSetting = {
   fontSize: number;
   problemContentRate: number;
-  theme: 'vs-dark' | 'light'
+  theme: CodeEditorTheme
   tabSize: number;
-  lineNumber: 'on' | 'off' | 'relative',
-  defaultLanguage: Language
+  lineNumber: CodeEditorLineNumber;
+  defaultLanguage: Language;
 };
 
 type RequestSetting = {
   fontSize?: number;
   problemContentRate?: number;
-  theme?: 'vs-dark' | 'light';
+  theme?: CodeEditorTheme
   tabSize?: number;
-  lineNumber?: 'on' | 'off' | 'relative',
-  defaultLanguage?: Language
+  lineNumber?: CodeEditorLineNumber;
+  defaultLanguage?: Language;
 };
