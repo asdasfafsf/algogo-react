@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import {
-  getSetting, loadCode, saveCode, setSetting,
+  getSetting, getTemplates, loadCode, saveCode, setSetting,
 } from '@api/code';
 import { defaultCodeFromLanguage } from '../constant/Code';
 
@@ -115,6 +115,10 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       setSettings(response.data);
     }
 
+    return response;
+  },
+  loadTemplates: async () => {
+    const response = await getTemplates();
     return response;
   },
 }));

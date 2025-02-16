@@ -25,3 +25,47 @@ type RequestSetting = {
   lineNumber?: CodeEditorLineNumber;
   defaultLanguage?: Language;
 };
+
+type RequestCreateTemplate = {
+  name: string;
+  description: string;
+  language: Language;
+  content: string;
+};
+
+type RequestUpdateTemplate = RequestCreateTemplate & {
+  uuid: string;
+};
+
+type ResponseTemplate = {
+  uuid: string;
+  name: string;
+  description: string;
+  language: Language;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type ResponseTemplates = {
+  defaultList: ResponseDefaultTemplate[];
+  summaryList: ResponseSummaryTemplate[];
+};
+
+type ResponseDefaultTemplate = {
+  uuid: string;
+  name: string;
+  description: string;
+  language: Language;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type ResponseSummaryTemplate = {
+  uuid: string;
+  name: string;
+  language: Language;
+  createdAt: Date;
+  updatedAt: Date;
+};

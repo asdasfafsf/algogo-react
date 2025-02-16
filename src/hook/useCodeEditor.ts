@@ -83,11 +83,22 @@ export default function useCodeEditor() {
 
   const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
-    editor.onDidBlurEditorText(handleBlur);
-    editor.onDidFocusEditorText(handleFocus);
-    editor.onKeyDown(handleEditorKeydown);
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => executeRef.current());
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current());
+
+    const blurListener = editor.onDidBlurEditorText(handleBlur);
+    const focusListener = editor.onDidFocusEditorText(handleFocus);
+    const keydownListener = editor.onKeyDown(handleEditorKeydown);
+    editor.addCommand(
+      KeyMod.CtrlCmd | KeyCode.Enter,
+      () => executeRef.current?.(),
+    );
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current?.());
+
+    return () => {
+      blurListener.dispose();
+      focusListener.dispose();
+      keydownListener.dispose();
+      editor.dispose();
+    };
   }, [executeRef, saveRef]);
 
   return {
