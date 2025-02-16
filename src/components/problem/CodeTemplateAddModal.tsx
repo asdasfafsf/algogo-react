@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import useModal from '@plugins/modal/useModal';
 import { TranslucentOverlay } from '@components/common/index';
 import { Button } from '@components/Button/index';
-import { languageList } from '@/constant/Language';
+import useCodeEditorStore from '@zustand/CodeEditorStore';
+import { languageList } from '@constant/Language';
 
 interface CodeTemplateAddModalProps {
   title?: string;
@@ -13,12 +14,13 @@ export default function CodeTemplateAddModal({
   title = '코드 템플릿 추가',
   language = 'Python',
 }: CodeTemplateAddModalProps) {
+  const code = useCodeEditorStore((state) => state.code);
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
   const [templateName, setTemplateName] = useState('');
   const [templateDescription, setTemplateDescription] = useState('');
   const [templateLanguage, setTemplateLanguage] = useState<Language>(language); // 기본값 설정
-  const [templateContent, setTemplateContent] = useState('');
+  const [templateContent, setTemplateContent] = useState(code);
 
   const handleClose = useCallback(() => {
     setIsVisible(false);
