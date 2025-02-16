@@ -5,3 +5,10 @@ export const languageMap: LanguageView = {
   Java: 'Java',
   Python: 'Python',
 };
+
+export const monocoLanguageMap = {
+  'Node.js': 'javascript',
+  'C++': 'cpp',
+  Java: 'java',
+  Python: 'python',
+};
