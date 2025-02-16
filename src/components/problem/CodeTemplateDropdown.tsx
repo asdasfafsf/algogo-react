@@ -7,8 +7,9 @@ import {
 } from 'react';
 import useCodeEditorStore from '@zustand/CodeEditorStore';
 import useAlertModal from '@hook/useAlertModal';
-import useDidMountEffect from '@hook/useDidMount';
 import { getTemplate, getTemplates } from '@api/code';
+import useModal from '@plugins/modal/useModal';
+import CodeTemplateAddModal from './CodeTemplateAddModal';
 
 export default function CodeTemplateDropdown() {
   const language = useCodeEditorStore((state) => state.language);
@@ -19,6 +20,7 @@ export default function CodeTemplateDropdown() {
     Java: [],
     Python: [],
   });
+  const modal = useModal();
   const [alert] = useAlertModal();
   const setCode = useCodeEditorStore((state) => state.setCode);
   const [open, setOpen] = useState(false);
@@ -57,7 +59,7 @@ export default function CodeTemplateDropdown() {
     fetchTemplates();
   }, []);
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     setTemplateList(templateListByLanguage.current[language]);
   }, [language]);
 
@@ -119,6 +121,7 @@ export default function CodeTemplateDropdown() {
             </li>
           )),
           <li
+            onClick={() => modal.push('CODE_TEMPLATE_ADD_MODAL', CodeTemplateAddModal, {})}
             key="추가하기"
             className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-crosshair hover:bg-gray-600"
           >
