@@ -127,7 +127,7 @@ export default function CodeTemplateDropdown() {
             </li>
           )),
           <li
-            onClick={() => modal.push('CODE_TEMPLATE_ADD_MODAL', CodeTemplateAddModal, {})}
+            onClick={() => modal.push('CODE_TEMPLATE_ADD_MODAL', CodeTemplateAddModal, { language })}
             key="추가하기"
             className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-crosshair hover:bg-gray-600"
           >
