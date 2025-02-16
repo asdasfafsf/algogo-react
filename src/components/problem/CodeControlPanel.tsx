@@ -4,6 +4,7 @@ import useExecute from '@hook/useExecute';
 import { Button } from '@components/Button';
 import useSubmit from '@hook/useSubmit';
 import LanguageDropdown from './LanguageDropdown';
+import CodeTemplateDropdown from './CodeTemplateDropdown';
 
 export default function CodeControlPanel() {
   const {
@@ -21,6 +22,7 @@ export default function CodeControlPanel() {
     >
       <div className="absolute sm:min-w-[480px] flex">
         <LanguageDropdown />
+        <CodeTemplateDropdown />
         <div className="hidden gap-1 ml-4 sm:flex">
           <Button
             onClick={handleClickReset}
