@@ -1,4 +1,4 @@
-import { ChevronDownIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, PlusIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { Dropdown } from '@components/Dropdown/index';
 import { Typography } from '@components/common/index';
 import {
@@ -76,6 +76,12 @@ export default function CodeTemplateDropdown() {
     setOpen(false);
   }, [templateMap, setUuidByLanguage]);
 
+  const handleEditTemplate = useCallback((uuid: string) => {
+    modal.push('CODE_TEMPLATE_EDIT_MODAL', CodeTemplateEditModal, {
+      uuid,
+    });
+  }, [modal]);
+
   return (
     <Dropdown
       handler={handler}
@@ -84,7 +90,7 @@ export default function CodeTemplateDropdown() {
       showArrow={false}
     >
       <div
-        className="flex w-32 h-10 items-center justify-between border-gray-800 rounded-md border-solid border-[1px] py-2 px-4 cursor-pointer"
+        className="flex w-36 h-10 items-center justify-between border-gray-800 rounded-md border-solid border-[1px] py-2 px-4 cursor-pointer"
       >
         <Typography
           className="text-gray-400 truncate max-w-[80px]"
@@ -100,7 +106,7 @@ export default function CodeTemplateDropdown() {
           }`}
         />
       </div>
-      <ul className="w-32 p-0 bg-gray-900 rounded-sm">
+      <ul className="p-0 bg-gray-900 rounded-sm w-36">
         {[
           templateList.map((elem) => (
             <li
@@ -109,12 +115,15 @@ export default function CodeTemplateDropdown() {
               className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-pointer hover:bg-gray-600"
             >
               <Typography
-                className="text-gray-400"
+                className="text-gray-400 truncate max-w-[100px]"
                 weight="semilight"
                 variant="medium"
               >
                 {elem.name}
               </Typography>
+              <div>
+                <PencilIcon className="size-4 cursor-context-menu" />
+              </div>
             </li>
           )),
           <li

@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
-import useAlertModal from './useAlertModal';
 
 export default function useSubmit() {
-  const [alert] = useAlertModal();
   const handleSubmit = useCallback(async () => {
-    alert('준비중입니다.');
+    const uuid = location.pathname.split('/')[2];
   }, []);
 
   return { handleSubmit };
