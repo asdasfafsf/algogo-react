@@ -16,12 +16,17 @@ type EditorStore = {
   output: ResponseExecuteResult,
   setOutput: (output: ResponseExecuteResult) => void | Promise<void>
   settings: CodeEditorSettings,
+  templates: ResponseTemplates,
+  setTemplates: (updator: Updater<ResponseTemplates>) => void | Promise<void>
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
   updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>
   loadCode: () => Promise<ApiResponse<ResponseCode>> | ApiResponse<ResponseCode>
   updateSetting: (data: RequestSetting
   & { saveToServer: boolean }) => void | Promise<void>,
   loadSetting: () => Promise<ApiResponse<ResponseSetting>> | ApiResponse<ResponseSetting>,
+  loadTemplates: () =>
+  Promise<ApiResponse<ResponseTemplates>>
+  | ApiResponse<ResponseTemplates>,
 }
 ;
 
@@ -64,6 +69,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     lineNumber: 'on',
     defaultLanguage: 'C++',
   },
+
   setSettings: (updator) => {
     if (typeof updator === 'function') {
       set((state) => ({
@@ -71,6 +77,19 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       }));
     } else {
       set({ settings: updator });
+    }
+  },
+  templates: {
+    defaultList: [],
+    summaryList: [],
+  },
+  setTemplates: (updator) => {
+    if (typeof updator === 'function') {
+      set((state) => ({
+        templates: (updator(state.templates)) as ResponseTemplates,
+      }));
+    } else {
+      set({ templates: updator });
     }
   },
   updateCode: async () => {
@@ -119,6 +138,9 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   },
   loadTemplates: async () => {
     const response = await getTemplates();
+    if (response.statusCode === 200) {
+      set({ templates: response.data });
+    }
     return response;
   },
 }));

@@ -7,7 +7,7 @@ import {
 } from 'react';
 import useCodeEditorStore from '@zustand/CodeEditorStore';
 import useAlertModal from '@hook/useAlertModal';
-import { getTemplate, getTemplates } from '@api/code';
+import { getTemplate } from '@api/code';
 import useModal from '@plugins/modal/useModal';
 import CodeTemplateAddModal from './CodeTemplateAddModal';
 
@@ -34,30 +34,27 @@ export default function CodeTemplateDropdown() {
     Python: '',
   });
 
+  const templates = useCodeEditorStore((state) => state.templates);
+
   useEffect(() => {
     const fetchTemplates = async () => {
-      const response = await getTemplates();
-
-      if (response.statusCode !== 200) {
-        await alert(response.errorMessage);
-        return;
-      }
-
       setUuidByLanguage({
-        'Node.js': response.data.summaryList.find((template) => template.language === 'Node.js')?.uuid ?? '',
-        'C++': response.data.summaryList.find((template) => template.language === 'C++')?.uuid ?? '',
-        Java: response.data.summaryList.find((template) => template.language === 'Java')?.uuid ?? '',
-        Python: response.data.summaryList.find((template) => template.language === 'Python')?.uuid ?? '',
+        'Node.js': templates.summaryList.find((template) => template.language === 'Node.js')?.uuid ?? '',
+        'C++': templates.summaryList.find((template) => template.language === 'C++')?.uuid ?? '',
+        Java: templates.summaryList.find((template) => template.language === 'Java')?.uuid ?? '',
+        Python: templates.summaryList.find((template) => template.language === 'Python')?.uuid ?? '',
       });
 
-      templateListByLanguage.current['Node.js'] = response.data.summaryList.filter((template) => template.language === 'Node.js');
-      templateListByLanguage.current['C++'] = response.data.summaryList.filter((template) => template.language === 'C++');
-      templateListByLanguage.current.Java = response.data.summaryList.filter((template) => template.language === 'Java');
-      templateListByLanguage.current.Python = response.data.summaryList.filter((template) => template.language === 'Python');
+      templateListByLanguage.current['Node.js'] = templates.summaryList.filter((template) => template.language === 'Node.js');
+      templateListByLanguage.current['C++'] = templates.summaryList.filter((template) => template.language === 'C++');
+      templateListByLanguage.current.Java = templates.summaryList.filter((template) => template.language === 'Java');
+      templateListByLanguage.current.Python = templates.summaryList.filter((template) => template.language === 'Python');
+
+      setTemplateList(templateListByLanguage.current[language]);
     };
 
     fetchTemplates();
-  }, []);
+  }, [templates]);
 
   useEffect(() => {
     setTemplateList(templateListByLanguage.current[language]);
