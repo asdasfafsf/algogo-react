@@ -31,6 +31,7 @@ type RequestCreateTemplate = {
   description: string;
   language: Language;
   content: string;
+  isDefault: boolean;
 };
 
 type RequestUpdateTemplate = RequestCreateTemplate & {

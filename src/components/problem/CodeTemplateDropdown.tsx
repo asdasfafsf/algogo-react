@@ -77,9 +77,7 @@ export default function CodeTemplateDropdown() {
   }, [templateMap, setUuidByLanguage]);
 
   const handleEditTemplate = useCallback((uuid: string) => {
-    modal.push('CODE_TEMPLATE_EDIT_MODAL', CodeTemplateEditModal, {
-      uuid,
-    });
+    modal.push('CODE_TEMPLATE_EDIT_MODAL', CodeTemplateAddModal, { language, uuid, isEdit: true });
   }, [modal]);
 
   return (
@@ -112,7 +110,7 @@ export default function CodeTemplateDropdown() {
             <li
               key={elem.uuid}
               onClick={() => handleChangeTemplate(elem.uuid)}
-              className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-pointer hover:bg-gray-600"
+              className="flex items-center justify-between w-full gap-1 p-3 bg-gray-900 rounded-md cursor-pointer hover:bg-gray-600"
             >
               <Typography
                 className="text-gray-400 truncate max-w-[100px]"
