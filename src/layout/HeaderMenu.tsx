@@ -31,20 +31,20 @@ export default function HeaderMenu({ menuItem }: HeaderMenuProps) {
         <Typography
           weight={menuItem.pathList.some((path) => path === currentPath) ? 'semibold' : 'semilight'}
           variant="paragraph"
-          className={`h-16 w-full box-border flex items-center justify-center ${menuItem.pathList.some((path) => path === currentPath) ? 'font-semibold' : ''} group-hover:font-semibold`}
+          className={`ph-16 w-full box-border flex items-center justify-center ${menuItem.pathList.some((path) => path === currentPath) ? 'font-semibold' : ''} group-hover:font-semibold`}
         >
           {menuItem.title}
         </Typography>
       </div>
-      <div className="fixed left-0 w-screen overflow-hidden transition-all duration-500 h-0 group-hover:h-80 border-t border-gray-300 group-hover:border-b">
-        <div className="h-full w-full bg-white">
+      <div className="fixed left-0 w-screen h-0 overflow-hidden transition-all duration-300 border-t border-gray-300 group-hover:h-64 group-hover:border-b">
+        <div className="w-full h-full bg-white">
           <div className="container max-w-screen-xl py-4 mx-auto">
             <div className="grid grid-cols-3 gap-8">
               <div>
-                <div onClick={() => navigate(menuItem.pathList[0])}>
-                  <Typography variant="h6" className="mb-2 hover:text-blue-500 cursor-pointer">{menuItem.subTitle}</Typography>
+                <div className="px-3" onClick={() => navigate(menuItem.pathList[0])}>
+                  <Typography variant="h6" className="mb-2 cursor-pointer hover:text-blue-500">{menuItem.subTitle}</Typography>
                 </div>
-                <ul className="space-y-2">
+                <ul className="px-3">
                   {
                         menuItem.subMenuList.map((subMenu, index) => {
                           const isActive = subMenu.pathList.some((path) => path === currentPath);

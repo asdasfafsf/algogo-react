@@ -84,15 +84,18 @@ export default function CompilerInfoModal() {
         isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >
-      <div
-        className="min-h-64 h-auto rounded-2xl bg-white w-[700px] p-8 shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
-      >
-        <Typography variant="h4" weight="bold" className="mb-4">
-          컴파일러 정보
-        </Typography>
-        <Line className="mb-6 bg-gray-200" />
-
-        <div className="mb-8 space-y-4">
+      <div className="max-h-[80vh] w-[700px] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200 flex flex-col">
+        {/* Header */}
+        <div className="pb-0">
+          <div className="px-8 pt-8">
+            <Typography variant="h4" weight="bold" className="mb-4">
+              컴파일러 정보
+            </Typography>
+          </div>
+          <Line className="bg-gray-200 " />
+        </div>
+        {/* 스크롤 가능한 콘텐츠 영역 */}
+        <div className="flex-1 p-8 pt-0 overflow-y-auto">
           {compilerData.map((compiler, index) => (
             <Card
               key={index}
@@ -141,14 +144,11 @@ export default function CompilerInfoModal() {
             </Card>
           ))}
         </div>
-
-        <div className="flex justify-center">
-          <Button
-            onClick={handleClose}
-
-          >
-            닫기
-          </Button>
+        {/* Footer */}
+        <div className="p-8">
+          <div className="flex justify-center">
+            <Button onClick={handleClose}>닫기</Button>
+          </div>
         </div>
       </div>
     </TranslucentOverlay>
