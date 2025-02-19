@@ -28,59 +28,60 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 w-full bg-white z-20">
-      <div className="container max-w-screen-xl mx-auto">
-        <div className="flex h-16 items-center justify-between">
-          {/* Left: Logo + Nav */}
-          <div className="flex items-center gap-8 h-full">
-            <LogoWithText size="small" />
-            <div className="w-6" />
-            {/* Desktop Menu */}
-            <div className="relative h-full hidden md:flex items-center">
-              {memuItemList.map((item) => (
-                <HeaderMenu key={item.title} menuItem={item} />
-              ))}
+    <>
+      <header className="fixed top-0 z-20 w-full bg-white">
+        <div className="container max-w-screen-xl mx-auto">
+          <div className="flex items-center justify-between h-16">
+            {/* Left: Logo + Nav */}
+            <div className="flex items-center h-full gap-8">
+              <LogoWithText size="medium" />
+              <div className="w-6" />
+              {/* Desktop Menu */}
+              <div className="relative items-center hidden h-full md:flex">
+                {memuItemList.map((item) => (
+                  <HeaderMenu key={item.title} menuItem={item} />
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Auth buttons */}
+            <div className="flex items-center gap-2">
+              {/* Mobile Menu Button */}
+              <div
+                className="p-2 transition-colors rounded-full cursor-pointer md:hidden hover:bg-gray-100"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <Bars3Icon className="w-6 h-6" />
+              </div>
+
+              {/* Auth Buttons / Profile Menu */}
+              <div className="items-center hidden gap-2 md:flex">
+                {me === null ? (
+                  <>
+                    <Button variant="text" onClick={() => navigate('/login')}>
+                      로그인
+                    </Button>
+                    <Button onClick={() => navigate('/signup')}>
+                      회원가입
+                    </Button>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    <ProfileMenu me={me} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Right: Auth buttons */}
-          <div className="flex items-center gap-2">
-            {/* Mobile Menu Button */}
-            <div
-              className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <Bars3Icon className="w-6 h-6" />
-            </div>
-
-            {/* Auth Buttons / Profile Menu */}
-            <div className="hidden md:flex items-center gap-2">
-              {me === null ? (
-                <>
-                  <Button variant="text" onClick={() => navigate('/login')}>
-                    로그인
-                  </Button>
-                  <Button onClick={() => navigate('/signup')}>
-                    회원가입
-                  </Button>
-                </>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <ProfileMenu me={me} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 bg-white z-50 md:hidden">
-            <div className="container max-w-screen-xl mx-auto p-4">
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 bg-white md:hidden">
+            <div className="container max-w-screen-xl p-4 mx-auto">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-end mb-6">
                 <div
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors cursor-pointer"
+                  className="p-2 transition-colors rounded-full cursor-pointer hover:bg-gray-100"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <Bars3Icon className="w-6 h-6" />
@@ -91,7 +92,7 @@ export default function Header() {
               <div className="space-y-6">
                 {memuItemList.map((item) => (
                   <div key={item.title} className="py-2">
-                    <div className="text-xl font-semibold text-gray-900 mb-3">
+                    <div className="mb-3 text-xl font-semibold text-gray-900">
                       {item.title}
                     </div>
                     <div className="space-y-3">
@@ -119,14 +120,14 @@ export default function Header() {
 
                 {/* 회원 섹션 */}
                 <div className="py-2">
-                  <div className="text-xl font-semibold text-gray-900 mb-3">
+                  <div className="mb-3 text-xl font-semibold text-gray-900">
                     회원
                   </div>
                   <div className="space-y-3">
                     {me === null ? (
                       <>
                         <div
-                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          className="py-3 pl-4 text-gray-600 transition-colors rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-50"
                           onClick={() => {
                             navigate('/login');
                             setIsMobileMenuOpen(false);
@@ -135,7 +136,7 @@ export default function Header() {
                           로그인
                         </div>
                         <div
-                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          className="py-3 pl-4 text-gray-600 transition-colors rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-50"
                           onClick={() => {
                             navigate('/signup');
                             setIsMobileMenuOpen(false);
@@ -147,7 +148,7 @@ export default function Header() {
                     ) : (
                       <>
                         <div
-                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          className="py-3 pl-4 text-gray-600 transition-colors rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-50"
                           onClick={() => {
                             navigate('/me');
                             setIsMobileMenuOpen(false);
@@ -156,7 +157,7 @@ export default function Header() {
                           마이페이지
                         </div>
                         <div
-                          className="pl-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+                          className="py-3 pl-4 text-gray-600 transition-colors rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-50"
                           onClick={() => {
                             logout();
                             // TODO: 로그 아웃 로직 추가 필요
@@ -172,8 +173,10 @@ export default function Header() {
               </div>
             </div>
           </div>
-        )}
-      </div>
-    </header>
+          )}
+        </div>
+      </header>
+      <div className="relative h-16 bg-gray-100" />
+    </>
   );
 }
