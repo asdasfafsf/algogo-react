@@ -2,35 +2,55 @@
 import {
   useCallback, useRef, useState, useEffect,
 } from 'react';
-import { editor, KeyCode, KeyMod } from 'monaco-editor';
+import {
+  editor, IKeyboardEvent, KeyCode, KeyMod,
+} from 'monaco-editor';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import useExecute from './useExecute';
+import useToastModal from './modal/useToastModal';
 
 export default function useCodeEditor() {
   const editorRef = useRef<unknown>(null);
   const code = useCodeEditorStore((state) => state.code);
   const setCode = useCodeEditorStore((state) => state.setCode);
   const language = useCodeEditorStore((state) => state.language);
-  const updateCodeFromLanguage = useCodeEditorStore((state) => state.updateCodeFromLanguage);
   const settings = useCodeEditorStore((state) => state.settings);
-
+  const updateCode = useCodeEditorStore((state) => state.updateCode);
+  const loadCode = useCodeEditorStore((state) => state.loadCode);
+  const loadSetting = useCodeEditorStore((state) => state.loadSetting);
+  const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
+  const setCodeFromTemplate = useCodeEditorStore((state) => state.setCodeFromTemplate);
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
+  const [isSaving, setIsSaving] = useState(false);
+
+  const { toast } = useToastModal();
 
   useEffect(() => {
     executeRef.current = () => handleExecute();
   }, [handleExecute]);
 
+  useEffect(() => {
+    const handleFetch = async () => {
+      await loadSetting();
+      await loadCode();
+      await loadTemplates();
+      await setCodeFromTemplate();
+    };
+
+    handleFetch();
+  }, []);
+
   const handleEditorChange = useCallback((
     value: string | undefined,
   ) => {
     if (!value) {
-      return;
+      value = '';
     }
     setCode(value);
-    updateCodeFromLanguage(language, value);
-  }, [setCode]);
+    setIsSaving(false);
+  }, [setCode, setIsSaving, language]);
 
   const handleFocus = useCallback(() => {
     setFocus(true);
@@ -40,22 +60,49 @@ export default function useCodeEditor() {
     setFocus(false);
   }, []);
 
-  const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
-    editorRef.current = editor;
-    editor.onDidBlurEditorText(handleBlur);
-    editor.onDidFocusEditorText(handleFocus);
-    editor.onKeyDown((e) => {
-      if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCode.KeyS) {
-        e.preventDefault();
+  const handleSave = useCallback(async () => {
+    if (isSaving) {
+      return;
+    }
+    setIsSaving(true);
+    await updateCode();
+    toast('코드가 저장되었습니다.', 3000, 'success');
+  }, [isSaving]);
+  const saveRef = useRef(handleSave);
+
+  useEffect(() => {
+    saveRef.current = handleSave;
+  }, [isSaving]);
+
+  const handleEditorKeydown = useCallback((e: IKeyboardEvent) => {
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCode.KeyS) {
+      e.preventDefault();
+      if (e.browserEvent.repeat) {
         return false;
       }
-      return true;
-    });
+    }
+    return true;
+  }, []);
 
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => {
-      executeRef.current();
-    });
-  }, [editorRef]);
+  const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
+    editorRef.current = editor;
+
+    const blurListener = editor.onDidBlurEditorText(handleBlur);
+    const focusListener = editor.onDidFocusEditorText(handleFocus);
+    const keydownListener = editor.onKeyDown(handleEditorKeydown);
+    editor.addCommand(
+      KeyMod.CtrlCmd | KeyCode.Enter,
+      () => executeRef.current?.(),
+    );
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current?.());
+
+    return () => {
+      blurListener.dispose();
+      focusListener.dispose();
+      keydownListener.dispose();
+      editor.dispose();
+    };
+  }, [executeRef, saveRef]);
 
   return {
     code,

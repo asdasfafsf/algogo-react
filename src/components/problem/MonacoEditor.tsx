@@ -1,17 +1,11 @@
 import Editor from '@monaco-editor/react';
 import useCodeEditor from '@hook/useCodeEditor';
+import { monocoLanguageMap } from '@constant/Language';
 
 export default function CodeEditorBody() {
   const {
     code, settings, language, handleEditorMount, handleEditorChange,
   } = useCodeEditor();
-
-  const monocoLanguageMap = {
-    'Node.js': 'javascript',
-    'C++': 'cpp',
-    Java: 'java',
-    Python: 'python',
-  };
 
   return (
     <Editor
