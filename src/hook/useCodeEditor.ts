@@ -19,7 +19,7 @@ export default function useCodeEditor() {
   const loadCode = useCodeEditorStore((state) => state.loadCode);
   const loadSetting = useCodeEditorStore((state) => state.loadSetting);
   const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
-
+  const setCodeFromTemplate = useCodeEditorStore((state) => state.setCodeFromTemplate);
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
@@ -36,6 +36,7 @@ export default function useCodeEditor() {
       await loadSetting();
       await loadCode();
       await loadTemplates();
+      await setCodeFromTemplate();
     };
 
     handleFetch();

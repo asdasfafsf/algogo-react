@@ -27,6 +27,7 @@ type EditorStore = {
   loadTemplates: () =>
   Promise<ApiResponse<ResponseTemplates>>
   | ApiResponse<ResponseTemplates>,
+  setCodeFromTemplate: () => void | Promise<void>
 }
 ;
 
@@ -142,6 +143,13 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       set({ templates: response.data });
     }
     return response;
+  },
+  setCodeFromTemplate: () => {
+    const { templates, setCode, language } = get();
+    const template = templates.defaultList.find((template) => template.language === language);
+    if (template) {
+      setCode(template.content);
+    }
   },
 }));
 

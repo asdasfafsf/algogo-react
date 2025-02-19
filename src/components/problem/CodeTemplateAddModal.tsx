@@ -5,8 +5,9 @@ import { Button } from '@components/Button/index';
 import useCodeEditorStore from '@zustand/CodeEditorStore';
 import { languageList, monocoLanguageMap } from '@constant/Language';
 import Editor from '@monaco-editor/react';
-import { createTemplate, updateTemplate } from '@api/code';
+import { createTemplate, deleteTemplate, updateTemplate } from '@api/code';
 import useAlertModal from '@hook/useAlertModal';
+import useConfirmModal from '@hook/useConfirmModal';
 import { Checkbox } from '../Checkbox';
 
 interface CodeTemplateAddModalProps {
@@ -14,6 +15,10 @@ interface CodeTemplateAddModalProps {
   language?: Language;
   uuid?: string;
   isEdit?: boolean;
+  modalKey: string;
+  description?: string;
+  content?: string;
+  name?: string;
 }
 
 export default function CodeTemplateAddModal({
@@ -21,22 +26,26 @@ export default function CodeTemplateAddModal({
   language = 'Python',
   uuid = '',
   isEdit = false,
+  modalKey,
+  name = '',
+  description = '',
+  content = '',
 }: CodeTemplateAddModalProps) {
-  const code = useCodeEditorStore((state) => state.code);
   const settings = useCodeEditorStore((state) => state.settings);
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
-  const [templateName, setTemplateName] = useState('');
-  const [templateDescription, setTemplateDescription] = useState('');
+  const [templateName, setTemplateName] = useState(name);
+  const [templateDescription, setTemplateDescription] = useState(description);
   const [templateLanguage, setTemplateLanguage] = useState<Language>(language);
-  const [templateContent, setTemplateContent] = useState(code);
+  const [templateContent, setTemplateContent] = useState(content);
   const [isDefault, setIsDefault] = useState(false);
   const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
+  const [confirm] = useConfirmModal();
 
   const [alert] = useAlertModal();
   const handleClose = useCallback(() => {
     setIsVisible(false);
-    modal.remove('CODE_TEMPLATE_ADD_MODAL');
+    modal.remove(modalKey);
   }, [modal]);
 
   useEffect(() => {
@@ -44,7 +53,7 @@ export default function CodeTemplateAddModal({
 
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        if (modal?.top()?.key === 'CODE_TEMPLATE_ADD_MODAL') {
+        if (modal?.top()?.key === modalKey) {
           handleClose();
         }
       }
@@ -55,6 +64,22 @@ export default function CodeTemplateAddModal({
       window.removeEventListener('keydown', handleEscKey);
     };
   }, [handleClose, modal]);
+
+  const handleDelete = useCallback(async () => {
+    const isOk = await confirm('정말 삭제하시겠습니까?');
+
+    if (!isOk) return;
+    const response = await deleteTemplate(uuid);
+
+    if (response.statusCode !== 200) {
+      await alert(response.errorMessage);
+      return;
+    }
+
+    await loadTemplates();
+    await alert('코드 템플릿이 삭제되었습니다.');
+    handleClose();
+  }, [uuid, handleClose, confirm]);
 
   const handleSubmit = useCallback(async () => {
     if (!templateName.trim() || !templateContent.trim()) return;
@@ -215,12 +240,14 @@ export default function CodeTemplateAddModal({
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 px-4 pb-4">
+        <div className="flex justify-end gap-2 px-4 pb-4 mx-4">
           <Button onClick={handleClose} color="gray">
             취소
           </Button>
+          {isEdit
+          && <Button onClick={handleDelete} color="red">삭제</Button>}
           <Button onClick={handleSubmit} color="blue">
-            추가
+            {isEdit ? '수정' : '추가'}
           </Button>
         </div>
       </div>

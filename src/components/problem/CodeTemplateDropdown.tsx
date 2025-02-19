@@ -3,7 +3,7 @@ import { Dropdown } from '@components/Dropdown/index';
 import { Typography } from '@components/common/index';
 import {
   useCallback,
-  useEffect, useRef, useState,
+  useEffect, useState,
 } from 'react';
 import useCodeEditorStore from '@zustand/CodeEditorStore';
 import useAlertModal from '@hook/useAlertModal';
@@ -13,8 +13,10 @@ import CodeTemplateAddModal from './CodeTemplateAddModal';
 
 export default function CodeTemplateDropdown() {
   const language = useCodeEditorStore((state) => state.language);
-  const templateMap = useRef<Record<string, ResponseTemplate>>({});
-  const templateListByLanguage = useRef<Record<Language, ResponseSummaryTemplate[]>>({
+  const [templateMap, setTemplateMap] = useState<Record<string, ResponseTemplate>>({});
+  const [templateListByLanguage, setTemplateListByLanguage] = useState<
+  Record<Language, ResponseSummaryTemplate[]>
+  >({
     'Node.js': [],
     'C++': [],
     Java: [],
@@ -27,7 +29,7 @@ export default function CodeTemplateDropdown() {
   const handler = useCallback(() => setOpen((open) => !open), [setOpen]);
   const [templateList, setTemplateList] = useState<ResponseSummaryTemplate[]>([]);
 
-  const [uuidByLanguage, setUuidByLanguage] = useState<Record<Language, string>>({
+  const [titleByLanguage, setTitleByLanguage] = useState<Record<Language, string>>({
     'Node.js': '',
     'C++': '',
     Java: '',
@@ -38,47 +40,87 @@ export default function CodeTemplateDropdown() {
 
   useEffect(() => {
     const fetchTemplates = async () => {
-      setUuidByLanguage({
-        'Node.js': templates.summaryList.find((template) => template.language === 'Node.js')?.uuid ?? '',
-        'C++': templates.summaryList.find((template) => template.language === 'C++')?.uuid ?? '',
-        Java: templates.summaryList.find((template) => template.language === 'Java')?.uuid ?? '',
-        Python: templates.summaryList.find((template) => template.language === 'Python')?.uuid ?? '',
+      setTitleByLanguage({
+        'Node.js': templates.defaultList.find((template) => template.language === 'Node.js')?.name
+          ?? templates.summaryList.find((template) => template.language === 'Node.js')?.name ?? '',
+        'C++': templates.defaultList.find((template) => template.language === 'C++')?.uuid
+          ?? templates.summaryList.find((template) => template.language === 'C++')?.uuid ?? '',
+        Java: templates.defaultList.find((template) => template.language === 'Java')?.uuid
+          ?? templates.summaryList.find((template) => template.language === 'Java')?.uuid ?? '',
+        Python: templates.defaultList.find((template) => template.language === 'Python')?.uuid
+          ?? templates.summaryList.find((template) => template.language === 'Python')?.uuid ?? '',
       });
 
-      templateListByLanguage.current['Node.js'] = templates.summaryList.filter((template) => template.language === 'Node.js');
-      templateListByLanguage.current['C++'] = templates.summaryList.filter((template) => template.language === 'C++');
-      templateListByLanguage.current.Java = templates.summaryList.filter((template) => template.language === 'Java');
-      templateListByLanguage.current.Python = templates.summaryList.filter((template) => template.language === 'Python');
+      setTemplateListByLanguage({
+        'Node.js': templates.summaryList.filter((template) => template.language === 'Node.js'),
+        'C++': templates.summaryList.filter((template) => template.language === 'C++'),
+        Java: templates.summaryList.filter((template) => template.language === 'Java'),
+        Python: templates.summaryList.filter((template) => template.language === 'Python'),
+      });
 
-      setTemplateList(templateListByLanguage.current[language]);
+      setTemplateList(templates.summaryList.filter((template) => template.language === language));
     };
 
     fetchTemplates();
-  }, [templates]);
+  }, [templates, setTemplateListByLanguage]);
 
   useEffect(() => {
-    setTemplateList(templateListByLanguage.current[language]);
+    setTemplateList(templateListByLanguage[language]);
   }, [language]);
 
   const handleChangeTemplate = useCallback(async (uuid: string) => {
-    if (!templateMap.current[uuid]) {
+    if (!templateMap[uuid]) {
       const response = await getTemplate(uuid);
 
       if (response.statusCode !== 200) {
         await alert(response.errorMessage);
         return;
       }
-      templateMap.current[uuid] = response.data;
+      setTemplateMap((prev) => ({ ...prev, [uuid]: response.data }));
+      setCode(`${response.data.content}`);
+      setTitleByLanguage((prev) => ({ ...prev, [language]: response.data.name }));
+    } else {
+      setCode(`${templateMap[uuid].content}`);
+      setTitleByLanguage((prev) => ({ ...prev, [language]: templateMap[uuid].name }));
     }
 
-    setCode(templateMap.current[uuid].content);
-    setUuidByLanguage((prev) => ({ ...prev, [language]: uuid }));
     setOpen(false);
-  }, [templateMap, setUuidByLanguage]);
+  }, [language, templateMap, setTitleByLanguage]);
 
-  const handleEditTemplate = useCallback((uuid: string) => {
-    modal.push('CODE_TEMPLATE_EDIT_MODAL', CodeTemplateAddModal, { language, uuid, isEdit: true });
-  }, [modal]);
+  const handleEditTemplate = useCallback(async (uuid: string) => {
+    let template = templateMap[uuid];
+
+    if (!template) {
+      const response = await getTemplate(uuid);
+
+      if (response.statusCode !== 200) {
+        await alert(response.errorMessage);
+        return;
+      }
+      setTemplateMap((prev) => ({ ...prev, [uuid]: response.data }));
+      template = response.data;
+    }
+
+    await modal.push('CODE_TEMPLATE_EDIT_MODAL', CodeTemplateAddModal, {
+      language,
+      uuid,
+      isEdit: true,
+      modalKey: 'CODE_TEMPLATE_EDIT_MODAL',
+      title: '코드 템플릿 수정/삭제',
+      description: template.description,
+      content: template.content,
+      name: template.name,
+    });
+  }, [modal, language, templateMap]);
+
+  const handleAddTemplate = useCallback(() => {
+    const { code } = useCodeEditorStore.getState();
+    modal.push('CODE_TEMPLATE_ADD_MODAL', CodeTemplateAddModal, {
+      language,
+      modalKey: 'CODE_TEMPLATE_ADD_MODAL',
+      content: code,
+    });
+  }, [modal, language]);
 
   return (
     <Dropdown
@@ -95,7 +137,7 @@ export default function CodeTemplateDropdown() {
           weight="semilight"
           variant="medium"
         >
-          {templateMap.current[uuidByLanguage[language]]?.name || '템플릿 선택'}
+          {titleByLanguage[language] || '템플릿 선택'}
         </Typography>
         <ChevronDownIcon
           strokeWidth={2.5}
@@ -119,13 +161,19 @@ export default function CodeTemplateDropdown() {
               >
                 {elem.name}
               </Typography>
-              <div>
-                <PencilIcon className="size-4 cursor-context-menu" />
+              <div
+                className="w-4 cursor-context-menu hover:text-gray-400"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditTemplate(elem.uuid);
+                }}
+              >
+                <PencilIcon className="size-4" />
               </div>
             </li>
           )),
           <li
-            onClick={() => modal.push('CODE_TEMPLATE_ADD_MODAL', CodeTemplateAddModal, { language })}
+            onClick={handleAddTemplate}
             key="추가하기"
             className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-crosshair hover:bg-gray-600"
           >
