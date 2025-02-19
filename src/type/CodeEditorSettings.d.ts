@@ -5,4 +5,5 @@ type CodeEditorSettings = {
   theme: CodeEditorTheme
   lineNumber: CodeEditorLineNumber,
   tabSize: number;
+  defaultLanguage: Language;
 };

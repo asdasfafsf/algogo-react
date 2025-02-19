@@ -1,11 +1,26 @@
 import { useCallback } from 'react';
-import useAlertModal from './useAlertModal';
+import useProblemStore from '@zustand/ProblemStore';
+import useCodeEditorStore from '@zustand/CodeEditorStore';
 
 export default function useSubmit() {
-  const [alert] = useAlertModal();
+  const problem = useProblemStore((state) => state.problem);
+  const code = useCodeEditorStore((state) => state.code);
   const handleSubmit = useCallback(async () => {
-    alert('준비중입니다.');
-  }, []);
+    if (problem) {
+      const { sourceId, source } = problem;
+
+      // Copy code to clipboard
+      try {
+        await navigator.clipboard.writeText(code);
+      } catch {
+        // Do nothing
+      }
+
+      if (source === 'BOJ') {
+        window.open(`https://www.acmicpc.net/submit/${sourceId}`, '_blank');
+      }
+    }
+  }, [problem, code]);
 
   return { handleSubmit };
 }

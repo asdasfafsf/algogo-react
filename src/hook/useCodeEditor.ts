@@ -14,10 +14,12 @@ export default function useCodeEditor() {
   const code = useCodeEditorStore((state) => state.code);
   const setCode = useCodeEditorStore((state) => state.setCode);
   const language = useCodeEditorStore((state) => state.language);
-  const updateCodeFromLanguage = useCodeEditorStore((state) => state.updateCodeFromLanguage);
   const settings = useCodeEditorStore((state) => state.settings);
   const updateCode = useCodeEditorStore((state) => state.updateCode);
   const loadCode = useCodeEditorStore((state) => state.loadCode);
+  const loadSetting = useCodeEditorStore((state) => state.loadSetting);
+  const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
+  const setCodeFromTemplate = useCodeEditorStore((state) => state.setCodeFromTemplate);
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
@@ -31,7 +33,10 @@ export default function useCodeEditor() {
 
   useEffect(() => {
     const handleFetch = async () => {
+      await loadSetting();
       await loadCode();
+      await loadTemplates();
+      await setCodeFromTemplate();
     };
 
     handleFetch();
@@ -41,12 +46,11 @@ export default function useCodeEditor() {
     value: string | undefined,
   ) => {
     if (!value) {
-      return;
+      value = '';
     }
     setCode(value);
-    updateCodeFromLanguage(language, value);
     setIsSaving(false);
-  }, [setCode, setIsSaving]);
+  }, [setCode, setIsSaving, language]);
 
   const handleFocus = useCallback(() => {
     setFocus(true);
@@ -62,7 +66,7 @@ export default function useCodeEditor() {
     }
     setIsSaving(true);
     await updateCode();
-    toast('Code saved successfully');
+    toast('코드가 저장되었습니다.', 3000, 'success');
   }, [isSaving]);
   const saveRef = useRef(handleSave);
 
@@ -82,11 +86,22 @@ export default function useCodeEditor() {
 
   const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
-    editor.onDidBlurEditorText(handleBlur);
-    editor.onDidFocusEditorText(handleFocus);
-    editor.onKeyDown(handleEditorKeydown);
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () => executeRef.current());
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current());
+
+    const blurListener = editor.onDidBlurEditorText(handleBlur);
+    const focusListener = editor.onDidFocusEditorText(handleFocus);
+    const keydownListener = editor.onKeyDown(handleEditorKeydown);
+    editor.addCommand(
+      KeyMod.CtrlCmd | KeyCode.Enter,
+      () => executeRef.current?.(),
+    );
+    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current?.());
+
+    return () => {
+      blurListener.dispose();
+      focusListener.dispose();
+      keydownListener.dispose();
+      editor.dispose();
+    };
   }, [executeRef, saveRef]);
 
   return {

@@ -1,9 +1,15 @@
+import React from 'react';
+
 type CheckboxColor = 'blue' | 'indigo' | 'red' | 'amber' | 'green' | 'teal' | 'purple' | 'pink' | 'gray';
 
 interface CheckboxProps {
   className?: string;
   color?: CheckboxColor;
   checked: boolean;
+  disabled?: boolean;
+  label?: string;
+  id?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void | Promise<void>;
   onClick?: (e: React.MouseEvent) => void | Promise<void>;
 }
 
@@ -11,9 +17,12 @@ export default function Checkbox({
   className = '',
   checked,
   color = 'blue',
+  disabled = false,
+  label,
+  onChange,
   ...props
 }: CheckboxProps) {
-  const checkboxId = Math.random().toString();
+  const checkboxId = React.useId();
 
   const colorClasses = {
     blue: 'checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500',
@@ -27,15 +36,29 @@ export default function Checkbox({
     gray: 'checked:border-gray-500 checked:bg-gray-500 checked:before:bg-gray-500',
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
+    onChange?.(e);
+  };
+
   return (
     <div className="inline-flex items-center">
-      <label className="relative flex items-center p-1 rounded-full cursor-pointer" htmlFor={checkboxId}>
+      <label
+        className={`relative flex items-center p-1 rounded-full cursor-pointer ${
+          disabled ? 'cursor-not-allowed opacity-50' : ''
+        }`}
+        htmlFor={checkboxId}
+      >
         <input
-          onChange={() => {}}
           type="checkbox"
-          className={`before:content[""] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-8 before:w-8 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity hover:before:opacity-10 ${colorClasses[color]} ${className}`}
+          className={`before:content[""] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-8 before:w-8 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity hover:before:opacity-10 ${
+            disabled ? 'cursor-not-allowed' : ''
+          } ${colorClasses[color]} ${className}`}
           id={checkboxId}
           checked={checked}
+          disabled={disabled}
+          onChange={handleChange}
+          aria-label={label}
           {...props}
         />
         <span
@@ -57,6 +80,9 @@ export default function Checkbox({
           </svg>
         </span>
       </label>
+      {label && (
+        <span className={`ml-2 ${disabled ? 'opacity-50' : ''}`}>{label}</span>
+      )}
     </div>
   );
 }
