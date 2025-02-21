@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import useModal from '@plugins/modal/useModal';
 import { CheckCircleIcon, XCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
 
@@ -18,20 +18,26 @@ export default function ToastModal({
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleClose = () => {
-    setIsVisible(false);
+  const handleClose = useCallback(() => {
     if (modal?.top().key === `Toast-${modalKey}`) {
-      modal.top().resolve(true);
+      setIsVisible(false);
+      setTimeout(() => {
+        modal.top().resolve(true);
+      }, 300);
     }
-  };
+  }, [modal]);
 
   useEffect(() => {
     setIsVisible(true);
     const timer = setTimeout(() => {
-      modal.remove(`Toast-${modalKey}`);
+      setIsVisible(false);
+      setTimeout(() => {
+        modal.remove(`Toast-${modalKey}`);
+        setIsVisible(false);
+      }, 300);
     }, duration);
     return () => clearTimeout(timer);
-  }, [duration, modal]);
+  }, []);
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -69,9 +75,8 @@ export default function ToastModal({
   return (
     <div
       role="alert"
-      className="fixed z-30 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm right-4 bottom-4 dark:text-gray-400 dark:bg-gray-800
+      className="relative z-30 flex items-center w-64 max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm right-4 bottom-4 dark:text-gray-400 dark:bg-gray-800
         animate-[toast-enter_0.3s_ease-out] data-[leaving=true]:animate-[toast-leave_0.3s_ease-in]"
-      data-leaving={!isVisible}
     >
       <div className={iconContainerClass}>
         {iconElement}
