@@ -4,4 +4,5 @@ type ResponseExecuteResult = {
   memory: number;
   code: string,
   result: string
+  detail: string
 };
