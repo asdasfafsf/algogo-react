@@ -21,7 +21,7 @@ export function ProblemInputOutput({ input, output, scale = 1 }: ProblemInputOut
       <Typography
         scale={scale}
         variant="paragraph"
-        className="font-normal"
+        className="font-normal !leading-[2.0rem] my-2"
       >
         <MathJaxNode>{input}</MathJaxNode>
       </Typography>
@@ -38,7 +38,7 @@ export function ProblemInputOutput({ input, output, scale = 1 }: ProblemInputOut
       <Typography
         scale={scale}
         variant="paragraph"
-        className="font-normal"
+        className="font-normal !leading-[2.0rem] my-2"
       >
         <MathJaxNode>{output}</MathJaxNode>
       </Typography>
