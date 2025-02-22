@@ -1,7 +1,8 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import useCodeResultPanelStore from '../zustand/CodeResultPanelStore';
 import useCodeEditorStore from '../zustand/CodeEditorStore';
 import useTestCaseListStore from '../zustand/TestCaseListStore';
+import useProblemStore from '../zustand/ProblemStore';
 
 export default function useCodeResultPanel() {
   const {
@@ -11,10 +12,20 @@ export default function useCodeResultPanel() {
     setSelectedIndex(index);
   }, [selectedIndex]);
 
+  const problem = useProblemStore((state) => state.problem);
+
   const input = useCodeEditorStore((state) => state.input);
   const output = useCodeEditorStore((state) => state.output);
   const setInput = useCodeEditorStore((state) => state.setInput);
   const setOutput = useCodeEditorStore((state) => state.setOutput);
+
+  useEffect(() => {
+    if (problem) {
+      if (problem.inputOutputList.length > 0) {
+        setInput(problem.inputOutputList[0].input);
+      }
+    }
+  }, [problem]);
 
   const handleClickPasteInput = useCallback(async () => {
     const input = await navigator.clipboard.readText();
@@ -52,6 +63,5 @@ export default function useCodeResultPanel() {
     handleChangeInput,
     handleClickCopyOutput,
     handleClickResetOutput,
-
   };
 }
