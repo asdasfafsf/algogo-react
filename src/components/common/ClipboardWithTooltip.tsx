@@ -44,7 +44,7 @@ export default function ClipboardWithTooltip({
         onKeyDown={handleKeyDown}
         role="button"
         tabIndex={0}
-        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 lowercase w-full cursor-pointer focus:outline-none bg-black text-white border rounded-md${className}`}
+        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 w-full cursor-pointer focus:outline-none bg-black text-white border rounded-md${className}`}
       >
         <div className="w-full">
           {content
@@ -58,21 +58,21 @@ export default function ClipboardWithTooltip({
                   <React.Fragment key={`${text}-${index}`}>
                     <Typography
                       className="text-base text-white font-D2Coding"
-                      variant="medium"
+                      variant="paragraph"
                     >
                       {text}
                     </Typography>
 
                     {index < arr.length - 1 ? (
-                      <div className="text-blue-500">
-                        <SpaceIcon />
+                      <div className="flex items-center justify-center text-blue-500">
+                        <SpaceIcon className="w-4 h-4 font-bold" />
                       </div>
                     ) : null}
                   </React.Fragment>
                 ))}
                 {contentIndex < contentArr.length - 1 ? (
-                  <div className="w-4 h-4 text-blue-500">
-                    <EnterIcon />
+                  <div className="flex items-center justify-center text-blue-500">
+                    <EnterIcon className="w-4 h-4" />
                   </div>
                 ) : null}
               </div>

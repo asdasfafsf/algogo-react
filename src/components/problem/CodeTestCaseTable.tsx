@@ -55,7 +55,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
           </Button>
         </div>
       </div>
-      <Card className="h-[calc(100%-96px)] w-full overflow-auto bg-black">
+      <Card className="h-[calc(100%-96px)] w-full overflow-auto bg-gray-900">
         <table className="w-full text-center bg-gray-900 table-fixed min-w-max">
           <thead>
             <tr>
