@@ -44,7 +44,7 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
 
       {inputOutputList.map((elem, index) => (
         <div key={`example-${index}`}>
-          <Typography variant="h5" className="pt-2 font-bold">
+          <Typography variant="h5">
             예시
             {index + 1}
           </Typography>
