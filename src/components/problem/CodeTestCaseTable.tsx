@@ -17,7 +17,25 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
     <div
       className="w-full h-full bg-gray-900"
     >
-      <div className="w-full py-2 overflow-x-hidden">
+      <div className="w-full py-2 overflow-x-hidden flex justify-between">
+        <div className="flex items-center gap-2 ml-2">
+          <div className="flex items-center gap-1 px-3 py-1 rounded bg-opacity-10 bg-green-500">
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+            <Typography variant="small" className="text-green-500 font-medium">
+              성공
+              {' '}
+              {executeResultList.filter((test) => test.state === '일치').length}
+            </Typography>
+          </div>
+          <div className="flex items-center gap-1 px-3 py-1 rounded bg-opacity-10 bg-red-500">
+            <div className="w-2 h-2 rounded-full bg-red-500" />
+            <Typography variant="small" className="text-red-500 font-medium">
+              실패
+              {' '}
+              {executeResultList.filter((test) => test.state === '불일치').length}
+            </Typography>
+          </div>
+        </div>
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
           <Button
             onClick={() => modal.push('TESTCASE', TestCaseModal, {}) as Promise<void>}
@@ -32,13 +50,12 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
             color="blue"
             disabled={state === 'PENDING'}
             className={state === 'PENDING' ? 'bg-gray-600 cursor-not-allowed' : ''}
-
           >
-            실행
+            테스트
           </Button>
         </div>
       </div>
-      <Card className="h-[calc(100%-56px)] w-full overflow-scroll bg-gray-900">
+      <Card className="h-[calc(100%-96px)] w-full overflow-auto bg-black">
         <table className="w-full text-center bg-gray-900 table-fixed min-w-max">
           <thead>
             <tr>
