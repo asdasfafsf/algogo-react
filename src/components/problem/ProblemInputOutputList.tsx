@@ -49,7 +49,7 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
             {index + 1}
           </Typography>
           <Line className="relative my-2">
-            {/* <div className="absolute w-1/6 h-[2px] bg-blue-500"></div> */}
+            <div className="absolute w-12 h-[2px] bg-blue-500" />
           </Line>
           <Typography variant="h6" className="my-2 font-medium">입력</Typography>
           <ClipboardWithTooltip

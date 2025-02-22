@@ -64,15 +64,15 @@ export default function ClipboardWithTooltip({
                     </Typography>
 
                     {index < arr.length - 1 ? (
-                      <div className="text-blue-500">
-                        <SpaceIcon className="w-4 h-4" />
+                      <div className="flex items-center justify-center text-blue-500">
+                        <SpaceIcon className="w-4 h-4 font-bold" />
                       </div>
                     ) : null}
                   </React.Fragment>
                 ))}
                 {contentIndex < contentArr.length - 1 ? (
-                  <div className="w-4 h-4 text-blue-500">
-                    <EnterIcon />
+                  <div className="flex items-center justify-center text-blue-500">
+                    <EnterIcon className="w-4 h-4" />
                   </div>
                 ) : null}
               </div>
