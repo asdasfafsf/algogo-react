@@ -58,6 +58,11 @@ export default function CodeResultInput(
         ref={inputTextAreaRef}
         value={input}
         onChange={(e) => handleChangeInput(e, e.target.value)}
+        onKeyDown={(e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+            handleClickRun(e as unknown as React.MouseEvent<HTMLElement>);
+          }
+        }}
         placeholder="테스트 입력"
         className="h-[calc(100%-64px)] font-mono focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
       />
