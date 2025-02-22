@@ -50,6 +50,7 @@ export default function useExecute() {
       memory: 0,
       code: '',
       result: '',
+      detail: '',
     });
     execute((executeResult) => {
       setOutput(executeResult);
