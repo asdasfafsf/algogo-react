@@ -18,7 +18,6 @@ export function CodeResultPannel() {
     selectedIndex,
     handleClickTab,
     inputTextAreaRef,
-    outputTextAreaRef,
     handleClickCopyOutput,
     handleClickResetOutput,
     testCaseList,
@@ -63,7 +62,6 @@ export function CodeResultPannel() {
             handleClickRun={() => handleExecute()}
             handleClickCopy={handleClickCopyOutput}
             handleClickReset={handleClickResetOutput}
-            outputTextAreaRef={outputTextAreaRef}
           />
         </TabPanel>
         <TabPanel isSelected={selectedIndex === 2}>

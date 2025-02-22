@@ -6,7 +6,6 @@ import React from 'react';
 import { Typography, Tooltip } from '@components/common/index';
 
 interface CodeResultOutputProps {
-  outputTextAreaRef:React.RefObject<HTMLTextAreaElement>
   output: ResponseExecuteResult;
   handleClickReset: (e:React.MouseEvent<HTMLElement>) => void | Promise<void>;
   handleClickCopy: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
@@ -15,7 +14,7 @@ interface CodeResultOutputProps {
 
 export default function CodeResultOutput(
   {
-    outputTextAreaRef, output, handleClickReset, handleClickCopy, handleClickRun,
+    output, handleClickReset, handleClickCopy, handleClickRun,
   }: CodeResultOutputProps,
 ) {
   return (
@@ -61,13 +60,33 @@ export default function CodeResultOutput(
           </Tooltip>
         </div>
       </nav>
-      <textarea
-        readOnly
-        ref={outputTextAreaRef}
-        value={output.result}
-        placeholder="실행 결과가 출력됩니다"
-        className="h-[calc(100%-24px)] top-6 focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
-      />
+      <div
+        data-content={output.result}
+        className="absolute inset-0 top-6 h-[calc(100%-64px)] overflow-auto px-2 pt-2 pb-6 text-white bg-gray-900 font-mono leading-normal"
+      >
+        {output.result ? (
+          <>
+            <div
+              className={`whitespace-pre ${
+                output.code === '9000' ? 'text-yellow-500' // 시간 초과
+                  : output.code === '9001' ? 'text-red-500' // 런타임 에러
+                    : output.code === '9002' ? 'text-red-500' // 컴파일 에러
+                      : output.code === '9999' ? 'text-red-600' // 예외 오류
+                        : 'text-white' // 정상 출력
+              }`}
+            >
+              {output.result}
+            </div>
+            {output.detail && (
+              <div className="mt-2 whitespace-pre-wrap text-gray-400">
+                {output.detail}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-gray-500">실행 결과가 출력됩니다</div>
+        )}
+      </div>
     </div>
   );
 }

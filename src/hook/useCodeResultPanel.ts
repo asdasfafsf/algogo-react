@@ -26,7 +26,7 @@ export default function useCodeResultPanel() {
   }, [setInput]);
 
   const handleClickCopyOutput = useCallback(async () => {
-    await navigator.clipboard.writeText(output.result);
+    await navigator.clipboard.writeText(`${output.result}${output.detail ? `\n${output.detail}` : ''}`);
   }, [output]);
 
   const handleClickResetOutput = useCallback(() => setOutput({
@@ -35,6 +35,7 @@ export default function useCodeResultPanel() {
     memory: 0,
     code: '',
     result: '실행 결과가 출력됩니다',
+    detail: '',
   }), []);
 
   const testCaseList = useTestCaseListStore((state) => state.testCaseList);
