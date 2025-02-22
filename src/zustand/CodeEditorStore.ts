@@ -61,6 +61,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     memory: 0,
     code: '',
     result: '',
+    detail: '',
   },
   setOutput: (output: ResponseExecuteResult) => set({ output }),
   settings: {
