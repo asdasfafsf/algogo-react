@@ -13,12 +13,10 @@ export default function useSubmit() {
     if (problem) {
       const { sourceId, source } = problem;
       const { code, language } = useCodeEditorStore.getState();
+      console.log('호출');
 
       if (source === 'BOJ') {
         const submissionId = crypto.randomUUID();
-
-        console.log('submissionId', submissionId);
-
         const executeResult = await new Promise<any>((resolve) => {
           window.postMessage({
             type: 'EXECUTE',
@@ -32,32 +30,29 @@ export default function useSubmit() {
           }, '*');
 
           window.addEventListener('message', function handler(event) {
-            console.log('event', event);
-            if (event.data.data?.submissionId === submissionId) {
-              window.removeEventListener('message', handler);
-              resolve(event.data.data);
-            }
+            window.removeEventListener('message', handler);
+            resolve(event.data.data);
           });
         });
 
         console.log('executeResult', executeResult);
+        console.log(executeResult);
 
-        if (executeResult.code === '0000') {
+        if (executeResult.code === '000000000') {
+          const { tabid } = executeResult.data;
           while (true) {
             const statusResult = await new Promise<any>((resolve) => {
               window.postMessage({
                 type: 'PROGRESS',
                 data: {
-                  submissionId, // 진행상황 체크할 때도 동일한 ID 사용
+                  tabid, // 진행상황 체크할 때도 동일한 ID 사용
                 },
               }, '*');
 
               window.addEventListener('message', function handler(event) {
                 // 동일한 ID의 진행상황만 처리
-                if (event.data.data?.submissionId === submissionId) {
-                  window.removeEventListener('message', handler);
-                  resolve(event.data.data);
-                }
+                window.removeEventListener('message', handler);
+                resolve(event.data.data);
               });
             });
 
