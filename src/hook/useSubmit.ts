@@ -13,13 +13,12 @@ export default function useSubmit() {
     if (problem) {
       const { sourceId, source } = problem;
       const { code, language } = useCodeEditorStore.getState();
-      console.log('호출');
 
       if (source === 'BOJ') {
         const submissionId = crypto.randomUUID();
         const executeResult = await new Promise<any>((resolve) => {
           window.postMessage({
-            type: 'EXECUTE',
+            type: 'WEB_TO_CONTENT_SCRIPT_SUBMIT',
             data: {
               source,
               sourceId,
@@ -31,12 +30,11 @@ export default function useSubmit() {
 
           window.addEventListener('message', function handler(event) {
             window.removeEventListener('message', handler);
-            resolve(event.data.data);
+            if (event.data.type === 'WEB_TO_CONTENT_SCRIPT_SUBMIT_RESPONSE') {
+              resolve(event.data.data);
+            }
           });
         });
-
-        console.log('executeResult', executeResult);
-        console.log(executeResult);
 
         if (executeResult.code === '000000000') {
           const { tabid } = executeResult.data;
