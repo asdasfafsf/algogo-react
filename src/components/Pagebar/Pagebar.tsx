@@ -48,7 +48,8 @@ export default function Pagebar({
         <div className="items-center hidden gap-2 md:flex">
           {Array.from(
             Array(displayedPageRange),
-            (_, k) => (Math.floor(currentPage / displayedPageRange)) * 10 + (k + 1),
+            (_, k) => (
+              Math.floor((currentPage - 1) / displayedPageRange)) * displayedPageRange + (k + 1),
           ).map((pageNo) => (
             <IconButton
               key={pageNo}
