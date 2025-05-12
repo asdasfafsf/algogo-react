@@ -1,8 +1,9 @@
 import { create } from 'zustand';
+import { Problem } from '@/type/Problem.type';
 
 interface ProblemStore {
-  problem: ResponseProblem | undefined;
-  setProblem: (problem: ResponseProblem) => void;
+  problem: Problem | undefined;
+  setProblem: (problem: Problem) => void;
 }
 
 const useProblemStore = create<ProblemStore>((set) => ({

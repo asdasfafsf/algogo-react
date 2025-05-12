@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useTestCaseListStore from '@zustand/TestCaseListStore';
 import { PROBLEM_HEADER_HEIGHT } from '@constant/Size';
 import useExecuteResultListStore from '@zustand/ExecuteResultListStore';
-import { getProblem } from '@api/problems';
+import { getProblem } from '@api/problems-v2';
 import ProblemSection from '@layout/problem/ProblemSection';
 import ProblemHeader from '@layout/problem/ProblemHeader';
 import ProblemFooter from '@layout/problem/ProblemFooter';

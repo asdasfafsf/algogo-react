@@ -16,9 +16,10 @@ import { useScreenSize } from '../../context/ScreenSizeContext';
 import ProblemSidebar from './ProblemSidebar';
 import ProblemSidebarSkeleton from './ProblemSidebarSkeleton';
 import Problem from './Problem';
+import { Problem as ProblemType } from '@/type/Problem.type';
 
 interface ProblemSectionProps {
-  problem: ResponseProblem | undefined;
+  problem: ProblemType | undefined;
 }
 
 export default function ProblemSection({ problem }: ProblemSectionProps) {

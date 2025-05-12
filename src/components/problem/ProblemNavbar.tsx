@@ -11,9 +11,10 @@ import useLoadingModal from '@hook/modal/useLoadingModal';
 import CodeEditorSettingsModal from './CodeEditorSettingsModal';
 import CompilerInfoModal from './CompilerInfoModal';
 import { Tooltip } from '../common';
+import { Problem } from '@/type/Problem.type';
 
 interface ProblemNavbarProps {
-  problem?: ResponseProblem;
+  problem?: Problem;
 }
 export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
   const modal = useModal();

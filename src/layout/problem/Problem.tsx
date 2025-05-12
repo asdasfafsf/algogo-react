@@ -8,14 +8,15 @@ import ProblemCategoryViewer from '@components/problem/ProblemCategoryViewer';
 import React from 'react';
 import ProblemContentResizer from '@components/problem/ProblemContentSizeResizer';
 import { useProblemContentSizeStore } from '@zustand/ProblemContentSizeStore';
+import { Problem as ProblemType } from '@/type/Problem.type';
 
 interface ProblemProps {
-  problem: ResponseProblem
+  problem: ProblemType
 }
 
 function Problem({ problem }: ProblemProps) {
   const {
-    title, levelText, submitCount, typeList, contentList,
+    title, levelText, submitCount, typeList, content,
     input, output, inputOutputList, answerRate, timeout,
     memoryLimit, answerCount, answerPeopleCount,
   } = problem;
@@ -40,17 +41,17 @@ function Problem({ problem }: ProblemProps) {
       />
       <ProblemCategoryViewer
         initialState={typeList && typeList.length === 0 ? 'none' : 'hide'}
-        categoryList={typeList.map((elem) => elem.name)}
+        categoryList={typeList.map((elem) => elem)}
       />
       <ProblemContent
         scale={(problemContentSize / 100)}
-        contentList={contentList}
+        content={content}
       />
-      <ProblemInputOutput
+      {/* <ProblemInputOutput
         input={input}
         output={output}
         scale={(problemContentSize / 100)}
-      />
+      /> */}
       <div className="my-8 opacity-0" />
       <ProblemInputOutputList
         inputOutputList={inputOutputList}
