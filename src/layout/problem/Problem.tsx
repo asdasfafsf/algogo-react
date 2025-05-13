@@ -8,6 +8,7 @@ import ProblemCategoryViewer from '@components/problem/ProblemCategoryViewer';
 import React from 'react';
 import ProblemContentResizer from '@components/problem/ProblemContentSizeResizer';
 import { useProblemContentSizeStore } from '@zustand/ProblemContentSizeStore';
+import ProblemContentWrapper from '@components/problem/ProblemContentWrapper';
 import { Problem as ProblemType } from '@/type/Problem.type';
 
 interface ProblemProps {
@@ -19,6 +20,7 @@ function Problem({ problem }: ProblemProps) {
     title, levelText, submitCount, typeList, content,
     input, output, inputOutputList, answerRate, timeout,
     memoryLimit, answerCount, answerPeopleCount,
+    limit, hint, subTask,
   } = problem;
 
   const problemContentSize = useProblemContentSizeStore((state) => state.size);
@@ -47,15 +49,44 @@ function Problem({ problem }: ProblemProps) {
         scale={(problemContentSize / 100)}
         content={content}
       />
-      {/* <ProblemInputOutput
-        input={input}
-        output={output}
+      <ProblemInputOutput
+        input={input ?? ''}
+        output={output ?? ''}
         scale={(problemContentSize / 100)}
-      /> */}
+      />
       <div className="my-8 opacity-0" />
       <ProblemInputOutputList
         inputOutputList={inputOutputList}
       />
+
+      {limit && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="제한"
+            content={limit}
+          />
+        </>
+      )}
+
+      {subTask && (
+      <>
+        <div className="my-8 opacity-0" />
+        <ProblemContentWrapper
+          title="서브태스크"
+          content={subTask}
+        />
+      </>
+      )}
+      {hint && (
+      <>
+        <div className="my-8 opacity-0" />
+        <ProblemContentWrapper
+          title="힌트"
+          content={hint}
+        />
+      </>
+      )}
       <div className="my-8 opacity-0" />
       <ProblemSource />
     </div>

@@ -65,6 +65,7 @@ export type Problem = {
   updatedAt: Date;
   inputOutputList: ProblemInputOutput[];
   typeList: ProblemType[];
+  style: string;
 };
 
 export type ProblemInputOutput = {
