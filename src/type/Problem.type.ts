@@ -61,11 +61,27 @@ export type Problem = {
   isInteractive: boolean;
   isTwoStep: boolean;
   isClass: boolean;
+  isLanguageRestrict: boolean;
   createdAt: Date;
   updatedAt: Date;
   inputOutputList: ProblemInputOutput[];
   typeList: ProblemType[];
   style: string;
+  subTaskList: ProblemSubTask[];
+  languageLimitList: string[];
+  customExample: string;
+  customImplementation: string;
+  customGrader: string;
+  customNotes: string;
+  customAttachment: string;
+  customSample: string;
+  problemSource: string;
+};
+
+export type ProblemSubTask = {
+  order: number;
+  title: string;
+  content: string;
 };
 
 export type ProblemInputOutput = {

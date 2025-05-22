@@ -20,7 +20,10 @@ function Problem({ problem }: ProblemProps) {
     title, levelText, submitCount, typeList, content,
     input, output, inputOutputList, answerRate, timeout,
     memoryLimit, answerCount, answerPeopleCount,
-    limit, hint, subTask,
+    limit, hint, subTask, subTaskList,
+    customExample, customImplementation, customGrader,
+    customNotes, customAttachment,
+    problemSource,
   } = problem;
 
   const problemContentSize = useProblemContentSizeStore((state) => state.size);
@@ -49,15 +52,49 @@ function Problem({ problem }: ProblemProps) {
         scale={(problemContentSize / 100)}
         content={content}
       />
-      <ProblemInputOutput
-        input={input ?? ''}
-        output={output ?? ''}
-        scale={(problemContentSize / 100)}
-      />
-      <div className="my-8 opacity-0" />
-      <ProblemInputOutputList
-        inputOutputList={inputOutputList}
-      />
+
+      {customExample && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="예시"
+            content={customExample}
+          />
+        </>
+      )}
+
+      {customImplementation && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="구현"
+            content={customImplementation}
+          />
+        </>
+      )}
+
+      {customGrader && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="예제"
+            content={customGrader}
+          />
+        </>
+      )}
+      {input && output && (
+        <>
+          <ProblemInputOutput
+            input={input}
+            output={output}
+            scale={(problemContentSize / 100)}
+          />
+          <div className="my-8 opacity-0" />
+          <ProblemInputOutputList
+            inputOutputList={inputOutputList}
+          />
+        </>
+      )}
 
       {limit && (
         <>
@@ -69,14 +106,34 @@ function Problem({ problem }: ProblemProps) {
         </>
       )}
 
-      {subTask && (
-      <>
-        <div className="my-8 opacity-0" />
-        <ProblemContentWrapper
-          title="서브태스크"
-          content={subTask}
-        />
-      </>
+      {subTaskList.map((subTask) => (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title={subTask.title}
+            content={subTask.content}
+          />
+        </>
+      ))}
+
+      {customNotes && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="테스트용 입력 형식"
+            content={customNotes}
+          />
+        </>
+      )}
+
+      {customAttachment && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="첨부파일"
+            content={customAttachment}
+          />
+        </>
       )}
       {hint && (
       <>
@@ -87,8 +144,16 @@ function Problem({ problem }: ProblemProps) {
         />
       </>
       )}
+
       <div className="my-8 opacity-0" />
-      <ProblemSource />
+      {problemSource ? (
+        <ProblemContentWrapper
+          title="출처"
+          content={problemSource}
+        />
+      ) : (
+        <ProblemSource />
+      )}
     </div>
   );
 }
