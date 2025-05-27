@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="alternate icon" type="image/x-icon" href="/favicon.ico">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/css/chtml.css"
+/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <title>알고고</title>
@@ -13,4 +17,37 @@
     <div id="root" class="h-screen"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+
+  <script>
+document.addEventListener('copy', e=>{
+  const sel=window.getSelection()
+  if(!sel.rangeCount) return
+  const tmp=document.createElement('div')
+  for(let i=0;i<sel.rangeCount;i++) tmp.appendChild(sel.getRangeAt(i).cloneContents())
+  tmp.querySelectorAll('style,script,link,meta').forEach(n=>n.remove())
+  tmp.querySelectorAll('.mjx-container').forEach(el=>{
+    const s=el.querySelector('.no-mathjax.mjx-copytext')
+    const t=s? s.textContent: el.textContent
+    el.replaceWith(document.createTextNode(t))
+  })
+  const blockTags=new Set(['DIV','P','LI','TR','TABLE','UL','OL','PRE'])
+  function walk(node){
+    let o=''
+    node.childNodes.forEach(n=>{
+      if(n.nodeType===Node.TEXT_NODE) o+=n.nodeValue
+      else if(n.nodeName==='BR') o+='\n'
+      else{
+        o+=walk(n)
+        if(blockTags.has(n.nodeName)) o+='\n'
+      }
+    })
+    return o
+  }
+  const text=walk(tmp)
+  e.preventDefault()
+  e.clipboardData.setData('text/plain',text)
+})
+   
+    </script>
+   
 </html>

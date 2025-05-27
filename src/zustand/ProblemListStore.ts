@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { getProblemList } from '@api/problems';
+import { getProblemList } from '@api/problems-v2';
 import { PROBLEM_SORT_DEFAULT } from '@constant/ProblemSort';
+import { ProblemSummary, ProblemType } from '@/type/Problem.type';
 
 type PagingInfo = {
   pageNo: number;
@@ -8,8 +9,8 @@ type PagingInfo = {
 };
 
 type ProblemListStore = {
-  problemList: ResponseProblem[];
-  setProblemList: (updater: Updater<ResponseProblem[]>) => void | Promise<void>;
+  problemList: ProblemSummary[];
+  setProblemList: (updater: Updater<ProblemSummary[]>) => void | Promise<void>;
   pagingInfo: PagingInfo;
   setPagingInfo: (updater: Updater<PagingInfo>) => void | Promise<void>;
   maxPageNo: number;
@@ -29,7 +30,7 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
   setProblemList: (updater) => set((state) => ({
     problemList:
         typeof updater === 'function'
-          ? (updater as (prev: ResponseProblem[]) => ResponseProblem[])(state.problemList)
+          ? (updater as (prev: ProblemSummary[]) => ProblemSummary[])(state.problemList)
           : updater,
   })),
   pagingInfo: {
@@ -79,7 +80,7 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
           .map(Number),
         typeList: problemOptionList
           .filter((elem) => elem.isSelected && elem.type === '유형')
-          .map((elem) => elem.value),
+          .map((elem) => elem.value) as ProblemType[],
         sort: problemSort,
         title: problemTitle,
       });
