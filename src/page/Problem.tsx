@@ -37,10 +37,6 @@ export default function ProblemPage() {
     fetchProblem();
   }, []);
 
-  useEffect(() => {
-    window.MathJax.typeset();
-  }, [problem]);
-
   return (
     <>
       {problem?.style && (<style>{problem.style}</style>)}
