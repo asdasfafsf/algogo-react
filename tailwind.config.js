@@ -34,12 +34,17 @@ export default {
   					height: 'var(--radix-navigation-menu-content-height)',
   					opacity: '1'
   				}
+  			},
+  			spin: {
+  				'0%': { transform: 'rotate(0deg)' },
+  				'100%': { transform: 'rotate(360deg)' }
   			}
   		},
   		animation: {
   			fadeIn: 'fadeIn 1s ease-out forwards',
   			dropDown: 'dropDown 0.2s ease-out forwards',
-  			slideDown: 'slideDown 0.2s ease-out forwards'
+  			slideDown: 'slideDown 0.2s ease-out forwards',
+  			'spin-slow': 'spin 8s linear infinite'
   		},
   		transitionProperty: {
   			left: 'left',
