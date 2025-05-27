@@ -31,15 +31,11 @@ export default function useCodeEditor() {
     executeRef.current = () => handleExecute();
   }, [handleExecute]);
 
-  useEffect(() => {
-    const handleFetch = async () => {
-      await loadSetting();
-      await loadCode();
-      await loadTemplates();
-      await setCodeFromTemplate();
-    };
-
-    handleFetch();
+  const handleFetch = useCallback(async () => {
+    await loadSetting();
+    await loadTemplates();
+    await loadCode();
+    await setCodeFromTemplate();
   }, []);
 
   const handleEditorChange = useCallback((
@@ -84,7 +80,7 @@ export default function useCodeEditor() {
     return true;
   }, []);
 
-  const handleEditorMount = useCallback((editor: editor.IStandaloneCodeEditor) => {
+  const handleEditorMount = useCallback(async (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
 
     const blurListener = editor.onDidBlurEditorText(handleBlur);
@@ -95,6 +91,7 @@ export default function useCodeEditor() {
       () => executeRef.current?.(),
     );
     editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current?.());
+    await handleFetch();
 
     return () => {
       blurListener.dispose();
