@@ -16,14 +16,12 @@ export default function useCodeEditor() {
   const language = useCodeEditorStore((state) => state.language);
   const settings = useCodeEditorStore((state) => state.settings);
   const updateCode = useCodeEditorStore((state) => state.updateCode);
-  const loadCode = useCodeEditorStore((state) => state.loadCode);
-  const loadSetting = useCodeEditorStore((state) => state.loadSetting);
-  const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
-  const setCodeFromTemplate = useCodeEditorStore((state) => state.setCodeFromTemplate);
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
   const [isSaving, setIsSaving] = useState(false);
+
+  const initialize = useCodeEditorStore((state) => state.initialize);
 
   const { toast } = useToastModal();
 
@@ -32,10 +30,7 @@ export default function useCodeEditor() {
   }, [handleExecute]);
 
   const handleFetch = useCallback(async () => {
-    await loadSetting();
-    await loadTemplates();
-    await setCodeFromTemplate();
-    await loadCode();
+    await initialize();
   }, []);
 
   const handleEditorChange = useCallback((
