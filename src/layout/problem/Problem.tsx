@@ -20,7 +20,7 @@ function Problem({ problem }: ProblemProps) {
     title, levelText, submitCount, typeList, content,
     input, output, inputOutputList, answerRate, timeout,
     memoryLimit, answerCount, answerPeopleCount,
-    limit, hint, subTask, subTaskList,
+    limit, hint, subTaskList,
     customExample, customImplementation, customGrader,
     customNotes, customAttachment,
     problemSource,
