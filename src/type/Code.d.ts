@@ -5,7 +5,10 @@ type RequestSaveCode = {
 };
 
 type ResponseCode = {
+  language: Language;
   content: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 type ResponseSetting = {
