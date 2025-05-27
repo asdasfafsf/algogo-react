@@ -1,5 +1,4 @@
 import { Carousel } from '@components/Carousel/index';
-import { Button } from '../Button';
 import { Typography } from '../common';
 
 export default function MainCarousel() {
@@ -36,12 +35,12 @@ export default function MainCarousel() {
             {/* 오른쪽 이미지 영역 */}
             <div className="absolute -translate-y-1/2 right-4 top-1/2">
               <img
-                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png"
+                src="Gear.png"
                 alt="설정 아이콘"
                 className="object-contain w-24 h-24 animate-spin-slow"
               />
               <img
-                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Key.png"
+                src="Key.png"
                 alt="키 아이콘"
                 className="object-contain w-20 h-20 mt-4 ml-8"
               />
