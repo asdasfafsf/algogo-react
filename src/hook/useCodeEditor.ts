@@ -34,8 +34,8 @@ export default function useCodeEditor() {
   const handleFetch = useCallback(async () => {
     await loadSetting();
     await loadTemplates();
-    await loadCode();
     await setCodeFromTemplate();
+    await loadCode();
   }, []);
 
   const handleEditorChange = useCallback((
