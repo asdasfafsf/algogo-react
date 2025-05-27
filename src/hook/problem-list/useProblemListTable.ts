@@ -1,4 +1,4 @@
-import { collectProblem } from '@api/problems';
+// import { collectProblem } from '@api/problems';
 import {
   PROBLEM_SORT_ANSWER_RATE_ASC,
   PROBLEM_SORT_ANSWER_RATE_DESC,
@@ -13,9 +13,9 @@ import {
 import { useProblemListStore } from '@zustand/ProblemListStore';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import { useCallback, useEffect, useState } from 'react';
-import usePromptModal from '../modal/usePromptModal';
 import useAlertModal from '../useAlertModal';
-import useConfirmModal from '../useConfirmModal';
+// import usePromptModal from '../modal/usePromptModal';
+// import useConfirmModal from '../useConfirmModal';
 import useDidMountEffect from '../useDidMount';
 
 export default function useProblemListTable() {
@@ -23,9 +23,9 @@ export default function useProblemListTable() {
   const problemSort = useProblemTableFilterStore((state) => state.problemSort);
   const problemHidden = useProblemTableFilterStore((state) => state.problemHidden);
   const setProblemSort = useProblemTableFilterStore((state) => state.setProblemSort);
-  const [prompt] = usePromptModal();
   const [alert] = useAlertModal();
-  const [confirm] = useConfirmModal();
+  // const [prompt] = usePromptModal();
+  // const [confirm] = useConfirmModal();
 
   const [isSearching, setSearching] = useState(false);
 
@@ -90,36 +90,38 @@ export default function useProblemListTable() {
   );
 
   const handleClickProblemCollectModal = useCallback(async () => {
-    setSearching(true);
-    const res = await prompt('URL을 입력하세요', false, 'URL 입력');
+    await alert('준비중입니다.');
 
-    if (res === false) {
-      setSearching(false);
-      return;
-    }
+    // setSearching(true);
+    // const res = await prompt('URL을 입력하세요', false, 'URL 입력');
 
-    const url = res as string;
+    // if (res === false) {
+    //   setSearching(false);
+    //   return;
+    // }
 
-    if (!url.includes('https://www.acmicpc.net/problem/')) {
-      await alert('지원하지 않는 사이트의 url입니다.');
-      setSearching(false);
-      return;
-    }
+    // const url = res as string;
 
-    const collectResult = await collectProblem({ url });
+    // if (!url.includes('https://www.acmicpc.net/problem/')) {
+    //   await alert('지원하지 않는 사이트의 url입니다.');
+    //   setSearching(false);
+    //   return;
+    // }
 
-    if (collectResult.errorCode !== '0000') {
-      await alert(collectResult.errorMessage);
-      setSearching(false);
-      return;
-    }
+    // const collectResult = await collectProblem({ url });
 
-    const isOk = await confirm('추가가 완료되었습니다. 새 페이지로 이동할까요?');
-    if (isOk) {
-      window.open(`/problem/${collectResult.data}`);
-    }
+    // if (collectResult.errorCode !== '0000') {
+    //   await alert(collectResult.errorMessage);
+    //   setSearching(false);
+    //   return;
+    // }
 
-    setSearching(false);
+    // const isOk = await confirm('추가가 완료되었습니다. 새 페이지로 이동할까요?');
+    // if (isOk) {
+    //   window.open(`/problem/${collectResult.data}`);
+    // }
+
+    // setSearching(false);
   }, [setSearching]);
 
   return {
