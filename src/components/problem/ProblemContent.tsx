@@ -1,58 +1,19 @@
-import React from 'react';
-import { Typography, MathJaxNode } from '@components/common/index';
-import ProblemImage from './ProblemImage';
-import ProblemContentTable from './ProblemContentTable';
-
 interface ProblemContentProps {
-  contentList: ResponseProblemContent[];
+  content: string;
   scale?: number;
 }
 
-function ProblemContent({ contentList, scale = 1 }: ProblemContentProps) {
+export default function ProblemContent({ content, scale = 1 }: ProblemContentProps) {
   return (
-    <>
-      {contentList.map((elem, index) => {
-        if (elem.type === 'table') {
-          return <ProblemContentTable cellList={elem.cellList} />;
-        } if (elem.type === 'list') {
-          return (
-
-            <Typography
-              key={`content-${index}`}
-              variant="paragraph"
-              className="font-normal !leading-[2.0rem] my-2"
-              scale={scale}
-            >
-              -
-              {' '}
-              <MathJaxNode>{elem.content}</MathJaxNode>
-            </Typography>
-
-          );
-        } if (elem.type === 'image') {
-          return (
-            <ProblemImage
-              className="my-1"
-              alt={elem.content}
-              key={`image-${index}`}
-              src={elem.content}
-            />
-          );
-        }
-
-        return (
-          <Typography
-            key={`content-${index}`}
-            variant="paragraph"
-            className="font-normal !leading-[2.0rem] my-2"
-            scale={scale}
-          >
-            <MathJaxNode>{elem.content}</MathJaxNode>
-          </Typography>
-        );
-      })}
-    </>
+    <div
+      className="w-full problem-content"
+      style={{
+        zoom: scale,
+      }}
+          // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{
+        __html: content,
+      }}
+    />
   );
 }
-
-export default React.memo(ProblemContent);

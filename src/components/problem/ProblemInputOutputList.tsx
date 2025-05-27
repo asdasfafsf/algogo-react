@@ -7,14 +7,11 @@ import {
   Typography, Line, ClipboardWithTooltip,
 } from '@components/common/index';
 import useCodeResultPanelStore from '@zustand/CodeResultPanelStore';
-
-interface ResponseProblemInputOutput {
-  input: string;
-  output: string;
-}
+import ProblemContent from './ProblemContent';
+import { ProblemInputOutput } from '@/type/Problem.type';
 
 interface ProblemInputOutputProps {
-  inputOutputList: ResponseProblemInputOutput[];
+  inputOutputList: ProblemInputOutput[];
 }
 
 export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputProps) {
@@ -58,8 +55,16 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
           />
           <Typography variant="h6" className="my-2 font-medium">출력</Typography>
           <ClipboardWithTooltip content={elem.output} />
+
+          {elem.content && (
+            <>
+              <div className="my-4 opacity-0" />
+              <ProblemContent content={elem.content} />
+            </>
+          )}
         </div>
       ))}
+
     </>
   );
 }

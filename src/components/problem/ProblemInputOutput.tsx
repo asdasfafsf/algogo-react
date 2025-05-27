@@ -1,5 +1,6 @@
 import React from 'react';
-import { Line, Typography, MathJaxNode } from '@components/common/index';
+import { Line, Typography } from '@components/common/index';
+import ProblemContent from './ProblemContent';
 
 interface ProblemInputOutputProps {
   input: string;
@@ -18,13 +19,7 @@ export function ProblemInputOutput({ input, output, scale = 1 }: ProblemInputOut
       </Typography>
       <Line className="mt-2 mb-4" />
 
-      <Typography
-        scale={scale}
-        variant="paragraph"
-        className="font-normal !leading-[2.0rem] my-2"
-      >
-        <MathJaxNode>{input}</MathJaxNode>
-      </Typography>
+      <ProblemContent scale={scale} content={input} />
 
       <Line className="my-4 opacity-0" />
       <Typography
@@ -34,14 +29,8 @@ export function ProblemInputOutput({ input, output, scale = 1 }: ProblemInputOut
         출력
       </Typography>
       <Line className="mt-2 mb-4" />
+      <ProblemContent scale={scale} content={output} />
 
-      <Typography
-        scale={scale}
-        variant="paragraph"
-        className="font-normal !leading-[2.0rem] my-2"
-      >
-        <MathJaxNode>{output}</MathJaxNode>
-      </Typography>
     </>
   );
 }
