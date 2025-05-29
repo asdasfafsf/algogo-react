@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { showAlert } from '@plugins/modal/ModalProvider';
 
 const { VITE_ENV } = import.meta.env;
 const baseURL = VITE_ENV === 'development' ? 'http://localhost:3001' : 'https://www.algogo.co.kr';
@@ -67,6 +68,13 @@ apiClient.interceptors.response.use(
       } catch (refreshError) {
         failedQueue.forEach(({ reject }) => reject());
         failedQueue.length = 0;
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('me');
+        if (showAlert) {
+          await showAlert('로그인 정보가 만료되었습니다. 다시 로그인해주세요.');
+        }
+        window.location.href = `/login?destination=${window.location.pathname}`;
         return await Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

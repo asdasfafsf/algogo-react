@@ -1,11 +1,11 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
+import ErrorBoundary from '@components/errors/ErrorBoundary';
 import router from './Router';
 import ModalProvider from './plugins/modal/ModalProvider';
 import { ScreenSizeProvider } from './context/ScreenSizeContext';
 import { AppProvider } from './context/AppContext';
-import ErrorBoundary from '@components/errors/ErrorBoundary';
 
 const RootComponent = (
   <ErrorBoundary>
