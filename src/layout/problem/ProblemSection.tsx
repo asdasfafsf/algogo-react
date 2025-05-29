@@ -11,6 +11,7 @@ import { useProblemScreenStore } from '@zustand/ProblemScreenStore';
 import useMeStore from '@zustand/MeStore';
 import { Button } from '@components/Button';
 import { useNavigate } from 'react-router-dom';
+import { useCallback, useState } from 'react';
 import { PROBLEM_FOOTER_HEIGHT, PROBLEM_HEADER_HEIGHT } from '../../constant/Size';
 import { useScreenSize } from '../../context/ScreenSizeContext';
 import ProblemSidebar from './ProblemSidebar';
@@ -30,6 +31,20 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
   const setSelectedIndex = useProblemScreenStore((state) => state.setSelectedIndex);
   const navigate = useNavigate();
   const me = useMeStore((state) => state.me);
+  const [openSidebar, setOpenSidebar] = useState(true);
+  const setProblemWidth = useProblemWidthStore((state) => state.setProblemWidth);
+
+  const [prevProblemWidth, setPrevProblemWidth] = useState(problemWidth);
+
+  const handleClickOpen = useCallback(() => {
+    setOpenSidebar((prev) => !prev);
+    if (openSidebar) {
+      setPrevProblemWidth(problemWidth);
+      setProblemWidth(0);
+    } else {
+      setProblemWidth(prevProblemWidth);
+    }
+  }, [openSidebar, prevProblemWidth, problemWidth, setProblemWidth]);
 
   return (
     <section
@@ -57,7 +72,10 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
       >
         {
           problem ? (
-            <ProblemSidebar>
+            <ProblemSidebar
+              open={openSidebar}
+              handleClickOpen={handleClickOpen}
+            >
               <Problem problem={problem} />
             </ProblemSidebar>
           ) : <ProblemSidebarSkeleton />
