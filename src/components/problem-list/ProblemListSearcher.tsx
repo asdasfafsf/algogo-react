@@ -3,7 +3,6 @@ import { Button } from '@components/Button/index';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import useProblemListSearcher from '@hook/problem-list/useProblemListSearcher';
 
-
 export default function ProblemListSearcher() {
   const {
     inputRef,
@@ -13,8 +12,6 @@ export default function ProblemListSearcher() {
     handleChangeProblemTitle,
     handleClickSearch,
   } = useProblemListSearcher();
-
-
 
   return (
     <div className="flex flex-wrap items-center justify-end w-full gap-4 shrink-0 md:w-max">
