@@ -20,7 +20,7 @@ export function ProblemCategoryViewer(
       content={tooltipContent}
       placement="top-start"
     >
-      <div className="min-h-12 my-4">
+      <div className="min-h-12 my-2">
 
         <div className="flex items-center">
           {/* <Typography variant="small" className="w-8 h-full mx-2 font-bold">유형 </Typography> */}
