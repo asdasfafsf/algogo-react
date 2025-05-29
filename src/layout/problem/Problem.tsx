@@ -28,32 +28,33 @@ function Problem({ problem }: ProblemProps) {
 
   const problemContentSize = useProblemContentSizeStore((state) => state.size);
   return (
-    <div className="w-full px-5 py-4 overflow-y-auto">
-      <ProblemContentResizer />
-      <div className="mb-1" />
-      <ProblemTitle
-        scale={(problemContentSize / 100)}
-        title={title}
-      />
-      <ProblemInfo
-        levelText={levelText as ProblemLevel}
-        submitCount={submitCount}
-        answerCount={answerCount}
-        answerRate={answerRate}
-        timeout={timeout}
-        memoryLimit={memoryLimit}
-        answerPeopleCount={answerPeopleCount}
-      />
-      <ProblemCategoryViewer
-        initialState={typeList && typeList.length === 0 ? 'none' : 'hide'}
-        categoryList={typeList.map((elem) => elem)}
-      />
-      <ProblemContent
-        scale={(problemContentSize / 100)}
-        content={content}
-      />
+    <div className="w-full py-4 overflow-y-auto">
+      <div className="px-5">
+        <ProblemContentResizer />
+        <div className="mb-1" />
+        <ProblemTitle
+          scale={(problemContentSize / 100)}
+          title={title}
+        />
+        <ProblemInfo
+          levelText={levelText as ProblemLevel}
+          submitCount={submitCount}
+          answerCount={answerCount}
+          answerRate={answerRate}
+          timeout={timeout}
+          memoryLimit={memoryLimit}
+          answerPeopleCount={answerPeopleCount}
+        />
+        <ProblemCategoryViewer
+          initialState={typeList && typeList.length === 0 ? 'none' : 'hide'}
+          categoryList={typeList.map((elem) => elem)}
+        />
+        <ProblemContent
+          scale={(problemContentSize / 100)}
+          content={content}
+        />
 
-      {customExample && (
+        {customExample && (
         <>
           <div className="my-8 opacity-0" />
           <ProblemContentWrapper
@@ -61,9 +62,9 @@ function Problem({ problem }: ProblemProps) {
             content={customExample}
           />
         </>
-      )}
+        )}
 
-      {customImplementation && (
+        {customImplementation && (
         <>
           <div className="my-8 opacity-0" />
           <ProblemContentWrapper
@@ -71,9 +72,9 @@ function Problem({ problem }: ProblemProps) {
             content={customImplementation}
           />
         </>
-      )}
+        )}
 
-      {customGrader && (
+        {customGrader && (
         <>
           <div className="my-8 opacity-0" />
           <ProblemContentWrapper
@@ -81,19 +82,19 @@ function Problem({ problem }: ProblemProps) {
             content={customGrader}
           />
         </>
-      )}
+        )}
 
-      {limit && (
-      <>
-        <div className="my-8 opacity-0" />
-        <ProblemContentWrapper
-          title="제한"
-          content={limit}
-        />
-      </>
-      )}
+        {limit && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="제한"
+            content={limit}
+          />
+        </>
+        )}
 
-      {input && output && (
+        {input && output && (
         <>
           <ProblemInputOutput
             input={input}
@@ -105,19 +106,19 @@ function Problem({ problem }: ProblemProps) {
             inputOutputList={inputOutputList}
           />
         </>
-      )}
+        )}
 
-      {subTaskList.map((subTask) => (
-        <>
-          <div className="my-8 opacity-0" />
-          <ProblemContentWrapper
-            title={subTask.title}
-            content={subTask.content}
-          />
-        </>
-      ))}
+        {subTaskList.map((subTask) => (
+          <>
+            <div className="my-8 opacity-0" />
+            <ProblemContentWrapper
+              title={subTask.title}
+              content={subTask.content}
+            />
+          </>
+        ))}
 
-      {customNotes && (
+        {customNotes && (
         <>
           <div className="my-8 opacity-0" />
           <ProblemContentWrapper
@@ -125,9 +126,9 @@ function Problem({ problem }: ProblemProps) {
             content={customNotes}
           />
         </>
-      )}
+        )}
 
-      {customAttachment && (
+        {customAttachment && (
         <>
           <div className="my-8 opacity-0" />
           <ProblemContentWrapper
@@ -135,26 +136,27 @@ function Problem({ problem }: ProblemProps) {
             content={customAttachment}
           />
         </>
-      )}
-      {hint && (
-      <>
-        <div className="my-8 opacity-0" />
-        <ProblemContentWrapper
-          title="힌트"
-          content={hint}
-        />
-      </>
-      )}
+        )}
+        {hint && (
+        <>
+          <div className="my-8 opacity-0" />
+          <ProblemContentWrapper
+            title="힌트"
+            content={hint}
+          />
+        </>
+        )}
 
-      <div className="my-8 opacity-0" />
-      {problemSource ? (
-        <ProblemContentWrapper
-          title="출처"
-          content={problemSource}
-        />
-      ) : (
-        <ProblemSource />
-      )}
+        <div className="my-8 opacity-0" />
+        {problemSource ? (
+          <ProblemContentWrapper
+            title="출처"
+            content={problemSource}
+          />
+        ) : (
+          <ProblemSource />
+        )}
+      </div>
     </div>
   );
 }

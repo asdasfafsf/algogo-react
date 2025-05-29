@@ -1,12 +1,20 @@
 /* eslint-disable max-len */
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 
 export default function useProblemSidebar() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const { problemWidth, setProblemWidth } = useProblemWidthStore(({ problemWidth, setProblemWidth }) => ({ problemWidth, setProblemWidth }));
+  const [open, setOpen] = useState(true);
+
+  const handleClickOpen = useCallback(() => {
+    setOpen((prev) => !prev);
+  }, []);
 
   const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {
+    if (clickEvent.target instanceof HTMLButtonElement || clickEvent.target instanceof SVGElement) {
+      return;
+    }
     clickEvent.stopPropagation();
     let currentSize = problemWidth;
     const screenWidth = (window.innerWidth
@@ -39,5 +47,7 @@ export default function useProblemSidebar() {
     document.addEventListener('mouseup', mouseUpHandler, { once: true });
   }, [problemWidth]);
 
-  return [problemWidth, handleMouseDown] as const;
+  return {
+    problemWidth, handleMouseDown, open, handleClickOpen,
+  } as const;
 }
