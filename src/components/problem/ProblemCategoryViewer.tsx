@@ -16,13 +16,13 @@ export function ProblemCategoryViewer(
   const [categoryState, tooltipContent, handleClick] = useProblemCategoryViewer(initialState);
 
   return (
-    <Tooltip
-      content={tooltipContent}
-      placement="top-start"
-    >
-      <div className="min-h-12 my-2">
+    <div className="min-h-12 my-2">
 
-        <div className="flex items-center">
+      <div className="flex items-center">
+        <Tooltip
+          content={tooltipContent}
+          placement="top-start"
+        >
           {/* <Typography variant="small" className="w-8 h-full mx-2 font-bold">유형 </Typography> */}
 
           <div
@@ -40,9 +40,9 @@ export function ProblemCategoryViewer(
                   />
                 ))}
           </div>
-        </div>
+        </Tooltip>
       </div>
-    </Tooltip>
+    </div>
 
   );
 }
