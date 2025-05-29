@@ -82,6 +82,17 @@ function Problem({ problem }: ProblemProps) {
           />
         </>
       )}
+
+      {limit && (
+      <>
+        <div className="my-8 opacity-0" />
+        <ProblemContentWrapper
+          title="제한"
+          content={limit}
+        />
+      </>
+      )}
+
       {input && output && (
         <>
           <ProblemInputOutput
@@ -92,16 +103,6 @@ function Problem({ problem }: ProblemProps) {
           <div className="my-8 opacity-0" />
           <ProblemInputOutputList
             inputOutputList={inputOutputList}
-          />
-        </>
-      )}
-
-      {limit && (
-        <>
-          <div className="my-8 opacity-0" />
-          <ProblemContentWrapper
-            title="제한"
-            content={limit}
           />
         </>
       )}
