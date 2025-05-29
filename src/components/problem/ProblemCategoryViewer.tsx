@@ -20,14 +20,14 @@ export function ProblemCategoryViewer(
       content={tooltipContent}
       placement="top-start"
     >
-      <div className="min-h-12 my-4 max-w-[calc(100%-48px)] ">
+      <div className="min-h-12 my-4">
 
-        <div className="lex items-center flex-wrap max-w-[calc(100%-48px)] ">
+        <div className="flex items-center">
           {/* <Typography variant="small" className="w-8 h-full mx-2 font-bold">유형 </Typography> */}
 
           <div
             onClick={handleClick}
-            className="flex flex-wrap w-full gap-1 cursor-pointer"
+            className="flex  gap-1 cursor-pointer"
           >
             {categoryState === 'hide'
               ? <ProblemCategoryChip category="알고리즘 유형 숨김" />
