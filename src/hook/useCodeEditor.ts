@@ -5,6 +5,7 @@ import {
 import {
   editor, IKeyboardEvent, KeyCode, KeyMod,
 } from 'monaco-editor';
+import useProblemStore from '@zustand/ProblemStore';
 import { useCodeEditorStore } from '../zustand/CodeEditorStore';
 import useExecute from './useExecute';
 import useToastModal from './modal/useToastModal';
@@ -20,6 +21,7 @@ export default function useCodeEditor() {
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
   const [isSaving, setIsSaving] = useState(false);
+  const problem = useProblemStore((state) => state.problem);
 
   const initialize = useCodeEditorStore((state) => state.initialize);
 
@@ -41,7 +43,16 @@ export default function useCodeEditor() {
     }
     setCode(value);
     setIsSaving(false);
-  }, [setCode, setIsSaving, language]);
+
+    if (problem) {
+      const { uuid } = problem;
+      localStorage.setItem(`code-${uuid}-${language}`, JSON.stringify({
+        code: value,
+        language,
+        updatedAt: new Date().toISOString(),
+      }));
+    }
+  }, [setCode, setIsSaving, language, problem]);
 
   const handleFocus = useCallback(() => {
     setFocus(true);

@@ -163,6 +163,8 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
 
     const codeResponse = await loadCode(problemUuid, initLanguage);
 
+    let needDefaultTemplate = true;
+
     if (codeResponse.statusCode === 200) {
       const codeList = codeResponse.data;
       const codeMap: Record<Language, string> = { ...defaultCodeFromLanguage };
@@ -170,6 +172,27 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
         codeMap[language] = content;
       });
 
+      const savedCodeData = localStorage.getItem(`code-${problemUuid}-${initLanguage}`);
+      if (savedCodeData) {
+        try {
+          const codeData = JSON.parse(savedCodeData);
+          const { updatedAt, code } = codeData;
+
+          const targets = codeList.find(((elem) => elem.language === initLanguage));
+
+          if (!targets) {
+            needDefaultTemplate = false;
+            codeMap[initLanguage] = code;
+          } else if (new Date(updatedAt).getTime() > new Date(targets.updatedAt).getTime()) {
+            needDefaultTemplate = false;
+            codeMap[initLanguage] = code;
+          }
+        } catch {
+          localStorage.removeItem(`code-${problemUuid}-${initLanguage}`);
+        }
+      }
+
+      needDefaultTemplate = codeList.length === 0;
       set({
         language: initLanguage,
         code: codeMap[initLanguage],
@@ -177,10 +200,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       });
     }
 
-    if (defaultTemplate
-        && (codeResponse.statusCode !== 200
-          || codeResponse.data.length === 0
-          || !codeResponse.data.find((code) => code.language === initLanguage))) {
+    if (defaultTemplate && needDefaultTemplate) {
       set({
         language: initLanguage,
         code: defaultTemplate.content,
