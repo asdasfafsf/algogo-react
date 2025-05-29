@@ -34,7 +34,6 @@ export default function useProblemListSearcher() {
 
   const handleKeyUp = useCallback(async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      console.log('나가야해요');
       inputRef.current?.blur();
     } else if (e.key === 'Enter') {
       setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));
@@ -44,7 +43,8 @@ export default function useProblemListSearcher() {
 
   useHotkeys(
     'mod+k',
-    () => {
+    (e) => {
+      e.preventDefault();
       if (!modal?.top()?.Component && !focus) {
         inputRef.current?.focus();
       }
