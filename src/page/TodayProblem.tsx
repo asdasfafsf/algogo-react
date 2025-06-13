@@ -3,6 +3,7 @@ import {
   TodayProblemHeader,
   TodayProblemNavigationTabs,
   TodayProblemCard,
+  TodayProblemEmptyState,
 } from '@components/today-problem';
 import {
   ChevronLeftIcon,
@@ -12,11 +13,21 @@ import { useTodayProblem } from '@hook/today-problem/useTodayProblem';
 
 function App() {
   const {
-    todayProblems, currentProblemIndex, nextProblem, prevProblem, setCurrentProblemIndex, isLoading,
+    todayProblems,
+    currentProblemIndex,
+    nextProblem,
+    prevProblem,
+    setCurrentProblemIndex,
+    isLoading,
+    isFetched,
   } = useTodayProblem();
 
   return (
     <DefaultLayout>
+      {!isLoading && isFetched && todayProblems.length === 0 && (
+        <TodayProblemEmptyState />
+      )}
+
       {!isLoading && todayProblems.length > 0 && (
         <div className="min-h-screen bg-white">
           <TodayProblemHeader

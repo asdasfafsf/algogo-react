@@ -13,7 +13,9 @@ const getTimeUntilUTCMidnight = () => {
 export const useTodayProblem = () => {
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
 
-  const { data: todayProblems = [], isLoading } = useQuery<TodayProblem[]>({
+  const {
+    data: todayProblems = [], isLoading, isFetched, isSuccess,
+  } = useQuery<TodayProblem[]>({
     queryKey: ['todayProblems'],
     queryFn: async () => {
       const response = await getTodayProblems();
@@ -41,6 +43,8 @@ export const useTodayProblem = () => {
     prevProblem,
     setCurrentProblemIndex,
     isLoading,
+    isFetched,
+    isSuccess,
   };
 };
 
