@@ -95,3 +95,19 @@ export type ProblemType =
 
 export type ProblemSort =
   (typeof PROBLEM_SORT_MAP)[keyof typeof PROBLEM_SORT_MAP];
+
+export type TodayProblem = {
+  uuid: string;
+  title: string;
+  level: number;
+  levelText: string;
+  answerRate: number;
+  submitCount: number;
+  answerCount: number;
+  answerPeopleCount: number;
+  source: string;
+  sourceId: string;
+  sourceUrl: string;
+  typeList: ProblemType[];
+  difficulty: string;
+};
