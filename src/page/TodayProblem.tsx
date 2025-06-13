@@ -12,12 +12,12 @@ import { useTodayProblem } from '@hook/today-problem/useTodayProblem';
 
 function App() {
   const {
-    todayProblems, currentProblemIndex, nextProblem, prevProblem, setCurrentProblemIndex,
+    todayProblems, currentProblemIndex, nextProblem, prevProblem, setCurrentProblemIndex, isLoading,
   } = useTodayProblem();
 
   return (
     <DefaultLayout>
-      {todayProblems.length > 0 && (
+      {!isLoading && todayProblems.length > 0 && (
         <div className="min-h-screen bg-white">
           <TodayProblemHeader
             totalProblems={todayProblems.length}
