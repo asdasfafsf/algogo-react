@@ -177,7 +177,7 @@ export default function Header() {
           )}
         </div>
       </header>
-      <div className="relative h-16 bg-gray-100" />
+      <div className="relative h-16" />
     </>
   );
 }
