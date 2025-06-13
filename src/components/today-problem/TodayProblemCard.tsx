@@ -10,28 +10,17 @@ import {
   ArrowRightIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
+import { ProblemDifficultyChip } from '@components/Chip/ProblemDifficultyChip';
 import { TodayProblem } from '@/type/Problem.type';
 
 interface TodayProblemCardProps {
   problem: TodayProblem;
-  onSolve?: () => void;
-  onViewDetail?: () => void;
 }
 
 export function TodayProblemCard({
   problem,
-  onSolve,
-  onViewDetail,
-}: TodayProblemCardProps) {
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case '입문': return 'bg-green-100 text-green-700 border-green-200';
-      case '중급': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case '고급': return 'bg-red-100 text-red-700 border-red-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
 
+}: TodayProblemCardProps) {
   return (
     <FadeInSection className="px-6 mb-12">
       <div className="max-w-4xl mx-auto">
@@ -46,9 +35,7 @@ export function TodayProblemCard({
                     #
                     {problem.sourceId}
                   </span>
-                  <span className={`text-xs px-2 py-1 rounded-full border font-medium ${getDifficultyColor(problem.difficulty)}`}>
-                    {problem.difficulty}
-                  </span>
+                  <ProblemDifficultyChip difficulty={problem.difficulty} />
                 </div>
                 <Typography variant="h3" weight="bold" className="mb-3 text-gray-900">
                   {problem.title}
@@ -120,7 +107,12 @@ export function TodayProblemCard({
                 className="flex-1"
                 icon={<ArrowRightIcon className="w-5 h-5" />}
                 iconPosition="right"
-                onClick={onSolve}
+                onClick={() => {
+                  window.open(
+                    `${location.hostname === 'localhost' ? 'http://localhost:5173' : 'https://www.algogo.co.kr'}/problem/${problem.uuid}`,
+                    '_blank',
+                  );
+                }}
               >
                 문제 풀어보기
               </Button>
@@ -129,7 +121,12 @@ export function TodayProblemCard({
                 color="gray"
                 size="large"
                 className="sm:w-auto"
-                onClick={onViewDetail}
+                onClick={() => {
+                  window.open(
+                    `${location.hostname === 'localhost' ? 'http://localhost:5173' : 'https://www.algogo.co.kr'}/problem/${problem.uuid}`,
+                    '_blank',
+                  );
+                }}
               >
                 문제 상세보기
               </Button>

@@ -1,4 +1,5 @@
 import { FadeInSection } from '@components/common/FadeInSection';
+import { ProblemDifficultyChip } from '@components/Chip/ProblemDifficultyChip';
 import { TodayProblem } from '@/type/Problem.type';
 
 interface TodayProblemNavigationTabsProps {
@@ -12,21 +13,10 @@ export function TodayProblemNavigationTabs({
   currentIndex,
   onProblemSelect,
 }: TodayProblemNavigationTabsProps) {
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case '입문': return 'bg-emerald-50 text-emerald-600 border-emerald-200';
-      case '초급': return 'bg-blue-50 text-blue-600 border-blue-200';
-      case '중급': return 'bg-amber-50 text-amber-600 border-amber-200';
-      case '고급': return 'bg-rose-50 text-rose-600 border-rose-200';
-      case '심화': return 'bg-purple-50 text-purple-600 border-purple-200';
-      default: return 'bg-slate-50 text-slate-600 border-slate-200';
-    }
-  };
-
   return (
-    <FadeInSection className="px-6 mb-12 mt-8">
+    <FadeInSection className="px-6 mt-8 mb-12">
       <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {problems.map((problem, index) => (
             <button
               key={problem.uuid}
@@ -45,14 +35,10 @@ export function TodayProblemNavigationTabs({
                     {' '}
                     {index + 1}
                   </span>
-                  <div className={`text-xs px-2 py-1 rounded-full border font-medium ${
-                    index === currentIndex
-                      ? 'bg-white/20 text-white border-white/30'
-                      : getDifficultyColor(problem.difficulty)
-                  }`}
-                  >
-                    {problem.difficulty}
-                  </div>
+                  <ProblemDifficultyChip
+                    difficulty={problem.difficulty}
+                    variant={index === currentIndex ? 'selected' : 'default'}
+                  />
                 </div>
                 <div className="text-sm font-medium line-clamp-2">
                   {problem.title}
