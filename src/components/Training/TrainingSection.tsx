@@ -6,7 +6,7 @@ export function TrainingSection() {
   const navigate = useNavigate();
   return (
     <div>
-      <Typography variant="h5" className="mb-4">트레이닝</Typography>
+      <Typography variant="h5" className="mb-4">문제 풀이</Typography>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <TrainingCard
           title="오늘의 문제"
