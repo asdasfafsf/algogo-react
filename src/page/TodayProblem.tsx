@@ -44,16 +44,18 @@ function App() {
           <div className="relative">
             <IconButton
               onClick={prevProblem}
+              color="white"
               rounded="full"
-              className="absolute z-10 flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 bg-white border rounded-full left-4 top-1/2 border-slate-200 hover:border-slate-300 hover:shadow-md"
+              className="absolute z-10 flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 bg-white border rounded-full left-4 top-1/2 border-slate-200 hover:border-slate-300 "
             >
               <ChevronLeftIcon className="w-5 h-5 text-slate-600" />
             </IconButton>
 
             <IconButton
               onClick={nextProblem}
+              color="white"
               rounded="full"
-              className="absolute z-10 flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 bg-white border rounded-full right-4 top-1/2 border-slate-200 hover:border-slate-300 hover:shadow-md"
+              className="absolute z-10 flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 bg-white border rounded-full right-4 top-1/2 border-slate-200 hover:border-slate-300"
             >
               <ChevronRightIcon className="w-5 h-5 text-slate-600" />
             </IconButton>
