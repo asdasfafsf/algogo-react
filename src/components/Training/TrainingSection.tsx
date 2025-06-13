@@ -1,7 +1,9 @@
 import { Typography } from '@components/common';
+import { useNavigate } from 'react-router-dom';
 import { TrainingCard } from './TrainingCard';
 
 export function TrainingSection() {
+  const navigate = useNavigate();
   return (
     <div>
       <Typography variant="h5" className="mb-4">트레이닝</Typography>
@@ -12,6 +14,9 @@ export function TrainingSection() {
           iconUrl="https://cdn-icons-png.flaticon.com/512/2721/2721691.png"
           color="blue"
           status="active"
+          onClick={() => {
+            navigate('/problem/today');
+          }}
         />
         <TrainingCard
           title="유형별"
@@ -19,6 +24,9 @@ export function TrainingSection() {
           iconUrl="https://cdn-icons-png.flaticon.com/512/5262/5262593.png"
           color="purple"
           status="coming-soon"
+          onClick={() => {
+            navigate('/problem/type');
+          }}
         />
         <TrainingCard
           title="준비중"
