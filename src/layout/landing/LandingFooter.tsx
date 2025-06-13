@@ -2,7 +2,7 @@ import { LogoWithText } from '@components/common';
 
 export default function LandingFooter() {
   return (
-    <footer className="bg-white">
+    <footer className="bg-white border-t border-gray-200">
       <div className="container max-w-screen-xl px-4 py-8 mx-auto">
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
