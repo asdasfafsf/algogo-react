@@ -76,7 +76,10 @@ export function TrainingCard({
           <p className={`text-sm ${isActive ? 'text-gray-400 group-hover:text-gray-300' : 'text-gray-500'}`}>
             {description}
           </p>
-          <div className={`w-8 h-0.5 bg-gradient-to-r ${config.accent} rounded-full mt-3`} />
+          <div className={`h-0.5 bg-gradient-to-r ${config.accent} rounded-full mt-3 transition-all duration-300 ${
+            isActive ? 'w-8 group-hover:w-16' : 'w-8'
+          }`}
+          />
         </div>
       </div>
 
