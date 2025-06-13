@@ -22,7 +22,8 @@ export default function Header() {
       pathList: ['/problem', '/'],
       subMenuList: [
         { title: '전체 문제', pathList: ['/problem', '/'], canAccess: true },
-        { title: '오늘의 문제(준비중)', pathList: ['/problem/today'], canAccess: false },
+        { title: '오늘의 문제', pathList: ['/problem/today'], canAccess: true },
+        { title: '유형별 (준비중)', pathList: ['/problem/type'], canAccess: false },
       ],
     },
   ];
@@ -176,7 +177,7 @@ export default function Header() {
           )}
         </div>
       </header>
-      <div className="relative h-16 bg-gray-100" />
+      <div className="relative h-16" />
     </>
   );
 }

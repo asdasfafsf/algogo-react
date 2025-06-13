@@ -21,17 +21,18 @@ interface HeaderMenuProps {
 export default function HeaderMenu({ menuItem }: HeaderMenuProps) {
   const navigate = useNavigate();
   const currentPath = window.location.pathname;
+  const isBold = menuItem.pathList.some((path) => currentPath.split('/')[1] === path.split('/')[1]);
 
   return (
     <div className="relative h-full group">
       <div
         onClick={() => navigate(menuItem.pathList[0])}
-        className={`relative flex items-center justify-center h-full px-4 box-content border-transparent transition-colors duration-200 cursor-pointer after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black hover:font-semibold after:hover:w-full after:transition-[width] after:duration-500 hover:text-black hover:transition-all ${menuItem.pathList.some((path) => path === currentPath) ? 'after:!w-full font-semibold' : ''}`}
+        className={`relative flex items-center justify-center h-full px-4 box-content border-transparent transition-colors duration-200 cursor-pointer after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black hover:font-semibold after:hover:w-full after:transition-[width] after:duration-500 hover:text-black hover:transition-all ${isBold ? 'after:!w-full font-semibold' : ''}`}
       >
         <Typography
-          weight={menuItem.pathList.some((path) => path === currentPath) ? 'semibold' : 'semilight'}
+          weight={isBold ? 'semibold' : 'semilight'}
           variant="paragraph"
-          className={`ph-16 w-full box-border flex items-center justify-center ${menuItem.pathList.some((path) => path === currentPath) ? 'font-semibold' : ''} group-hover:font-semibold`}
+          className={`ph-16 w-full box-border flex items-center justify-center ${isBold ? 'font-semibold' : ''} group-hover:font-semibold`}
         >
           {menuItem.title}
         </Typography>

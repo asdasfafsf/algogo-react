@@ -10,6 +10,7 @@ import My from './page/My';
 import OAuth from './page/OAuth';
 import Error from './page/Error';
 import Landing from './page/Landing';
+import TodayProblem from './page/TodayProblem';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: '/problem',
     element: <App />,
+  },
+  {
+    path: '/problem/today',
+    element: <TodayProblem />,
   },
   {
     path: '/problem/:problemUuid',

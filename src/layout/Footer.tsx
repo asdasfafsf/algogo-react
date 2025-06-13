@@ -2,7 +2,7 @@ import { Typography, LogoWithText } from '@components/common';
 
 export default function Footer() {
   return (
-    <footer className="px-8 py-8">
+    <footer className="px-8 py-8 border-t border-gray-200">
       <div className="container max-w-screen-xl mx-auto">
         <div className="flex items-center gap-24">
           <LogoWithText size="small" />

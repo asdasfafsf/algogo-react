@@ -9,10 +9,10 @@ import ProblemTypeDropdown from './ProblemTypeDropdown';
 export default function ProblemListCardHeader() {
   return (
     <div
-      className="flex flex-wrap justify-between gap-4 p-6 mb-4 rounded-none"
+      className="flex flex-wrap justify-between gap-4 mb-8 rounded-none"
     >
       <div className="w-full">
-        <div className="w-full h-12">
+        <div className="w-full h-10">
           <Typography variant="h5">
             모든 문제
           </Typography>

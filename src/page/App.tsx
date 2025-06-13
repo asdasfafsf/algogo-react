@@ -2,6 +2,7 @@ import { DefaultLayout } from '@layout/index';
 import { MainCarousel } from '@components/Carousel';
 import ProblemListCard from '@components/problem-list/ProblemListCard';
 import { useEffect } from 'react';
+import { TrainingSection } from '@components/Training/TrainingSection';
 
 function App() {
   useEffect(() => {
@@ -40,6 +41,8 @@ function App() {
     <DefaultLayout>
       <div className="my-8">
         <MainCarousel />
+        <div className="h-8" />
+        <TrainingSection />
         <div className="h-8" />
         <ProblemListCard />
       </div>
