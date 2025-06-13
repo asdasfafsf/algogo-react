@@ -16,7 +16,6 @@ import { TodayProblem } from '@/type/Problem.type';
 function App() {
   const [todayProblems, setTodayProblems] = useState<TodayProblem[]>([]);
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-  const [currentTime, setCurrentTime] = useState(new Date());
 
   const currentProblem = todayProblems[currentProblemIndex];
   const { startLoading, endLoading } = useLoadingModal();
@@ -35,28 +34,6 @@ function App() {
     updateTodayProblems();
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const getTimeUntilMidnight = () => {
-    const now = new Date();
-    // UTC 기준 다음 날 자정 계산
-    const utcMidnight = new Date();
-    utcMidnight.setUTCHours(24, 0, 0, 0);
-    const diff = utcMidnight.getTime() - now.getTime();
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
   const nextProblem = () => {
     setCurrentProblemIndex((prev) => (prev + 1) % todayProblems.length);
   };
@@ -70,8 +47,6 @@ function App() {
       {todayProblems.length > 0 && (
         <div className="min-h-screen bg-white">
           <TodayProblemHeader
-            currentTime={currentTime}
-            getTimeUntilMidnight={getTimeUntilMidnight}
             totalProblems={todayProblems.length}
           />
 
@@ -81,9 +56,7 @@ function App() {
             onProblemSelect={setCurrentProblemIndex}
           />
 
-          {/* 문제 카드와 네비게이션 화살표 */}
           <div className="relative">
-            {/* 네비게이션 화살표 */}
             <button
               type="button"
               onClick={prevProblem}
@@ -105,7 +78,6 @@ function App() {
             />
           </div>
 
-          {/* 문제 진행 상황 표시 */}
           <div className="px-6 mb-20">
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-center gap-3">
@@ -121,7 +93,6 @@ function App() {
                     />
                   ))}
                 </div>
-
               </div>
             </div>
           </div>

@@ -26,7 +26,6 @@ export function TodayProblemCard({
       <div className="max-w-4xl mx-auto">
         <Card className="overflow-hidden border-0 shadow-2xl bg-gradient-to-br from-white to-gray-50">
           <div className="p-8">
-            {/* 문제 헤더 */}
             <div className="flex items-start justify-between mb-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
@@ -46,19 +45,6 @@ export function TodayProblemCard({
               </div>
             </div>
 
-            {/* 태그
-            <div className="flex flex-wrap gap-2 mb-6">
-              {problem.tags.map((tag: string, index: number) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div> */}
-
-            {/* 통계 정보 */}
             <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
               <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl">
                 <TrophyIcon className="w-8 h-8 text-green-600" />
@@ -98,7 +84,6 @@ export function TodayProblemCard({
               </div>
             </div>
 
-            {/* 액션 버튼 */}
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button
                 variant="gradient"
