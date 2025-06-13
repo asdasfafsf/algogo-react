@@ -10,6 +10,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { useTodayProblem } from '@hook/today-problem/useTodayProblem';
+import { IconButton } from '@components/Button';
 
 function App() {
   const {
@@ -41,21 +42,21 @@ function App() {
           />
 
           <div className="relative">
-            <button
-              type="button"
+            <IconButton
               onClick={prevProblem}
+              rounded="full"
               className="absolute z-10 flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 bg-white border rounded-full left-4 top-1/2 border-slate-200 hover:border-slate-300 hover:shadow-md"
             >
               <ChevronLeftIcon className="w-5 h-5 text-slate-600" />
-            </button>
+            </IconButton>
 
-            <button
-              type="button"
+            <IconButton
               onClick={nextProblem}
+              rounded="full"
               className="absolute z-10 flex items-center justify-center w-10 h-10 transition-all -translate-y-1/2 bg-white border rounded-full right-4 top-1/2 border-slate-200 hover:border-slate-300 hover:shadow-md"
             >
               <ChevronRightIcon className="w-5 h-5 text-slate-600" />
-            </button>
+            </IconButton>
 
             <TodayProblemCard
               problem={todayProblems[currentProblemIndex]}
