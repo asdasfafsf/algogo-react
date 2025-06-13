@@ -41,7 +41,10 @@ export function TodayProblemHeader({
             <Typography variant="h1" className="text-4xl md:text-5xl font-bold text-slate-900 mb-2" weight="bold">
               오늘의 문제
             </Typography>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full" />
+            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-3" />
+            <Typography variant="small" className="text-slate-500">
+              매일 UTC 기준 자정에 새로운 문제로 갱신됩니다
+            </Typography>
           </div>
 
           {/* 정보 카드들 */}

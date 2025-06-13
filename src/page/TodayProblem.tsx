@@ -45,9 +45,10 @@ function App() {
 
   const getTimeUntilMidnight = () => {
     const now = new Date();
-    const midnight = new Date(now);
-    midnight.setHours(24, 0, 0, 0);
-    const diff = midnight.getTime() - now.getTime();
+    // UTC 기준 다음 날 자정 계산
+    const utcMidnight = new Date();
+    utcMidnight.setUTCHours(24, 0, 0, 0);
+    const diff = utcMidnight.getTime() - now.getTime();
 
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -62,16 +63,6 @@ function App() {
 
   const prevProblem = () => {
     setCurrentProblemIndex((prev) => (prev - 1 + todayProblems.length) % todayProblems.length);
-  };
-
-  const handleSolveProblem = () => {
-    console.log(`문제 풀기: ${currentProblem.title}`);
-    // 문제 풀기 페이지로 이동하는 로직
-  };
-
-  const handleViewDetail = () => {
-    console.log(`문제 상세보기: ${currentProblem.title}`);
-    // 문제 상세보기 페이지로 이동하는 로직
   };
 
   return (
@@ -111,8 +102,6 @@ function App() {
 
             <TodayProblemCard
               problem={currentProblem}
-              onSolve={handleSolveProblem}
-              onViewDetail={handleViewDetail}
             />
           </div>
 
