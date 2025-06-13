@@ -114,10 +114,10 @@ export default function ProblemListTable() {
 
               : (
                 <tbody className="w-full">
-                  {problemList?.map((elem) => (
+                  {problemList?.map((elem, index) => (
                     <tr
                       key={elem.uuid}
-                      className="h-16 border-b border-gray-300"
+                      className={`h-16 ${index === problemList.length - 1 ? 'border-b-0' : 'border-b border-gray-300'}`}
                     >
                       <td className="flex items-center justify-center h-16 pl-4 ">
                         {/* <ProblemStateChip state={} value="" /> */}

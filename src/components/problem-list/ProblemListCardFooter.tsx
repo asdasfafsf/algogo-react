@@ -1,5 +1,5 @@
 import { Pagebar } from '@components/Pagebar/index';
-import useProblemListPagebar from '@/hook/problem-list/useProblemListPagebar';
+import useProblemListPagebar from '@hook/problem-list/useProblemListPagebar';
 
 export default function ProblemListCardFooter() {
   const {
