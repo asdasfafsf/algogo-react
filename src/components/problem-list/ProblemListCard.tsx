@@ -1,14 +1,15 @@
-import { Card } from '@components/Card/index';
 import ProblemListCardHeader from './ProblemListCardHeader';
 import ProblemListTable from './ProblemListTable';
 import ProblemListCardFooter from './ProblemListCardFooter';
 
 export default function ProblemListCard() {
   return (
-    <Card className="p-0">
+    <div className="mb-16">
       <ProblemListCardHeader />
-      <ProblemListTable />
+      <div className="border border-gray-300 rounded-lg">
+        <ProblemListTable />
+      </div>
       <ProblemListCardFooter />
-    </Card>
+    </div>
   );
 }
