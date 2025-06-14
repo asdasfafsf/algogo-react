@@ -356,7 +356,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
         <div className="p-4 overflow-x-auto bg-white border border-gray-100 shadow-sm rounded-2xl sm:p-6">
           {/* 월 라벨 */}
           <div className="flex gap-1 mb-2 ml-12 w-[1050px]">
-            {weeks.map((week, weekIndex) => {
+            {weeks.map((_, weekIndex) => {
               const monthPos = monthPositions.find((pos) => pos.weekIndex === weekIndex);
               return (
                 <div key={weekIndex} className="relative w-4 h-4 overflow-visible text-xs text-center text-gray-600">

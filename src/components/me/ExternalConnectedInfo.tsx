@@ -1,5 +1,7 @@
 import { Typography } from '@components/common';
 import { useState } from 'react';
+import useConfirmModal from '@hook/useConfirmModal';
+import useAlertModal from '@hook/useAlertModal';
 import ExternalSiteCard from './ExternalSiteCard';
 
 export default function ExternalConnectedInfo() {
@@ -9,16 +11,20 @@ export default function ExternalConnectedInfo() {
     codeforces: { id: '', isConnected: false },
   });
 
+  const [confirm] = useConfirmModal();
+  const [alert] = useAlertModal();
+
   // 외부 사이트 계정 연동/해제 핸들러
-  const handleExternalDisconnect = (siteKey: string) => {
-    if (confirm(`${siteKey} 계정 연동을 해제하시겠습니까?`)) {
+  const handleExternalDisconnect = async (siteKey: string) => {
+    const result = await confirm(`${siteKey} 계정 연동을 해제하시겠습니까?`);
+    if (result) {
       // TODO: API 호출로 실제 연동 해제 처리
       setExternalAccounts((prev) => ({
         ...prev,
         [siteKey]: { id: '', isConnected: false },
       }));
 
-      alert(`${siteKey} 계정 연동이 해제되었습니다.`);
+      await alert(`${siteKey} 계정 연동이 해제되었습니다.`);
     }
   };
 

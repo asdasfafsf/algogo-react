@@ -122,7 +122,6 @@ export default function ExternalSiteCard({
           className="w-full shadow-sm"
           onClick={() => {
             // TODO: 확장 프로그램을 통한 연동 처리
-            alert('확장 프로그램을 통해 연동을 진행해주세요.');
           }}
         >
           연동하기
