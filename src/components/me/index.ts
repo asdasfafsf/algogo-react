@@ -1,7 +1,17 @@
 import BasicMyInfo from './BasicMyInfo';
-import ConnectedInfo from './ConnectedInfo';
+import OAuthConnectedInfo from './OAuthConnectedInfo';
+import ExternalConnectedInfo from './ExternalConnectedInfo';
+import OAuthCard from './OAuthCard';
+import ExternalSiteCard from './ExternalSiteCard';
+import ProfileEdit from './ProfileEdit';
+import ProfileCard from './ProfileCard';
 
 export {
   BasicMyInfo,
-  ConnectedInfo,
+  OAuthConnectedInfo,
+  ExternalConnectedInfo,
+  OAuthCard,
+  ExternalSiteCard,
+  ProfileEdit,
+  ProfileCard,
 };
