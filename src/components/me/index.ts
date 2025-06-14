@@ -5,6 +5,7 @@ import OAuthCard from './OAuthCard';
 import ExternalSiteCard from './ExternalSiteCard';
 import ProfileEdit from './ProfileEdit';
 import ProfileCard from './ProfileCard';
+import ContributionGraph from './ContributionGraph';
 
 export {
   BasicMyInfo,
@@ -14,4 +15,5 @@ export {
   ExternalSiteCard,
   ProfileEdit,
   ProfileCard,
+  ContributionGraph,
 };

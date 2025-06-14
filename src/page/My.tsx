@@ -1,7 +1,8 @@
 import { Typography } from '@components/common';
 import { Button } from '@components/Button';
 import { OAuthConnectedInfo, ExternalConnectedInfo, ProfileCard } from '@components/me';
-import { useState } from 'react';
+import ContributionGraph from '@components/me/ContributionGraph';
+import { useState, useMemo } from 'react';
 import DefaultLayout from '../layout/DefaultLayout';
 
 function My() {
@@ -18,7 +19,7 @@ function My() {
   };
 
   // 잔디 데이터 생성 (최근 365일)
-  const generateContributionData = () => {
+  const contributionData = useMemo(() => {
     const data = [];
     const today = new Date();
     for (let i = 364; i >= 0; i -= 1) {
@@ -31,29 +32,7 @@ function My() {
       });
     }
     return data;
-  };
-
-  const contributionData = generateContributionData();
-
-  // 기여도에 따른 색상 결정
-  const getContributionColor = (count: number) => {
-    if (count === 0) return 'bg-gray-50';
-    if (count === 1) return 'bg-emerald-200';
-    if (count === 2) return 'bg-emerald-400';
-    if (count === 3) return 'bg-emerald-600';
-    return 'bg-emerald-800';
-  };
-
-  // 주별로 데이터 그룹화
-  const groupByWeeks = (data: typeof contributionData) => {
-    const weeks = [];
-    for (let i = 0; i < data.length; i += 7) {
-      weeks.push(data.slice(i, i + 7));
-    }
-    return weeks;
-  };
-
-  const weeks = groupByWeeks(contributionData);
+  }, []); // 의존성 없음 - 한 번만 생성
 
   return (
     <DefaultLayout>
@@ -160,106 +139,51 @@ function My() {
             {/* 외부 사이트 계정 연동 */}
             <ExternalConnectedInfo />
 
-            {/* 잔디와 최근 활동 */}
-            <div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
+            {/* 활동 기록 */}
+            <ContributionGraph data={contributionData} />
 
-              {/* 잔디 */}
-              <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm xl:col-span-2 rounded-3xl hover:shadow-md">
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-8">
-                    <Typography variant="h4" weight="bold" className="text-gray-900">
-                      활동 기록
-                    </Typography>
-                    <div className="flex items-center gap-3 text-sm text-gray-500">
-                      <Typography variant="small" weight="regular">적음</Typography>
-                      <div className="flex gap-1">
-                        <div className="w-3 h-3 border border-gray-200 rounded bg-gray-50" />
-                        <div className="w-3 h-3 rounded bg-emerald-200" />
-                        <div className="w-3 h-3 rounded bg-emerald-400" />
-                        <div className="w-3 h-3 rounded bg-emerald-600" />
-                        <div className="w-3 h-3 rounded bg-emerald-800" />
-                      </div>
-                      <Typography variant="small" weight="regular">많음</Typography>
-                    </div>
-                  </div>
+            {/* 최근 활동 */}
+            <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
+              <div className="p-8">
+                <Typography variant="h4" weight="bold" className="mb-8 text-gray-900">
+                  최근 활동
+                </Typography>
 
-                  <div className="overflow-x-auto">
-                    <div className="flex gap-1 min-w-max">
-                      {weeks.map((week, weekIndex) => (
-                        <div key={weekIndex} className="flex flex-col gap-1">
-                          {week.map((day, dayIndex) => (
-                            <div
-                              key={`${weekIndex}-${dayIndex}`}
-                              className={`w-3 h-3 rounded-sm ${getContributionColor(day.count)} border border-gray-100`}
-                              title={`${day.date}: ${day.count}개 활동`}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-8 text-center">
-                    <Typography variant="medium" className="text-gray-600">
-                      지난 1년간 총
-                      {' '}
-                      <span className="font-bold text-emerald-600">487</span>
-                      개의 문제를 해결했습니다
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-
-              {/* 최근 활동 */}
-              <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
-                <div className="p-8">
-                  <Typography variant="h4" weight="bold" className="mb-8 text-gray-900">
-                    최근 활동
-                  </Typography>
-
-                  <div className="space-y-4">
-                    {[
-                      { action: '문제 해결', problem: '백준 1234번', time: '2시간 전' },
-                      { action: '문제 시도', problem: 'Codeforces 567A', time: '5시간 전' },
-                      { action: '문제 해결', problem: '프로그래머스 Level 2', time: '1일 전' },
-                      { action: '문제 해결', problem: 'LeetCode Easy', time: '2일 전' },
-                    ].map((activity, index) => (
-                      <div key={index} className="flex items-center gap-3 p-3 transition-colors rounded-xl hover:bg-gray-50">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                        <div className="flex-1">
-                          <Typography variant="medium" weight="semibold" className="text-gray-900">
-                            {activity.action}
-                          </Typography>
-                          <Typography variant="small" weight="regular" className="text-gray-600">
-                            {activity.problem}
-                          </Typography>
-                        </div>
-                        <Typography variant="small" weight="regular" className="text-gray-400">
-                          {activity.time}
+                <div className="space-y-4">
+                  {[
+                    { action: '문제 해결', problem: '백준 1234번', time: '2시간 전' },
+                    { action: '문제 시도', problem: 'Codeforces 567A', time: '5시간 전' },
+                    { action: '문제 해결', problem: '프로그래머스 Level 2', time: '1일 전' },
+                    { action: '문제 해결', problem: 'LeetCode Easy', time: '2일 전' },
+                  ].map((activity, index) => (
+                    <div key={index} className="flex items-center gap-3 p-3 transition-colors rounded-xl hover:bg-gray-50">
+                      <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <div className="flex-1">
+                        <Typography variant="medium" weight="semibold" className="text-gray-900">
+                          {activity.action}
+                        </Typography>
+                        <Typography variant="small" weight="regular" className="text-gray-600">
+                          {activity.problem}
                         </Typography>
                       </div>
-                    ))}
-                  </div>
+                      <Typography variant="small" weight="regular" className="text-gray-400">
+                        {activity.time}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
 
-                  <div className="mt-8 text-center">
-                    <Button variant="text" color="blue" size="small" className="font-medium">
-                      모든 활동 보기
-                    </Button>
-                  </div>
+                <div className="mt-8 text-center">
+                  <Button variant="text" color="blue" size="small" className="font-medium">
+                    모든 활동 보기
+                  </Button>
                 </div>
               </div>
-
             </div>
 
           </div>
         </div>
 
-        {/* 프로필 편집 모달 */}
-        <ProfileEdit
-          isOpen={isProfileEditOpen}
-          onClose={() => setIsProfileEditOpen(false)}
-          onSave={handleProfileSave}
-        />
       </div>
     </DefaultLayout>
   );
