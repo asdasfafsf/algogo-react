@@ -64,7 +64,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
       const existingData = data.find((item) => item.date === dateStr);
       currentData.push({
         date: dateStr,
-        count: existingData ? existingData.count : Math.floor(Math.random() * 5),
+        count: existingData ? existingData.count : 0,
       });
     }
     return currentData;
@@ -81,7 +81,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
       const existingData = data.find((item) => item.date === dateStr);
       yearData.push({
         date: dateStr,
-        count: existingData ? existingData.count : Math.floor(Math.random() * 5),
+        count: existingData ? existingData.count : 0,
       });
 
       currentDate.setDate(currentDate.getDate() + 1);
