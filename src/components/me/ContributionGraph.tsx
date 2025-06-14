@@ -259,15 +259,6 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
   const minYear = useMemo(() => 2020, []);
   const maxYear = useMemo(() => currentYear, [currentYear]);
 
-  // 통계 계산
-  const stats = useMemo(() => ({
-    activeDays: displayData.filter((d) => d.count > 0).length,
-    maxDaily: displayData.length > 0 ? Math.max(...displayData.map((d) => d.count)) : 0,
-    activityRate: displayData.length > 0
-      ? Math.round((displayData.filter((d) => d.count > 0).length / displayData.length) * 100)
-      : 0,
-  }), [displayData]);
-
   return (
     <Card className="overflow-hidden transition-all duration-300 border-gray-100 bg-gradient-to-br from-white to-gray-50 hover:shadow-lg">
       <div className="p-4 sm:p-6 lg:p-8">
@@ -431,46 +422,6 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
           </div>
         </div>
 
-        {/* 통계 정보 */}
-        <div className="flex flex-col items-start justify-between gap-6 mt-6 sm:mt-8 lg:flex-row lg:items-center">
-          <div className="flex flex-wrap items-center gap-6 sm:gap-8">
-            <div className="text-center">
-              <Typography variant="h3" weight="bold" className="mb-1 text-blue-600">
-                {stats.activeDays}
-              </Typography>
-              <Typography variant="small" weight="regular" className="text-gray-500">
-                활동한 날
-              </Typography>
-            </div>
-            <div className="text-center">
-              <Typography variant="h3" weight="bold" className="mb-1 text-purple-600">
-                {stats.maxDaily}
-              </Typography>
-              <Typography variant="small" weight="regular" className="text-gray-500">
-                최대 일일 해결
-              </Typography>
-            </div>
-            <div className="text-center">
-              <Typography variant="h3" weight="bold" className="mb-1 text-emerald-600">
-                {stats.activityRate}
-                %
-              </Typography>
-              <Typography variant="small" weight="regular" className="text-gray-500">
-                활동률
-              </Typography>
-            </div>
-          </div>
-
-          <div className="text-left lg:text-right">
-            <Typography variant="medium" weight="regular" className="text-gray-600">
-              {viewMode === 'current'
-                ? '꾸준한 활동으로 실력을 키워나가고 있어요! 🔥'
-                : selectedYear === currentYear
-                  ? '꾸준한 활동으로 실력을 키워나가고 있어요! 🔥'
-                  : `${selectedYear}년의 활동 기록입니다 📊`}
-            </Typography>
-          </div>
-        </div>
       </div>
     </Card>
   );
