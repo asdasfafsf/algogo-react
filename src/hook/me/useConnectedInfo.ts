@@ -59,8 +59,13 @@ export default function useConnectedInfo() {
       return;
     }
 
-    await alert('회원 탈퇴되었습니다.');
-    logout();
+    if (oauthList.length === 1) {
+      await alert('회원 탈퇴되었습니다.');
+      logout();
+      return;
+    }
+
+    await alert('연동 해제되었습니다.');
   }, [me]);
 
   return {
