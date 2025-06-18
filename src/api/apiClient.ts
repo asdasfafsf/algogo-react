@@ -19,10 +19,19 @@ const failedQueue: {
 }[] = [];
 
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  // 헤더 객체가 없으면 초기화
+  config.headers = config.headers ?? {};
+
+  // 이미 Authorization 이 없을 때만 추가
+  console.log('안녕');
+  console.log(config.headers);
+  if (!config.headers.Authorization) {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
+
   return config;
 });
 
@@ -32,7 +41,7 @@ apiClient.interceptors.response.use(
     const data = error.response?.data;
     const { config } = error;
 
-    if (data?.statusCode === 401 && data?.errorMessage.includes('만료')) {
+    if (data?.statusCode === 401 && data?.errorCode === 'JWT_EXPIRED') {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -57,7 +66,11 @@ apiClient.interceptors.response.use(
       }
 
       try {
-        const { data: refreshResponse } = await apiClient.post('/api/v1/auth/refresh', { refreshToken });
+        const { data: refreshResponse } = await apiClient.post(
+          '/api/v2/auth/refresh',
+          {},
+          { headers: { Authorization: `Bearer ${refreshToken}` } },
+        );
         localStorage.setItem('accessToken', refreshResponse.data.accessToken);
         localStorage.setItem('refreshToken', refreshResponse.data.refreshToken);
 
