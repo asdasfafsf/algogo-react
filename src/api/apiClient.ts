@@ -23,8 +23,11 @@ apiClient.interceptors.request.use((config) => {
   config.headers = config.headers ?? {};
 
   // 이미 Authorization 이 없을 때만 추가
-  console.log('안녕');
-  console.log(config.headers);
+
+  if (config.url?.includes('/api/v2/auth/refresh')) {
+    return config;
+  }
+
   if (!config.headers.Authorization) {
     const token = localStorage.getItem('accessToken');
     if (token) {
