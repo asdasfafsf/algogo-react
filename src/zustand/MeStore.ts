@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { getMe, updateMe } from '../api/me';
-import { getToken, refresh } from '../api/auth';
+import { getToken } from '../api/auth';
+import { refresh } from '../api/auth-v2';
 
 type MeStore = {
   me: Me | null;
@@ -70,11 +71,7 @@ export const useMeStore = create<MeStore>((set, get) => ({
     if (!oldRefreshToken) {
       throw new Error('refreshToken이 없습니다.');
     }
-
-    const param = {
-      refreshToken: oldRefreshToken,
-    } as { refreshToken: string };
-    const response = await refresh(param);
+    const response = await refresh();
 
     if (response.statusCode !== 200) {
       throw new Error(response.errorMessage);

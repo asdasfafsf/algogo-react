@@ -15,8 +15,8 @@ export default function Login({ name = '로그인' }: LoginProps) {
   const navigate = useNavigate();
   const handleOAuth = async (_e: React.MouseEvent<HTMLButtonElement>, provider: 'google' | 'kakao' | 'github') => {
     const url = VITE_ENV === 'development'
-      ? `http://localhost:3001/v1/oauth/${provider}?destination=${destination}`
-      : `https://www.algogo.co.kr/v1/oauth/${provider}?destination=${destination}`;
+      ? `http://localhost:3001/oauth/v2/${provider}?destination=${destination}`
+      : `https://www.algogo.co.kr/oauth/v2/${provider}?destination=${destination}`;
 
     window.location.href = url;
   };
@@ -54,30 +54,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
             />
             카카오로 시작하기
           </Button>
-          <Button
-            color="white"
-            size="large"
-            className="flex items-center justify-center w-full h-12 gap-2 mt-4"
-            onClick={(_e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(_e, 'github')}
-          >
-            <img
-              src="github-mark.png"
-              alt="github"
-              className="w-5 h-5"
-            />
-            깃허브로 시작하기
-          </Button>
-          <Typography
-            color="gray"
-            variant="medium"
-            className="mt-6 font-normal text-center"
-          >
-            {name === '로그인' ? '회원이 아니신가요?' : '회원이신가요?'}
-            {' '}
-            <a href={name === '로그인' ? '/signup' : '/login'} className="font-medium text-gray-900">
-              {name === '로그인' ? '회원가입' : '로그인'}
-            </a>
-          </Typography>
+
           <div className="flex items-center w-full gap-2 my-6">
             <hr className="w-full bg-blue-gray-50" />
             <Typography
