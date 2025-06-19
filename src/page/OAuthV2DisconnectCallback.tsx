@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { oauthLoginV2 } from '@api/oauth-v2';
+import { oauthDisconnectV2 } from '@api/oauth-v2';
 import { useMeStore } from '@zustand/MeStore';
 import useAlertModal from '../hook/useAlertModal';
 
@@ -12,42 +12,46 @@ export default function OAuthV2Callback() {
   const code = params.get('code');
   const { provider } = useParams();
   const fetchMe = useMeStore((state) => state.fetchMe);
-
-  const handleOAuthLogin = async () => {
+  const logout = useMeStore((state) => state.logout);
+  const handleOAuthDisconnect = async () => {
     let parsedState: { destination: string } = {
-      destination: '/',
+      destination: '/me',
     };
     try {
       parsedState = state ? JSON.parse(state) : {
-        destination: '/',
+        destination: '/me',
       };
     } catch (error) {
       parsedState = {
-        destination: '/',
+        destination: '/me',
       };
     }
     const { destination } = parsedState;
     try {
-      const response = await oauthLoginV2({ provider: provider || '', code: code || '' });
+      const response = await oauthDisconnectV2({ provider: provider || '', code: code || '' });
 
       if (response.errorCode === '0000') {
-        const { data } = response;
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('refreshToken', data.refreshToken);
-        await fetchMe();
+        const me = await fetchMe();
+        if (me?.oauthList.length === 0) {
+          await alert('회원 탈퇴되었습니다.');
+          logout();
+          navigate('/');
+          return;
+        }
+        await alert('연동 해제되었습니다.');
         navigate(destination);
       } else {
-        await alert('로그인에 실패했습니다. 다시 시도해주세요.');
-        navigate('/login');
+        await alert('연동 해제에 실패했습니다. 다시 시도해주세요.');
+        navigate('/me');
       }
     } catch (error) {
-      await alert('로그인에 실패했습니다. 다시 시도해주세요.');
-      navigate('/login');
+      await alert('연동 해제에 실패했습니다. 다시 시도해주세요.');
+      navigate('/me');
     }
   };
 
   useEffect(() => {
-    handleOAuthLogin();
+    handleOAuthDisconnect();
   }, []);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

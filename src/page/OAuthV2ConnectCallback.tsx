@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { oauthLoginV2 } from '@api/oauth-v2';
-import { useMeStore } from '@zustand/MeStore';
+import { oauthConnectV2 } from '@api/oauth-v2';
 import useAlertModal from '../hook/useAlertModal';
 
 export default function OAuthV2Callback() {
@@ -11,43 +10,38 @@ export default function OAuthV2Callback() {
   const state = params.get('state');
   const code = params.get('code');
   const { provider } = useParams();
-  const fetchMe = useMeStore((state) => state.fetchMe);
-
-  const handleOAuthLogin = async () => {
+  const handleOAuthConnect = async () => {
     let parsedState: { destination: string } = {
-      destination: '/',
+      destination: '/me',
     };
     try {
       parsedState = state ? JSON.parse(state) : {
-        destination: '/',
+        destination: '/me',
       };
     } catch (error) {
       parsedState = {
-        destination: '/',
+        destination: '/me',
       };
     }
     const { destination } = parsedState;
     try {
-      const response = await oauthLoginV2({ provider: provider || '', code: code || '' });
+      const response = await oauthConnectV2({ provider: provider || '', code: code || '' });
 
       if (response.errorCode === '0000') {
-        const { data } = response;
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('refreshToken', data.refreshToken);
-        await fetchMe();
+        await alert('연동 완료되었습니다.');
         navigate(destination);
       } else {
-        await alert('로그인에 실패했습니다. 다시 시도해주세요.');
-        navigate('/login');
+        await alert('연동에 실패했습니다. 다시 시도해주세요.');
+        navigate('/me');
       }
     } catch (error) {
-      await alert('로그인에 실패했습니다. 다시 시도해주세요.');
-      navigate('/login');
+      await alert('연동에 실패했습니다. 다시 시도해주세요.');
+      navigate('/me');
     }
   };
 
   useEffect(() => {
-    handleOAuthLogin();
+    handleOAuthConnect();
   }, []);
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
