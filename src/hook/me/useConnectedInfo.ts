@@ -1,16 +1,16 @@
 import useMeStore from '@zustand/MeStore';
 import { useCallback } from 'react';
-import useAlertModal from '@hook/useAlertModal';
 import useConfirmModal from '@hook/useConfirmModal';
-import { disconnectOAuth, setOAuthCookie } from '@api/oauth';
-
-const { VITE_ENV } = import.meta.env;
+import { useNavigate } from 'react-router-dom';
 
 export default function useConnectedInfo() {
+  const { VITE_ENV } = import.meta.env;
+  const baseUrl = VITE_ENV === 'development'
+    ? 'http://localhost:3001/oauth/v2'
+    : 'https://www.algogo.co.kr/oauth/v2';
   const me = useMeStore((state) => state.me);
-  const logout = useMeStore((state) => state.logout);
-  const [alert] = useAlertModal();
   const [confirm] = useConfirmModal();
+  const navigate = useNavigate();
   const handleConnect = useCallback(async (_: unknown, provider: OAuthProvider) => {
     if (!me) {
       return;
@@ -22,24 +22,11 @@ export default function useConnectedInfo() {
       return;
     }
 
-    const cookieResponse = await setOAuthCookie();
-
-    if (cookieResponse.statusCode !== 200) {
-      await alert('인증 요청 중 오류가 발생하였습니다. 다시 시도해주세요');
-      return;
+    if (VITE_ENV === 'development') {
+      window.location.href = `${baseUrl}/connect/${provider}?destination=/me`;
+    } else {
+      navigate(`/oauth/v2/connect/${provider}?destination=/me`);
     }
-
-    const { oauthList } = me;
-
-    if (oauthList?.find((elem) => elem.provider === provider)) {
-      await alert('이미 연동된 계정입니다. 연동 해제 후 이용하시거나 로그아웃 후 신규 가입으로 진행해주세요.');
-      return;
-    }
-    const url = VITE_ENV === 'development'
-      ? `http://localhost:3001/v1/oauth/${provider}/connect`
-      : `https://www.algogo.co.kr/v1/oauth/${provider}/connect`;
-
-    window.location.href = `${url}`;
   }, [me]);
   const handleDisconnect = useCallback(async (_:unknown, provider: OAuthProvider) => {
     const oauthList = me?.oauthList ?? [];
@@ -52,20 +39,11 @@ export default function useConnectedInfo() {
       return;
     }
 
-    const disconnectResponse = await disconnectOAuth(provider);
-
-    if (disconnectResponse.statusCode !== 200) {
-      await alert(disconnectResponse?.errorMessage || '연동 해제 중 오류가 발생하였습니다.');
-      return;
+    if (VITE_ENV === 'development') {
+      window.location.href = `${baseUrl}/disconnect/${provider}?destination=/me`;
+    } else {
+      navigate(`/oauth/v2/disconnect/${provider}?destination=/me`);
     }
-
-    if (oauthList.length === 1) {
-      await alert('회원 탈퇴되었습니다.');
-      logout();
-      return;
-    }
-
-    await alert('연동 해제되었습니다.');
   }, [me]);
 
   return {

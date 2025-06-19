@@ -11,6 +11,9 @@ import OAuth from './page/OAuth';
 import Error from './page/Error';
 import Landing from './page/Landing';
 import TodayProblem from './page/TodayProblem';
+import OAuthV2Callback from './page/OAuthV2Callback';
+import OAuthV2ConnectCallback from './page/OAuthV2ConnectCallback';
+import OAuthV2DisconnectCallback from './page/OAuthV2DisconnectCallback';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +47,18 @@ const router = createBrowserRouter([
   {
     path: '/me',
     element: <My />,
+  },
+  {
+    path: '/oauth/v2/callback/:provider',
+    element: <OAuthV2Callback />,
+  },
+  {
+    path: '/oauth/v2/connect/callback/:provider',
+    element: <OAuthV2ConnectCallback />,
+  },
+  {
+    path: '/oauth/v2/disconnect/callback/:provider',
+    element: <OAuthV2DisconnectCallback />,
   },
   {
     path: '/oauth/token',

@@ -19,10 +19,19 @@ const failedQueue: {
 }[] = [];
 
 apiClient.interceptors.request.use((config) => {
+  // if (!config.headers.Authorization) {
+  if (config.url?.includes('/api/v2/auth/refresh')) {
+    return config;
+  }
+
   const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    config.headers.Authorization = undefined;
   }
+  // }
+
   return config;
 });
 
@@ -32,7 +41,7 @@ apiClient.interceptors.response.use(
     const data = error.response?.data;
     const { config } = error;
 
-    if (data?.statusCode === 401 && data?.errorMessage.includes('만료')) {
+    if (data?.statusCode === 401 && (data?.errorCode === 'JWT_EXPIRED' || data?.errorMessage?.includes('만료'))) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -57,7 +66,12 @@ apiClient.interceptors.response.use(
       }
 
       try {
-        const { data: refreshResponse } = await apiClient.post('/api/v1/auth/refresh', { refreshToken });
+        const { data: refreshResponse } = await axios.post(
+          '/api/v2/auth/refresh',
+          {},
+          { headers: { Authorization: `Bearer ${refreshToken}` } },
+        );
+
         localStorage.setItem('accessToken', refreshResponse.data.accessToken);
         localStorage.setItem('refreshToken', refreshResponse.data.refreshToken);
 
