@@ -20,6 +20,10 @@ const failedQueue: {
 
 apiClient.interceptors.request.use((config) => {
   // if (!config.headers.Authorization) {
+  if (config.url?.includes('/api/v2/auth/refresh')) {
+    return config;
+  }
+
   const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
