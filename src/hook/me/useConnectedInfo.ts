@@ -1,7 +1,6 @@
 import useMeStore from '@zustand/MeStore';
 import { useCallback } from 'react';
 import useConfirmModal from '@hook/useConfirmModal';
-import { useNavigate } from 'react-router-dom';
 
 export default function useConnectedInfo() {
   const { VITE_ENV } = import.meta.env;
@@ -10,7 +9,6 @@ export default function useConnectedInfo() {
     : 'https://www.algogo.co.kr/oauth/v2';
   const me = useMeStore((state) => state.me);
   const [confirm] = useConfirmModal();
-  const navigate = useNavigate();
   const handleConnect = useCallback(async (_: unknown, provider: OAuthProvider) => {
     if (!me) {
       return;
@@ -22,11 +20,7 @@ export default function useConnectedInfo() {
       return;
     }
 
-    if (VITE_ENV === 'development') {
-      window.location.href = `${baseUrl}/connect/${provider}?destination=/me`;
-    } else {
-      navigate(`/oauth/v2/connect/${provider}?destination=/me`);
-    }
+    window.location.href = `${baseUrl}/connect/${provider}?destination=/me`;
   }, [me]);
   const handleDisconnect = useCallback(async (_:unknown, provider: OAuthProvider) => {
     const oauthList = me?.oauthList ?? [];
@@ -39,11 +33,7 @@ export default function useConnectedInfo() {
       return;
     }
 
-    if (VITE_ENV === 'development') {
-      window.location.href = `${baseUrl}/disconnect/${provider}?destination=/me`;
-    } else {
-      navigate(`/oauth/v2/disconnect/${provider}?destination=/me`);
-    }
+    window.location.href = `${baseUrl}/disconnect/${provider}?destination=/me`;
   }, [me]);
 
   return {
