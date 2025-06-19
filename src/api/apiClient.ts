@@ -19,21 +19,14 @@ const failedQueue: {
 }[] = [];
 
 apiClient.interceptors.request.use((config) => {
-  // 헤더 객체가 없으면 초기화
-  config.headers = config.headers ?? {};
-
-  // 이미 Authorization 이 없을 때만 추가
-
-  if (config.url?.includes('/api/v2/auth/refresh')) {
-    return config;
+  // if (!config.headers.Authorization) {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    config.headers.Authorization = undefined;
   }
-
-  if (!config.headers.Authorization) {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  }
+  // }
 
   return config;
 });
@@ -44,7 +37,7 @@ apiClient.interceptors.response.use(
     const data = error.response?.data;
     const { config } = error;
 
-    if (data?.statusCode === 401 && data?.errorCode === 'JWT_EXPIRED') {
+    if (data?.statusCode === 401 && (data?.errorCode === 'JWT_EXPIRED' || data?.errorMessage?.includes('만료'))) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -69,11 +62,12 @@ apiClient.interceptors.response.use(
       }
 
       try {
-        const { data: refreshResponse } = await apiClient.post(
+        const { data: refreshResponse } = await axios.post(
           '/api/v2/auth/refresh',
           {},
           { headers: { Authorization: `Bearer ${refreshToken}` } },
         );
+
         localStorage.setItem('accessToken', refreshResponse.data.accessToken);
         localStorage.setItem('refreshToken', refreshResponse.data.refreshToken);
 
