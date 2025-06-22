@@ -95,18 +95,16 @@ function Problem({ problem }: ProblemProps) {
         )}
 
         {(input || output) && (
-        <>
-          <ProblemInputOutput
-            input={input ?? ''}
-            output={output ?? ''}
-            scale={(problemContentSize / 100)}
-          />
-          <div className="my-8 opacity-0" />
-          <ProblemInputOutputList
-            inputOutputList={inputOutputList}
-          />
-        </>
+        <ProblemInputOutput
+          input={input ?? ''}
+          output={output ?? ''}
+          scale={(problemContentSize / 100)}
+        />
         )}
+        <div className="my-8 opacity-0" />
+        <ProblemInputOutputList
+          inputOutputList={inputOutputList}
+        />
 
         {subTaskList.map((subTask) => (
           <>
