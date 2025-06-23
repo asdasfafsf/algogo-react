@@ -32,6 +32,7 @@ export type ProblemSummary = {
   sourceUrl: string;
   level: number;
   typeList: ProblemType[];
+  state: ProblemState;
 };
 
 export type Problem = {

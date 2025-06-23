@@ -119,8 +119,18 @@ export default function ProblemListTable() {
                       key={elem.uuid}
                       className={`h-16 ${index === problemList.length - 1 ? 'border-b-0' : 'border-b border-gray-300'}`}
                     >
-                      <td className="flex items-center justify-center h-16 pl-4 ">
-                        {/* <ProblemStateChip state={} value="" /> */}
+                      <td className="flex items-center justify-center h-16 pl-4">
+                        <div className="flex items-center justify-center w-8 h-8">
+                          {elem.state === 'SOLVED' && (
+                            <div className="w-3 h-3 bg-blue-500 rounded-full" />
+                          )}
+                          {elem.state === 'FAILED' && (
+                            <div className="w-3 h-3 bg-red-500 rounded-full" />
+                          )}
+                          {elem.state === 'NONE' && (
+                            <div className="w-3 h-3 bg-gray-300 rounded-full" />
+                          )}
+                        </div>
                       </td>
                       <td
                         onClick={(e) => handleClickProblem(e, elem.uuid)}

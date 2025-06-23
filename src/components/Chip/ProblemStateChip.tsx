@@ -1,19 +1,30 @@
+import { ProblemState } from '@/type/Problem.type';
 import Chip, { ChipProps } from './Chip';
+import { PROBLEM_STATE } from '@/constant/problem.state.constant';
 
 interface ProblemChipProps extends ChipProps {
-  state: number;
+  state: ProblemState;
 }
 
 export default function ProblemStateChip({ state, ...props }: ProblemChipProps) {
-  const chipValue = ['실패', '성공', '미제출', '미확인'];
+  const chipValue = {
+    [PROBLEM_STATE.FAILED]: '실패',
+    [PROBLEM_STATE.SOLVED]: '성공',
+    [PROBLEM_STATE.NONE]: '미제출',
+  };
   const { className } = props;
   return (
-    <Chip
-      variant="ghost"
-      color={`${state === 0 ? 'red' : state === 1 ? 'green' : 'blue'}`}
-      {...props}
-      value={chipValue[state] ?? '미제출'}
-      className={`${className}`}
-    />
+    state === PROBLEM_STATE.NONE ? (
+      ''
+    ) : (
+
+      <Chip
+        variant="ghost"
+        color={`${state === PROBLEM_STATE.FAILED ? 'red' : state === PROBLEM_STATE.SOLVED ? 'blue' : 'blue'}`}
+        {...props}
+        value={chipValue[state] ?? '미제출'}
+        className={`${className}`}
+      />
+    )
   );
 }
