@@ -23,7 +23,7 @@ function Problem({ problem }: ProblemProps) {
     limit, hint, subTaskList,
     customExample, customImplementation, customGrader,
     customNotes, customAttachment,
-    problemSource,
+    problemSource, state,
   } = problem;
 
   const problemContentSize = useProblemContentSizeStore((state) => state.size);
@@ -35,7 +35,9 @@ function Problem({ problem }: ProblemProps) {
         <ProblemTitle
           scale={(problemContentSize / 100)}
           title={title}
+          state={state}
         />
+
         <ProblemInfo
           levelText={levelText as ProblemLevel}
           submitCount={submitCount}
