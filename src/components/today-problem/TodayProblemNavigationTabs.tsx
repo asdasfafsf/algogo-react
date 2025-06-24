@@ -14,19 +14,27 @@ export function TodayProblemNavigationTabs({
   currentIndex,
   onProblemSelect,
 }: TodayProblemNavigationTabsProps) {
-  const getCardStyle = (state: string, isActive: boolean) => {
+  const getProblemNumberColor = (state: string, isActive: boolean) => {
     if (isActive) {
-      return 'bg-slate-800 text-white border-slate-800 shadow-lg transform scale-105';
+      return 'text-white/80';
+    }
+
+    return 'text-slate-500';
+  };
+
+  const getCardBorderColor = (state: string, isActive: boolean) => {
+    if (isActive) {
+      return 'border-slate-800';
     }
 
     switch (state) {
       case PROBLEM_STATE.SOLVED:
-        return 'bg-white border-green-200/40 hover:border-green-300/60 hover:shadow-md';
+        return 'border-green-100 hover:border-green-400';
       case PROBLEM_STATE.FAILED:
-        return 'bg-white border-red-200/40 hover:border-red-300/60 hover:shadow-md';
+        return 'border-red-100 hover:border-red-400';
       case PROBLEM_STATE.NONE:
       default:
-        return 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-md';
+        return 'border-slate-200 hover:border-slate-300';
     }
   };
 
@@ -39,17 +47,19 @@ export function TodayProblemNavigationTabs({
               key={problem.uuid}
               type="button"
               onClick={() => onProblemSelect(index)}
-              className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${getCardStyle(problem.state, index === currentIndex)}`}
+              className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
+                index === currentIndex
+                  ? `bg-slate-800 text-white shadow-lg transform scale-105 ${getCardBorderColor(problem.state, true)}`
+                  : `bg-white text-slate-700 hover:shadow-md ${getCardBorderColor(problem.state, false)}`
+              }`}
             >
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-medium text-slate-500">
-                      문제
-                      {' '}
-                      {index + 1}
-                    </span>
-                  </div>
+                  <span className={`text-xs font-medium ${getProblemNumberColor(problem.state, index === currentIndex)}`}>
+                    문제
+                    {' '}
+                    {index + 1}
+                  </span>
                   <ProblemDifficultyChip
                     difficulty={problem.difficulty}
                     variant={index === currentIndex ? 'selected' : 'default'}
