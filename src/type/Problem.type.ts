@@ -10,6 +10,7 @@ export type IquiryProblemsSummary = {
   levelList?: number[];
   typeList?: ProblemType[];
   sort?: ProblemSort;
+  states?: ProblemState[];
 };
 
 export type ProblemSummaryList = {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ProblemHidden = Record<'제목' | '난이도' | '정답률' | '제출', boolean>
+type ProblemHidden = Record<'제목' | '난이도' | '정답률' | '제출', boolean>;
 
 type ProblemTableFilterStore = {
   problemTitle: string;
@@ -22,10 +22,10 @@ export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) 
   problemSort: 0 as ProblemSort,
   problemTitle: '',
   problemHidden: {
-    '난이도': true,
-    '제목': false,
-    '제출': false,
-    '정답률': false,
+    난이도: true,
+    제목: false,
+    제출: false,
+    정답률: false,
   },
   setProblemOptionList: (problemOptionList) => set((state) => ({
     problemOptionList: typeof problemOptionList === 'function'
@@ -45,6 +45,6 @@ export const useProblemTableFilterStore = create<ProblemTableFilterStore>((set) 
   setProblemHidden: (problemHidden) => set((state) => ({
     problemHidden: typeof problemHidden === 'function'
       ? problemHidden(state.problemHidden)
-      : problemHidden
-  }))
+      : problemHidden,
+  })),
 }));
