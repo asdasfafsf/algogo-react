@@ -1,4 +1,4 @@
-import { ProblemLevelChip } from '@components/Chip/index';
+import { ProblemLevelChip, ProblemStateChip } from '@components/Chip/index';
 import { LinkIcon } from '@heroicons/react/24/solid';
 import { Tooltip, Typography } from '@components/common/index';
 import useProblemListTable from '@hook/problem-list/useProblemListTable';
@@ -31,9 +31,9 @@ export default function ProblemListTable() {
       : (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[800px] table-fixed">
-            <thead className="h-12 mb-12 border-b border-gray-300">
+            <thead className="mb-12 h-12 border-b border-gray-300">
               <tr>
-                <th className="w-16 pl-4 text-center">
+                <th className="pl-4 w-16 text-center">
                   <Typography weight="semibold" variant="medium">
                     상태
                   </Typography>
@@ -71,7 +71,7 @@ export default function ProblemListTable() {
                   제출
                 </ProblemThSort>
                 <th className="w-20">
-                  <div className="flex items-center ">
+                  <div className="flex items-center">
                     <Typography className="text-left" weight="semibold" variant="medium">출처</Typography>
                   </div>
                 </th>
@@ -83,11 +83,11 @@ export default function ProblemListTable() {
                 <tbody className="w-full">
                   <tr className="h-[720px] items-center justify-center">
                     <td colSpan={5} rowSpan={5} className="w-full h-full">
-                      <div className="flex items-center justify-center w-full h-full">
+                      <div className="flex justify-center items-center w-full h-full">
                         <div>
 
                           <Typography
-                            className="flex items-center justify-center"
+                            className="flex justify-center items-center"
                             weight="semilight"
                             color="gray"
                             variant="medium"
@@ -95,7 +95,7 @@ export default function ProblemListTable() {
                             찾으시는 문제가 없나요? URL을 입력해 문제를 추가해보세요!
                           </Typography>
                           <div className="h-2" />
-                          <div className="flex items-center justify-center">
+                          <div className="flex justify-center items-center">
                             <Button
                               disabled={isSearching}
                               onClick={handleClickProblemCollectModal}
@@ -119,24 +119,18 @@ export default function ProblemListTable() {
                       key={elem.uuid}
                       className={`h-16 ${index === problemList.length - 1 ? 'border-b-0' : 'border-b border-gray-300'}`}
                     >
-                      <td className="flex items-center justify-center h-16 pl-4">
-                        <div className="flex items-center justify-center w-8 h-8">
-                          {elem.state === 'SOLVED' && (
-                            <div className="w-3 h-3 bg-blue-500 rounded-full" />
-                          )}
-                          {elem.state === 'FAILED' && (
-                            <div className="w-3 h-3 bg-red-500 rounded-full" />
-                          )}
-                          {elem.state === 'NONE' && (
-                            <div className="w-3 h-3 bg-gray-300 rounded-full" />
-                          )}
-                        </div>
+                      <td>
+                        <ProblemStateChip
+                          state={elem.state}
+                          showNoneState={false}
+                          showIcon={false}
+                        />
                       </td>
                       <td
                         onClick={(e) => handleClickProblem(e, elem.uuid)}
                         className=" pl-12 min-w-[400px] cursor-pointer"
                       >
-                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                        <Typography className="text-gray-700" variant="medium" weight="semilight">
                           {elem.title}
                         </Typography>
                       </td>
@@ -146,14 +140,14 @@ export default function ProblemListTable() {
                         </div>
                       </td>
                       <td>
-                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                        <Typography className="text-gray-700" variant="medium" weight="semilight">
                           {elem.answerRate}
                           {' '}
                           %
                         </Typography>
                       </td>
                       <td>
-                        <Typography className="text-gray-700 " variant="medium" weight="semilight">
+                        <Typography className="text-gray-700" variant="medium" weight="semilight">
                           {elem.submitCount}
                         </Typography>
                       </td>
