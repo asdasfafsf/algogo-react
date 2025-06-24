@@ -1,9 +1,5 @@
 import { FadeInSection } from '@components/common/FadeInSection';
 import { ProblemDifficultyChip } from '@components/Chip/ProblemDifficultyChip';
-import {
-  CheckCircleIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/solid';
 import { TodayProblem } from '@/type/Problem.type';
 import { PROBLEM_STATE } from '@/constant/problem.state.constant';
 
