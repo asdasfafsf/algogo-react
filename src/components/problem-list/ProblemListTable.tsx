@@ -121,11 +121,13 @@ export default function ProblemListTable() {
                     >
                       <td>
                         <div className="flex justify-center items-center w-full">
-                          <ProblemStateChip
-                            state={elem.state}
-                            showNoneState={false}
-                            showIcon={false}
-                          />
+                          <div className="flex justify-center items-center pl-4 w-full">
+                            <ProblemStateChip
+                              state={elem.state}
+                              showNoneState={false}
+                              showIcon={false}
+                            />
+                          </div>
                         </div>
                       </td>
                       <td
