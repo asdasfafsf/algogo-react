@@ -13,14 +13,14 @@ interface ProblemTitleProps {
 function ProblemTitle({ title, scale = 1, state }: ProblemTitleProps) {
   return (
     <>
-      <div className="flex items-center gap-3">
+      <div className="flex gap-3 items-center">
         <Typography
           scale={scale}
           variant="h4"
         >
           {title}
         </Typography>
-        {state && <ProblemStateChip state={state} value="" />}
+        {state && <ProblemStateChip state={state} />}
       </div>
       <Line className="my-2" />
     </>
