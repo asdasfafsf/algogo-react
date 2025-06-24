@@ -13,33 +13,33 @@ export default function ProbleFooter() {
       style={{
         height: `${PROBLEM_FOOTER_HEIGHT}px`,
       }}
-      className="flex items-center justify-center w-screen text-white bg-gray-900"
+      className="flex justify-center items-center w-screen text-white bg-gray-900"
     >
       {isMobile
         ? (
           <ul className="flex w-full h-full list-none">
             <li
               onClick={() => setSelectedIndex(0)}
-              className="flex items-center justify-center w-1/3 cursor-pointer"
+              className="flex justify-center items-center w-1/3 cursor-pointer"
             >
               <BookOpenIcon className={`${selectedIndex === 0 ? 'text-white' : 'text-gray-500'} w-6 h-6`} />
             </li>
             <li
               onClick={() => setSelectedIndex(1)}
-              className="flex items-center justify-center w-1/3 cursor-pointer"
+              className="flex justify-center items-center w-1/3 cursor-pointer"
             >
               <LightBulbIcon className={`${selectedIndex === 1 ? 'text-white' : 'text-gray-500'} w-6 h-6`} />
             </li>
             {' '}
             <li
               onClick={() => setSelectedIndex(2)}
-              className="flex items-center justify-center w-1/3 cursor-pointer"
+              className="flex justify-center items-center w-1/3 cursor-pointer"
             >
               <DocumentTextIcon className={`${selectedIndex === 2 ? 'text-white' : 'text-gray-500'} w-6 h-6`} />
             </li>
           </ul>
         )
-        : <Typography color="white" variant="h6" weight="regular">1/1</Typography>}
+        : ''}
 
     </footer>
   );
