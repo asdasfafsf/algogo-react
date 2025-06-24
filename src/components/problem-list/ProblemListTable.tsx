@@ -120,11 +120,13 @@ export default function ProblemListTable() {
                       className={`h-16 ${index === problemList.length - 1 ? 'border-b-0' : 'border-b border-gray-300'}`}
                     >
                       <td>
-                        <ProblemStateChip
-                          state={elem.state}
-                          showNoneState={false}
-                          showIcon={false}
-                        />
+                        <div className="flex justify-center items-center w-full">
+                          <ProblemStateChip
+                            state={elem.state}
+                            showNoneState={false}
+                            showIcon={false}
+                          />
+                        </div>
                       </td>
                       <td
                         onClick={(e) => handleClickProblem(e, elem.uuid)}
