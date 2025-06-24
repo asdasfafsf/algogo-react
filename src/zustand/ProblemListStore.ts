@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { getProblemList } from '@api/problems-v2';
 import { PROBLEM_SORT_DEFAULT } from '@constant/ProblemSort';
-import { ProblemSummary, ProblemType } from '@/type/Problem.type';
+import { ProblemState, ProblemSummary, ProblemType } from '@/type/Problem.type';
 
 type PagingInfo = {
   pageNo: number;
@@ -83,6 +83,9 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
           .map((elem) => elem.value) as ProblemType[],
         sort: problemSort,
         title: problemTitle,
+        states: problemOptionList
+          .filter((elem) => elem.isSelected && elem.type === '상태')
+          .map((elem) => elem.value) as ProblemState[],
       });
       clearTimeout(skeletonTimeout);
       const { data } = response;
