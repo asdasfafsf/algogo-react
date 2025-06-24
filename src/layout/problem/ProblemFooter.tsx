@@ -1,5 +1,4 @@
 import { LightBulbIcon, BookOpenIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
-import { Typography } from '@components/common';
 import { PROBLEM_FOOTER_HEIGHT } from '../../constant/Size';
 import { useScreenSize } from '../../context/ScreenSizeContext';
 import { useProblemScreenStore } from '../../zustand/ProblemScreenStore';
