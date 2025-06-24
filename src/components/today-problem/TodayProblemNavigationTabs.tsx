@@ -14,14 +14,6 @@ export function TodayProblemNavigationTabs({
   currentIndex,
   onProblemSelect,
 }: TodayProblemNavigationTabsProps) {
-  const getProblemNumberColor = (state: string, isActive: boolean) => {
-    if (isActive) {
-      return 'text-white/80';
-    }
-
-    return 'text-slate-500';
-  };
-
   const getCardBorderColor = (state: string, isActive: boolean) => {
     if (isActive) {
       return 'border-slate-800';
@@ -55,7 +47,7 @@ export function TodayProblemNavigationTabs({
             >
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
-                  <span className={`text-xs font-medium ${getProblemNumberColor(problem.state, index === currentIndex)}`}>
+                  <span className={`text-xs font-medium ${index === currentIndex ? 'text-white/80' : 'text-slate-500'}`}>
                     문제
                     {' '}
                     {index + 1}
