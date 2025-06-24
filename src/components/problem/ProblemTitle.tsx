@@ -20,7 +20,7 @@ function ProblemTitle({ title, scale = 1, state }: ProblemTitleProps) {
         >
           {title}
         </Typography>
-        {state && <ProblemStateChip state={state} />}
+        {state && <ProblemStateChip state={state} showIcon={false} />}
       </div>
       <Line className="my-2" />
     </>
