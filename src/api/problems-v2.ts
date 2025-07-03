@@ -20,8 +20,9 @@ export const getProblem = async (problemUuid: string): Promise<ApiResponse<Probl
   return problem;
 };
 
-export const getTodayProblems = async (): Promise<ApiResponse<TodayProblem[]>> => {
-  const response: AxiosResponse<ApiResponse<TodayProblem[]>> = await apiClient.get('/api/v2/problems/today');
+export const getTodayProblems = async (day: number = 0): Promise<ApiResponse<TodayProblem[]>> => {
+  const url = `/api/v2/problems/today?day=${day}`;
+  const response: AxiosResponse<ApiResponse<TodayProblem[]>> = await apiClient.get(url);
   const problem = response.data;
   return problem;
 };
