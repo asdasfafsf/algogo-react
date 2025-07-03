@@ -4,6 +4,7 @@ import {
   TodayProblemNavigationTabs,
   TodayProblemCard,
   TodayProblemEmptyState,
+  TodayProblemSkeleton,
 } from '@components/today-problem';
 import {
   ChevronLeftIcon,
@@ -12,7 +13,7 @@ import {
 import { useTodayProblem } from '@hook/today-problem/useTodayProblem';
 import { IconButton } from '@components/Button';
 
-function App() {
+export default function TodayProblem() {
   const {
     todayProblems,
     currentProblemIndex,
@@ -25,6 +26,8 @@ function App() {
 
   return (
     <DefaultLayout>
+      {isLoading && <TodayProblemSkeleton />}
+
       {!isLoading && isFetched && todayProblems.length === 0 && (
         <TodayProblemEmptyState />
       )}
@@ -88,5 +91,3 @@ function App() {
     </DefaultLayout>
   );
 }
-
-export default App;
