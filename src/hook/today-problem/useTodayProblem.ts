@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getTodayProblems } from '@api/problems-v2';
+import { useSearchParams } from 'react-router-dom';
 import { TodayProblem } from '@/type/Problem.type';
 
 const getTimeUntilUTCMidnight = () => {
@@ -12,13 +13,14 @@ const getTimeUntilUTCMidnight = () => {
 
 export const useTodayProblem = () => {
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-
+  const [searchParam] = useSearchParams();
+  const day = searchParam.get('day') ?? 0;
   const {
     data: todayProblems = [], isLoading, isFetched, isSuccess,
   } = useQuery<TodayProblem[]>({
-    queryKey: ['todayProblems'],
+    queryKey: ['todayProblems', day],
     queryFn: async () => {
-      const response = await getTodayProblems();
+      const response = await getTodayProblems(Number(day));
       return response.data;
     },
     staleTime: getTimeUntilUTCMidnight(),
