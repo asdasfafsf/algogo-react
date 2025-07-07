@@ -53,13 +53,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
     }
   };
 
-
-
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (props.onKeyUp) {
-      props.onKeyUp(e)
+      props.onKeyUp(e);
     }
-  }
+  };
   const isFilled = props.value !== undefined ? !!props.value : !!inputValue;
 
   return (

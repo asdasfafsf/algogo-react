@@ -1,5 +1,5 @@
-import Error from "@/page/Error";
-import { Component, ReactNode } from "react";
+import { Component, ReactNode } from 'react';
+import Error from '@/page/Error';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -14,7 +14,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
 
   render() {
     if (this.state.hasError) {
-      return <Error />
+      return <Error />;
     }
     return this.props.children;
   }
