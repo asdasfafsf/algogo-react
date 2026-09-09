@@ -57,12 +57,7 @@ apiClient.interceptors.response.use(
         failedQueue.forEach(({ reject }) => reject(error));
         failedQueue.length = 0;
         isRefreshing = false;
-        return Promise.resolve({
-          status: 401,
-          errorCode: 'UNAUTHORIZED',
-          errorMessage: 'refreshToken이 없습니다.',
-          data: null,
-        });
+        return Promise.reject(error);
       }
 
       try {
@@ -95,7 +90,7 @@ apiClient.interceptors.response.use(
       }
     }
 
-    return error.response;
+    return Promise.reject(error);
   },
 );
 
