@@ -1,80 +1,97 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 import {
-  getSetting, getTemplates, loadCode, saveCode, setSetting,
-} from '@api/code';
-import { defaultCodeFromLanguage } from '../constant/Code';
+  getSetting,
+  getTemplates,
+  loadCode,
+  saveCode,
+  setSetting,
+} from "@api/code";
+import { defaultCodeFromLanguage } from "../constant/Code";
+import {
+  editorCodeStorageKey,
+  selectInitialCode,
+} from "@/domain/editor/persistence";
+import { getDefaultTemplateContent } from "@/domain/editor/templates";
+import {
+  mergeEditorSettings,
+  selectEditorLanguage,
+  setEditorCode,
+} from "@/domain/editor/state";
 
 type EditorStore = {
   language: Language;
-  setLanguage: (language: Language) => void | Promise<void>
-  code: string
-  setCode: (code: string) => void | Promise<void>
-  codeFromLanguage: CodeFromLanguage
-  updateCodeFromLanguage: (languge: Language, code: string) => void | Promise<void>
-  input: string,
-  setInput: (input: string) => void | Promise<void>
-  output: ResponseExecuteResult,
-  setOutput: (output: ResponseExecuteResult) => void | Promise<void>
-  settings: CodeEditorSettings,
-  templates: ResponseTemplates,
-  setTemplates: (updator: Updater<ResponseTemplates>) => void | Promise<void>
-  setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>
-  updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>
-  updateSetting: (data: RequestSetting
-  & { saveToServer: boolean }) => void | Promise<void>,
-  loadSetting: () => Promise<ApiResponse<ResponseSetting>> | ApiResponse<ResponseSetting>,
+  setLanguage: (language: Language) => void | Promise<void>;
+  code: string;
+  setCode: (code: string) => void | Promise<void>;
+  codeFromLanguage: CodeFromLanguage;
+  updateCodeFromLanguage: (
+    languge: Language,
+    code: string,
+  ) => void | Promise<void>;
+  input: string;
+  setInput: (input: string) => void | Promise<void>;
+  output: ResponseExecuteResult;
+  setOutput: (output: ResponseExecuteResult) => void | Promise<void>;
+  settings: CodeEditorSettings;
+  templates: ResponseTemplates;
+  setTemplates: (updator: Updater<ResponseTemplates>) => void | Promise<void>;
+  setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>;
+  updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>;
+  updateSetting: (
+    data: RequestSetting & { saveToServer: boolean },
+  ) => void | Promise<void>;
+  loadSetting: () =>
+    Promise<ApiResponse<ResponseSetting>> | ApiResponse<ResponseSetting>;
   loadTemplates: () =>
-  Promise<ApiResponse<ResponseTemplates>>
-  | ApiResponse<ResponseTemplates>,
-  setCodeFromTemplate: () => void | Promise<void>
-  initialize: () => Promise<void>
-}
-;
+    Promise<ApiResponse<ResponseTemplates>> | ApiResponse<ResponseTemplates>;
+  setCodeFromTemplate: () => void | Promise<void>;
+  initialize: () => Promise<void>;
+};
 
 export const useCodeEditorStore = create<EditorStore>((set, get) => ({
-  code: defaultCodeFromLanguage['C++'],
+  code: defaultCodeFromLanguage["C++"],
   setCode: (code: string) => {
     const { language, codeFromLanguage } = get();
-    set({ code, codeFromLanguage: { ...codeFromLanguage, [language]: code } });
+    set(setEditorCode(codeFromLanguage, language, code));
   },
-  language: 'C++' as Language,
+  language: "C++" as Language,
   setLanguage: (language: Language) => {
     const { codeFromLanguage } = get();
-    const code = codeFromLanguage[language];
-    set({ language, code });
+    set(selectEditorLanguage(codeFromLanguage, language));
   },
   codeFromLanguage: {
     ...defaultCodeFromLanguage,
   },
-  updateCodeFromLanguage: (language, code) => set((state) => ({
-    codeFromLanguage: {
-      ...state.codeFromLanguage,
-      [language]: code,
-    },
-  })),
-  input: '',
+  updateCodeFromLanguage: (language, code) =>
+    set((state) => ({
+      codeFromLanguage: {
+        ...state.codeFromLanguage,
+        [language]: code,
+      },
+    })),
+  input: "",
   setInput: (input: string) => set({ input }),
   output: {
     seq: 0,
     processTime: 0,
     memory: 0,
-    code: '',
-    result: '',
-    detail: '',
+    code: "",
+    result: "",
+    detail: "",
   },
   setOutput: (output: ResponseExecuteResult) => set({ output }),
   settings: {
-    theme: 'vs-dark',
+    theme: "vs-dark",
     fontSize: 14,
     tabSize: 4,
-    lineNumber: 'on',
-    defaultLanguage: 'C++',
+    lineNumber: "on",
+    defaultLanguage: "C++",
   },
 
   setSettings: (updator) => {
-    if (typeof updator === 'function') {
+    if (typeof updator === "function") {
       set((state) => ({
-        settings: (updator(state.settings)) as CodeEditorSettings,
+        settings: updator(state.settings) as CodeEditorSettings,
       }));
     } else {
       set({ settings: updator });
@@ -85,16 +102,16 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     summaryList: [],
   },
   setTemplates: (updator) => {
-    if (typeof updator === 'function') {
+    if (typeof updator === "function") {
       set((state) => ({
-        templates: (updator(state.templates)) as ResponseTemplates,
+        templates: updator(state.templates) as ResponseTemplates,
       }));
     } else {
       set({ templates: updator });
     }
   },
   updateCode: async () => {
-    const problemUuid = location.pathname.split('/')[2];
+    const problemUuid = location.pathname.split("/")[2];
     const { code, language } = get();
     const response = await saveCode({
       problemUuid,
@@ -111,7 +128,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     if (saveToServer) {
       await setSetting(data);
     }
-    setSettings({ ...settings, ...data });
+    setSettings(mergeEditorSettings(settings, data));
   },
   loadSetting: async () => {
     const { setLanguage } = get();
@@ -135,17 +152,19 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   },
   setCodeFromTemplate: () => {
     const { templates, setCode, language } = get();
-    const template = templates.defaultList.find((template) => template.language === language);
+    const template = templates.defaultList.find(
+      (template) => template.language === language,
+    );
     if (template) {
       setCode(template.content);
     }
   },
 
   initialize: async () => {
-    const problemUuid = location.pathname.split('/')[2];
+    const problemUuid = location.pathname.split("/")[2];
     const settingResponse = await getSetting();
 
-    let initLanguage: Language = 'C++';
+    let initLanguage: Language = "C++";
 
     if (settingResponse.statusCode === 200) {
       set({ settings: settingResponse.data });
@@ -157,9 +176,10 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       set({ templates: templatesResponse.data });
     }
 
-    const defaultTemplate = templatesResponse
-      .data.defaultList
-      .find((template) => template.language === initLanguage);
+    const defaultTemplate = getDefaultTemplateContent(
+      templatesResponse.data.defaultList,
+      initLanguage,
+    );
 
     const codeResponse = await loadCode(problemUuid, initLanguage);
 
@@ -172,27 +192,34 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
         codeMap[language] = content;
       });
 
-      const savedCodeData = localStorage.getItem(`code-${problemUuid}-${initLanguage}`);
+      const savedCodeData = localStorage.getItem(
+        editorCodeStorageKey(problemUuid, initLanguage),
+      );
+      let localCode: { code: string; updatedAt: number } | undefined;
       if (savedCodeData) {
         try {
           const codeData = JSON.parse(savedCodeData);
           const { updatedAt, code } = codeData;
-
-          const targets = codeList.find(((elem) => elem.language === initLanguage));
-
-          if (!targets) {
-            needDefaultTemplate = false;
-            codeMap[initLanguage] = code;
-          } else if (new Date(updatedAt).getTime() > new Date(targets.updatedAt).getTime()) {
-            needDefaultTemplate = false;
-            codeMap[initLanguage] = code;
-          }
+          localCode = { code, updatedAt: new Date(updatedAt).getTime() };
         } catch {
-          localStorage.removeItem(`code-${problemUuid}-${initLanguage}`);
+          localStorage.removeItem(
+            editorCodeStorageKey(problemUuid, initLanguage),
+          );
         }
       }
 
       needDefaultTemplate = codeList.length === 0;
+      const savedCode = codeList.find((elem) => elem.language === initLanguage);
+      codeMap[initLanguage] = selectInitialCode({
+        fallbackCode: codeMap[initLanguage],
+        savedCode: savedCode && {
+          content: savedCode.content,
+          updatedAt: new Date(savedCode.updatedAt).getTime(),
+        },
+        hasAnySavedCode: codeList.length > 0,
+        localCode,
+        defaultTemplate,
+      });
       set({
         language: initLanguage,
         code: codeMap[initLanguage],
@@ -200,13 +227,13 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       });
     }
 
-    if (defaultTemplate && needDefaultTemplate) {
+    if (defaultTemplate !== undefined && needDefaultTemplate) {
       set({
         language: initLanguage,
-        code: defaultTemplate.content,
+        code: defaultTemplate,
         codeFromLanguage: {
           ...defaultCodeFromLanguage,
-          [initLanguage]: defaultTemplate.content,
+          [initLanguage]: defaultTemplate,
         },
       });
     }
