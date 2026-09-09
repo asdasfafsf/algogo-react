@@ -27,7 +27,7 @@ export const createTemplate = async (createTemplate: RequestCreateTemplate) => {
 };
 
 export const updateTemplate = async (updateTemplate: RequestUpdateTemplate) => {
-  const response: AxiosResponse<ApiResponse<null>> = await apiClient.put('/api/v1/code/template', updateTemplate);
+  const response: AxiosResponse<ApiResponse<null>> = await apiClient.patch('/api/v1/code/template', updateTemplate);
   return response.data;
 };
 
