@@ -1,16 +1,5 @@
 import { useShallow } from 'zustand/react/shallow';
 // import { collectProblem } from '@api/problems';
-import {
-  PROBLEM_SORT_ANSWER_RATE_ASC,
-  PROBLEM_SORT_ANSWER_RATE_DESC,
-  PROBLEM_SORT_DEFAULT,
-  PROBLEM_SORT_LEVEL_ASC,
-  PROBLEM_SORT_LEVEL_DESC,
-  PROBLEM_SORT_SUBMIT_COUNT_ASC,
-  PROBLEM_SORT_SUBMIT_COUNT_DESC,
-  PROBLEM_SORT_TITLE_ASC,
-  PROBLEM_SORT_TITLE_DESC,
-} from '@constant/ProblemSort';
 import { useProblemListStore } from '@zustand/ProblemListStore';
 import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import { useCallback, useEffect, useState } from 'react';
@@ -18,12 +7,19 @@ import useAlertModal from '../useAlertModal';
 // import usePromptModal from '../modal/usePromptModal';
 // import useConfirmModal from '../useConfirmModal';
 import useDidMountEffect from '../useDidMount';
+import { DEFAULT_PROBLEM_PAGE, nextProblemSort } from '@/domain/problems';
 
 export default function useProblemListTable() {
-  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
-  const problemSort = useProblemTableFilterStore((state) => state.problemSort);
-  const problemHidden = useProblemTableFilterStore((state) => state.problemHidden);
-  const setProblemSort = useProblemTableFilterStore((state) => state.setProblemSort);
+  const problemOptionList = useProblemTableFilterStore(
+    state => state.problemOptionList,
+  );
+  const problemSort = useProblemTableFilterStore(state => state.problemSort);
+  const problemHidden = useProblemTableFilterStore(
+    state => state.problemHidden,
+  );
+  const setProblemSort = useProblemTableFilterStore(
+    state => state.setProblemSort,
+  );
   const [alert] = useAlertModal();
   // const [prompt] = usePromptModal();
   // const [confirm] = useConfirmModal();
@@ -36,23 +32,22 @@ export default function useProblemListTable() {
     pagingInfo,
     setPagingInfo,
     fetchProblemList,
-  } = useProblemListStore(useShallow((state) => ({
-    isFetching: state.isFetching,
-    problemList: state.problemList,
-    pagingInfo: state.pagingInfo,
-    setPagingInfo: state.setPagingInfo,
-    fetchProblemList: state.fetchProblemList,
-  })));
+  } = useProblemListStore(
+    useShallow(state => ({
+      isFetching: state.isFetching,
+      problemList: state.problemList,
+      pagingInfo: state.pagingInfo,
+      setPagingInfo: state.setPagingInfo,
+      fetchProblemList: state.fetchProblemList,
+    })),
+  );
 
   useEffect(() => {
-    fetchProblemList({ pageNo: 1, pageSize: 20 }, []);
+    fetchProblemList(DEFAULT_PROBLEM_PAGE, []);
   }, [fetchProblemList]);
 
   useDidMountEffect(() => {
-    setPagingInfo({
-      pageNo: 1,
-      pageSize: 20,
-    });
+    setPagingInfo(DEFAULT_PROBLEM_PAGE);
   }, [problemOptionList]);
 
   useDidMountEffect(() => {
@@ -71,18 +66,12 @@ export default function useProblemListTable() {
     [],
   );
   const handleClickProblemTh = useCallback(
-    (_e: React.MouseEvent<HTMLElement>, head: '제목' | '난이도' | '정답률' | '제출') => {
-      setProblemSort((prevSort) => {
-        const sortMapping: Record<'제목' | '난이도' | '정답률' | '제출', ProblemSort[]> = {
-          제목: [PROBLEM_SORT_TITLE_ASC, PROBLEM_SORT_TITLE_DESC, PROBLEM_SORT_DEFAULT],
-          난이도: [PROBLEM_SORT_LEVEL_ASC, PROBLEM_SORT_LEVEL_DESC, PROBLEM_SORT_DEFAULT],
-          정답률: [PROBLEM_SORT_ANSWER_RATE_ASC, PROBLEM_SORT_ANSWER_RATE_DESC, PROBLEM_SORT_DEFAULT],
-          제출: [PROBLEM_SORT_SUBMIT_COUNT_ASC, PROBLEM_SORT_SUBMIT_COUNT_DESC, PROBLEM_SORT_DEFAULT],
-        };
-        const sorts = sortMapping[head];
-        const currentIndex = sorts.indexOf(prevSort);
-        const nextIndex = (currentIndex + 1) % sorts.length;
-        return sorts[nextIndex];
+    (
+      _e: React.MouseEvent<HTMLElement>,
+      head: '제목' | '난이도' | '정답률' | '제출',
+    ) => {
+      setProblemSort(prevSort => {
+        return nextProblemSort(prevSort, head) as ProblemSort;
       });
     },
     [setProblemSort],

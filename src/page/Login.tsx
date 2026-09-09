@@ -1,22 +1,28 @@
-import { useNavigate } from 'react-router-dom';
-import { Typography } from '@components/common';
-import { Button } from '@components/Button';
+import { useNavigate } from "react-router-dom";
+import { Typography } from "@components/common";
+import { Button } from "@components/Button";
+import { createOAuthEntryUrl } from "@/domain/account/oauth";
 
 const { VITE_ENV } = import.meta.env;
 
 interface LoginProps {
-  name?: '로그인' | '회원가입'
+  name?: "로그인" | "회원가입";
 }
 
-export default function Login({ name = '로그인' }: LoginProps) {
+export default function Login({ name = "로그인" }: LoginProps) {
   const params = new URLSearchParams(window.location.search);
-  const destination = params.get('destination') || '';
+  const destination = params.get("destination") || "";
 
   const navigate = useNavigate();
-  const handleOAuth = async (_e: React.MouseEvent<HTMLButtonElement>, provider: 'google' | 'kakao' | 'github') => {
-    const url = VITE_ENV === 'development'
-      ? `http://localhost:3001/oauth/v2/${provider}?destination=${destination}`
-      : `https://www.algogo.co.kr/oauth/v2/${provider}?destination=${destination}`;
+  const handleOAuth = async (
+    _e: React.MouseEvent<HTMLButtonElement>,
+    provider: "google" | "kakao" | "github",
+  ) => {
+    const url = createOAuthEntryUrl({
+      environment: VITE_ENV,
+      provider,
+      destination,
+    });
 
     window.location.href = url;
   };
@@ -32,26 +38,21 @@ export default function Login({ name = '로그인' }: LoginProps) {
             color="white"
             size="large"
             className="flex items-center justify-center w-full h-12 gap-2 mt-4 text-black"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'google')}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+              handleOAuth(e, "google")
+            }
           >
-            <img
-              src="google-mark.png"
-              alt="google"
-              className="w-6 h-6"
-            />
-            {' '}
+            <img src="google-mark.png" alt="google" className="w-6 h-6" />{" "}
             구글로 시작하기
           </Button>
           <Button
             size="large"
             className="bg-kakao! flex items-center justify-center w-full h-12 gap-2 mt-4 text-black!"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'kakao')}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+              handleOAuth(e, "kakao")
+            }
           >
-            <img
-              src="kakao_icon.png"
-              alt="kakao"
-              className="w-5 h-5"
-            />
+            <img src="kakao_icon.png" alt="kakao" className="w-5 h-5" />
             카카오로 시작하기
           </Button>
 
@@ -66,20 +67,16 @@ export default function Login({ name = '로그인' }: LoginProps) {
             <hr className="w-full bg-blue-gray-50" />
           </div>
           <Button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             color="white"
             className="w-full mb-2"
           >
             처음으로
           </Button>
-          <Button
-            onClick={() => navigate(-1)}
-            className="w-full"
-          >
+          <Button onClick={() => navigate(-1)} className="w-full">
             이전으로
           </Button>
         </form>
-
       </div>
     </section>
   );
