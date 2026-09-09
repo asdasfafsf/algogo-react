@@ -2,11 +2,13 @@ import { create } from 'zustand';
 import { getProblemList } from '@api/problems-v2';
 import { PROBLEM_SORT_DEFAULT } from '@constant/ProblemSort';
 import { ProblemState, ProblemSummary, ProblemType } from '@/type/Problem.type';
+import {
+  buildProblemListRequest,
+  calculateMaxPage,
+  type ProblemPaging,
+} from '@/domain/problems';
 
-type PagingInfo = {
-  pageNo: number;
-  pageSize: number;
-};
+type PagingInfo = ProblemPaging;
 
 type ProblemListStore = {
   problemList: ProblemSummary[];
@@ -21,42 +23,48 @@ type ProblemListStore = {
     pagingInfo: PagingInfo,
     problemOptionList: ProblemOption[],
     problemSort?: ProblemSort,
-    problemTitle?: string) => Promise<void> | void
-
+    problemTitle?: string,
+  ) => Promise<void> | void;
 };
 
-export const useProblemListStore = create<ProblemListStore>((set) => ({
+export const useProblemListStore = create<ProblemListStore>(set => ({
   problemList: [],
-  setProblemList: (updater) => set((state) => ({
-    problemList:
+  setProblemList: updater =>
+    set(state => ({
+      problemList:
         typeof updater === 'function'
-          ? (updater as (prev: ProblemSummary[]) => ProblemSummary[])(state.problemList)
+          ? (updater as (prev: ProblemSummary[]) => ProblemSummary[])(
+              state.problemList,
+            )
           : updater,
-  })),
+    })),
   pagingInfo: {
     pageNo: 1,
     pageSize: 20,
   },
-  setPagingInfo: (updater) => set((state) => ({
-    pagingInfo:
+  setPagingInfo: updater =>
+    set(state => ({
+      pagingInfo:
         typeof updater === 'function'
           ? (updater as (prev: PagingInfo) => PagingInfo)(state.pagingInfo)
           : updater,
-  })),
+    })),
   maxPageNo: 1,
-  setMaxPageNo: (updater) => set((state) => ({
-    maxPageNo:
+  setMaxPageNo: updater =>
+    set(state => ({
+      maxPageNo:
         typeof updater === 'function'
           ? (updater as (prev: number) => number)(state.maxPageNo)
           : updater,
-  })),
+    })),
   isFetching: false,
-  setFetching: (updater) => set((state) => ({
-    isFetching:
+  setFetching: updater =>
+    set(state => ({
+      isFetching:
         typeof updater === 'function'
           ? (updater as (prev: boolean) => boolean)(state.isFetching)
           : updater,
-  })),
+    })),
 
   fetchProblemList: async (
     pagingInfo: PagingInfo,
@@ -66,33 +74,30 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
   ) => {
     const { pageNo, pageSize } = pagingInfo;
 
-    const skeletonTimeout = setTimeout(() => {
-      set({ isFetching: true });
-    }, pageNo === 1 ? 0 : 200);
+    const skeletonTimeout = setTimeout(
+      () => {
+        set({ isFetching: true });
+      },
+      pageNo === 1 ? 0 : 200,
+    );
 
     try {
+      const request = buildProblemListRequest(
+        pagingInfo,
+        problemOptionList,
+        problemSort,
+        problemTitle,
+      );
       const response = await getProblemList({
-        pageNo,
-        pageSize,
-        levelList: problemOptionList
-          .filter((elem) => elem.isSelected && elem.type === '난이도')
-          .map((elem) => elem.value)
-          .map(Number),
-        typeList: problemOptionList
-          .filter((elem) => elem.isSelected && elem.type === '유형')
-          .map((elem) => elem.value) as ProblemType[],
-        sort: problemSort,
-        title: problemTitle,
-        states: problemOptionList
-          .filter((elem) => elem.isSelected && elem.type === '상태')
-          .map((elem) => elem.value) as ProblemState[],
+        ...request,
+        typeList: request.typeList as ProblemType[],
+        states: request.states as ProblemState[],
+        sort: request.sort as ProblemSort,
       });
       clearTimeout(skeletonTimeout);
       const { data } = response;
-      const {
-        problemList, totalCount,
-      } = data;
-      const maxPageNo = Math.ceil(totalCount / pageSize);
+      const { problemList, totalCount } = data;
+      const maxPageNo = calculateMaxPage(totalCount, pageSize);
       set(() => ({
         problemList,
         maxPageNo,

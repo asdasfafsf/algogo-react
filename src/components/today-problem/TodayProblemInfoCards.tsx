@@ -2,14 +2,21 @@ import { Typography } from '@components/common';
 import { Card } from '@components/Card';
 import { FadeInSection } from '@components/common/FadeInSection';
 import { TrophyIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { roundedTodayProblemProgress } from '@/domain/problems';
 
 interface TodayProblemInfoCardsProps {
   currentIndex: number;
   totalProblems: number;
 }
 
-export function TodayProblemInfoCards({ currentIndex, totalProblems }: TodayProblemInfoCardsProps) {
-  const progressPercentage = Math.round(((currentIndex + 1) / totalProblems) * 100);
+export function TodayProblemInfoCards({
+  currentIndex,
+  totalProblems,
+}: TodayProblemInfoCardsProps) {
+  const progressPercentage = roundedTodayProblemProgress(
+    currentIndex,
+    totalProblems,
+  );
 
   return (
     <FadeInSection className="px-6 pb-16">
@@ -36,8 +43,7 @@ export function TodayProblemInfoCards({ currentIndex, totalProblems }: TodayProb
                   />
                 </div>
                 <span className="text-sm font-medium">
-                  {progressPercentage}
-                  %
+                  {progressPercentage}%
                 </span>
               </div>
             </div>

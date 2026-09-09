@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { PROBLEM_STATE } from '@/constant/problem.state.constant';
 import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
+import { replaceProblemFilters } from '@/domain/problems';
 
 interface ProblemState {
   name: string;
   value: string;
-  isSelected: boolean
+  isSelected: boolean;
 }
 
 export default function useProblemStateDropdown() {
@@ -17,14 +18,22 @@ export default function useProblemStateDropdown() {
 
   const [open, setOpen] = useState(false);
 
-  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
-  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
+  const problemOptionList = useProblemTableFilterStore(
+    state => state.problemOptionList,
+  );
+  const setProblemOptionList = useProblemTableFilterStore(
+    state => state.setProblemOptionList,
+  );
 
   useEffect(() => {
-    const filteredProblemOptionList = problemOptionList.filter(({ type }) => type === '상태');
-    setProblemStateList((prevList) => {
-      const newList = [...prevList].map((problemType) => {
-        const target = filteredProblemOptionList.find((elem) => problemType.name === elem.name);
+    const filteredProblemOptionList = problemOptionList.filter(
+      ({ type }) => type === '상태',
+    );
+    setProblemStateList(prevList => {
+      const newList = [...prevList].map(problemType => {
+        const target = filteredProblemOptionList.find(
+          elem => problemType.name === elem.name,
+        );
 
         if (!target) {
           return { ...problemType, isSelected: false };
@@ -37,57 +46,33 @@ export default function useProblemStateDropdown() {
     });
   }, [problemOptionList]);
 
-  const handleUpdateProblemOptionList = useCallback((problemStateList: ProblemState[]) => {
-    setProblemOptionList((prevList) => {
-      const newProblemOptionList = prevList.filter((problemOption) => {
-        if (problemOption.type !== '상태') {
-          return true;
-        }
+  const handleUpdateProblemOptionList = useCallback(
+    (problemStateList: ProblemState[]) => {
+      setProblemOptionList(prevList =>
+        replaceProblemFilters(prevList, '상태', problemStateList),
+      );
+    },
+    [setProblemOptionList],
+  );
 
-        const target = problemStateList.find(
-          (problemState) => problemState.name === problemOption.name,
-        );
+  const handleClick = useCallback(
+    (e: React.MouseEvent, index: number) => {
+      e.stopPropagation();
+      const newProblemStateList = [...problemStateList];
+      newProblemStateList[index].isSelected =
+        !newProblemStateList[index].isSelected;
+      setProblemStateList(newProblemStateList);
+      handleUpdateProblemOptionList(newProblemStateList);
+    },
+    [problemStateList],
+  );
 
-        if (!target) {
-          return false;
-        }
-
-        return target.isSelected;
-      });
-
-      problemStateList.forEach((problemState) => {
-        const target = newProblemOptionList.find(
-          (problemOption) => problemOption.name === problemState.name,
-        );
-
-        if (target) {
-          return true;
-        }
-
-        if (problemState.isSelected) {
-          newProblemOptionList.push({
-            type: '상태',
-            ...problemState,
-          });
-        }
-        return true;
-      });
-
-      return newProblemOptionList;
-    });
-  }, [setProblemOptionList]);
-
-  const handleClick = useCallback((e: React.MouseEvent, index: number) => {
-    e.stopPropagation();
-    const newProblemStateList = [...problemStateList];
-    newProblemStateList[index].isSelected = !newProblemStateList[index].isSelected;
-    setProblemStateList(newProblemStateList);
-    handleUpdateProblemOptionList(newProblemStateList);
-  }, [problemStateList]);
-
-  const handler = useCallback(() => setOpen((open) => !open), [setOpen]);
+  const handler = useCallback(() => setOpen(open => !open), [setOpen]);
 
   return {
-    problemStateList, handleClick, open, handler,
+    problemStateList,
+    handleClick,
+    open,
+    handler,
   };
 }

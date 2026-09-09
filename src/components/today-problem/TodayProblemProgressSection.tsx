@@ -1,6 +1,7 @@
 import { Typography } from '@components/common';
 import { Card } from '@components/Card';
 import { FadeInSection } from '@components/common/FadeInSection';
+import { todayProblemProgress } from '@/domain/problems';
 
 interface TodayProblemProgressSectionProps {
   currentIndex: number;
@@ -11,7 +12,7 @@ export function TodayProblemProgressSection({
   currentIndex,
   totalProblems,
 }: TodayProblemProgressSectionProps) {
-  const progressPercentage = ((currentIndex + 1) / totalProblems) * 100;
+  const progressPercentage = todayProblemProgress(currentIndex, totalProblems);
 
   return (
     <FadeInSection className="px-6 mb-12">
@@ -23,13 +24,7 @@ export function TodayProblemProgressSection({
                 오늘의 진행 상황
               </Typography>
               <Typography variant="small" className="text-blue-600">
-                {currentIndex + 1}
-                {' '}
-                /
-                {' '}
-                {totalProblems}
-                {' '}
-                완료
+                {currentIndex + 1} / {totalProblems} 완료
               </Typography>
             </div>
             <div className="w-full h-3 bg-blue-200 rounded-full">

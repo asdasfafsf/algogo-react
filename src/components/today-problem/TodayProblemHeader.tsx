@@ -7,6 +7,14 @@ import {
 } from '@heroicons/react/24/outline';
 import { useState, useEffect, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import {
+  canNavigateToNextDay,
+  formatUtcMidnightCountdown,
+  millisecondsUntilNextUtcMidnight,
+  nextDayOffset,
+  parseTodayProblemDay,
+  previousDayOffset,
+} from '@/domain/problems';
 
 interface TodayProblemHeaderProps {
   totalProblems: number;
@@ -21,12 +29,13 @@ const DateDisplay = memo(({ currentTime }: { currentTime: Date }) => {
     return () => clearTimeout(timer);
   }, [currentTime]);
 
-  const formatDate = (d: Date) => new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-  }).format(d);
+  const formatDate = (d: Date) =>
+    new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+    }).format(d);
 
   return (
     <span
@@ -50,25 +59,13 @@ const CountdownTimer = memo(() => {
     return () => clearInterval(timer);
   }, []);
 
-  const getTimeUntilMidnight = () => {
-    const utcMidnight = new Date();
-    utcMidnight.setUTCHours(24, 0, 0, 0);
-    const diff = utcMidnight.getTime() - currentTime.getTime();
-    const h = Math.floor(diff / 3600000)
-      .toString()
-      .padStart(2, '0');
-    const m = Math.floor((diff % 3600000) / 60000)
-      .toString()
-      .padStart(2, '0');
-    const s = Math.floor((diff % 60000) / 1000)
-      .toString()
-      .padStart(2, '0');
-    return `${h}:${m}:${s}`;
-  };
+  const countdown = formatUtcMidnightCountdown(
+    millisecondsUntilNextUtcMidnight(currentTime.getTime()),
+  );
 
   return (
     <div className="font-mono text-sm font-bold text-slate-800">
-      {getTimeUntilMidnight()}
+      {countdown}
     </div>
   );
 });
@@ -77,7 +74,7 @@ CountdownTimer.displayName = 'CountdownTimer';
 export const TodayProblemHeader = memo(
   ({ totalProblems }: TodayProblemHeaderProps) => {
     const [searchParam, setSearchParam] = useSearchParams();
-    const day = Number(searchParam.get('day') ?? 0);
+    const day = parseTodayProblemDay(searchParam.get('day'));
 
     const calcDate = (d: number) => {
       const date = new Date();
@@ -94,18 +91,18 @@ export const TodayProblemHeader = memo(
 
     const handleNextDay = () => {
       // 오늘(day=0)보다 미래로는 이동할 수 없도록 제한
-      if (day >= 0) return;
+      if (!canNavigateToNextDay(day)) return;
 
-      setSearchParam((prev) => {
-        const v = Number(prev.get('day') ?? 0) + 1;
+      setSearchParam(prev => {
+        const v = nextDayOffset(parseTodayProblemDay(prev.get('day')));
         prev.set('day', v.toString());
         return prev;
       });
     };
 
     const handlePrevDay = () => {
-      setSearchParam((prev) => {
-        const v = Number(prev.get('day') ?? 0) - 1;
+      setSearchParam(prev => {
+        const v = previousDayOffset(parseTodayProblemDay(prev.get('day')));
         prev.set('day', v.toString());
         return prev;
       });
@@ -130,11 +127,11 @@ export const TodayProblemHeader = memo(
               type="button"
               onClick={handleNextDay}
               className={`flex items-center justify-center w-6 h-6 rounded-full transition-colors ${
-                day >= 0
+                !canNavigateToNextDay(day)
                   ? 'cursor-not-allowed opacity-50'
                   : 'hover:bg-slate-100'
               }`}
-              disabled={day >= 0}
+              disabled={!canNavigateToNextDay(day)}
             >
               <ChevronRightIcon className="w-3 h-3 text-slate-500" />
             </button>

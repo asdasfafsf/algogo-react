@@ -3,18 +3,24 @@ import { useCallback, useRef, useState } from 'react';
 import { useProblemListStore } from '@zustand/ProblemListStore';
 import useModal from '@plugins/modal/useModal';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { resetProblemPage } from '@/domain/problems';
 
 export default function useProblemListSearcher() {
-  const setProblemTitle = useProblemTableFilterStore((state) => state.setProblemTitle);
+  const setProblemTitle = useProblemTableFilterStore(
+    state => state.setProblemTitle,
+  );
 
-  const handleChangeProblemTitle = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setProblemTitle(e.target.value);
-  }, [setProblemTitle]);
+  const handleChangeProblemTitle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setProblemTitle(e.target.value);
+    },
+    [setProblemTitle],
+  );
 
-  const setPagingInfo = useProblemListStore((state) => state.setPagingInfo);
+  const setPagingInfo = useProblemListStore(state => state.setPagingInfo);
 
   const handleClickSearch = useCallback(() => {
-    setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));
+    setPagingInfo(resetProblemPage);
   }, [setPagingInfo]);
 
   const modal = useModal();
@@ -32,18 +38,21 @@ export default function useProblemListSearcher() {
     modal.remove('PROBLEM_SEARCH_INPUT');
   }, [setFocus]);
 
-  const handleKeyUp = useCallback(async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape') {
-      inputRef.current?.blur();
-    } else if (e.key === 'Enter') {
-      setPagingInfo((prev) => ({ ...prev, pageNo: 1 }));
-      inputRef.current?.blur();
-    }
-  }, [modal, focus, setPagingInfo]);
+  const handleKeyUp = useCallback(
+    async (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Escape') {
+        inputRef.current?.blur();
+      } else if (e.key === 'Enter') {
+        setPagingInfo(resetProblemPage);
+        inputRef.current?.blur();
+      }
+    },
+    [modal, focus, setPagingInfo],
+  );
 
   useHotkeys(
     'mod+k',
-    (e) => {
+    e => {
       e.preventDefault();
       if (!modal?.top()?.Component && !focus) {
         inputRef.current?.focus();
