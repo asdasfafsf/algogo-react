@@ -30,6 +30,8 @@ UI는 shadcn을 기반으로 새로 디자인할 예정이지만 문제 조회·
 - ALGOGO-78: 문제 목록·오늘의 문제
 - ALGOGO-79: 에디터·코드 실행·로컬 코드 보관
 - ALGOGO-80: 계정·프로필
+- ALGOGO-81: 설정 임시 상태와 적용·저장 흐름
+- ALGOGO-82: 문제 진입과 코드 초기화 규칙
 
 
 ## 새 디자인에서 재사용하는 경계
@@ -50,6 +52,8 @@ Node 24 환경에서 저장소 루트 기준으로 다음 스크립트를 실행
 - `rtk proxy node tests/domain-boundaries.mjs`: 도메인과 전이 의존성의 React/외부 패키지/브라우저/현재 시각 접근 검사
 - `rtk proxy node tests/problems-domain.mjs` 및 `tests/problems-update.mjs`: 문제 규칙과 갱신 흐름
 - `rtk proxy node tests/editor-domain.mjs`: 코드 선택 우선순위, 템플릿 응답, 실행 재시도
+- `rtk proxy node tests/editor-settings.mjs`: 설정 적용 순서·저장 여부·실패·취소
+- `rtk proxy node tests/problem-initialization.mjs`: 예시 입력 초기 상태·코드 초기화 불변성
 - `rtk proxy node tests/account-core.mjs`: 계정 요청, OAuth 결과, 윤년·기간·기여도 경계
 
 의존 경계 검사는 정적 회귀 방지 장치이며 수학적 순수성을 증명하지 않는다. 별칭을 통한 간접 호출, 입력 변경, 시간대 정책은 코드 리뷰와 동작 테스트에서도 확인한다. 날짜 계산은 기존의 로컬 달력 또는 UTC 기준을 그대로 유지하고 현재 시각만 입력으로 전달한다.
