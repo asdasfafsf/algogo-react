@@ -1,27 +1,28 @@
+import { useCallback, useEffect, useState } from "react";
+import useMeStore from "@zustand/MeStore";
+import useAlertModal from "@hook/useAlertModal";
+import useConfirmModal from "@hook/useConfirmModal";
+import useSocialInputStore from "@zustand/SocialInputStore";
+import { AxiosError } from "axios";
 import {
-  useCallback, useEffect, useState,
-} from 'react';
-import useMeStore from '@zustand/MeStore';
-import useAlertModal from '@hook/useAlertModal';
-import useConfirmModal from '@hook/useConfirmModal';
-import useSocialInputStore from '@zustand/SocialInputStore';
-import { AxiosError } from 'axios';
+  createProfileUpdateRequest,
+  selectProfileImageAfterUpdate,
+} from "@/domain/account/profile";
 
 export default function useMyInfo() {
   const me = useMeStore((state) => state.me);
   const updateMe = useMeStore((state) => state.updateMe);
   const fetchMe = useMeStore((state) => state.fetchMe);
-  const [name, setName] = useState(me?.name ?? '');
+  const [name, setName] = useState(me?.name ?? "");
   const [profilePhoto, setProfilePhoto] = useState<File>();
-  const [image, setImage] = useState<string>(me?.profilePhoto ?? '');
+  const [image, setImage] = useState<string>(me?.profilePhoto ?? "");
 
   useEffect(() => {
-    fetchMe()
-      .then((me) => {
-        if (me) {
-          setImage(me.profilePhoto ?? '');
-        }
-      });
+    fetchMe().then((me) => {
+      if (me) {
+        setImage(me.profilePhoto ?? "");
+      }
+    });
   }, []);
 
   const [confirm] = useConfirmModal();
@@ -29,46 +30,42 @@ export default function useMyInfo() {
   const [isEditMode, setEditMode] = useState(false);
   const handleEditMode = useCallback(async () => {
     if (me === null) {
-      alert('로그인 후 이용해주세요.');
+      alert("로그인 후 이용해주세요.");
       return;
     }
 
-    setName(me?.name || '');
+    setName(me?.name || "");
     setEditMode((prev) => !prev);
   }, [setEditMode, me]);
 
   const handleSave = useCallback(async () => {
     if (me === null) {
-      alert('로그인 후 이용해주세요.');
+      alert("로그인 후 이용해주세요.");
       return;
     }
 
-    const isOk = await confirm('적용하시겠습니까?');
+    const isOk = await confirm("적용하시겠습니까?");
     if (!isOk) {
       return;
     }
 
     const { values } = useSocialInputStore.getState();
-    const socialList = (Object.keys(values) as SocialProvider[])
-      .map((provider) => ({ provider, content: values[provider] } as Social));
-
-    const requestUpdateMeDto = {
+    const requestUpdateMeDto = createProfileUpdateRequest(
       name,
-      file: profilePhoto,
-      socialList,
-    };
+      profilePhoto,
+      values,
+    );
 
     try {
       const res = await updateMe(requestUpdateMeDto);
-      setImage(res.data?.profilePhoto ?? '');
-      if (res.errorCode !== '0000') {
-        setImage(me.profilePhoto ?? '');
+      setImage(selectProfileImageAfterUpdate(res, me.profilePhoto ?? ""));
+      if (res.errorCode !== "0000") {
         alert(res.errorMessage);
       }
     } catch (error) {
-      setImage(me.profilePhoto ?? '');
+      setImage(me.profilePhoto ?? "");
       if (error instanceof AxiosError) {
-        alert('저장 중 오류가 발생했습니다.');
+        alert("저장 중 오류가 발생했습니다.");
       }
     } finally {
       setEditMode(false);
@@ -77,11 +74,11 @@ export default function useMyInfo() {
 
   const handleCancel = useCallback(() => {
     if (me === null) {
-      alert('로그인 후 이용해주세요.');
+      alert("로그인 후 이용해주세요.");
       return;
     }
 
-    setImage(me.profilePhoto ?? '');
+    setImage(me.profilePhoto ?? "");
     setProfilePhoto(undefined);
     setEditMode((prev) => !prev);
   }, [setEditMode, me]);
@@ -93,10 +90,13 @@ export default function useMyInfo() {
     [setName],
   );
 
-  const handleChangeProfilePhoto = useCallback(async (_: unknown, src: File, b64: string) => {
-    setProfilePhoto(src);
-    setImage(b64);
-  }, [setProfilePhoto]);
+  const handleChangeProfilePhoto = useCallback(
+    async (_: unknown, src: File, b64: string) => {
+      setProfilePhoto(src);
+      setImage(b64);
+    },
+    [setProfilePhoto],
+  );
 
   return {
     me,

@@ -1,19 +1,13 @@
-import { create } from 'zustand';
-
-type SocialProvider = 'instagram' | 'youtube' | 'linkedin' | 'github';
+import { create } from "zustand";
+import { emptySocialValues, type SocialValues } from "@/domain/account/profile";
 
 type SocialInputStore = {
-  values: Record<SocialProvider, string>;
+  values: SocialValues;
   setValue: (socialProvider: SocialProvider, value: string) => void;
 };
 
 export const useSocialInputStore = create<SocialInputStore>((set) => ({
-  values: {
-    instagram: '',
-    youtube: '',
-    linkedin: '',
-    github: '',
-  },
+  values: emptySocialValues(),
   setValue(socialProvider, value) {
     set((state) => ({
       values: {
