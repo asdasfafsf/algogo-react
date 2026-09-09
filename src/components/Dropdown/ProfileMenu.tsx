@@ -14,7 +14,7 @@ interface ProfileMenuProps {
 
 export default function ProfileMenu({ me }: ProfileMenuProps) {
   const navigate = useNavigate();
-  const { logout } = useMeStore(({ logout }) => ({ logout }));
+  const logout = useMeStore((state) => state.logout);
 
   return (
     <Dropdown

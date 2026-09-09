@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import {
   ClipboardIcon, TrashIcon, PlayIcon,
 } from '@heroicons/react/24/outline';

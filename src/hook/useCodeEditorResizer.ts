@@ -1,9 +1,9 @@
-/* eslint-disable max-len */
 import { useCallback } from 'react';
 import { useCodeEditorHeightStore } from '../zustand/CodeResultHeightStore';
 
 export default function useCodeEditorResizer() {
-  const { codeEditorHeight, setCodeEditorHeight } = useCodeEditorHeightStore(({ codeEditorHeight, setCodeEditorHeight }) => ({ codeEditorHeight, setCodeEditorHeight }));
+  const codeEditorHeight = useCodeEditorHeightStore((state) => state.codeEditorHeight);
+  const setCodeEditorHeight = useCodeEditorHeightStore((state) => state.setCodeEditorHeight);
 
   const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {
     // clickEvent.stopPropagation();

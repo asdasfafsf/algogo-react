@@ -130,7 +130,7 @@ export default function CodeTemplateDropdown() {
       showArrow={false}
     >
       <div
-        className="flex w-36 h-10 items-center justify-between border-gray-800 rounded-md border-solid border-[1px] py-2 px-4 cursor-pointer"
+        className="flex w-36 h-10 items-center justify-between border-gray-800 rounded-md border-solid border py-2 px-4 cursor-pointer"
       >
         <Typography
           className="text-gray-400 truncate max-w-[80px]"

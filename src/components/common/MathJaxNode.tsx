@@ -1,5 +1,5 @@
 import React from 'react';
-import MathJax from 'react-mathjax';
+import { MathJax } from 'better-react-mathjax';
 
 const decodeHtmlEntities = (str: string) => {
   const parser = new DOMParser();
@@ -11,10 +11,10 @@ const parseMathAndText = (text: string): React.ReactNode[] => {
   return parts.map((part, index) => {
     if (part.startsWith('$$') && part.endsWith('$$')) {
       const formula = part.slice(2, -2); // $$를 제거하고 수식으로 처리
-      return <MathJax.Node key={`formula-${index}`} formula={formula} />;
+      return <MathJax dynamic key={`formula-${index}`}>{`\\[${formula}\\]`}</MathJax>;
     } if (part.startsWith('$') && part.endsWith('$')) {
       const formula = part.slice(1, -1); // $를 제거하고 인라인 수식으로 처리
-      return <MathJax.Node inline key={`inline-formula-${index}`} formula={formula} />;
+      return <MathJax dynamic inline key={`inline-formula-${index}`}>{`\\(${formula}\\)`}</MathJax>;
     }
     return <span key={`text-${index}`}>{decodeHtmlEntities(part)}</span>; // 일반 텍스트 처리
   });

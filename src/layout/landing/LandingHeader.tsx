@@ -4,8 +4,8 @@ import { Button } from '@components/Button/index';
 
 export default function LandingHeader() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 shadow-sm bg-white/80 backdrop-blur-md">
-      <div className="container max-w-screen-xl px-4 mx-auto">
+    <header className="fixed top-0 left-0 right-0 z-30 shadow-xs bg-white/80 backdrop-blur-md">
+      <div className="container max-w-(--breakpoint-xl) px-4 mx-auto">
         <div className="flex items-center justify-between h-16">
           <LogoWithText size="medium" />
           <nav className="items-center hidden space-x-8 md:flex">

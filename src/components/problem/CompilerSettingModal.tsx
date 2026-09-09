@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import { IconButton } from '@components/Button/index';
 import { useEffect } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';

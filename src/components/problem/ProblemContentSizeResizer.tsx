@@ -6,7 +6,7 @@ export default function ProblemContentResizer() {
   const setSize = useProblemContentSizeStore((state) => state.setSize);
   const size = useProblemContentSizeStore((state) => state.size);
   return (
-    <div className="flex items-center gap-1 rounded-md border-[1px] w-24">
+    <div className="flex items-center gap-1 rounded-md border w-24">
       <MinusCircleIcon
         onClick={() => { setSize((prev) => Math.max(prev - 10, 100) as ProblemContentSize); }}
         className="w-6 h-6 cursor-zoom-out"

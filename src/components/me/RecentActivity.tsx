@@ -17,7 +17,7 @@ export const RecentActivity = memo(({ activities }: RecentActivityProps) => {
 
   if (!displayActivities || displayActivities.length === 0) {
     return (
-      <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
+      <div className="transition-all duration-300 bg-white border border-gray-100 shadow-xs rounded-3xl hover:shadow-md">
         <div className="flex flex-col items-center justify-center p-12 text-center">
           <div className="flex items-center justify-center w-20 h-20 mb-6 bg-gray-100 rounded-full">
             <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,7 +48,7 @@ export const RecentActivity = memo(({ activities }: RecentActivityProps) => {
   }
 
   return (
-    <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
+    <div className="transition-all duration-300 bg-white border border-gray-100 shadow-xs rounded-3xl hover:shadow-md">
       <div className="p-8">
         <Typography variant="h4" weight="bold" className="mb-8 text-gray-900">
           최근 활동

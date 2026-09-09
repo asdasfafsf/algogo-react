@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { ProblemCategoryChip } from '@components/Chip/index';
 import useProblemCategoryViewer from '@hook/useProblemCategoryViewer';
 import React from 'react';

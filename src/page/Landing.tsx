@@ -37,7 +37,7 @@ export default function Landing() {
     <>
       <LandingHeader />
       <main className="pt-16">
-        <div className="container max-w-screen-xl px-4 mx-auto">
+        <div className="container max-w-(--breakpoint-xl) px-4 mx-auto">
           {/* Hero Section */}
           <FadeInSection className="min-h-[70vh] flex flex-col justify-center items-center text-center py-16">
             <h1 className="mb-6 text-5xl font-bold">
@@ -227,7 +227,7 @@ export default function Landing() {
               <div className="absolute w-4 h-4 rounded-full left-1/2 bottom-1/3 bg-blue-400/40 animate-ping" />
 
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-50/10 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-br from-transparent via-blue-50/10 to-transparent" />
             </div>
           </FadeInSection>
         </div>

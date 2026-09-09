@@ -27,7 +27,7 @@ export default function HeaderMenu({ menuItem }: HeaderMenuProps) {
     <div className="relative h-full group">
       <div
         onClick={() => navigate(menuItem.pathList[0])}
-        className={`relative flex items-center justify-center h-full px-4 box-content border-transparent transition-colors duration-200 cursor-pointer after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black hover:font-semibold after:hover:w-full after:transition-[width] after:duration-500 hover:text-black hover:transition-all ${isBold ? 'after:!w-full font-semibold' : ''}`}
+        className={`relative flex items-center justify-center h-full px-4 box-content border-transparent transition-colors duration-200 cursor-pointer after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[3px] after:bg-black hover:font-semibold hover:after:w-full after:transition-[width] after:duration-500 hover:text-black hover:transition-all ${isBold ? 'after:w-full! font-semibold' : ''}`}
       >
         <Typography
           weight={isBold ? 'semibold' : 'semilight'}
@@ -39,7 +39,7 @@ export default function HeaderMenu({ menuItem }: HeaderMenuProps) {
       </div>
       <div className="fixed left-0 w-screen h-0 overflow-hidden transition-all duration-300 border-t border-gray-300 group-hover:h-64 group-hover:border-b">
         <div className="w-full h-full bg-white">
-          <div className="container max-w-screen-xl py-4 mx-auto">
+          <div className="container max-w-(--breakpoint-xl) py-4 mx-auto">
             <div className="grid grid-cols-3 gap-8">
               <div>
                 <div className="px-3" onClick={() => navigate(menuItem.pathList[0])}>

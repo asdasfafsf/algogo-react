@@ -35,7 +35,7 @@ export default function Error() {
             />
             <Typography
               variant="h1"
-              className="text-blue-gray mt-7 text-4xl !leading-snug lg:text-4xl"
+              className="text-blue-gray mt-7 text-4xl leading-snug! lg:text-4xl"
             >
               오류
             </Typography>

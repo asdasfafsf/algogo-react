@@ -29,7 +29,7 @@ export default function CodeEditorLineNumberDropdown(
         align="bottom-right"
         showArrow={false}
       >
-        <div className="flex items-center justify-between w-32 p-2 border-gray-200 border-solid border-[1px] rounded-md ">
+        <div className="flex items-center justify-between w-32 p-2 border-gray-200 border-solid border rounded-md ">
           <Typography weight="semilight" variant="medium">{lineNumber}</Typography>
           <ChevronDownIcon
             strokeWidth={2.5}

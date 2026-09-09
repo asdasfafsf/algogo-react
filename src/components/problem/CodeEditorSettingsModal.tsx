@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   TranslucentOverlay, Typography,
 } from '@components/common/index';

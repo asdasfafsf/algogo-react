@@ -44,7 +44,7 @@ export default function Login({ name = '로그인' }: LoginProps) {
           </Button>
           <Button
             size="large"
-            className="!bg-kakao flex items-center justify-center w-full h-12 gap-2 mt-4 !text-black"
+            className="bg-kakao! flex items-center justify-center w-full h-12 gap-2 mt-4 text-black!"
             onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOAuth(e, 'kakao')}
           >
             <img

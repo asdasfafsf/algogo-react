@@ -4,8 +4,8 @@ import { create } from 'zustand';
 type CodeResultPanel = {
   selectedIndex: number;
   setSelectedIndex: (selectedIndex: number) => void;
-  inputTextAreaRef: React.RefObject<HTMLTextAreaElement>,
-  outputTextAreaRef: React.RefObject<HTMLTextAreaElement>
+  inputTextAreaRef: React.RefObject<HTMLTextAreaElement | null>,
+  outputTextAreaRef: React.RefObject<HTMLTextAreaElement | null>
 };
 
 export const useCodeResultPanelStore = create<CodeResultPanel>((set) => ({

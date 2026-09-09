@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import useExecuteTestCase from '@hook/useExecuteTestCase';
 import useModal from '@plugins/modal/useModal';
 import { Button } from '@components/Button';
@@ -87,7 +86,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal text-center break-words"
+                      className="font-normal text-center wrap-break-word"
                     >
                       {input}
                     </Typography>
@@ -96,7 +95,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal text-center break-words"
+                      className="font-normal text-center wrap-break-word"
                     >
                       {output}
                     </Typography>
@@ -105,7 +104,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color="white"
-                      className="font-normal text-center break-words"
+                      className="font-normal text-center wrap-break-word"
                     >
                       {expected}
                     </Typography>
@@ -114,7 +113,7 @@ export default function CodeTestCaseTable({ executeResultList } : CodeTestCaseTa
                     <Typography
                       variant="small"
                       color={state === '불일치' ? 'red' : (state === '일치' ? 'green' : 'gray')}
-                      className="font-normal break-words"
+                      className="font-normal wrap-break-word"
                     >
                       {state}
                     </Typography>

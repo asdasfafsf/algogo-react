@@ -12,13 +12,13 @@ export default function NotFound() {
           <div className="container relative z-10 grid mx-auto my-auto text-center place-items-center">
             <Typography
               variant="h1"
-              className="text-5xl !leading-snug lg:text-6xl"
+              className="text-5xl leading-snug! lg:text-6xl"
             >
               404 😢
             </Typography>
             <Typography
               variant="h1"
-              className="mt-6 text-4xl !leading-snug lg:text-4xl"
+              className="mt-6 text-4xl leading-snug! lg:text-4xl"
             >
               페이지를 찾을 수 없습니다
             </Typography>
@@ -31,7 +31,7 @@ export default function NotFound() {
             <Button
               onClick={() => navigate(-1)}
               color="gray"
-              className="px-4 md:w-[9rem]"
+              className="px-4 md:w-36"
             >
               뒤로가기
             </Button>

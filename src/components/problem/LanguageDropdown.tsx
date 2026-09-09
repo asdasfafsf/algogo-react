@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useLanguageDropdown from '@hook/useLanguageDropdown';
 import { Dropdown } from '@components/Dropdown/index';
@@ -19,7 +16,7 @@ export default function LanguageDropdown() {
       showArrow={false}
     >
       <div
-        className="flex w-32 h-10 items-center justify-between border-gray-800 rounded-md border-solid border-[1px] py-2 px-4 cursor-pointer"
+        className="flex w-32 h-10 items-center justify-between border-gray-800 rounded-md border-solid border py-2 px-4 cursor-pointer"
       >
         <Typography
           className="text-gray-400"

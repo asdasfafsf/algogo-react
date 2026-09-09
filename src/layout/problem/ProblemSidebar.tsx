@@ -1,7 +1,7 @@
 import React, {
   useRef,
 } from 'react';
-import MathJax from 'react-mathjax';
+import { MathJaxContext } from 'better-react-mathjax';
 
 import useProblemSidebar from '../../hook/useProblemSidebar';
 import { useScreenSize } from '../../context/ScreenSizeContext';
@@ -12,7 +12,6 @@ interface ProblemSidebarProps {
   handleClickOpen: () => void
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function ProblemSidebar({ children, open, handleClickOpen }: ProblemSidebarProps) {
   const draggableRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +21,7 @@ export function ProblemSidebar({ children, open, handleClickOpen }: ProblemSideb
   const { isMobile } = useScreenSize();
 
   return (
-    <MathJax.Provider>
+    <MathJaxContext version={3} config={{ startup: { typeset: false }, tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } }}>
       <aside
         style={isMobile
           ? { height: 'calc(100vh - 96px)' }
@@ -62,7 +61,7 @@ export function ProblemSidebar({ children, open, handleClickOpen }: ProblemSideb
           </div>
         </div>
       </aside>
-    </MathJax.Provider>
+    </MathJaxContext>
   );
 }
 

@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable react/function-component-definition */
 import React, {
   createContext, useState, useEffect, useContext,
 } from 'react';

@@ -4,7 +4,11 @@ import 'react-tooltip/dist/react-tooltip.css';
 
 interface WrappedTooltipProps {
   className?: string;
-  children: React.ReactElement;
+  children: React.ReactElement<{
+    'data-tooltip-id'?: string;
+    'data-tooltip-content'?: string;
+    'data-tooltip-place'?: WrappedTooltipProps['placement'];
+  }>;
   content: string;
   placement?:
   | 'top'

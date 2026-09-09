@@ -1,10 +1,9 @@
-/* eslint-disable max-len */
 import { useCallback, useState } from 'react';
 import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
 
 export default function useProblemSidebar() {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const { problemWidth, setProblemWidth } = useProblemWidthStore(({ problemWidth, setProblemWidth }) => ({ problemWidth, setProblemWidth }));
+  const problemWidth = useProblemWidthStore((state) => state.problemWidth);
+  const setProblemWidth = useProblemWidthStore((state) => state.setProblemWidth);
   const [open, setOpen] = useState(true);
 
   const handleClickOpen = useCallback(() => {

@@ -1,3 +1,5 @@
+import { MathJax } from 'better-react-mathjax';
+
 interface ProblemContentProps {
   content: string;
   scale?: number;
@@ -5,12 +7,13 @@ interface ProblemContentProps {
 
 export default function ProblemContent({ content, scale = 1 }: ProblemContentProps) {
   return (
-    <div
+    <MathJax
+      key={content}
+      dynamic
       className="w-full problem-content"
       style={{
         zoom: scale,
       }}
-          // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
         __html: content,
       }}

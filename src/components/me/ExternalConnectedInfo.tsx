@@ -34,7 +34,7 @@ export default function ExternalConnectedInfo() {
       key: 'baekjoon',
       name: '백준 Online Judge',
       description: '백준에서 해결한 문제들을 가져옵니다',
-      color: 'bg-gradient-to-r from-blue-600 to-blue-700',
+      color: 'bg-linear-to-r from-blue-600 to-blue-700',
       icon: '🏆',
       siteUrl: 'https://www.acmicpc.net',
       isComingSoon: true,
@@ -43,7 +43,7 @@ export default function ExternalConnectedInfo() {
       key: 'codeforces',
       name: 'Codeforces',
       description: 'Codeforces에서 해결한 문제들을 가져옵니다',
-      color: 'bg-gradient-to-r from-red-500 to-red-600',
+      color: 'bg-linear-to-r from-red-500 to-red-600',
       icon: '🚀',
       siteUrl: 'https://codeforces.com',
       isComingSoon: true,
@@ -51,7 +51,7 @@ export default function ExternalConnectedInfo() {
   ];
 
   return (
-    <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
+    <div className="transition-all duration-300 bg-white border border-gray-100 shadow-xs rounded-3xl hover:shadow-md">
       <div className="p-8">
         <div className="mb-8">
           <Typography variant="h4" weight="bold" className="mb-2 text-gray-900">
