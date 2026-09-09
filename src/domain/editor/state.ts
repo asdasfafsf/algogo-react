@@ -4,6 +4,11 @@ export const setEditorCode = (
   code: string,
 ) => ({ code, codeFromLanguage: { ...codeFromLanguage, [language]: code } });
 
+export const getResetEditorCode = (
+  defaultCodeFromLanguage: CodeFromLanguage,
+  language: Language,
+) => defaultCodeFromLanguage[language];
+
 export const selectEditorLanguage = (
   codeFromLanguage: CodeFromLanguage,
   language: Language,
