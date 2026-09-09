@@ -183,7 +183,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           {slides.map((slide, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-full h-full"
+              className="shrink-0 w-full h-full"
               aria-hidden={current !== index}
             >
               {slide}

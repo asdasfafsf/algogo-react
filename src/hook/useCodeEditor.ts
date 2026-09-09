@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 import {
   useCallback, useRef, useState, useEffect,
 } from 'react';

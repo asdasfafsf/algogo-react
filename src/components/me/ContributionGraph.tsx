@@ -252,7 +252,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
   }, [currentYear]);
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 border-gray-100 bg-gradient-to-br from-white to-gray-50 hover:shadow-lg">
+    <Card className="overflow-hidden transition-all duration-300 border-gray-100 bg-linear-to-br from-white to-gray-50 hover:shadow-lg">
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="flex flex-col gap-4 mb-6 sm:mb-8">
           <div>
@@ -267,13 +267,13 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
           </div>
 
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div className="flex items-center p-1 bg-white border border-gray-200 shadow-sm rounded-xl">
+            <div className="flex items-center p-1 bg-white border border-gray-200 shadow-xs rounded-xl">
               <button
                 type="button"
                 onClick={() => setViewMode('current')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   viewMode === 'current'
-                    ? 'bg-blue-500 text-white shadow-sm'
+                    ? 'bg-blue-500 text-white shadow-xs'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 }`}
               >
@@ -286,7 +286,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
                 onClick={() => setViewMode('yearly')}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   viewMode === 'yearly'
-                    ? 'bg-blue-500 text-white shadow-sm'
+                    ? 'bg-blue-500 text-white shadow-xs'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 }`}
               >
@@ -303,11 +303,11 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
                     type="button"
                     onClick={handlePrevYear}
                     disabled={selectedYear <= 2020}
-                    className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-xs hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <ChevronLeftIcon className="w-4 h-4 text-gray-600" />
                   </button>
-                  <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-xs">
                     <Typography variant="medium" weight="semibold" className="text-gray-900">
                       {selectedYear}
                       년
@@ -317,7 +317,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
                     type="button"
                     onClick={handleNextYear}
                     disabled={selectedYear >= currentYear}
-                    className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-xs hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <ChevronRightIcon className="w-4 h-4 text-gray-600" />
                   </button>
@@ -339,7 +339,7 @@ const ContributionGraph = memo(({ data }: ContributionGraphProps) => {
           </div>
         </div>
 
-        <div className="p-4 overflow-x-auto bg-white border border-gray-100 shadow-sm rounded-2xl sm:p-6">
+        <div className="p-4 overflow-x-auto bg-white border border-gray-100 shadow-xs rounded-2xl sm:p-6">
           <div className="flex gap-1 mb-2 ml-12 w-[1050px]">
             {weeks.map((_, weekIndex) => {
               const monthPos = monthPositions.find((pos) => pos.weekIndex === weekIndex);

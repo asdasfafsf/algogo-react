@@ -1,6 +1,4 @@
-/* eslint-disable-next-line */
 import EnterIcon from '/public/assets/enter.svg?react';
-/* eslint-disable-next-line */
 import SpaceIcon from '/public/assets/space.svg?react'
 import React from 'react';
 import {

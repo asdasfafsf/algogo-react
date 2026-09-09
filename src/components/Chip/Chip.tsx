@@ -35,17 +35,17 @@ const variantColorClasses: Record<Variant, Record<Color, string>> = {
     gray: 'bg-gray-700 text-black border border-transparent', // 'gray' 한 단계 더 진하게 변경
   },
   gradient: {
-    blue: 'bg-gradient-to-tr from-blue-600 to-blue-500 text-white border border-transparent',
-    red: 'bg-gradient-to-tr from-red-600 to-red-500 text-white border border-transparent',
-    green: 'bg-gradient-to-tr from-green-600 to-green-500 text-white border border-transparent',
-    amber: 'bg-gradient-to-tr from-amber-600 to-amber-500 text-white border border-transparent',
-    pink: 'bg-gradient-to-tr from-pink-600 to-pink-500 text-white border border-transparent',
-    indigo: 'bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white border border-transparent',
-    purple: 'bg-gradient-to-tr from-purple-600 to-purple-500 text-white border border-transparent',
-    teal: 'bg-gradient-to-tr from-teal-600 to-teal-500 text-white border border-transparent',
-    cyan: 'bg-gradient-to-tr from-cyan-600 to-cyan-500 text-white border border-transparent',
-    slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white border border-transparent',
-    gray: 'bg-gradient-to-tr from-gray-600 to-gray-500 text-black border border-transparent', // 'gray' 한 단계 더 진하게 변경
+    blue: 'bg-linear-to-tr from-blue-600 to-blue-500 text-white border border-transparent',
+    red: 'bg-linear-to-tr from-red-600 to-red-500 text-white border border-transparent',
+    green: 'bg-linear-to-tr from-green-600 to-green-500 text-white border border-transparent',
+    amber: 'bg-linear-to-tr from-amber-600 to-amber-500 text-white border border-transparent',
+    pink: 'bg-linear-to-tr from-pink-600 to-pink-500 text-white border border-transparent',
+    indigo: 'bg-linear-to-tr from-indigo-600 to-indigo-500 text-white border border-transparent',
+    purple: 'bg-linear-to-tr from-purple-600 to-purple-500 text-white border border-transparent',
+    teal: 'bg-linear-to-tr from-teal-600 to-teal-500 text-white border border-transparent',
+    cyan: 'bg-linear-to-tr from-cyan-600 to-cyan-500 text-white border border-transparent',
+    slate: 'bg-linear-to-tr from-slate-800 to-slate-700 text-white border border-transparent',
+    gray: 'bg-linear-to-tr from-gray-600 to-gray-500 text-black border border-transparent', // 'gray' 한 단계 더 진하게 변경
   },
   outlined: {
     blue: 'border border-blue-600 bg-transparent text-blue-600',
@@ -85,7 +85,7 @@ export default function Chip({
 
   return (
     <div
-      className={`animate-fadeIn font-bold text-xs rounded-md py-1 px-2.5 transition-all shadow-sm ${variantClasses} inline-flex items-center justify-center ${className}`}
+      className={`animate-fadeIn font-bold text-xs rounded-md py-1 px-2.5 transition-all shadow-xs ${variantClasses} inline-flex items-center justify-center ${className}`}
     >
       <div>{value}</div>
     </div>

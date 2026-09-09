@@ -75,7 +75,7 @@ export default function ToastModal({
   return (
     <div
       role="alert"
-      className="relative z-30 flex items-center w-64 max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm right-4 bottom-4 dark:text-gray-400 dark:bg-gray-800
+      className="relative z-30 flex items-center w-64 max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-xs right-4 bottom-4 dark:text-gray-400 dark:bg-gray-800
         animate-[toast-enter_0.3s_ease-out] data-[leaving=true]:animate-[toast-leave_0.3s_ease-in]"
     >
       <div className={iconContainerClass}>

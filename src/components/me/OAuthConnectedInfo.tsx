@@ -24,7 +24,7 @@ export default function OAuthConnectedInfo() {
   ];
 
   return (
-    <div className="transition-all duration-300 bg-white border border-gray-100 shadow-sm rounded-3xl hover:shadow-md">
+    <div className="transition-all duration-300 bg-white border border-gray-100 shadow-xs rounded-3xl hover:shadow-md">
       <div className="p-8">
         <div className="mb-8">
           <Typography variant="h4" weight="bold" className="mb-2 text-gray-900">

@@ -116,7 +116,7 @@ export default function Typography({
 }: HeadingProps) {
   const Tag = (variant === 'paragraph' || variant === 'small' || variant === 'medium')
     ? 'p'
-    : variant as keyof JSX.IntrinsicElements;
+    : variant;
 
   const classes = `${headingClasses[variant][weight]} ${colorClasses[color]} ${className}`;
   const style = {

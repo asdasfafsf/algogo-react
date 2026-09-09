@@ -24,7 +24,7 @@ export function TodayProblemCard({
   return (
     <FadeInSection className="px-6 mb-12">
       <div className="mx-auto max-w-4xl">
-        <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 border-0 shadow-2xl">
+        <Card className="overflow-hidden bg-linear-to-br from-white to-gray-50 border-0 shadow-2xl">
           <div className="p-8">
             <div className="flex justify-between items-start mb-6">
               <div className="flex-1">

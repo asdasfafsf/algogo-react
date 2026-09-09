@@ -33,7 +33,7 @@ NavigationTabsSkeleton.displayName = 'NavigationTabsSkeleton';
 const ProblemCardSkeleton = memo(() => (
   <FadeInSection className="px-6 mb-12">
     <div className="mx-auto max-w-4xl">
-      <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 border-0 shadow-2xl animate-pulse">
+      <Card className="overflow-hidden bg-linear-to-br from-white to-gray-50 border-0 shadow-2xl animate-pulse">
         <div className="p-8">
           {/* 헤더 부분 */}
           <div className="flex justify-between items-start mb-6">
@@ -98,10 +98,10 @@ export const TodayProblemSkeleton = memo(() => (
   <div className="min-h-screen bg-white">
     {/* 헤더는 실제 헤더를 보여주되, totalProblems만 0으로 */}
     <div className="relative px-6 py-16 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/60 to-purple-50/50" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-indigo-50/60 to-purple-50/50" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
       <div className="relative max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border rounded-full shadow-sm bg-white/80 backdrop-blur-sm border-slate-200/50">
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border rounded-full shadow-xs bg-white/80 backdrop-blur-xs border-slate-200/50">
           <div className="w-6 h-6 bg-slate-200 rounded-full animate-pulse" />
           <div className="w-4 h-4 bg-slate-200 rounded animate-pulse" />
           <div className="w-32 h-4 bg-slate-200 rounded animate-pulse" />
@@ -112,14 +112,14 @@ export const TodayProblemSkeleton = memo(() => (
           <h1 className="mb-2 text-4xl font-bold md:text-5xl text-slate-900">
             오늘의 문제
           </h1>
-          <div className="w-20 h-1 mx-auto mb-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+          <div className="w-20 h-1 mx-auto mb-3 rounded-full bg-linear-to-r from-blue-500 to-purple-500" />
           <p className="text-slate-500 text-sm">
             매일 UTC 기준 자정에 새로운 문제로 갱신됩니다
           </p>
         </div>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <div className="flex items-center gap-3 px-6 py-3 border shadow-sm bg-white/90 backdrop-blur-sm rounded-xl border-slate-200/50">
+          <div className="flex items-center gap-3 px-6 py-3 border shadow-xs bg-white/90 backdrop-blur-xs rounded-xl border-slate-200/50">
             <div className="w-8 h-8 bg-blue-100 rounded-lg" />
             <div className="text-left">
               <div className="text-xs font-medium tracking-wide uppercase text-slate-500 mb-1">
@@ -129,7 +129,7 @@ export const TodayProblemSkeleton = memo(() => (
             </div>
           </div>
 
-          <div className="flex items-center gap-3 px-6 py-3 border shadow-sm bg-white/90 backdrop-blur-sm rounded-xl border-slate-200/50">
+          <div className="flex items-center gap-3 px-6 py-3 border shadow-xs bg-white/90 backdrop-blur-xs rounded-xl border-slate-200/50">
             <div className="w-8 h-8 bg-purple-100 rounded-lg animate-pulse" />
             <div className="text-left">
               <div className="text-xs font-medium tracking-wide uppercase text-slate-500 mb-1">

@@ -23,7 +23,7 @@ export default function OAuthCard({
   return (
     <div className="p-6 transition-all duration-300 bg-white border border-gray-200 rounded-2xl hover:border-gray-300 hover:shadow-md">
       <div className="flex items-center gap-4 mb-4">
-        <div className="flex items-center justify-center w-12 h-12 overflow-hidden border border-gray-200 shadow-sm bg-gray-50 rounded-xl">
+        <div className="flex items-center justify-center w-12 h-12 overflow-hidden border border-gray-200 shadow-xs bg-gray-50 rounded-xl">
           <img
             src={icon}
             alt={name}
@@ -71,7 +71,7 @@ export default function OAuthCard({
           variant="filled"
           color="blue"
           size="small"
-          className="w-full shadow-sm"
+          className="w-full shadow-xs"
           onClick={(e) => onConnect(e, provider)}
         >
           연동하기

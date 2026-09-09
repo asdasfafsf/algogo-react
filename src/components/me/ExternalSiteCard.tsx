@@ -55,7 +55,7 @@ export default function ExternalSiteCard({
       </div>
 
       <div className="flex items-center gap-4 mb-4">
-        <div className={`w-12 h-12 ${color} rounded-xl flex items-center justify-center text-white text-xl shadow-sm ${
+        <div className={`w-12 h-12 ${color} rounded-xl flex items-center justify-center text-white text-xl shadow-xs ${
           isComingSoon ? 'opacity-60' : ''
         }`}
         >
@@ -119,7 +119,7 @@ export default function ExternalSiteCard({
           variant="filled"
           color="blue"
           size="small"
-          className="w-full shadow-sm"
+          className="w-full shadow-xs"
           onClick={() => {
             // TODO: 확장 프로그램을 통한 연동 처리
           }}

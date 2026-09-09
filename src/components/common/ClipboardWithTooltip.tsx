@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react';
 import { Typography, Tooltip } from '@components/common/index';
 import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-/* eslint-disable-next-line */
 import EnterIcon from '/public/assets/enter.svg?react';
-/* eslint-disable-next-line */
 import SpaceIcon from '/public/assets/space.svg?react';
 
 interface ClipboardWithTooltipProps {
@@ -44,7 +42,7 @@ export default function ClipboardWithTooltip({
         onKeyDown={handleKeyDown}
         role="button"
         tabIndex={0}
-        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 w-full cursor-pointer focus:outline-none bg-black text-white border rounded-md${className}`}
+        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 w-full cursor-pointer focus:outline-hidden bg-black text-white border rounded-md${className}`}
       >
         <div className="w-full">
           {content
@@ -52,7 +50,7 @@ export default function ClipboardWithTooltip({
             .map((elem, contentIndex, contentArr) => (
               <div
                 key={`${elem}-${contentIndex}`}
-                className="flex flex-wrap whitespace-normal break-words w-[calc(100%-10px)]"
+                className="flex flex-wrap whitespace-normal wrap-break-word w-[calc(100%-10px)]"
               >
                 {elem.split(' ').map((text, index, arr) => (
                   <React.Fragment key={`${text}-${index}`}>

@@ -22,7 +22,7 @@ export default function CodeEditorTabSizer({ tabSize, handleChange }: CodeEditor
           type="number"
           min={1}
           max={50}
-          className="!w-32 h-10"
+          className="w-32! h-10"
           value={tabSize}
           onChange={(e) => handleChange(e)}
         />

@@ -23,14 +23,14 @@ const variantColorClasses: Record<string, Record<string, string>> = {
     black: 'bg-black text-white hover:bg-gray-800',
   },
   gradient: {
-    blue: 'bg-gradient-to-tr from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800',
-    red: 'bg-gradient-to-tr from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800',
-    green: 'bg-gradient-to-tr from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800',
-    amber: 'bg-gradient-to-tr from-amber-600 to-amber-700 text-white hover:from-amber-700 hover:to-amber-800',
-    slate: 'bg-gradient-to-tr from-slate-800 to-slate-700 text-white hover:from-slate-700 hover:to-slate-600',
-    gray: 'bg-gradient-to-tr from-gray-600 to-gray-700 text-white hover:from-gray-700 hover:to-gray-800',
-    white: 'bg-gradient-to-tr from-white to-gray-100 text-slate-800 hover:from-gray-100 hover:to-gray-200',
-    black: 'bg-gradient-to-tr from-black to-gray-800 text-white hover:from-gray-900 hover:to-gray-700',
+    blue: 'bg-linear-to-tr from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800',
+    red: 'bg-linear-to-tr from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800',
+    green: 'bg-linear-to-tr from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800',
+    amber: 'bg-linear-to-tr from-amber-600 to-amber-700 text-white hover:from-amber-700 hover:to-amber-800',
+    slate: 'bg-linear-to-tr from-slate-800 to-slate-700 text-white hover:from-slate-700 hover:to-slate-600',
+    gray: 'bg-linear-to-tr from-gray-600 to-gray-700 text-white hover:from-gray-700 hover:to-gray-800',
+    white: 'bg-linear-to-tr from-white to-gray-100 text-slate-800 hover:from-gray-100 hover:to-gray-200',
+    black: 'bg-linear-to-tr from-black to-gray-800 text-white hover:from-gray-900 hover:to-gray-700',
   },
   outlined: {
     blue: 'border-blue-600 text-blue-600 hover:bg-blue-700 hover:text-white',
@@ -82,7 +82,7 @@ function IconButton({
     ${variantBaseClasses[variant]}
     ${sizeClasses[size]}
     ${rounded === 'full' ? 'rounded-full' : 'rounded-md'}
-    transition-all focus:outline-none focus:shadow-none shadow-none
+    transition-all focus:outline-hidden focus:shadow-none shadow-none
     ${disabled ? 'opacity-50 shadow-none pointer-events-none' : 'hover:shadow-lg'}
   `;
 

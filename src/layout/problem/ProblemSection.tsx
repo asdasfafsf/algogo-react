@@ -48,7 +48,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
 
   return (
     <section
-      className="transition-[left] overflow-x-hidden gap-0 m-0 p-0 h-full relative"
+      className="transition-left overflow-x-hidden gap-0 m-0 p-0 h-full relative"
       style={isMobile
         ? {
           display: 'flex',

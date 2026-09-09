@@ -30,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState('');
-  const [_, setInputFocus] = useState(false);
+  const [, setInputFocus] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -66,7 +66,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
         type={type}
         id={id}
         name={name}
-        className={`${className} block w-full px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-none focus:ring-0 peer text-center md:text-left ${className}`}
+        className={`${className} block w-full px-3 py-3 text-xs text-gray-900 border border-gray-300 rounded-lg focus:border-black focus:outline-hidden focus:ring-0 peer text-center md:text-left ${className}`}
         placeholder=" "
         {...props}
         ref={ref ?? inputRef}

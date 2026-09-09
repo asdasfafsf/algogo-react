@@ -17,7 +17,7 @@ export default function UpcomingSystemUpdateContent() {
               <span className="md:inline">계정 연동을 준비하고 있어요</span>
             </Typography>
 
-            <p className="text-sm text-white/60 !mt-8">
+            <p className="text-sm text-white/60 mt-8!">
               곧 다양한 플랫폼과의 연동 기능을 만나보실 수 있습니다
             </p>
 

@@ -16,10 +16,10 @@ export default function DropUp({
   }, [isOpen]);
 
   return (
-    <div className={`${className} fixed transition-[height]`}>
-      <div className="flex items-center justify-end transition-[height] ease-in-out duration-500">
+    <div className={`${className} fixed transition-height`}>
+      <div className="flex items-center justify-end transition-height ease-in-out duration-500">
         <ul
-          className={`${isOpen ? '' : 'h-0'} list-none overflow-y-hidden transition-[height] ease-in-out duration-500 pr-1`}
+          className={`${isOpen ? '' : 'h-0'} list-none overflow-y-hidden transition-height ease-in-out duration-500 pr-1`}
         >
           {children}
         </ul>

@@ -1,3 +1,4 @@
+import { useShallow } from 'zustand/react/shallow';
 // import { collectProblem } from '@api/problems';
 import {
   PROBLEM_SORT_ANSWER_RATE_ASC,
@@ -35,13 +36,13 @@ export default function useProblemListTable() {
     pagingInfo,
     setPagingInfo,
     fetchProblemList,
-  } = useProblemListStore((state) => ({
+  } = useProblemListStore(useShallow((state) => ({
     isFetching: state.isFetching,
     problemList: state.problemList,
     pagingInfo: state.pagingInfo,
     setPagingInfo: state.setPagingInfo,
     fetchProblemList: state.fetchProblemList,
-  }));
+  })));
 
   useEffect(() => {
     fetchProblemList({ pageNo: 1, pageSize: 20 }, []);

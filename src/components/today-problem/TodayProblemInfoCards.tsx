@@ -16,7 +16,7 @@ export function TodayProblemInfoCards({ currentIndex, totalProblems }: TodayProb
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* 도전 현황 */}
-          <Card className="text-white border-0 bg-gradient-to-br from-indigo-500 to-purple-600">
+          <Card className="text-white border-0 bg-linear-to-br from-indigo-500 to-purple-600">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <TrophyIcon className="w-6 h-6" />
@@ -44,7 +44,7 @@ export function TodayProblemInfoCards({ currentIndex, totalProblems }: TodayProb
           </Card>
 
           {/* 팁 */}
-          <Card className="text-white border-0 bg-gradient-to-br from-amber-500 to-orange-600">
+          <Card className="text-white border-0 bg-linear-to-br from-amber-500 to-orange-600">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <SparklesIcon className="w-6 h-6" />

@@ -43,7 +43,6 @@ export default function ProfilePhoto({
       };
       reader.readAsDataURL(file);
     } else {
-      // eslint-disable-next-line no-alert
       alert('이미지 파일만 업로드 가능합니다.');
     }
   };

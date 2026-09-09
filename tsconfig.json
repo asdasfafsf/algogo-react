@@ -23,19 +23,17 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Paths 설정 */
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "@layout/*": ["src/layout/*"],
-      "@components/*": ["src/components/*"],
-      "@hook/*": ["src/hook/*"],
-      "@zustand/*": ["src/zustand/*"],
-      "@constant/*": ["src/constant/*"],
-      "@api/*": ["src/api/*"],
-      "@plugins/*": ["src/plugins/*"],
-      "@lib/*": ["src/lib/*"]
+      "@/*": ["./src/*"],
+      "@layout/*": ["./src/layout/*"],
+      "@components/*": ["./src/components/*"],
+      "@hook/*": ["./src/hook/*"],
+      "@zustand/*": ["./src/zustand/*"],
+      "@constant/*": ["./src/constant/*"],
+      "@api/*": ["./src/api/*"],
+      "@plugins/*": ["./src/plugins/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
-  "include": ["src", "svg.d.ts", "vite.config.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "svg.d.ts", "vite.config.ts"]
 }

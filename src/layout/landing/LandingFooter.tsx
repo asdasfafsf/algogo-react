@@ -3,7 +3,7 @@ import { LogoWithText } from '@components/common';
 export default function LandingFooter() {
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="container max-w-screen-xl px-4 py-8 mx-auto">
+      <div className="container max-w-(--breakpoint-xl) px-4 py-8 mx-auto">
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="space-y-4">
@@ -44,7 +44,7 @@ export default function LandingFooter() {
       </div>
 
       <div className="border-t border-gray-200">
-        <div className="container max-w-screen-xl px-4 py-8 mx-auto">
+        <div className="container max-w-(--breakpoint-xl) px-4 py-8 mx-auto">
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
               <a href="/terms" className="hover:text-blue-600">이용약관</a>

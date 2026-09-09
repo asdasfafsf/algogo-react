@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <>
       <header className="fixed top-0 z-20 w-full bg-white">
-        <div className="container max-w-screen-xl mx-auto">
+        <div className="container max-w-(--breakpoint-xl) mx-auto">
           <div className="flex items-center justify-between h-16">
             {/* Left: Logo + Nav */}
             <div className="flex items-center h-full gap-8">
@@ -78,7 +78,7 @@ export default function Header() {
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
           <div className="fixed inset-0 z-50 bg-white md:hidden">
-            <div className="container max-w-screen-xl p-4 mx-auto">
+            <div className="container max-w-(--breakpoint-xl) p-4 mx-auto">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-end mb-6">
                 <div

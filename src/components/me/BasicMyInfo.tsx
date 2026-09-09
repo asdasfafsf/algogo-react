@@ -20,9 +20,9 @@ export default function BasicMyInfo() {
   return (
     <div className="relative">
       {/* 배경 그라데이션 */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 opacity-60" />
+      <div className="absolute inset-0 rounded-full bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 opacity-60" />
 
-      <Card className="relative overflow-hidden border-0 rounded-full shadow-2xl bg-white/80 backdrop-blur-sm">
+      <Card className="relative overflow-hidden border-0 rounded-full shadow-2xl bg-white/80 backdrop-blur-xs">
         {isEditMode ? (
           <div className="p-10">
             {/* 편집 모드 헤더 */}
@@ -55,9 +55,9 @@ export default function BasicMyInfo() {
 
             <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
               {/* 프로필 사진 섹션 */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <div className="relative group">
-                  <div className="absolute transition duration-300 rounded-full opacity-25 -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 blur group-hover:opacity-40" />
+                  <div className="absolute transition duration-300 rounded-full opacity-25 -inset-1 bg-linear-to-r from-blue-500 to-indigo-600 blur-sm group-hover:opacity-40" />
                   <div className="relative">
                     <ProfilePhoto
                       handleChange={handleChangeProfilePhoto}
@@ -117,9 +117,9 @@ export default function BasicMyInfo() {
             {/* 프로필 표시 모드 */}
             <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
               {/* 프로필 사진 */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <div className="relative group">
-                  <div className="absolute rounded-full -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 blur opacity-20" />
+                  <div className="absolute rounded-full -inset-1 bg-linear-to-r from-blue-500 to-indigo-600 blur-sm opacity-20" />
                   <div className="relative">
                     <ProfilePhoto
                       src={image}
@@ -172,7 +172,7 @@ export default function BasicMyInfo() {
               </div>
 
               {/* 편집 버튼 */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <button
                   type="button"
                   onClick={handleEditMode}

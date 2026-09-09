@@ -3,7 +3,7 @@ import React from 'react';
 import { Tooltip } from '@components/common';
 
 interface CodeResultInputProps {
-  inputTextAreaRef: React.RefObject<HTMLTextAreaElement>
+  inputTextAreaRef: React.RefObject<HTMLTextAreaElement | null>
   input: string;
   handleChangeInput: (e: React.ChangeEvent<HTMLElement>, input: string) => void | Promise<void>
   handleClickRun: (e:React.MouseEvent<HTMLElement>) => void | Promise<void>
@@ -64,7 +64,7 @@ export default function CodeResultInput(
           }
         }}
         placeholder="테스트 입력"
-        className="h-[calc(100%-64px)] font-mono focus:outline-none resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
+        className="h-[calc(100%-64px)] font-mono focus:outline-hidden resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
       />
     </div>
   );

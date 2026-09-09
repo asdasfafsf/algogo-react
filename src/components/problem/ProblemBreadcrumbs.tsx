@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Breadcrumbs } from '@components/common/index';
 
 type ProblemBreadCrumbsPath = {

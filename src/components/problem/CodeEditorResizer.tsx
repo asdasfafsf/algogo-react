@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import useCodeEditorResizer from '@hook/useCodeEditorResizer';
 
 export default function CodeEditorResizer() {

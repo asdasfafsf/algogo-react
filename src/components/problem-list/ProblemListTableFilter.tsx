@@ -7,9 +7,9 @@ import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
 import { ChipWithSelected } from '@components/Chip/index';
 
 function ProblemListTableFilter() {
-  const { problemOptionList, setProblemOptionList } = useProblemTableFilterStore(
-    ({ problemOptionList, setProblemOptionList }) => ({ problemOptionList, setProblemOptionList }),
-  );
+  const problemOptionList = useProblemTableFilterStore((state) => state.problemOptionList);
+  const setProblemOptionList = useProblemTableFilterStore((state) => state.setProblemOptionList);
+
 
   const handleReset = useCallback(() => {
     setProblemOptionList([]);

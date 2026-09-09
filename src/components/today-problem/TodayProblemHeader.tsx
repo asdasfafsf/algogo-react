@@ -113,10 +113,10 @@ export const TodayProblemHeader = memo(
 
     return (
       <div className="relative px-6 py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/60 to-purple-50/50" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-indigo-50/60 to-purple-50/50" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
         <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border rounded-full shadow-sm bg-white/80 backdrop-blur-sm border-slate-200/50">
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border rounded-full shadow-xs bg-white/80 backdrop-blur-xs border-slate-200/50">
             <button
               type="button"
               className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-slate-100 transition-colors"
@@ -148,14 +148,14 @@ export const TodayProblemHeader = memo(
             >
               오늘의 문제
             </Typography>
-            <div className="w-20 h-1 mx-auto mb-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+            <div className="w-20 h-1 mx-auto mb-3 rounded-full bg-linear-to-r from-blue-500 to-purple-500" />
             <Typography variant="small" className="text-slate-500">
               매일 UTC 기준 자정에 새로운 문제로 갱신됩니다
             </Typography>
           </div>
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <div className="flex items-center gap-3 px-6 py-3 border shadow-sm bg-white/90 backdrop-blur-sm rounded-xl border-slate-200/50">
+            <div className="flex items-center gap-3 px-6 py-3 border shadow-xs bg-white/90 backdrop-blur-xs rounded-xl border-slate-200/50">
               <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
                 <ClockIcon className="w-4 h-4 text-blue-600" />
               </div>
@@ -167,7 +167,7 @@ export const TodayProblemHeader = memo(
               </div>
             </div>
 
-            <div className="flex items-center gap-3 px-6 py-3 border shadow-sm bg-white/90 backdrop-blur-sm rounded-xl border-slate-200/50">
+            <div className="flex items-center gap-3 px-6 py-3 border shadow-xs bg-white/90 backdrop-blur-xs rounded-xl border-slate-200/50">
               <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
                 <span className="text-sm font-bold text-purple-600">
                   {totalProblems}

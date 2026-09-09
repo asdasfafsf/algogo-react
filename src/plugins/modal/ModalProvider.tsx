@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-redeclare */
 import React, { useEffect, useState } from 'react';
 import { AlertModal } from '@components/modal';
 import ModalController from './ModalController';
@@ -9,7 +8,6 @@ interface ModalProvider {
   children: React.ReactNode
 }
 
-// eslint-disable-next-line import/no-mutable-exports
 export let showAlert: undefined | ((content: string) => Promise<unknown>);
 
 export default function ModalProvider({ children }: ModalProvider) {
