@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { decodeExecuteResult } from "./decode.ts";
+import { decodeExecuteResult } from "../src/domain/execute/decode.ts";
 
 test("평탄한 실행 결과를 유지한다", () => {
   const result = decodeExecuteResult({
