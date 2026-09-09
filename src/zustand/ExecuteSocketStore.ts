@@ -1,5 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import { create } from 'zustand';
+import { decodeExecuteResult } from '@/domain/execute/decode';
 import { createExecuteSocketUrl } from '@/domain/execute/socketUrl';
 
 type ExecuteSocketStore = {
@@ -68,23 +69,19 @@ export const useExecuteSocketStore = create<ExecuteSocketStore>((set, get) => ({
       if (socket) {
         const handleError = async () => {
           socket.off('error');
-          socket.on('error', (data) => {
+          socket.on('error', (data: unknown) => {
             set({ state: 'WAITING' });
-            resolve(data);
+            resolve(decodeExecuteResult(data));
           });
         };
 
         set({ state: 'PENDING' });
         handleError();
 
-        socket.emit(
-          'execute',
-          data,
-          async (response: ResponseExecuteResult) => {
-            set({ state: 'WAITING' });
-            resolve(response);
-          },
-        );
+        socket.emit('execute', data, async (response: unknown) => {
+          set({ state: 'WAITING' });
+          resolve(decodeExecuteResult(response));
+        });
       }
     });
   },
