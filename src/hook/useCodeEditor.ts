@@ -1,13 +1,10 @@
-import {
-  useCallback, useRef, useState, useEffect,
-} from 'react';
-import {
-  editor, IKeyboardEvent, KeyCode, KeyMod,
-} from 'monaco-editor';
-import useProblemStore from '@zustand/ProblemStore';
-import { useCodeEditorStore } from '../zustand/CodeEditorStore';
-import useExecute from './useExecute';
-import useToastModal from './modal/useToastModal';
+import { useCallback, useRef, useState, useEffect } from "react";
+import { editor, IKeyboardEvent, KeyCode, KeyMod } from "monaco-editor";
+import useProblemStore from "@zustand/ProblemStore";
+import { useCodeEditorStore } from "../zustand/CodeEditorStore";
+import useExecute from "./useExecute";
+import useToastModal from "./modal/useToastModal";
+import { editorCodeStorageKey } from "@/domain/editor/persistence";
 
 export default function useCodeEditor() {
   const editorRef = useRef<unknown>(null);
@@ -34,24 +31,28 @@ export default function useCodeEditor() {
     await initialize();
   }, []);
 
-  const handleEditorChange = useCallback((
-    value: string | undefined,
-  ) => {
-    if (!value) {
-      value = '';
-    }
-    setCode(value);
-    setIsSaving(false);
+  const handleEditorChange = useCallback(
+    (value: string | undefined) => {
+      if (!value) {
+        value = "";
+      }
+      setCode(value);
+      setIsSaving(false);
 
-    if (problem) {
-      const { uuid } = problem;
-      localStorage.setItem(`code-${uuid}-${language}`, JSON.stringify({
-        code: value,
-        language,
-        updatedAt: new Date().toISOString(),
-      }));
-    }
-  }, [setCode, setIsSaving, language, problem]);
+      if (problem) {
+        const { uuid } = problem;
+        localStorage.setItem(
+          editorCodeStorageKey(uuid, language),
+          JSON.stringify({
+            code: value,
+            language,
+            updatedAt: new Date().toISOString(),
+          }),
+        );
+      }
+    },
+    [setCode, setIsSaving, language, problem],
+  );
 
   const handleFocus = useCallback(() => {
     setFocus(true);
@@ -67,7 +68,7 @@ export default function useCodeEditor() {
     }
     setIsSaving(true);
     await updateCode();
-    toast('코드가 저장되었습니다.', 3000, 'success');
+    toast("코드가 저장되었습니다.", 3000, "success");
   }, [isSaving]);
   const saveRef = useRef(handleSave);
 
@@ -85,26 +86,30 @@ export default function useCodeEditor() {
     return true;
   }, []);
 
-  const handleEditorMount = useCallback(async (editor: editor.IStandaloneCodeEditor) => {
-    editorRef.current = editor;
+  const handleEditorMount = useCallback(
+    async (editor: editor.IStandaloneCodeEditor) => {
+      editorRef.current = editor;
 
-    const blurListener = editor.onDidBlurEditorText(handleBlur);
-    const focusListener = editor.onDidFocusEditorText(handleFocus);
-    const keydownListener = editor.onKeyDown(handleEditorKeydown);
-    editor.addCommand(
-      KeyMod.CtrlCmd | KeyCode.Enter,
-      () => executeRef.current?.(),
-    );
-    editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () => saveRef.current?.());
-    await handleFetch();
+      const blurListener = editor.onDidBlurEditorText(handleBlur);
+      const focusListener = editor.onDidFocusEditorText(handleFocus);
+      const keydownListener = editor.onKeyDown(handleEditorKeydown);
+      editor.addCommand(KeyMod.CtrlCmd | KeyCode.Enter, () =>
+        executeRef.current?.(),
+      );
+      editor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () =>
+        saveRef.current?.(),
+      );
+      await handleFetch();
 
-    return () => {
-      blurListener.dispose();
-      focusListener.dispose();
-      keydownListener.dispose();
-      editor.dispose();
-    };
-  }, [executeRef, saveRef]);
+      return () => {
+        blurListener.dispose();
+        focusListener.dispose();
+        keydownListener.dispose();
+        editor.dispose();
+      };
+    },
+    [executeRef, saveRef],
+  );
 
   return {
     code,

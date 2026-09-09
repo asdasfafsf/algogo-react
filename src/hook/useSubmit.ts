@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
-import useProblemStore from '@zustand/ProblemStore';
-import useCodeEditorStore from '@zustand/CodeEditorStore';
+import { useCallback } from "react";
+import useProblemStore from "@zustand/ProblemStore";
+import useCodeEditorStore from "@zustand/CodeEditorStore";
+import { getSubmissionUrl } from "@/domain/editor/submission";
 
 export default function useSubmit() {
   const problem = useProblemStore((state) => state.problem);
@@ -16,9 +17,8 @@ export default function useSubmit() {
         // Do nothing
       }
 
-      if (source === 'BOJ') {
-        window.open(`https://www.acmicpc.net/submit/${sourceId}`, '_blank');
-      }
+      const submissionUrl = getSubmissionUrl({ source, sourceId });
+      if (submissionUrl) window.open(submissionUrl, "_blank");
     }
   }, [problem, code]);
 

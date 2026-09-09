@@ -1,50 +1,35 @@
-import { create } from 'zustand';
+import { create } from "zustand";
+import {
+  applyCompilationError,
+  applyTestCaseResult,
+  markTestCasesRunning,
+} from "@/domain/editor/testCases";
 
 type TestCaseListStore = {
-  testCaseList: TestCase[],
-  setTestCaseList: (testCaseList: TestCase[]) => void,
+  testCaseList: TestCase[];
+  setTestCaseList: (testCaseList: TestCase[]) => void;
   setRunning: () => void;
-  handleRun: (executeResult: ResponseExecuteResult) => void,
-  handleExecute: (executeResult: ResponseExecuteResult) => void,
+  handleRun: (executeResult: ResponseExecuteResult) => void;
+  handleExecute: (executeResult: ResponseExecuteResult) => void;
 };
 
 export const useTestCaseListStore = create<TestCaseListStore>((set, get) => ({
   testCaseList: [],
   setTestCaseList: (testCaseList) => set(() => ({ testCaseList })),
   setRunning: () => {
-    const { testCaseList } = get();
-    const newTestCaseList = testCaseList.map((elem) => {
-      const newElem = { ...elem };
-      newElem.state = '실행 중';
-      return newElem;
-    });
-    set({ testCaseList: newTestCaseList });
+    set({ testCaseList: markTestCasesRunning(get().testCaseList) });
   },
   handleRun: (executeResult) => {
-    if (executeResult.code === '9002') {
-      const { testCaseList } = get();
-      const newTestCaseList = testCaseList.map((elem) => {
-        const newElem = { ...elem };
-        newElem.state = '불일치';
-        newElem.output = '컴파일 에러';
-        return newElem;
+    if (executeResult.code === "9002") {
+      set({
+        testCaseList: applyCompilationError(get().testCaseList, executeResult),
       });
-
-      set({ testCaseList: newTestCaseList });
     }
   },
   handleExecute: (executeResult) => {
-    const { testCaseList } = get();
-    const index = executeResult.seq;
-    const newTestCaseList = [...testCaseList];
-    const target = newTestCaseList[index];
-    const newTarget = {
-      ...target,
-      output: executeResult.result,
-      state: (target?.expected?.trim() === executeResult.result?.trim() ? '일치' : '불일치'),
-    } as TestCase;
-    newTestCaseList[index] = newTarget;
-    set({ testCaseList: newTestCaseList });
+    set({
+      testCaseList: applyTestCaseResult(get().testCaseList, executeResult),
+    });
   },
 }));
 
