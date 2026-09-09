@@ -63,9 +63,7 @@ export default function useProblemListTable() {
   const handleClickProblem = useCallback(
     (_e: React.MouseEvent<HTMLElement>, problemUuid: string) => {
       window.open(
-        location.hostname === 'localhost'
-          ? `http://localhost:5173/problem/${problemUuid}`
-          : `https://www.algogo.co.kr/problem/${problemUuid}`,
+        `${window.location.origin}/problem/${problemUuid}`,
         '_blank',
         'noopener, noreferrer',
       );
