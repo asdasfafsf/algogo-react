@@ -45,8 +45,7 @@ export const decideTemplateMutation = (
       ? { message: "created", reload: true, close: true }
       : { message: "response-error", reload: false, close: true };
   }
-  // 기존 동작: 수정 성공 응답은 오류 메시지로 처리하고, 그 외 응답은 성공으로 처리한다.
   return statusCode === 200
-    ? { message: "response-error", reload: false, close: true }
-    : { message: "updated", reload: true, close: true };
+    ? { message: "updated", reload: true, close: true }
+    : { message: "response-error", reload: false, close: true };
 };

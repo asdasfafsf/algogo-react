@@ -136,13 +136,23 @@ try {
     uuid: "uuid",
   });
   assert.deepEqual(templateForm.decideTemplateMutation("update", 200), {
+    message: "updated",
+    reload: true,
+    close: true,
+  });
+  assert.deepEqual(templateForm.decideTemplateMutation("update", 500), {
     message: "response-error",
     reload: false,
     close: true,
   });
-  assert.deepEqual(templateForm.decideTemplateMutation("update", 500), {
-    message: "updated",
+  assert.deepEqual(templateForm.decideTemplateMutation("create", 200), {
+    message: "created",
     reload: true,
+    close: true,
+  });
+  assert.deepEqual(templateForm.decideTemplateMutation("create", 500), {
+    message: "response-error",
+    reload: false,
     close: true,
   });
   assert.deepEqual(templateForm.decideTemplateMutation("delete", 500), {

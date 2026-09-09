@@ -37,6 +37,7 @@ export default function useCodeTemplateDropdown(
   >(emptyLanguageMap(""));
 
   useEffect(() => {
+    setTemplateMap({});
     setTitleByLanguage({
       "Node.js":
         templates.defaultList.find((item) => item.language === "Node.js")
