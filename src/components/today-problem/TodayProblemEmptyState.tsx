@@ -1,26 +1,40 @@
 import { Link } from "react-router-dom";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import PageState from "@/components/page-state/PageState";
-export function TodayProblemEmptyState() {
+
+export function TodayProblemEmptyState({
+  variant = "empty",
+}: {
+  variant?: "empty" | "error";
+}) {
+  const isError = variant === "error";
+
   return (
-    <PageState
-      icon={<CalendarDays className="size-6" />}
-      title="오늘의 문제가 없습니다"
-      description={
-        <>
-          새로운 문제가 등록될 때까지 조금만 기다려주세요.
-          <br />
-          <Badge variant="secondary" className="mt-4">
-            매일 UTC 자정에 갱신됩니다
-          </Badge>
-        </>
-      }
-    >
-      <Button asChild>
-        <Link to="/problem">전체 문제 둘러보기</Link>
-      </Button>
-    </PageState>
+    <div className="mt-8">
+      <PageState
+        icon={
+          isError ? (
+            <RefreshCw className="size-6" />
+          ) : (
+            <CalendarDays className="size-6" />
+          )
+        }
+        title={
+          isError
+            ? "오늘의 문제를 불러오지 못했습니다"
+            : "이 날짜에는 문제가 없습니다"
+        }
+        description={
+          isError
+            ? "잠시 후 다시 확인해 주세요."
+            : "다른 날짜를 탐색하거나 전체 문제를 둘러보세요."
+        }
+      >
+        <Button asChild>
+          <Link to="/problem">전체 문제 둘러보기</Link>
+        </Button>
+      </PageState>
+    </div>
   );
 }
