@@ -1,28 +1,57 @@
-import { AxiosResponse } from 'axios';
-import qs from 'qs';
-import apiClient from './apiClient';
-import {
-  IquiryProblemsSummary, Problem, ProblemSummaryList, TodayProblem,
-} from '@/type/Problem.type';
+import type { AxiosResponse } from "axios";
+import qs from "qs";
+import apiClient from "./apiClient";
+import type {
+  IquiryProblemsSummary,
+  Problem,
+  ProblemSummaryList,
+  TodayProblem,
+} from "@/type/Problem.type";
 
-type GetProblemList = (param: IquiryProblemsSummary) => Promise<ApiResponse<ProblemSummaryList>>;
+type GetProblemList = (
+  param: IquiryProblemsSummary,
+) => Promise<ApiResponse<ProblemSummaryList>>;
+
+export const serializeProblemListQuery = (
+  requestProblemListDto: IquiryProblemsSummary,
+) => {
+  const levelList = requestProblemListDto.levelList;
+
+  return qs.stringify(
+    {
+      ...requestProblemListDto,
+      // 현재 API는 배열 난이도만 변환하며, IN 조건에서 같은 값의 중복은 결과를 바꾸지 않는다.
+      levelList:
+        levelList?.length === 1 ? [levelList[0], levelList[0]] : levelList,
+    },
+    { arrayFormat: "repeat" },
+  );
+};
 
 export const getProblemList: GetProblemList = async (requestProblemListDto) => {
-  const queryString = qs.stringify(requestProblemListDto, { arrayFormat: 'brackets' });
-  const response: AxiosResponse<ApiResponse<ProblemSummaryList>> = await apiClient.get(`/api/v2/problems?${queryString}`);
+  const queryString = serializeProblemListQuery(requestProblemListDto);
+  const response: AxiosResponse<ApiResponse<ProblemSummaryList>> =
+    await apiClient.get(`/api/v2/problems?${queryString}`);
   const problemList = response.data;
   return problemList;
 };
 
-export const getProblem = async (problemUuid: string): Promise<ApiResponse<Problem>> => {
-  const response: AxiosResponse<ApiResponse<Problem>> = await apiClient.get(`/api/v2/problems/${problemUuid}`);
+export const getProblem = async (
+  problemUuid: string,
+): Promise<ApiResponse<Problem>> => {
+  const response: AxiosResponse<ApiResponse<Problem>> = await apiClient.get(
+    `/api/v2/problems/${problemUuid}`,
+  );
   const problem = response.data;
   return problem;
 };
 
-export const getTodayProblems = async (day: number = 0): Promise<ApiResponse<TodayProblem[]>> => {
+export const getTodayProblems = async (
+  day: number = 0,
+): Promise<ApiResponse<TodayProblem[]>> => {
   const url = `/api/v2/problems/today?day=${day}`;
-  const response: AxiosResponse<ApiResponse<TodayProblem[]>> = await apiClient.get(url);
+  const response: AxiosResponse<ApiResponse<TodayProblem[]>> =
+    await apiClient.get(url);
   const problem = response.data;
   return problem;
 };
