@@ -1,39 +1,31 @@
-import { useShallow } from 'zustand/react/shallow';
-// import { collectProblem } from '@api/problems';
-import { useProblemListStore } from '@zustand/ProblemListStore';
-import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
-import { useCallback, useEffect, useState } from 'react';
-import useAlertModal from '../useAlertModal';
-// import usePromptModal from '../modal/usePromptModal';
-// import useConfirmModal from '../useConfirmModal';
-import useDidMountEffect from '../useDidMount';
-import { DEFAULT_PROBLEM_PAGE, nextProblemSort } from '@/domain/problems';
+import { useShallow } from "zustand/react/shallow";
+import { useProblemListStore } from "@zustand/ProblemListStore";
+import { useProblemTableFilterStore } from "@zustand/ProblemTableFilterStore";
+import { useCallback, useEffect } from "react";
+import useDidMountEffect from "../useDidMount";
+import { DEFAULT_PROBLEM_PAGE, nextProblemSort } from "@/domain/problems";
 
 export default function useProblemListTable() {
   const problemOptionList = useProblemTableFilterStore(
-    state => state.problemOptionList,
+    (state) => state.problemOptionList,
   );
-  const problemSort = useProblemTableFilterStore(state => state.problemSort);
+  const problemSort = useProblemTableFilterStore((state) => state.problemSort);
   const problemHidden = useProblemTableFilterStore(
-    state => state.problemHidden,
+    (state) => state.problemHidden,
   );
   const setProblemSort = useProblemTableFilterStore(
-    state => state.setProblemSort,
+    (state) => state.setProblemSort,
   );
-  const [alert] = useAlertModal();
-  // const [prompt] = usePromptModal();
-  // const [confirm] = useConfirmModal();
-
-  const [isSearching, setSearching] = useState(false);
-
   const {
+    error,
     isFetching,
     problemList,
     pagingInfo,
     setPagingInfo,
     fetchProblemList,
   } = useProblemListStore(
-    useShallow(state => ({
+    useShallow((state) => ({
+      error: state.error,
       isFetching: state.isFetching,
       problemList: state.problemList,
       pagingInfo: state.pagingInfo,
@@ -59,8 +51,8 @@ export default function useProblemListTable() {
     (_e: React.MouseEvent<HTMLElement>, problemUuid: string) => {
       window.open(
         `${window.location.origin}/problem/${problemUuid}`,
-        '_blank',
-        'noopener, noreferrer',
+        "_blank",
+        "noopener, noreferrer",
       );
     },
     [],
@@ -68,58 +60,33 @@ export default function useProblemListTable() {
   const handleClickProblemTh = useCallback(
     (
       _e: React.MouseEvent<HTMLElement>,
-      head: '제목' | '난이도' | '정답률' | '제출',
+      head: "제목" | "난이도" | "정답률" | "제출",
     ) => {
-      setProblemSort(prevSort => {
+      setProblemSort((prevSort) => {
         return nextProblemSort(prevSort, head) as ProblemSort;
       });
     },
     [setProblemSort],
   );
 
-  const handleClickProblemCollectModal = useCallback(async () => {
-    await alert('준비중입니다.');
-
-    // setSearching(true);
-    // const res = await prompt('URL을 입력하세요', false, 'URL 입력');
-
-    // if (res === false) {
-    //   setSearching(false);
-    //   return;
-    // }
-
-    // const url = res as string;
-
-    // if (!url.includes('https://www.acmicpc.net/problem/')) {
-    //   await alert('지원하지 않는 사이트의 url입니다.');
-    //   setSearching(false);
-    //   return;
-    // }
-
-    // const collectResult = await collectProblem({ url });
-
-    // if (collectResult.errorCode !== '0000') {
-    //   await alert(collectResult.errorMessage);
-    //   setSearching(false);
-    //   return;
-    // }
-
-    // const isOk = await confirm('추가가 완료되었습니다. 새 페이지로 이동할까요?');
-    // if (isOk) {
-    //   window.open(`/problem/${collectResult.data}`);
-    // }
-
-    // setSearching(false);
-  }, [setSearching]);
+  const handleRetryProblemList = useCallback(() => {
+    const { problemTitle } = useProblemTableFilterStore.getState();
+    void fetchProblemList(
+      pagingInfo,
+      problemOptionList,
+      problemSort,
+      problemTitle,
+    );
+  }, [fetchProblemList, pagingInfo, problemOptionList, problemSort]);
 
   return {
-    isSearching,
+    error,
     isFetching,
     problemList,
     problemSort,
     problemHidden,
     handleClickProblem,
     handleClickProblemTh,
-    handleClickProblemCollectModal,
+    handleRetryProblemList,
   };
 }
