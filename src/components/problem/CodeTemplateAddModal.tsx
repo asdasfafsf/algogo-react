@@ -47,6 +47,9 @@ export default function CodeTemplateAddModal({
     setTemplateContent,
     isDefault,
     setIsDefault,
+    isSubmitting,
+    isDeleting,
+    isPending,
     handleClose,
     handleDelete,
     handleSubmit,
@@ -147,7 +150,7 @@ export default function CodeTemplateAddModal({
                   className="h-full"
                   theme={settings.theme}
                   value={templateContent}
-                  onChange={(value) => value && setTemplateContent(value)}
+                  onChange={(value) => setTemplateContent(value ?? "")}
                   options={{
                     insertSpaces: true,
                     lineNumbers: settings.lineNumber,
@@ -179,16 +182,22 @@ export default function CodeTemplateAddModal({
           </div>
 
           <div className="flex justify-end gap-2 px-4 pb-4 mx-4">
-            <Button onClick={handleClose} color="gray">
+            <Button onClick={handleClose} color="gray" disabled={isPending}>
               취소
             </Button>
             {isEdit && (
-              <Button onClick={handleDelete} color="red">
-                삭제
+              <Button onClick={handleDelete} color="red" disabled={isPending}>
+                {isDeleting ? "삭제 중..." : "삭제"}
               </Button>
             )}
-            <Button onClick={handleSubmit} color="blue">
-              {isEdit ? "수정" : "추가"}
+            <Button onClick={handleSubmit} color="blue" disabled={isPending}>
+              {isSubmitting
+                ? isEdit
+                  ? "수정 중..."
+                  : "추가 중..."
+                : isEdit
+                  ? "수정"
+                  : "추가"}
             </Button>
           </div>
         </div>
