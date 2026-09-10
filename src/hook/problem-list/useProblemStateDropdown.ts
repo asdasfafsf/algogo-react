@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import { PROBLEM_STATE } from '@/constant/problem.state.constant';
-import { useProblemTableFilterStore } from '../../zustand/ProblemTableFilterStore';
-import { replaceProblemFilters } from '@/domain/problems';
+import { useCallback, useEffect, useState } from "react";
+import { PROBLEM_STATE } from "@/constant/problem.state.constant";
+import { useProblemTableFilterStore } from "../../zustand/ProblemTableFilterStore";
+import { replaceProblemFilters } from "@/domain/problems";
 
 interface ProblemState {
   name: string;
@@ -11,28 +11,28 @@ interface ProblemState {
 
 export default function useProblemStateDropdown() {
   const [problemStateList, setProblemStateList] = useState([
-    { isSelected: false, name: '안 푼 문제', value: PROBLEM_STATE.NONE },
-    { isSelected: false, name: '맞힌 문제', value: PROBLEM_STATE.SOLVED },
-    { isSelected: false, name: '틀린 문제', value: PROBLEM_STATE.FAILED },
+    { isSelected: false, name: "안 푼 문제", value: PROBLEM_STATE.NONE },
+    { isSelected: false, name: "맞힌 문제", value: PROBLEM_STATE.SOLVED },
+    { isSelected: false, name: "틀린 문제", value: PROBLEM_STATE.FAILED },
   ]);
 
   const [open, setOpen] = useState(false);
 
   const problemOptionList = useProblemTableFilterStore(
-    state => state.problemOptionList,
+    (state) => state.problemOptionList,
   );
   const setProblemOptionList = useProblemTableFilterStore(
-    state => state.setProblemOptionList,
+    (state) => state.setProblemOptionList,
   );
 
   useEffect(() => {
     const filteredProblemOptionList = problemOptionList.filter(
-      ({ type }) => type === '상태',
+      ({ type }) => type === "상태",
     );
-    setProblemStateList(prevList => {
-      const newList = [...prevList].map(problemType => {
+    setProblemStateList((prevList) => {
+      const newList = [...prevList].map((problemType) => {
         const target = filteredProblemOptionList.find(
-          elem => problemType.name === elem.name,
+          (elem) => problemType.name === elem.name,
         );
 
         if (!target) {
@@ -48,31 +48,40 @@ export default function useProblemStateDropdown() {
 
   const handleUpdateProblemOptionList = useCallback(
     (problemStateList: ProblemState[]) => {
-      setProblemOptionList(prevList =>
-        replaceProblemFilters(prevList, '상태', problemStateList),
+      setProblemOptionList((prevList) =>
+        replaceProblemFilters(prevList, "상태", problemStateList),
       );
     },
     [setProblemOptionList],
   );
 
   const handleClick = useCallback(
-    (e: React.MouseEvent, index: number) => {
-      e.stopPropagation();
-      const newProblemStateList = [...problemStateList];
-      newProblemStateList[index].isSelected =
-        !newProblemStateList[index].isSelected;
-      setProblemStateList(newProblemStateList);
-      handleUpdateProblemOptionList(newProblemStateList);
+    (value: string) => {
+      const updatedProblemStateList = problemStateList.map((problemState) =>
+        problemState.value === value
+          ? { ...problemState, isSelected: !problemState.isSelected }
+          : { ...problemState },
+      );
+      setProblemStateList(updatedProblemStateList);
+      handleUpdateProblemOptionList(updatedProblemStateList);
     },
-    [problemStateList],
+    [handleUpdateProblemOptionList, problemStateList],
   );
 
-  const handler = useCallback(() => setOpen(open => !open), [setOpen]);
+  const handleReset = useCallback(() => {
+    const resetProblemStateList = problemStateList.map((problemState) => ({
+      ...problemState,
+      isSelected: false,
+    }));
+    setProblemStateList(resetProblemStateList);
+    handleUpdateProblemOptionList(resetProblemStateList);
+  }, [handleUpdateProblemOptionList, problemStateList]);
 
   return {
     problemStateList,
     handleClick,
-    open,
-    handler,
+    handleReset,
+    isOpen: open,
+    handleOpenChange: setOpen,
   };
 }

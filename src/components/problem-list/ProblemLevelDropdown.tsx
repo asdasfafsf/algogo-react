@@ -65,13 +65,14 @@ function ProblemLevelDropdown() {
   const {
     isOpen,
     problemLevelList,
+    appliedSelectedCount,
     handleSelect,
     handleSelectTier,
     handleReset,
     handleOk,
     handleOpenChange,
   } = useProblemLevelDropdown();
-  const selectedCount = problemLevelList.filter(
+  const draftSelectedCount = problemLevelList.filter(
     ({ isSelected }) => isSelected,
   ).length;
   const unknownOption = problemLevelList.find(({ value }) => value === "0");
@@ -82,15 +83,15 @@ function ProblemLevelDropdown() {
         <Button
           variant="outline"
           className={cn(
-            "h-10 w-[200px] justify-between gap-2 rounded-md px-4 transition-all duration-200",
+            "h-10 w-full justify-between gap-2 rounded-md px-4 transition-all duration-200 sm:w-[200px]",
             "hover:border-foreground/30 hover:bg-accent/60",
-            selectedCount > 0
+            appliedSelectedCount > 0
               ? "border-tier-gold/50 bg-tier-gold/5 text-foreground shadow-sm hover:border-tier-gold/70 hover:bg-tier-gold/10"
               : "bg-background",
           )}
           aria-label={
-            selectedCount > 0
-              ? `난이도 필터, ${selectedCount}개 선택됨`
+            appliedSelectedCount > 0
+              ? `난이도 필터, ${appliedSelectedCount}개 선택됨`
               : "난이도 필터"
           }
         >
@@ -99,11 +100,13 @@ function ProblemLevelDropdown() {
               aria-hidden
               className={cn(
                 "size-4 shrink-0 transition-colors",
-                selectedCount > 0 ? "text-tier-gold" : "opacity-50",
+                appliedSelectedCount > 0 ? "text-tier-gold" : "opacity-50",
               )}
             />
             <span className="truncate text-sm font-medium">
-              {selectedCount > 0 ? `난이도 ${selectedCount}개` : "난이도"}
+              {appliedSelectedCount > 0
+                ? `난이도 ${appliedSelectedCount}개`
+                : "난이도"}
             </span>
           </span>
           <ChevronDown
@@ -111,7 +114,7 @@ function ProblemLevelDropdown() {
             className={cn(
               "size-3.5 shrink-0 transition-transform duration-200",
               isOpen && "rotate-180",
-              selectedCount > 0 ? "opacity-70" : "opacity-40",
+              appliedSelectedCount > 0 ? "opacity-70" : "opacity-40",
             )}
           />
         </Button>
@@ -128,13 +131,13 @@ function ProblemLevelDropdown() {
             <span className="text-sm font-semibold tracking-tight">
               난이도 선택
             </span>
-            {selectedCount > 0 && (
+            {draftSelectedCount > 0 && (
               <span className="rounded-full bg-tier-gold/10 px-2 py-0.5 text-xs font-medium tabular-nums text-tier-gold">
-                {selectedCount}
+                {draftSelectedCount}
               </span>
             )}
           </div>
-          {selectedCount > 0 && (
+          {draftSelectedCount > 0 && (
             <Button
               variant="ghost"
               size="sm"
@@ -147,7 +150,7 @@ function ProblemLevelDropdown() {
           )}
         </div>
 
-        <div className="overflow-y-auto p-4">
+        <div className="overflow-y-auto p-3 sm:p-4">
           <div className="flex h-9 items-center">
             <button
               type="button"
@@ -194,9 +197,9 @@ function ProblemLevelDropdown() {
                   key={tier.key}
                   role="group"
                   aria-label={`${tier.label} 난이도`}
-                  className="flex h-9 items-center gap-3"
+                  className="flex h-9 items-center gap-2 sm:gap-3"
                 >
-                  <div className="flex w-[60px] shrink-0 items-center gap-2">
+                  <div className="flex w-12 shrink-0 items-center gap-1.5 sm:w-[60px] sm:gap-2">
                     <span
                       aria-hidden
                       className={cn(
@@ -218,7 +221,7 @@ function ProblemLevelDropdown() {
                     </span>
                   </div>
 
-                  <div className="flex gap-1.5">
+                  <div className="flex gap-1 sm:gap-1.5">
                     {tierOptions.map(({ value, isSelected }) => (
                       <button
                         key={value}
@@ -228,7 +231,7 @@ function ProblemLevelDropdown() {
                         aria-label={`${tier.label} ${getProblemLevelRank(value)}`}
                         onClick={() => handleSelect(value)}
                         className={cn(
-                          "size-8 rounded-md border border-transparent text-xs font-bold transition-all duration-200",
+                          "size-7 rounded-md border border-transparent text-[11px] font-bold transition-all duration-200 sm:size-8 sm:text-xs",
                           "hover:scale-105 active:scale-95 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                           isSelected
                             ? cn(
@@ -251,7 +254,7 @@ function ProblemLevelDropdown() {
                     aria-label={`${tier.label} 전체 선택`}
                     onClick={() => handleSelectTier(tier.values)}
                     className={cn(
-                      "ml-auto shrink-0 rounded-md border border-transparent px-2.5 py-1 text-xs font-semibold transition-all duration-200",
+                      "ml-auto shrink-0 rounded-md border border-transparent px-1.5 py-1 text-[11px] font-semibold transition-all duration-200 sm:px-2.5 sm:text-xs",
                       "hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       isEntireTierSelected
                         ? cn(tier.background, tier.color, "border-current")
