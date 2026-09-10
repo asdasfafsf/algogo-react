@@ -1,125 +1,216 @@
-import { Typography } from '@components/common';
-import { Button } from '@components/Button';
-import { Card } from '@components/Card';
-import { FadeInSection } from '@components/common/FadeInSection';
-import { ProblemLevelChip, ProblemStateChip } from '@components/Chip';
-import {
-  CalendarIcon,
-  TrophyIcon,
-  UserGroupIcon,
-  ArrowRightIcon,
-  SparklesIcon,
-} from '@heroicons/react/24/outline';
-import { ProblemDifficultyChip } from '@components/Chip/ProblemDifficultyChip';
-import { TodayProblem } from '@/type/Problem.type';
+import { ArrowRight } from "lucide-react";
+import { ProblemLevelChip } from "@/components/Chip";
+import ProblemStateChip from "@/components/Chip/ProblemStateChip";
+import { PROBLEM_STATE } from "@/constant/problem.state.constant";
+import { formatProblemLevel } from "@/domain/problems/problemPresentation";
+import type { TodayProblem } from "@/type/Problem.type";
 
 interface TodayProblemCardProps {
   problem: TodayProblem;
+  index: number;
+  content?: string;
+  isContentLoading: boolean;
+}
+
+function getContentPreview(
+  content: string | undefined,
+  isLoading: boolean,
+): string {
+  if (isLoading) return "문제 설명을 불러오는 중입니다.";
+  if (!content) return "문제 설명이 제공되지 않았습니다.";
+
+  const document = new DOMParser().parseFromString(content, "text/html");
+  const text = document.body.textContent?.replace(/\s+/g, " ").trim();
+  return text || "문제 설명이 제공되지 않았습니다.";
+}
+
+function problemPath(uuid: string): string {
+  return `/problem/${uuid}`;
 }
 
 export function TodayProblemCard({
   problem,
-
+  index,
+  content,
+  isContentLoading,
 }: TodayProblemCardProps) {
+  const preview = getContentPreview(content, isContentLoading);
+
   return (
-    <FadeInSection className="px-6 mb-12">
-      <div className="mx-auto max-w-4xl">
-        <Card className="overflow-hidden bg-linear-to-br from-white to-gray-50 border-0 shadow-2xl">
-          <div className="p-8">
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex-1">
-                <div className="flex gap-2 items-center mb-3">
-                  <ProblemLevelChip level={problem.levelText as ProblemLevel} />
-                  <span className="text-sm text-gray-500">
-                    #
-                    {problem.sourceId}
-                  </span>
-                  <ProblemDifficultyChip difficulty={problem.difficulty} />
-                  <ProblemStateChip state={problem.state} showNoneState showIcon={false} />
-                </div>
-                <Typography variant="h3" weight="bold" className="mb-3 text-gray-900">
-                  {problem.title}
-                </Typography>
-              </div>
-              <div className="flex flex-col gap-2 items-center ml-6">
-                <CalendarIcon className="w-12 h-12 text-blue-500" />
-              </div>
-            </div>
+    <a
+      href={problemPath(problem.uuid)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      aria-label={`${problem.title} 문제 새 창에서 열기`}
+    >
+      <article className="cursor-pointer rounded-lg border border-primary/10 bg-card px-5 py-4 shadow-sm transition-all duration-150 hover:border-primary/20 hover:shadow-md sm:px-6 sm:py-5">
+        <div className="flex items-baseline gap-2">
+          <span className="shrink-0 font-mono text-sm font-bold tabular-nums text-foreground/25">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">
+            {problem.title}
+          </h2>
+        </div>
 
-            <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
-              <div className="flex gap-3 items-center p-4 bg-green-50 rounded-xl">
-                <TrophyIcon className="w-8 h-8 text-green-600" />
-                <div>
-                  <Typography variant="small" className="font-medium text-green-600">
-                    정답률
-                  </Typography>
-                  <Typography variant="h6" weight="bold" className="text-green-700">
-                    {problem.answerRate}
-                    %
-                  </Typography>
-                </div>
-              </div>
+        <div className="mt-2.5 flex flex-wrap items-center gap-2">
+          <ProblemLevelChip
+            level={formatProblemLevel(problem.level, problem.levelText)}
+          />
+          {problem.state !== PROBLEM_STATE.NONE && (
+            <ProblemStateChip state={problem.state} showIcon={false} />
+          )}
+        </div>
 
-              <div className="flex gap-3 items-center p-4 bg-blue-50 rounded-xl">
-                <UserGroupIcon className="w-8 h-8 text-blue-600" />
-                <div>
-                  <Typography variant="small" className="font-medium text-blue-600">
-                    제출 수
-                  </Typography>
-                  <Typography variant="h6" weight="bold" className="text-blue-700">
-                    {problem.submitCount.toLocaleString()}
-                  </Typography>
-                </div>
-              </div>
+        <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+          {preview}
+        </p>
 
-              <div className="flex gap-3 items-center p-4 bg-purple-50 rounded-xl">
-                <SparklesIcon className="w-8 h-8 text-purple-600" />
-                <div>
-                  <Typography variant="small" className="font-medium text-purple-600">
-                    정답 수
-                  </Typography>
-                  <Typography variant="h6" weight="bold" className="text-purple-700">
-                    {problem.answerCount.toLocaleString()}
-                  </Typography>
-                </div>
-              </div>
-            </div>
+        <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span>
+            <span className="font-medium tabular-nums text-foreground/70">
+              {problem.answerRate}%
+            </span>{" "}
+            정답률
+          </span>
+          <span aria-hidden="true">·</span>
+          <span>
+            <span className="font-medium tabular-nums text-foreground/70">
+              {problem.submitCount.toLocaleString()}
+            </span>{" "}
+            제출
+          </span>
+        </div>
+      </article>
+    </a>
+  );
+}
 
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button
-                variant="gradient"
-                color="blue"
-                size="large"
-                className="flex-1"
-                icon={<ArrowRightIcon className="w-5 h-5" />}
-                iconPosition="right"
-                onClick={() => {
-                  window.open(
-                    `${location.hostname === 'localhost' ? 'http://localhost:5173' : 'https://www.algogo.co.kr'}/problem/${problem.uuid}`,
-                    '_blank',
-                  );
-                }}
-              >
-                문제 풀어보기
-              </Button>
-              <Button
-                variant="outlined"
-                color="gray"
-                size="large"
-                className="sm:w-auto"
-                onClick={() => {
-                  window.open(
-                    `${location.hostname === 'localhost' ? 'http://localhost:5173' : 'https://www.algogo.co.kr'}/problem/${problem.uuid}`,
-                    '_blank',
-                  );
-                }}
-              >
-                문제 상세보기
-              </Button>
-            </div>
-          </div>
-        </Card>
+interface TodayProblemRosterProps {
+  problems: TodayProblem[];
+  currentIndex: number;
+  onProblemSelect: (index: number) => void;
+}
+
+export function TodayProblemRoster({
+  problems,
+  currentIndex,
+  onProblemSelect,
+}: TodayProblemRosterProps) {
+  return (
+    <div>
+      <p className="mb-2 px-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+        전체 문제
+      </p>
+      <div
+        className="rounded-lg border border-border/50 p-1.5"
+        role="listbox"
+        aria-label="문제 목록"
+      >
+        {problems.map((problem, index) => (
+          <ProblemRosterRow
+            key={problem.uuid}
+            problem={problem}
+            index={index}
+            selected={index === currentIndex}
+            onSelect={() => onProblemSelect(index)}
+            onArrowSelect={(direction) =>
+              onProblemSelect(
+                direction === "next"
+                  ? (index + 1) % problems.length
+                  : (index - 1 + problems.length) % problems.length,
+              )
+            }
+          />
+        ))}
       </div>
-    </FadeInSection>
+    </div>
+  );
+}
+
+function ProblemRosterRow({
+  problem,
+  index,
+  selected,
+  onSelect,
+  onArrowSelect,
+}: {
+  problem: TodayProblem;
+  index: number;
+  selected: boolean;
+  onSelect?: () => void;
+  onArrowSelect?: (direction: "previous" | "next") => void;
+}) {
+  return (
+    <div
+      role="option"
+      aria-selected={selected}
+      tabIndex={selected ? 0 : -1}
+      className={`group/row flex w-full items-center gap-3 rounded-md px-3 py-3 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+        selected ? "bg-primary/10" : "cursor-pointer hover:bg-muted/40"
+      }`}
+      onClick={onSelect}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowDown" && onArrowSelect) {
+          event.preventDefault();
+          onArrowSelect("next");
+          return;
+        }
+        if (event.key === "ArrowUp" && onArrowSelect) {
+          event.preventDefault();
+          onArrowSelect("previous");
+          return;
+        }
+        if ((event.key === "Enter" || event.key === " ") && onSelect) {
+          event.preventDefault();
+          onSelect();
+        }
+      }}
+    >
+      <RosterStateIcon state={problem.state} />
+      <span className="w-5 shrink-0 font-mono text-xs tabular-nums text-muted-foreground">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <span
+        className={`flex-1 truncate text-sm ${selected ? "font-medium text-foreground" : "text-foreground/80"}`}
+      >
+        {problem.title}
+      </span>
+      <ProblemLevelChip
+        level={formatProblemLevel(problem.level, problem.levelText)}
+        className="shrink-0"
+      />
+      <a
+        href={problemPath(problem.uuid)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="shrink-0 rounded p-1 text-muted-foreground/40 transition-colors hover:bg-muted/60 hover:text-foreground sm:opacity-0 sm:group-hover/row:opacity-100 sm:focus-visible:opacity-100"
+        aria-label={`${problem.title} 문제 새 창에서 열기`}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <ArrowRight size={14} />
+      </a>
+    </div>
+  );
+}
+
+function RosterStateIcon({ state }: { state: TodayProblem["state"] }) {
+  if (state === PROBLEM_STATE.SOLVED) {
+    return (
+      <span className="grid size-4 shrink-0 place-items-center rounded-full border border-green-500/50 bg-green-50 text-green-600">
+        <span className="text-[10px] font-bold">✓</span>
+      </span>
+    );
+  }
+  if (state === PROBLEM_STATE.FAILED) {
+    return (
+      <span className="grid size-4 shrink-0 place-items-center rounded-full border border-red-500/50 bg-red-50 text-red-600">
+        <span className="text-[10px] font-bold">×</span>
+      </span>
+    );
+  }
+  return (
+    <span className="size-4 shrink-0 rounded-full border border-foreground/15 bg-foreground/5" />
   );
 }

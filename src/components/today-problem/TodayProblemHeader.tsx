@@ -1,194 +1,195 @@
-import { Button as ShadcnButton } from "@/components/ui/button";
-import { Typography } from "@components/common";
-import {
-  ClockIcon,
-  CalendarDaysIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/24/outline";
-import { useState, useEffect, memo } from "react";
+import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { PROBLEM_STATE } from "@/constant/problem.state.constant";
 import {
   canNavigateToNextDay,
   formatUtcMidnightCountdown,
   millisecondsUntilNextUtcMidnight,
   nextDayOffset,
-  parseTodayProblemDay,
   previousDayOffset,
 } from "@/domain/problems";
+import type { TodayProblem } from "@/type/Problem.type";
+import {
+  dayOffsetFromDateInput,
+  normalizeTodayProblemDay,
+  TODAY_PROBLEM_MIN_DAY,
+} from "@/domain/problems/todayProblemPage";
 
 interface TodayProblemHeaderProps {
-  totalProblems: number;
+  problems: TodayProblem[];
 }
 
-const DateDisplay = memo(({ currentTime }: { currentTime: Date }) => {
-  const [isVisible, setIsVisible] = useState(true);
+function dateForOffset(dayOffset: number): Date {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() + dayOffset);
+  return date;
+}
+
+function dateInputValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function Countdown() {
+  const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
-    setIsVisible(false);
-    const timer = setTimeout(() => setIsVisible(true), 150);
-    return () => clearTimeout(timer);
-  }, [currentTime]);
-
-  const formatDate = (d: Date) =>
-    new Intl.DateTimeFormat("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      weekday: "long",
-    }).format(d);
-
-  return (
-    <span
-      className={`text-sm font-medium text-slate-600 transition-opacity duration-150 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      {formatDate(currentTime)}
-    </span>
-  );
-});
-DateDisplay.displayName = "DateDisplay";
-
-const CountdownTimer = memo(() => {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
+    const timer = window.setInterval(() => setNow(Date.now()), 1_000);
+    return () => window.clearInterval(timer);
   }, []);
 
-  const countdown = formatUtcMidnightCountdown(
-    millisecondsUntilNextUtcMidnight(currentTime.getTime()),
+  return (
+    <>{formatUtcMidnightCountdown(millisecondsUntilNextUtcMidnight(now))}</>
   );
+}
+
+export function TodayProblemHeader({ problems }: TodayProblemHeaderProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const rawDay = searchParams.get("day");
+  const day = normalizeTodayProblemDay(rawDay, new Date());
+  const selectedDate = useMemo(() => dateForOffset(day), [day]);
+  const isToday = day === 0;
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const solvedCount = problems.filter(
+    (problem) => problem.state === PROBLEM_STATE.SOLVED,
+  ).length;
+  const weekday = new Intl.DateTimeFormat("ko-KR", {
+    weekday: "long",
+  }).format(selectedDate);
+
+  const moveToDay = (nextDay: number) => {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current);
+      if (nextDay === 0) next.delete("day");
+      else next.set("day", String(nextDay));
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    if (rawDay === null || rawDay === String(day)) return;
+
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current);
+      if (day === 0) next.delete("day");
+      else next.set("day", String(day));
+      return next;
+    });
+  }, [day, rawDay, setSearchParams]);
+
+  const selectDate = (value: string) => {
+    const nextDay = dayOffsetFromDateInput(value, new Date());
+    if (nextDay === null || nextDay < TODAY_PROBLEM_MIN_DAY || nextDay > 0) {
+      return;
+    }
+    moveToDay(nextDay);
+    setIsCalendarOpen(false);
+  };
 
   return (
-    <div className="font-mono text-sm font-bold text-slate-800">
-      {countdown}
-    </div>
-  );
-});
-CountdownTimer.displayName = "CountdownTimer";
-
-export const TodayProblemHeader = memo(
-  ({ totalProblems }: TodayProblemHeaderProps) => {
-    const [searchParam, setSearchParam] = useSearchParams();
-    const day = parseTodayProblemDay(searchParam.get("day"));
-
-    const calcDate = (d: number) => {
-      const date = new Date();
-      date.setHours(0, 0, 0, 0);
-      date.setDate(date.getDate() + d);
-      return date;
-    };
-
-    const [currentTime, setCurrentTime] = useState(calcDate(day));
-
-    useEffect(() => {
-      setCurrentTime(calcDate(day));
-    }, [day]);
-
-    const handleNextDay = () => {
-      // 오늘(day=0)보다 미래로는 이동할 수 없도록 제한
-      if (!canNavigateToNextDay(day)) return;
-
-      setSearchParam((prev) => {
-        const v = nextDayOffset(parseTodayProblemDay(prev.get("day")));
-        prev.set("day", v.toString());
-        return prev;
-      });
-    };
-
-    const handlePrevDay = () => {
-      setSearchParam((prev) => {
-        const v = previousDayOffset(parseTodayProblemDay(prev.get("day")));
-        prev.set("day", v.toString());
-        return prev;
-      });
-    };
-
-    return (
-      <div className="relative px-6 py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-indigo-50/60 to-purple-50/50" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
-        <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border rounded-full shadow-xs bg-white/80 backdrop-blur-xs border-slate-200/50">
-            <ShadcnButton
-              variant="ghost"
-              size="sm"
-              type="button"
-              className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-slate-100 transition-colors"
-              onClick={handlePrevDay}
-            >
-              <ChevronLeftIcon className="w-3 h-3 text-slate-500" />
-            </ShadcnButton>
-            <CalendarDaysIcon className="w-4 h-4 text-slate-500" />
-            <DateDisplay currentTime={currentTime} />
-            <ShadcnButton
-              variant="ghost"
-              size="sm"
-              type="button"
-              onClick={handleNextDay}
-              className={`flex items-center justify-center w-6 h-6 rounded-full transition-colors ${
-                !canNavigateToNextDay(day)
-                  ? "cursor-not-allowed opacity-50"
-                  : "hover:bg-slate-100"
-              }`}
-              disabled={!canNavigateToNextDay(day)}
-            >
-              <ChevronRightIcon className="w-3 h-3 text-slate-500" />
-            </ShadcnButton>
-          </div>
-
-          <div className="mb-8">
-            <Typography
-              variant="h1"
-              className="mb-2 text-4xl font-bold md:text-5xl text-slate-900"
-              weight="bold"
-            >
-              오늘의 문제
-            </Typography>
-            <div className="w-20 h-1 mx-auto mb-3 rounded-full bg-linear-to-r from-blue-500 to-purple-500" />
-            <Typography variant="small" className="text-slate-500">
-              매일 UTC 기준 자정에 새로운 문제로 갱신됩니다
-            </Typography>
-          </div>
-
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <div className="flex items-center gap-3 px-6 py-3 border shadow-xs bg-white/90 backdrop-blur-xs rounded-xl border-slate-200/50">
-              <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
-                <ClockIcon className="w-4 h-4 text-blue-600" />
-              </div>
-              <div className="text-left">
-                <div className="text-xs font-medium tracking-wide uppercase text-slate-500">
-                  새로운 문제까지
-                </div>
-                <CountdownTimer />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 px-6 py-3 border shadow-xs bg-white/90 backdrop-blur-xs rounded-xl border-slate-200/50">
-              <div className="flex items-center justify-center w-8 h-8 bg-purple-100 rounded-lg">
-                <span className="text-sm font-bold text-purple-600">
-                  {totalProblems}
-                </span>
-              </div>
-              <div className="text-left">
-                <div className="text-xs font-medium tracking-wide uppercase text-slate-500">
-                  총 문제 수
-                </div>
-                <div className="text-sm font-bold text-slate-800">
-                  {totalProblems}
-                  개의 문제
-                </div>
-              </div>
-            </div>
-          </div>
+    <header className="animate-fade-in pb-6 pt-8 text-center sm:pb-8 sm:pt-10">
+      <div className="flex items-center justify-center">
+        <div className="flex items-center gap-1.5">
+          <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="inline-flex size-5 cursor-pointer items-center justify-center rounded text-muted-foreground/40 transition-colors hover:bg-muted/30 hover:text-foreground/60"
+                aria-label="날짜 선택"
+              >
+                <CalendarDays size={13} />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-56 p-3" align="center">
+              <label
+                htmlFor="today-problem-date"
+                className="block text-xs font-medium text-popover-foreground"
+              >
+                날짜 선택
+              </label>
+              <input
+                id="today-problem-date"
+                type="date"
+                value={dateInputValue(selectedDate)}
+                min={dateInputValue(dateForOffset(TODAY_PROBLEM_MIN_DAY))}
+                max={dateInputValue(new Date())}
+                onChange={(event) => selectDate(event.target.value)}
+                className="mt-2 h-9 w-full rounded-md border border-input bg-background px-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
+            </PopoverContent>
+          </Popover>
+          <p className="text-[13px] font-medium tracking-[0.06em] text-muted-foreground/60">
+            {isToday ? "오늘의 문제" : "지난 문제"}
+          </p>
         </div>
       </div>
-    );
-  },
-);
-TodayProblemHeader.displayName = "TodayProblemHeader";
+
+      <div className="mt-4 text-center sm:mt-5">
+        {!isToday && (
+          <p className="mb-1 font-mono text-[11px] tracking-[0.15em] text-muted-foreground/30">
+            {selectedDate.getFullYear()}
+          </p>
+        )}
+        <div className="flex items-center justify-center gap-3 sm:gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => moveToDay(previousDayOffset(day))}
+            disabled={day <= TODAY_PROBLEM_MIN_DAY}
+            className="size-9 shrink-0 cursor-pointer text-muted-foreground/25 transition-colors hover:bg-transparent hover:text-muted-foreground/50"
+            aria-label="이전 날짜"
+          >
+            <ChevronLeft size={18} />
+          </Button>
+          <span className="text-[28px] font-semibold tracking-[-0.015em] text-foreground sm:text-[32px]">
+            {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일
+          </span>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => moveToDay(nextDayOffset(day))}
+            disabled={!canNavigateToNextDay(day)}
+            className="size-9 shrink-0 text-muted-foreground/25 transition-colors hover:bg-transparent hover:text-muted-foreground/50 disabled:cursor-not-allowed"
+            aria-label="다음 날짜"
+          >
+            <ChevronRight size={18} />
+          </Button>
+        </div>
+        <p className="mt-1 text-xs text-muted-foreground/50">{weekday}</p>
+        {!isToday && (
+          <button
+            type="button"
+            onClick={() => moveToDay(0)}
+            className="mt-2.5 cursor-pointer text-xs font-medium text-primary/70 transition-colors hover:text-primary"
+          >
+            오늘로 이동
+          </button>
+        )}
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] text-muted-foreground/45 sm:mt-5">
+        <span>
+          <span className="font-mono font-medium tabular-nums text-foreground/60">
+            {solvedCount}
+          </span>
+          <span className="font-mono tabular-nums">/{problems.length}</span>{" "}
+          완료
+        </span>
+        {!isToday && <span>{Math.abs(day)}일 전</span>}
+        <span className="font-mono tabular-nums">
+          다음 갱신 <Countdown />
+        </span>
+      </div>
+    </header>
+  );
+}
