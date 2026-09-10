@@ -16,13 +16,15 @@ export const serializeProblemListQuery = (
   requestProblemListDto: IquiryProblemsSummary,
 ) => {
   const levelList = requestProblemListDto.levelList;
+  const states = requestProblemListDto.states;
 
   return qs.stringify(
     {
       ...requestProblemListDto,
-      // 현재 API는 배열 난이도만 변환하며, IN 조건에서 같은 값의 중복은 결과를 바꾸지 않는다.
+      // 단일 IN 조건도 백엔드에서 배열로 파싱되도록 같은 값을 반복한다.
       levelList:
         levelList?.length === 1 ? [levelList[0], levelList[0]] : levelList,
+      states: states?.length === 1 ? [states[0], states[0]] : states,
     },
     { arrayFormat: "repeat" },
   );

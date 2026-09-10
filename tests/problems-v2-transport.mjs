@@ -64,7 +64,14 @@ try {
     pageSize: 20,
     levelList: [1, 5],
   });
-  await getProblemList({
+  const singleTypeAndStateRequest = {
+    pageNo: 1,
+    pageSize: 20,
+    typeList: ["수학"],
+    states: ["SOLVED"],
+  };
+  await getProblemList(singleTypeAndStateRequest);
+  assert.deepEqual(singleTypeAndStateRequest, {
     pageNo: 1,
     pageSize: 20,
     typeList: ["수학"],
@@ -113,17 +120,22 @@ try {
     singleTypeAndStateUrl.search.slice(1),
   );
   assert.equal(singleTypeAndStateQuery.typeList, "수학");
-  assert.equal(singleTypeAndStateQuery.states, "SOLVED");
+  assert.deepEqual(singleTypeAndStateQuery.states, ["SOLVED", "SOLVED"]);
   assert.deepEqual(
     Array.isArray(singleTypeAndStateQuery.typeList)
       ? singleTypeAndStateQuery.typeList
       : [singleTypeAndStateQuery.typeList],
     ["수학"],
   );
+  assert.deepEqual(singleTypeAndStateUrl.searchParams.getAll("states"), [
+    "SOLVED",
+    "SOLVED",
+  ]);
+  assert.equal(singleTypeAndStateUrl.searchParams.has("states[]"), false);
 
   const emptyFiltersUrl = new URL(calls[3][0], "http://localhost:3001");
   assert.equal(emptyFiltersUrl.search, "?pageNo=2&pageSize=50");
-  console.log("ALGOGO-90 problems v2 transport test passed");
+  console.log("ALGOGO-96 problems v2 transport test passed");
 } finally {
   delete globalThis.__problemsV2ApiCalls;
   await server.close();

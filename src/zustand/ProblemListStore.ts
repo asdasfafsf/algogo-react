@@ -18,6 +18,7 @@ type ProblemListStore = {
   maxPageNo: number;
   setMaxPageNo: (updater: Updater<number>) => void | Promise<void>;
   isFetching: boolean;
+  error: string | null;
   totalCount: number;
   setFetching: (updater: Updater<boolean>) => void | Promise<void>;
   fetchProblemList: (
@@ -28,7 +29,11 @@ type ProblemListStore = {
   ) => Promise<void> | void;
 };
 
-export const useProblemListStore = create<ProblemListStore>((set) => ({
+const PROBLEM_LIST_ERROR_MESSAGE =
+  "네트워크 상태를 확인한 뒤 다시 시도해 주세요.";
+let latestProblemListRequestId = 0;
+
+export const useProblemListStore = create<ProblemListStore>((set, get) => ({
   problemList: [],
   setProblemList: (updater) =>
     set((state) => ({
@@ -60,6 +65,7 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
           : updater,
     })),
   isFetching: true,
+  error: null,
   setFetching: (updater) =>
     set((state) => ({
       isFetching:
@@ -74,13 +80,31 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
     problemSort: ProblemSort = PROBLEM_SORT_DEFAULT,
     problemTitle: string = "",
   ) => {
+    const requestId = ++latestProblemListRequestId;
     const { pageNo, pageSize } = pagingInfo;
+    const showSkeletonImmediately = pageNo === 1 || get().error !== null;
+
+    set({
+      error: null,
+      ...(showSkeletonImmediately ? { isFetching: true } : {}),
+    });
+
+    const setProblemListError = (message = PROBLEM_LIST_ERROR_MESSAGE) => {
+      set({
+        problemList: [],
+        maxPageNo: 0,
+        totalCount: 0,
+        error: message,
+      });
+    };
 
     const skeletonTimeout = setTimeout(
       () => {
-        set({ isFetching: true });
+        if (requestId === latestProblemListRequestId) {
+          set({ isFetching: true });
+        }
       },
-      pageNo === 1 ? 0 : 200,
+      showSkeletonImmediately ? 0 : 200,
     );
 
     try {
@@ -96,6 +120,17 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
         states: request.states as ProblemState[],
         sort: request.sort as ProblemSort,
       });
+      if (requestId !== latestProblemListRequestId) return;
+
+      if (
+        response.statusCode !== 200 ||
+        !response.data ||
+        !Array.isArray(response.data.problemList) ||
+        typeof response.data.totalCount !== "number"
+      ) {
+        setProblemListError(response.errorMessage || undefined);
+        return;
+      }
       clearTimeout(skeletonTimeout);
       const { data } = response;
       const { problemList, totalCount } = data;
@@ -105,10 +140,17 @@ export const useProblemListStore = create<ProblemListStore>((set) => ({
         maxPageNo,
         totalCount,
         isFetching: false,
+        error: null,
       }));
+    } catch {
+      if (requestId === latestProblemListRequestId) {
+        setProblemListError();
+      }
     } finally {
       clearTimeout(skeletonTimeout);
-      set(() => ({ isFetching: false }));
+      if (requestId === latestProblemListRequestId) {
+        set({ isFetching: false });
+      }
     }
   },
 }));

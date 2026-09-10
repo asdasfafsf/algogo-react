@@ -1,4 +1,11 @@
-import { Circle, CircleCheck, CircleX, ExternalLink } from "lucide-react";
+import {
+  Circle,
+  CircleAlert,
+  CircleCheck,
+  CircleX,
+  ExternalLink,
+  RefreshCw,
+} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -8,6 +15,7 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Badge } from "@components/ui/badge";
+import { Button } from "@components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -58,17 +66,41 @@ function ProblemStateIcon({ state }: { state: ProblemState }) {
 
 export default function ProblemListTable() {
   const {
-    isSearching,
+    error,
     isFetching,
     problemList,
     problemSort,
     problemHidden,
     handleClickProblem,
     handleClickProblemTh,
-    handleClickProblemCollectModal,
+    handleRetryProblemList,
   } = useProblemListTable();
 
   if (isFetching) return <ProblemListTableSkeleton />;
+
+  if (error) {
+    return (
+      <div
+        role="alert"
+        className="flex h-64 flex-col items-center justify-center px-6 text-center"
+      >
+        <div className="grid size-10 place-items-center rounded-full bg-destructive/10 text-destructive">
+          <CircleAlert className="size-5" />
+        </div>
+        <p className="mt-4 font-medium">문제 목록을 불러오지 못했습니다</p>
+        <p className="mt-1 text-sm text-muted-foreground">{error}</p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-4"
+          onClick={handleRetryProblemList}
+        >
+          <RefreshCw />
+          다시 시도
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -152,11 +184,10 @@ export default function ProblemListTable() {
                   </p>
                   <button
                     type="button"
-                    disabled={isSearching}
-                    onClick={handleClickProblemCollectModal}
-                    className="mt-3 text-sm font-medium text-primary hover:underline disabled:opacity-50"
+                    disabled
+                    className="mt-3 text-sm text-muted-foreground"
                   >
-                    문제 추가하기
+                    문제 추가 준비 중
                   </button>
                 </TableCell>
               </TableRow>
