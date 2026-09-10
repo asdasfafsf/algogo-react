@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import useConfirmModal from "../useConfirmModal";
 import defaultProblemLevelList from "../../constant/ProblemLevelList";
 import { useProblemTableFilterStore } from "../../zustand/ProblemTableFilterStore";
@@ -23,10 +23,6 @@ export default function useProblemLevelDropdown() {
   const [problemLevelList, setProblemLevelList] = useState<
     ProblemLevelOption[]
   >(copyProblemLevelList(initialProblemLevelList));
-  const [appliedProblemLevelList, setAppliedProblemLevelList] = useState<
-    ProblemLevelOption[]
-  >(copyProblemLevelList(initialProblemLevelList));
-
   const problemOptionList = useProblemTableFilterStore(
     (state) => state.problemOptionList,
   );
@@ -35,19 +31,21 @@ export default function useProblemLevelDropdown() {
   );
   const [confirm] = useConfirmModal();
 
-  useEffect(() => {
+  const appliedProblemLevelList = useMemo(() => {
     const selectedValues = new Set(
       problemOptionList
         .filter(({ type }) => type === "난이도")
         .map(({ value }) => value),
     );
-    setAppliedProblemLevelList((prevList) =>
-      prevList.map((problemLevel) => ({
-        ...problemLevel,
-        isSelected: selectedValues.has(problemLevel.value),
-      })),
-    );
+    return initialProblemLevelList.map((problemLevel) => ({
+      ...problemLevel,
+      isSelected: selectedValues.has(problemLevel.value),
+    }));
   }, [problemOptionList]);
+  const appliedSelectedCount = useMemo(
+    () => appliedProblemLevelList.filter(({ isSelected }) => isSelected).length,
+    [appliedProblemLevelList],
+  );
 
   const handleUpdateProblemOptionList = useCallback(
     (updatedProblemLevels: readonly ProblemLevelOption[]) => {
@@ -86,7 +84,6 @@ export default function useProblemLevelDropdown() {
       }));
 
       setProblemLevelList(resetProblemLevelList);
-      setAppliedProblemLevelList(copyProblemLevelList(resetProblemLevelList));
       handleUpdateProblemOptionList(resetProblemLevelList);
     },
     [confirm, handleUpdateProblemOptionList, problemLevelList],
@@ -95,7 +92,6 @@ export default function useProblemLevelDropdown() {
   const handleOk = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.currentTarget.blur();
-      setAppliedProblemLevelList(copyProblemLevelList(problemLevelList));
       handleUpdateProblemOptionList(problemLevelList);
       setOpen(false);
     },
@@ -113,6 +109,7 @@ export default function useProblemLevelDropdown() {
   return {
     isOpen: open,
     problemLevelList,
+    appliedSelectedCount,
     handleSelect,
     handleSelectTier,
     handleReset,
