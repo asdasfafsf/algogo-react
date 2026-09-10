@@ -1,20 +1,24 @@
-import { Typography } from "@components/common/index";
 import React from "react";
 import { ProblemState } from "@/type/Problem.type";
 import ProblemStateChip from "../Chip/ProblemStateChip";
 
 interface ProblemTitleProps {
   title: string;
+  number?: string;
   scale?: number;
   state?: ProblemState;
 }
-function ProblemTitle({ title, scale = 1, state }: ProblemTitleProps) {
+function ProblemTitle({ title, number, scale = 1, state }: ProblemTitleProps) {
   return (
     <>
-      <div className="flex gap-3 items-center">
-        <Typography scale={scale} variant="h4">
+      <div className="flex min-w-0 flex-wrap items-center gap-3">
+        <h1
+          style={{ zoom: scale }}
+          className="font-display text-xl font-bold leading-tight tracking-tight sm:text-2xl"
+        >
+          {number ? `${number}. ` : ""}
           {title}
-        </Typography>
+        </h1>
         {state && <ProblemStateChip state={state} showIcon={false} />}
       </div>
     </>

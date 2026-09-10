@@ -1,12 +1,15 @@
-import React from 'react';
-import { Typography, Line } from '@components/common/index';
+import React from "react";
 
 function ProblemSource() {
   return (
-    <>
-      <Typography variant="h5">출처</Typography>
-      <Line className="my-2" />
-    </>
+    <section>
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+        출처
+      </h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        출처 정보가 없습니다.
+      </p>
+    </section>
   );
 }
 

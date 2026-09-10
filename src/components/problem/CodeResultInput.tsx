@@ -22,12 +22,12 @@ export default function CodeResultInput({
         aria-label="테스트 입력 도구"
         className="mb-2 flex items-center justify-between"
       >
-        <span className="text-xs text-gray-400">표준 입력</span>
+        <span className="text-xs text-muted-foreground">표준 입력</span>
         <div className="flex gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 text-emerald-400"
+            className="size-8 text-emerald-600 dark:text-emerald-400"
             aria-label="입력으로 실행"
             onClick={onRun}
           >
@@ -45,7 +45,7 @@ export default function CodeResultInput({
           <Button
             variant="ghost"
             size="icon"
-            className="size-8 text-red-400"
+            className="size-8 text-destructive"
             aria-label="입력 지우기"
             onClick={() => onInputChange("")}
           >
@@ -65,7 +65,7 @@ export default function CodeResultInput({
           }
         }}
         placeholder="테스트 입력"
-        className="min-h-0 flex-1 resize-none border-white/10 bg-gray-900 font-mono text-white"
+        className="min-h-0 flex-1 resize-none border-border bg-muted/20 font-mono text-foreground"
       />
     </div>
   );

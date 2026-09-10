@@ -21,7 +21,7 @@ function CodeResultPannel() {
   } = useCodeResultPanel();
   const { handleExecute } = useExecute();
   return (
-    <div className="dark h-full w-full overflow-hidden bg-gray-900 text-white">
+    <div className="h-full w-full overflow-hidden bg-background text-foreground">
       <CodeEditorResizer />
       <Tabs
         value={String(selectedIndex)}
@@ -30,11 +30,26 @@ function CodeResultPannel() {
       >
         <TabsList
           aria-label="코드 실행 패널"
-          className="w-full shrink-0 justify-start rounded-none border-b border-white/10 bg-gray-900 px-2"
+          className="h-10 w-full shrink-0 justify-start rounded-none border-b border-border bg-background px-2"
         >
-          <TabsTrigger value="0">입력</TabsTrigger>
-          <TabsTrigger value="1">실행 결과</TabsTrigger>
-          <TabsTrigger value="2">테스트 케이스</TabsTrigger>
+          <TabsTrigger
+            value="0"
+            className="rounded-none border-b-2 border-transparent text-xs data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+          >
+            입력
+          </TabsTrigger>
+          <TabsTrigger
+            value="1"
+            className="rounded-none border-b-2 border-transparent text-xs data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+          >
+            실행 결과
+          </TabsTrigger>
+          <TabsTrigger
+            value="2"
+            className="rounded-none border-b-2 border-transparent text-xs data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+          >
+            테스트 케이스
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="0" className="m-0 min-h-0 flex-1">
           <CodeResultInput

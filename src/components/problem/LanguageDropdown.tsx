@@ -21,14 +21,14 @@ export default function LanguageDropdown() {
         <Button
           variant="outline"
           size="sm"
-          className="w-28 justify-between border-white/15 bg-gray-900 text-gray-100 hover:bg-gray-800"
+          className="h-8 w-32 justify-between bg-background text-xs"
           aria-label="코드 언어"
         >
           {languageList[selectedIndex]}
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="dark w-36" align="start">
+      <DropdownMenuContent className="w-40" align="start">
         {languageList.map((language, index) => (
           <DropdownMenuItem
             key={language}

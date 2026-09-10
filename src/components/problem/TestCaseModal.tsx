@@ -32,18 +32,13 @@ export default function TestCaseModal() {
       }}
     >
       <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
-        <DialogHeader className="sr-only">
+        <DialogHeader className="border-b border-border px-8 py-6 text-left">
           <DialogTitle>테스트 케이스</DialogTitle>
           <DialogDescription>
             입력과 예상 출력을 추가하고 테스트합니다.
           </DialogDescription>
         </DialogHeader>
         <div className="min-h-64 w-full animate-in rounded-xl border border-border bg-popover p-0 text-popover-foreground shadow-2xl fade-in duration-200">
-          <div className="flex px-8 pt-8">
-            <Typography variant="h6">테스트 케이스</Typography>
-          </div>
-          <Line className="my-2 bg-border" />
-
           <div className="px-8 scroll-y overflow-y-auto max-h-[60vh]">
             {testCaseList.length ? (
               testCaseList.map(({ input, expected, readOnly }, index, arr) => (
@@ -142,7 +137,7 @@ export default function TestCaseModal() {
               테스트
             </Button>
             <Button onClick={handleClickClose} className="bg-gray-600">
-              닫기
+              완료
             </Button>
           </div>
         </div>

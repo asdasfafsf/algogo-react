@@ -40,19 +40,14 @@ export default function CodeEditorSettingsModal() {
       }}
     >
       <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
-        <DialogHeader className="sr-only">
-          <DialogTitle>화면 설정</DialogTitle>
-          <DialogDescription>
-            문제 표시와 코드 편집기 설정을 변경합니다.
-          </DialogDescription>
-        </DialogHeader>
         <div className="w-full max-w-full animate-in rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl fade-in duration-200">
           {/* 헤더 */}
-          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
-            <Typography variant="h6" className="font-bold text-foreground">
-              화면 설정
-            </Typography>
-          </div>
+          <DialogHeader className="border-b border-border px-8 py-6 text-left">
+            <DialogTitle>화면 설정</DialogTitle>
+            <DialogDescription>
+              문제 표시와 코드 편집기 설정을 변경합니다.
+            </DialogDescription>
+          </DialogHeader>
 
           {/* 본문 */}
           <div className="p-6">
@@ -119,12 +114,12 @@ export default function CodeEditorSettingsModal() {
           </div>
 
           {/* 푸터 */}
-          <div className="flex justify-end gap-2 px-8 py-6 border-t border-gray-100">
+          <div className="flex justify-end gap-2 border-t border-border px-8 py-6">
             <Button color="gray" onClick={close}>
               취소
             </Button>
             <Button color="blue" onClick={save}>
-              설정
+              저장
             </Button>
           </div>
         </div>

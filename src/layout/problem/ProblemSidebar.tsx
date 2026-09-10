@@ -39,20 +39,20 @@ export function ProblemSidebar({
           isMobile
             ? { height: "calc(100vh - 96px)" }
             : {
-                height: "calc(100vh - 96px)",
+                height: "100%",
                 width: `${problemWidth}px`,
                 gridRow: "span 2",
                 gridColumn: 1,
               }
         }
-        className="relative z-30 flex border-r border-border bg-background sm:w-screen"
+        className="relative z-10 flex w-full border-r border-border bg-background"
       >
         {children}
         <div className="relative">
           <div
             ref={draggableRef}
             onMouseDown={open ? (e) => handleMouseDown(e) : undefined}
-            className="group z-10 h-[calc(100vh-96px)] -right-5 absolute w-5 cursor-col-resize"
+            className="group absolute -right-2.5 z-10 h-full w-5 cursor-col-resize"
           >
             <div
               className={`absolute top-1/2 -translate-y-1/2 -right-4 transition-opacity z-20 ${
@@ -65,7 +65,7 @@ export function ProblemSidebar({
                 type="button"
                 aria-label={open ? "문제 접기" : "문제 펼치기"}
                 onClick={handleClickOpen}
-                className="bg-gray-800 hover:bg-gray-700 text-white rounded-full p-1.5"
+                className="rounded-full border border-border bg-background p-1.5 text-foreground shadow-sm hover:bg-muted"
               >
                 <svg
                   width="16"

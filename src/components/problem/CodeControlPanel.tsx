@@ -1,84 +1,60 @@
 import useCodeControlPanel from "@hook/useCodeControlPanel";
-import useExecuteTestCase from "@hook/useExecuteTestCase";
-import useExecute from "@hook/useExecute";
-import { Button } from "@components/Button";
-import useSubmit from "@hook/useSubmit";
+import { Button } from "@/components/ui/button";
+import { FileText, RotateCcw, Settings } from "lucide-react";
+import useModal from "@plugins/modal/useModal";
 import LanguageDropdown from "./LanguageDropdown";
 import CodeTemplateDropdown from "./CodeTemplateDropdown";
+import CodeEditorSettingsModal from "./CodeEditorSettingsModal";
+import CompilerInfoModal from "./CompilerInfoModal";
 
-export default function CodeControlPanel() {
-  const { handleClickReset, handleClickAddTestCase } = useCodeControlPanel();
-
-  const { state, handleTest } = useExecuteTestCase();
-  const { handleExecute } = useExecute();
-  const { handleSubmit } = useSubmit();
+export default function CodeControlPanel({
+  isPending,
+}: {
+  isPending: boolean;
+}) {
+  const { handleClickReset } = useCodeControlPanel();
+  const modal = useModal();
 
   return (
-    <div className="dark flex h-12 w-full items-center overflow-x-auto border-b border-white/10 bg-gray-900 px-3 text-white">
-      <div className="flex min-w-max flex-1 items-center justify-end gap-2">
+    <div className="flex h-11 w-full shrink-0 items-center justify-between gap-3 overflow-x-auto border-b border-border bg-background px-3">
+      <div className="flex min-w-max items-center gap-2">
         <LanguageDropdown />
         <CodeTemplateDropdown />
-        <div className="flex items-center gap-1.5 ml-2">
-          <Button
-            onClick={handleClickReset}
-            disabled={state === "PENDING"}
-            className={
-              state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
-            }
-            color="white"
-            variant="text"
-            size="small"
-          >
-            초기화
-          </Button>
-          <Button
-            disabled={state === "PENDING"}
-            className={
-              state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
-            }
-            color="white"
-            variant="outlined"
-            size="small"
-            onClick={handleExecute}
-          >
-            실행
-          </Button>
-          <Button
-            disabled={state === "PENDING"}
-            className={
-              state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
-            }
-            size="small"
-            color="white"
-            variant="text"
-            onClick={handleClickAddTestCase}
-          >
-            테스트 케이스 추가
-          </Button>
-
-          <Button
-            disabled={state === "PENDING"}
-            className={`${state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""}`}
-            color="white"
-            variant="text"
-            size="small"
-            onClick={handleTest}
-          >
-            테스트
-          </Button>
-
-          <Button
-            disabled={state === "PENDING"}
-            className={
-              state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
-            }
-            color="blue"
-            size="small"
-            onClick={handleSubmit}
-          >
-            제출
-          </Button>
-        </div>
+      </div>
+      <div className="flex min-w-max items-center gap-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={isPending}
+          onClick={handleClickReset}
+          className="h-8 px-2 text-xs"
+          title="작성 중인 코드를 초기화합니다"
+        >
+          <RotateCcw />
+          초기화
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
+          aria-label="컴파일러 정보"
+          title="컴파일러 정보"
+          onClick={() => modal.push("CompilerInfo", CompilerInfoModal, {})}
+        >
+          <FileText />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="size-8"
+          aria-label="화면 설정"
+          title="화면 설정"
+          onClick={() =>
+            modal.push("CODE_EDITOR_SETTINGS", CodeEditorSettingsModal, {})
+          }
+        >
+          <Settings />
+        </Button>
       </div>
     </div>
   );

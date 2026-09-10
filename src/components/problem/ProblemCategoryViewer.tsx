@@ -17,7 +17,10 @@ export function ProblemCategoryViewer({
     useProblemCategoryViewer(initialState);
 
   return (
-    <div className="min-h-12 my-2">
+    <section>
+      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+        알고리즘 유형
+      </h2>
       <div className="flex items-center">
         <Tooltip content={tooltipContent} placement="top-start">
           {/* <Typography variant="small" className="w-8 h-full mx-2 font-bold">유형 </Typography> */}
@@ -40,7 +43,7 @@ export function ProblemCategoryViewer({
           </Button>
         </Tooltip>
       </div>
-    </div>
+    </section>
   );
 }
 

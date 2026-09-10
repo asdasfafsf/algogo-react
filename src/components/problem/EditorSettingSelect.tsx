@@ -11,12 +11,14 @@ interface EditorSettingSelectProps<T extends string | number> {
   value: T;
   options: readonly T[];
   onValueChange: (value: T) => void | Promise<void>;
+  getOptionLabel?: (value: T) => string;
 }
 export default function EditorSettingSelect<T extends string | number>({
   label,
   value,
   options,
   onValueChange,
+  getOptionLabel = String,
 }: EditorSettingSelectProps<T>) {
   return (
     <div className="flex items-center gap-3">
@@ -34,7 +36,7 @@ export default function EditorSettingSelect<T extends string | number>({
         <SelectContent>
           {options.map((option) => (
             <SelectItem key={String(option)} value={String(option)}>
-              {option}
+              {getOptionLabel(option)}
             </SelectItem>
           ))}
         </SelectContent>

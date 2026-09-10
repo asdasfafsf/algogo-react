@@ -13,6 +13,7 @@ export default function CodeEditorThemeDropdown({
       label="테마"
       value={theme}
       options={["vs-dark", "light"]}
+      getOptionLabel={(value) => (value === "vs-dark" ? "어둡게" : "밝게")}
       onValueChange={(value) => handleSelect(undefined, value)}
     />
   );

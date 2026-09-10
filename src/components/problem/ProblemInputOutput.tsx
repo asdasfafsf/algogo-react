@@ -1,37 +1,37 @@
-import React from 'react';
-import { Line, Typography } from '@components/common/index';
-import ProblemContent from './ProblemContent';
+import React from "react";
+import ProblemContent from "./ProblemContent";
 
 interface ProblemInputOutputProps {
   input: string;
   output: string;
   scale?: number;
 }
-export function ProblemInputOutput({ input, output, scale = 1 }: ProblemInputOutputProps) {
+export function ProblemInputOutput({
+  input,
+  output,
+  scale = 1,
+}: ProblemInputOutputProps) {
   return (
-    <>
-      <Line className="my-4 opacity-0" />
-      <Typography
-        scale={scale}
-        variant="h5"
-      >
-        입력
-      </Typography>
-      <Line className="mt-2 mb-4" />
-
-      <ProblemContent scale={scale} content={input} />
-
-      <Line className="my-4 opacity-0" />
-      <Typography
-        scale={scale}
-        variant="h5"
-      >
-        출력
-      </Typography>
-      <Line className="mt-2 mb-4" />
-      <ProblemContent scale={scale} content={output} />
-
-    </>
+    <div className="space-y-8">
+      <section className="space-y-3">
+        <h2
+          style={{ zoom: scale }}
+          className="text-sm font-semibold uppercase tracking-wide text-muted-foreground"
+        >
+          입력 형식
+        </h2>
+        <ProblemContent scale={scale} content={input} />
+      </section>
+      <section className="space-y-3">
+        <h2
+          style={{ zoom: scale }}
+          className="text-sm font-semibold uppercase tracking-wide text-muted-foreground"
+        >
+          출력 형식
+        </h2>
+        <ProblemContent scale={scale} content={output} />
+      </section>
+    </div>
   );
 }
 
