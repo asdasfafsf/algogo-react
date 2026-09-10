@@ -39,7 +39,7 @@ export default function LoadingModal({
             <div className="size-16 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
             <div className="absolute left-1/2 top-1/2 size-8 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-4 border-gray-200 border-t-blue-500" />
           </div>
-          <p className="mt-6 text-lg font-medium text-gray-700">{message}</p>
+          <p className="mt-6 text-lg font-medium text-foreground">{message}</p>
           <p className="mt-2 text-sm text-gray-500">잠시만 기다려주세요</p>
         </div>
       </DialogContent>

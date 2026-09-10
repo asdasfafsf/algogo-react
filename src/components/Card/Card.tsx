@@ -10,7 +10,7 @@ export default function Card({
 }: CardProps) {
   return (
     <ShadcnCard
-      className={cn("border-0 bg-white shadow-lg", className)}
+      className={cn("border border-border bg-card shadow-none", className)}
       onClick={onClick}
       {...props}
     >

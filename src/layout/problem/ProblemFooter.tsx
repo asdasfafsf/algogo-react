@@ -15,7 +15,7 @@ export default function ProblemFooter() {
   return (
     <footer
       style={{ height: PROBLEM_FOOTER_HEIGHT }}
-      className="dark flex w-full items-center justify-center border-t border-white/10 bg-gray-900 text-gray-400"
+      className="dark flex w-full items-center justify-center border-t border-white/10 bg-[#090b12] text-gray-400"
     >
       {isMobile ? (
         <nav

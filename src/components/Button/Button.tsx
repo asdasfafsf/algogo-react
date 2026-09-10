@@ -26,7 +26,7 @@ interface ButtonProps extends Omit<ShadcnButtonProps, "variant" | "size"> {
 }
 const variants: Record<LegacyVariant, Record<Color, string>> = {
   filled: {
-    blue: "bg-blue-500 text-white hover:bg-blue-600",
+    blue: "bg-primary text-primary-foreground hover:bg-primary/90",
     red: "bg-red-600 text-white hover:bg-red-700",
     green: "bg-green-600 text-white hover:bg-green-700",
     amber: "bg-amber-600 text-white hover:bg-amber-700",
@@ -48,7 +48,7 @@ const variants: Record<LegacyVariant, Record<Color, string>> = {
     white: "bg-linear-to-tr from-white to-gray-200 text-black",
   },
   outlined: {
-    blue: "border-blue-500 text-blue-600 hover:bg-blue-50",
+    blue: "border-primary text-primary hover:bg-accent",
     red: "border-red-600 text-red-600 hover:bg-red-50",
     green: "border-green-600 text-green-600 hover:bg-green-50",
     amber: "border-amber-600 text-amber-600 hover:bg-amber-50",
@@ -56,10 +56,10 @@ const variants: Record<LegacyVariant, Record<Color, string>> = {
     gray: "border-gray-500 text-gray-600 hover:bg-gray-50",
     black: "border-black text-black hover:bg-gray-50",
     yellow: "border-yellow-500 text-yellow-600 hover:bg-yellow-50",
-    white: "border-white text-white hover:bg-white/10",
+    white: "border-white/30 bg-transparent text-white hover:bg-white/10",
   },
   text: {
-    blue: "text-blue-600 hover:bg-blue-50",
+    blue: "text-primary hover:bg-accent",
     red: "text-red-600 hover:bg-red-50",
     green: "text-green-600 hover:bg-green-50",
     amber: "text-amber-600 hover:bg-amber-50",

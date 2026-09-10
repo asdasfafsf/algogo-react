@@ -1,5 +1,5 @@
-import { Line, Typography } from '../common';
-import ProblemContent from './ProblemContent';
+import { Line, Typography } from "../common";
+import ProblemContent from "./ProblemContent";
 
 interface ProblemContentWrapperProps {
   title: string;
@@ -7,20 +7,18 @@ interface ProblemContentWrapperProps {
   scale?: number;
 }
 
-export default function ProblemContentWrapper(
-  { title, scale, content }: ProblemContentWrapperProps,
-) {
+export default function ProblemContentWrapper({
+  title,
+  scale,
+  content,
+}: ProblemContentWrapperProps) {
   return (
     <div>
-      {' '}
-      <Typography
-        variant="h5"
-        scale={scale}
-      >
+      {" "}
+      <Typography variant="h6" scale={scale} className="text-muted-foreground">
         {title}
       </Typography>
-      <Line className="mt-2 mb-4" />
-
+      <Line className="mb-4 mt-2 opacity-40" />
       <ProblemContent content={content} />
     </div>
   );

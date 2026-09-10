@@ -40,7 +40,7 @@ export default function ProblemListTable() {
   ) : (
     <div className="overflow-x-auto">
       <ShadcnTable className="w-full min-w-[800px] table-fixed">
-        <ShadcnTableHeader className="mb-12 h-12 border-b border-gray-300">
+        <ShadcnTableHeader className="mb-12 h-12 border-b border-border bg-muted/35">
           <ShadcnTableRow>
             <ShadcnTableHead className="pl-4 w-16 text-center">
               <Typography weight="semibold" variant="medium">
@@ -146,7 +146,7 @@ export default function ProblemListTable() {
             {problemList?.map((elem, index) => (
               <ShadcnTableRow
                 key={elem.uuid}
-                className={`h-16 ${index === problemList.length - 1 ? "border-b-0" : "border-b border-gray-300"}`}
+                className={`h-16 transition-colors hover:bg-accent/30 ${index === problemList.length - 1 ? "border-b-0" : "border-b border-border"}`}
               >
                 <ShadcnTableCell>
                   <div className="flex justify-center items-center w-full">
@@ -166,7 +166,7 @@ export default function ProblemListTable() {
                     onClick={(e) => handleClickProblem(e, elem.uuid)}
                   >
                     <Typography
-                      className="text-gray-700"
+                      className="text-foreground"
                       variant="medium"
                       weight="semilight"
                     >
@@ -187,7 +187,7 @@ export default function ProblemListTable() {
                 </ShadcnTableCell>
                 <ShadcnTableCell>
                   <Typography
-                    className="text-gray-700"
+                    className="text-muted-foreground"
                     variant="medium"
                     weight="semilight"
                   >
@@ -196,7 +196,7 @@ export default function ProblemListTable() {
                 </ShadcnTableCell>
                 <ShadcnTableCell>
                   <Typography
-                    className="text-gray-700"
+                    className="text-muted-foreground"
                     variant="medium"
                     weight="semilight"
                   >

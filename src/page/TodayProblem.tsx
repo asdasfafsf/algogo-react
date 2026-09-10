@@ -1,17 +1,14 @@
-import { DefaultLayout } from '@layout/index';
+import { DefaultLayout } from "@layout/index";
 import {
   TodayProblemHeader,
   TodayProblemNavigationTabs,
   TodayProblemCard,
   TodayProblemEmptyState,
   TodayProblemSkeleton,
-} from '@components/today-problem';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/24/outline';
-import { useTodayProblem } from '@hook/today-problem/useTodayProblem';
-import { IconButton } from '@components/Button';
+} from "@components/today-problem";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { useTodayProblem } from "@hook/today-problem/useTodayProblem";
+import { IconButton } from "@components/Button";
 
 export default function TodayProblem() {
   const {
@@ -33,10 +30,8 @@ export default function TodayProblem() {
       )}
 
       {!isLoading && todayProblems.length > 0 && (
-        <div className="min-h-screen bg-white">
-          <TodayProblemHeader
-            totalProblems={todayProblems.length}
-          />
+        <div className="min-h-screen bg-background text-foreground">
+          <TodayProblemHeader totalProblems={todayProblems.length} />
 
           <TodayProblemNavigationTabs
             problems={todayProblems}
@@ -63,9 +58,7 @@ export default function TodayProblem() {
               <ChevronRightIcon className="w-5 h-5 text-slate-600" />
             </IconButton>
 
-            <TodayProblemCard
-              problem={todayProblems[currentProblemIndex]}
-            />
+            <TodayProblemCard problem={todayProblems[currentProblemIndex]} />
           </div>
 
           <div className="px-6 mb-20">
@@ -77,8 +70,8 @@ export default function TodayProblem() {
                       key={index}
                       className={`w-2 h-2 rounded-full transition-colors ${
                         index === currentProblemIndex
-                          ? 'bg-slate-800'
-                          : 'bg-slate-300'
+                          ? "bg-slate-800"
+                          : "bg-slate-300"
                       }`}
                     />
                   ))}

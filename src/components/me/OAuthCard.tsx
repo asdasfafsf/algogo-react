@@ -22,13 +22,17 @@ export default function OAuthCard({
   onDisconnect,
 }: OAuthCardProps) {
   return (
-    <SurfaceCard className="block gap-0 py-0 p-6 transition-all duration-300 bg-white border border-gray-200 rounded-2xl hover:border-gray-300 hover:shadow-md">
+    <SurfaceCard className="block gap-0 rounded-xl border border-border bg-background p-6 py-0 shadow-none">
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center justify-center w-12 h-12 overflow-hidden border border-gray-200 shadow-xs bg-gray-50 rounded-xl">
           <img src={icon} alt={name} className="object-contain w-8 h-8" />
         </div>
         <div className="flex-1">
-          <Typography variant="h6" weight="semibold" className="text-gray-900">
+          <Typography
+            variant="h6"
+            weight="semibold"
+            className="text-foreground"
+          >
             {name}
           </Typography>
           <div className="flex items-center gap-2 mt-1">
@@ -53,7 +57,7 @@ export default function OAuthCard({
       <Typography
         variant="small"
         weight="regular"
-        className="mb-4 leading-relaxed text-gray-600"
+        className="mb-4 leading-relaxed text-muted-foreground"
       >
         {description}
       </Typography>

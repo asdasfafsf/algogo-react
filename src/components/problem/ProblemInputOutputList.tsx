@@ -1,13 +1,9 @@
-import { CornerDownLeft as EnterIcon, Space as SpaceIcon } from "lucide-react";
 import React from "react";
-import {
-  Typography,
-  Line,
-  ClipboardWithTooltip,
-} from "@components/common/index";
+import { CornerDownLeft, Space } from "lucide-react";
+import { ClipboardWithTooltip, Typography } from "@components/common/index";
 import useCodeResultPanelStore from "@zustand/CodeResultPanelStore";
+import type { ProblemInputOutput } from "@/type/Problem.type";
 import ProblemContent from "./ProblemContent";
-import { ProblemInputOutput } from "@/type/Problem.type";
 
 interface ProblemInputOutputProps {
   inputOutputList: ProblemInputOutput[];
@@ -19,65 +15,63 @@ export function ProblemInputOutputList({
   const setSelectedIndex = useCodeResultPanelStore(
     (state) => state.setSelectedIndex,
   );
+
   return (
-    <>
-      <Typography variant="h5">입출력 예시</Typography>
-      <Line className="mt-2 mb-4" />
-
-      <div className="flex items-center gap-4">
-        <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-gray-900 rounded-sm">
-            <EnterIcon />
-          </div>
-          &nbsp;
-          <Typography variant="medium" className="font-medium">
-            : 다음 줄
-          </Typography>
-        </div>
-        <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-gray-900 rounded-sm">
-            <SpaceIcon />
-          </div>
-          &nbsp;
-          <Typography variant="medium" className="font-medium">
-            : 스페이스
-          </Typography>
-        </div>
+    <section>
+      <Typography variant="h6" className="mb-4 text-muted-foreground">
+        입출력 예시
+      </Typography>
+      <div className="mb-4 flex items-center gap-4 text-xs text-muted-foreground">
+        <span className="inline-flex items-center gap-1.5">
+          <CornerDownLeft className="size-3.5 text-primary" />
+          다음 줄
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <Space className="size-3.5 text-primary" />
+          스페이스
+        </span>
       </div>
-      <Line className="my-4 opacity-0" />
-
-      {inputOutputList.map((elem, index) => (
-        <div key={`example-${index}`}>
-          <Typography variant="h5" className="pt-2 font-bold">
-            예시
-            {index + 1}
-          </Typography>
-          <Line className="relative my-2">
-            <div className="absolute w-12 h-[2px] bg-blue-500" />
-          </Line>
-          <Typography variant="h6" className="my-2 font-medium">
-            입력
-          </Typography>
-          <ClipboardWithTooltip
-            handleCopyCallback={() => {
-              setSelectedIndex(0);
-            }}
-            content={elem.input}
-          />
-          <Typography variant="h6" className="my-2 font-medium">
-            출력
-          </Typography>
-          <ClipboardWithTooltip content={elem.output} />
-
-          {elem.content && (
-            <>
-              <div className="my-4 opacity-0" />
-              <ProblemContent content={elem.content} />
-            </>
-          )}
-        </div>
-      ))}
-    </>
+      <div className="grid gap-4">
+        {inputOutputList.map((example, index) => (
+          <article
+            key={`example-${index}`}
+            className="rounded-xl border border-border bg-muted/25 p-4"
+          >
+            <Typography variant="small" className="mb-3 text-muted-foreground">
+              예시 {index + 1}
+            </Typography>
+            <div className="grid gap-4 min-[420px]:grid-cols-2">
+              <div>
+                <Typography
+                  variant="small"
+                  className="mb-2 text-muted-foreground"
+                >
+                  입력
+                </Typography>
+                <ClipboardWithTooltip
+                  handleCopyCallback={() => setSelectedIndex(0)}
+                  content={example.input}
+                />
+              </div>
+              <div>
+                <Typography
+                  variant="small"
+                  className="mb-2 text-muted-foreground"
+                >
+                  출력
+                </Typography>
+                <ClipboardWithTooltip content={example.output} />
+              </div>
+            </div>
+            {example.content && (
+              <div className="mt-4">
+                <ProblemContent content={example.content} />
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={fieldId}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 bg-background px-1 text-sm text-gray-500 transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-foreground peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 bg-background px-1 text-sm text-muted-foreground transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-foreground peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs"
           >
             {label}
           </label>

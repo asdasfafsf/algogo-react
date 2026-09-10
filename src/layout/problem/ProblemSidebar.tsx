@@ -45,7 +45,7 @@ export function ProblemSidebar({
                 gridColumn: 1,
               }
         }
-        className="relative z-30 flex bg-white sm:w-screen"
+        className="relative z-30 flex border-r border-border bg-background sm:w-screen"
       >
         {children}
         <div className="relative">

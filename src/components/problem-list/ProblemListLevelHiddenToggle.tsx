@@ -26,7 +26,7 @@ export default function ProblemListLevelHiddenToggle() {
         onClick={handleToggle}
         pressed={problemHidden["난이도"]}
         aria-label={problemHidden["난이도"] ? "난이도 보이기" : "난이도 숨기기"}
-        className="w-10 bg-white h-9"
+        className="h-9 w-10 border border-input bg-background text-muted-foreground hover:bg-accent data-[state=on]:bg-accent data-[state=on]:text-primary"
       >
         {problemHidden["난이도"] ? (
           <EyeSlashIcon className="w-9 h-9" />

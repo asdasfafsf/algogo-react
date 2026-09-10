@@ -40,7 +40,7 @@ const StatCard = memo(
     const { bgColor, subtitleColor } = colorMap[color];
 
     return (
-      <SurfaceCard className="block gap-0 py-0 p-6 transition-all duration-300 bg-white border border-gray-100 group rounded-2xl hover:shadow-lg hover:border-gray-200 hover:-translate-y-1">
+      <SurfaceCard className="group block gap-0 rounded-xl border border-border bg-card p-6 py-0 shadow-none">
         <div className="flex items-center justify-between mb-4">
           <div
             className={`flex items-center justify-center transition-all duration-300 shadow-xs w-14 h-14 ${bgColor} rounded-2xl group-hover:shadow-md`}
@@ -51,11 +51,11 @@ const StatCard = memo(
             <Typography
               variant="small"
               weight="regular"
-              className="mb-1 text-gray-500"
+              className="mb-1 text-muted-foreground"
             >
               {title}
             </Typography>
-            <Typography variant="h2" weight="bold" className="text-gray-900">
+            <Typography variant="h2" weight="bold" className="text-foreground">
               {value}
             </Typography>
             <Typography

@@ -38,11 +38,11 @@ export default function TestCaseModal() {
             입력과 예상 출력을 추가하고 테스트합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="min-h-64 rounded-2xl bg-white w-full p-0 shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200">
+        <div className="min-h-64 w-full animate-in rounded-xl border border-border bg-popover p-0 text-popover-foreground shadow-2xl fade-in duration-200">
           <div className="flex px-8 pt-8">
             <Typography variant="h6">테스트 케이스</Typography>
           </div>
-          <Line className="my-2 bg-white" />
+          <Line className="my-2 bg-border" />
 
           <div className="px-8 scroll-y overflow-y-auto max-h-[60vh]">
             {testCaseList.length ? (
@@ -62,7 +62,7 @@ export default function TestCaseModal() {
                         variant="text"
                         aria-label={`테스트 케이스 ${index + 1} 삭제`}
                         onClick={() => removeTestCase(index)}
-                        className="flex items-center justify-end w-full h-6 bg-white cursor-pointer"
+                        className="flex h-6 w-full cursor-pointer items-center justify-end bg-background"
                       >
                         <TrashIcon className="w-5 h-5 text-gray-600" />
                       </Button>
@@ -109,7 +109,7 @@ export default function TestCaseModal() {
                     />
                   )}
                   {index + 1 < arr.length ? (
-                    <Line className="my-4 bg-white" />
+                    <Line className="my-4 bg-border" />
                   ) : (
                     ""
                   )}
