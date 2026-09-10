@@ -129,7 +129,7 @@ try {
   assert.equal(useProblemListStore.getState().maxPageNo, 0);
   assert.equal(
     useProblemListStore.getState().error,
-    "문제 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
+    "네트워크 상태를 확인한 뒤 다시 시도해 주세요.",
   );
   assert.equal(useProblemListStore.getState().isFetching, false);
 
