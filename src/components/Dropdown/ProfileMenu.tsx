@@ -20,6 +20,7 @@ interface ProfileMenuProps {
 export default function ProfileMenu({ me }: ProfileMenuProps) {
   const navigate = useNavigate();
   const logout = useMeStore((state) => state.logout);
+  const profileLabel = me.name.trim() || "사용자";
 
   return (
     <DropdownMenu>
@@ -33,11 +34,8 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
           <Avatar
             variant="circular"
             size="medium"
-            alt="User"
-            src={
-              me.profilePhoto ||
-              "https://docs.material-tailwind.com/img/face-2.jpg"
-            }
+            alt={`${profileLabel} 프로필`}
+            src={me.profilePhoto}
           />
         </Button>
       </DropdownMenuTrigger>

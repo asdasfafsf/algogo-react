@@ -1,46 +1,53 @@
-import { memo } from 'react';
-import StatCard from './StatCard';
+import { CheckCircle2, Flame, Target, Trophy } from "lucide-react";
+import StatCard from "./StatCard";
 
-const StatsCards = memo(() => {
-  const stats = [
-    {
-      icon: (
-        <svg className="text-white w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      title: '해결한 문제',
-      value: 0,
-      color: 'blue' as const,
-      subtitle: '',
-    },
-    {
-      icon: (
-        <svg className="text-white w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
-      title: '연속 활동',
-      value: '0일',
-      subtitle: '',
-      color: 'emerald' as const,
-    },
-  ];
+const stats = [
+  {
+    icon: CheckCircle2,
+    title: "해결한 문제",
+    tone: "primary",
+  },
+  {
+    icon: Target,
+    title: "정답률",
+    tone: "success",
+  },
+  {
+    icon: Flame,
+    title: "연속 활동",
+    tone: "warning",
+  },
+  {
+    icon: Trophy,
+    title: "현재 랭크",
+    tone: "accent",
+  },
+] as const;
 
+export default function StatsCards() {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {stats.map((stat, index) => (
-        <StatCard
-          key={index}
-          icon={stat.icon}
-          title={stat.title}
-          value={stat.value}
-          subtitle={stat.subtitle}
-          color={stat.color}
-        />
-      ))}
-    </div>
+    <section aria-labelledby="profile-stats-title" className="space-y-4">
+      <div>
+        <h2
+          id="profile-stats-title"
+          className="font-display text-lg font-semibold"
+        >
+          학습 현황
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          학습 현황을 준비하고 있어요.
+        </p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <StatCard
+            key={stat.title}
+            icon={stat.icon}
+            title={stat.title}
+            tone={stat.tone}
+          />
+        ))}
+      </div>
+    </section>
   );
-});
-
-export default StatsCards;
+}

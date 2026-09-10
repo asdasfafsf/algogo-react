@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAlertModal from "@hook/useAlertModal";
 import { useMeStore } from "@zustand/MeStore";
@@ -22,6 +22,7 @@ export default function useOAuthCallback(
   const query = new URLSearchParams(window.location.search);
   const code = query.get("code") || "";
   const destination = parseOAuthDestination(query.get("state"), flow);
+  const hasStarted = useRef(false);
 
   const run = useCallback(async () => {
     const outcome = await executeOAuthCallback({
@@ -56,6 +57,8 @@ export default function useOAuthCallback(
   ]);
 
   useEffect(() => {
-    run();
+    if (hasStarted.current) return;
+    hasStarted.current = true;
+    void run();
   }, [run]);
 }

@@ -1,19 +1,13 @@
 import { oauthDisconnectV2 } from "@api/oauth-v2";
+import OAuthCallbackStatus from "@components/me/OAuthCallbackStatus";
 import useOAuthCallback from "@hook/me/useOAuthCallback";
 
-export default function OAuthV2Callback() {
+export default function OAuthV2DisconnectCallback() {
   useOAuthCallback("disconnect", oauthDisconnectV2);
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="flex items-center justify-center">
-          {/* Spinner */}
-          <div className="w-16 h-16 border-t-4 border-gray-200 border-solid rounded-full animate-spin" />
-        </div>
-        <p className="mt-6 text-lg font-medium text-foreground">
-          잠시만 기다려주세요
-        </p>
-      </div>
-    </div>
+    <OAuthCallbackStatus
+      title="연결 해제를 확인하고 있습니다"
+      description="처리가 완료되면 계정 상태를 새로 확인합니다."
+    />
   );
 }

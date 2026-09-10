@@ -1,75 +1,44 @@
-import { Card as SurfaceCard } from "@/components/ui/card";
-import { Typography } from "@components/common";
-import { memo } from "react";
-
-type ColorVariant = "blue" | "emerald" | "purple" | "orange" | "gray";
+import type { LucideIcon } from "lucide-react";
+import { Card, CardContent } from "@components/ui/card";
+import { cn } from "@lib/utils";
 
 interface StatCardProps {
-  icon: React.ReactNode;
+  icon: LucideIcon;
   title: string;
-  value: string | number;
-  subtitle: string;
-  color?: ColorVariant;
+  tone?: "primary" | "success" | "warning" | "accent";
 }
 
-const colorMap = {
-  blue: {
-    bgColor: "bg-linear-to-br from-blue-500 to-blue-600",
-    subtitleColor: "text-blue-600",
-  },
-  emerald: {
-    bgColor: "bg-linear-to-br from-emerald-500 to-emerald-600",
-    subtitleColor: "text-emerald-600",
-  },
-  purple: {
-    bgColor: "bg-linear-to-br from-purple-500 to-purple-600",
-    subtitleColor: "text-purple-600",
-  },
-  orange: {
-    bgColor: "bg-linear-to-br from-orange-500 to-orange-600",
-    subtitleColor: "text-orange-600",
-  },
-  gray: {
-    bgColor: "bg-linear-to-br from-gray-500 to-gray-600",
-    subtitleColor: "text-gray-600",
-  },
-};
+const toneClasses = {
+  primary: "bg-primary/10 text-primary",
+  success: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300",
+  warning: "bg-amber-500/10 text-amber-600 dark:text-amber-300",
+  accent: "bg-violet-500/10 text-violet-600 dark:text-violet-300",
+} as const;
 
-const StatCard = memo(
-  ({ icon, title, value, subtitle, color = "gray" }: StatCardProps) => {
-    const { bgColor, subtitleColor } = colorMap[color];
-
-    return (
-      <SurfaceCard className="group block gap-0 rounded-xl border border-border bg-card p-6 py-0 shadow-none">
-        <div className="flex items-center justify-between mb-4">
-          <div
-            className={`flex items-center justify-center transition-all duration-300 shadow-xs w-14 h-14 ${bgColor} rounded-2xl group-hover:shadow-md`}
-          >
-            {icon}
-          </div>
-          <div className="text-right">
-            <Typography
-              variant="small"
-              weight="regular"
-              className="mb-1 text-muted-foreground"
-            >
-              {title}
-            </Typography>
-            <Typography variant="h2" weight="bold" className="text-foreground">
-              {value}
-            </Typography>
-            <Typography
-              variant="small"
-              weight="regular"
-              className={subtitleColor}
-            >
-              {subtitle}
-            </Typography>
-          </div>
+export default function StatCard({
+  icon: Icon,
+  title,
+  tone = "primary",
+}: StatCardProps) {
+  return (
+    <Card
+      className="border-border/60 shadow-sm"
+      aria-label={`${title}, 준비 중`}
+    >
+      <CardContent className="flex items-center gap-4 p-5">
+        <div
+          className={cn(
+            "flex size-11 shrink-0 items-center justify-center rounded-xl",
+            toneClasses[tone],
+          )}
+        >
+          <Icon className="size-5" />
         </div>
-      </SurfaceCard>
-    );
-  },
-);
-
-export default StatCard;
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className="mt-1 text-xl font-semibold text-muted-foreground">—</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
