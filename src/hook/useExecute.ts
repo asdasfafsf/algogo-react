@@ -12,6 +12,7 @@ import {
   canStartExecution,
   executeWithAuthenticationRetry,
 } from "@/application/editor/execute";
+import { toExecutionFailureResult } from "@/domain/execute/error";
 
 export default function useExecute() {
   const setSelectedIndex = useCodeResultPanelStore(
@@ -35,28 +36,33 @@ export default function useExecute() {
     setSelectedIndex(1);
     const requestData = buildExecutionRequest({ language, code }, [input]);
 
-    const result = await executeWithAuthenticationRetry(
-      socketState,
-      () => requestData,
-      {
-        connect,
-        refreshAuthentication: () => useMeStore.getState().refresh(),
-        subscribe: () => {
-          execute((executeResult) => {
-            setOutput(executeResult);
-          });
+    try {
+      const result = await executeWithAuthenticationRetry(
+        socketState,
+        () => requestData,
+        {
+          connect,
+          refreshAuthentication: () => useMeStore.getState().refresh(),
+          subscribe: () => {
+            execute((executeResult) => {
+              setOutput(executeResult);
+            });
+          },
+          run,
         },
-        run,
-      },
-      () => setOutput(emptyExecutionResult()),
-    );
+        () => setOutput(emptyExecutionResult()),
+      );
 
-    if (result.code !== "0000") {
-      if (result.code === "9999") {
-        await alert("실행 중 오류가 발생했습니다.");
-        return;
+      if (result.code !== "0000") {
+        setOutput(result);
+        if (result.code === "9999") {
+          await alert("실행 중 오류가 발생했습니다.");
+        }
       }
-      setOutput(result);
+    } catch (error) {
+      const failure = toExecutionFailureResult(error);
+      setOutput(failure);
+      await alert(failure.result);
     }
   }, [socketState]);
 
