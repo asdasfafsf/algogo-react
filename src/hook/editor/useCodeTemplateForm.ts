@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createTemplate, deleteTemplate, updateTemplate } from "@api/code";
 import useAlertModal from "@hook/useAlertModal";
 import useConfirmModal from "@hook/useConfirmModal";
@@ -8,6 +8,8 @@ import {
   buildCreateTemplateRequest,
   buildUpdateTemplateRequest,
   decideTemplateMutation,
+  runExclusiveTemplateMutation,
+  templateFormErrorMessage,
   validateTemplateForm,
 } from "@/domain/editor/templateForm";
 
@@ -35,11 +37,20 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
   const [templateLanguage, setTemplateLanguage] = useState<Language>(language);
   const [templateContent, setTemplateContent] = useState(content);
   const [isDefault, setIsDefault] = useState(false);
+  const [pendingAction, setPendingAction] = useState<
+    "submit" | "delete" | null
+  >(null);
+  const mutationLock = useRef(false);
 
-  const handleClose = useCallback(() => {
+  const closeModal = useCallback(() => {
     setIsVisible(false);
     modal.remove(modalKey);
   }, [modal, modalKey]);
+
+  const handleClose = useCallback(() => {
+    if (mutationLock.current) return;
+    closeModal();
+  }, [closeModal]);
 
   useEffect(() => {
     setIsVisible(true);
@@ -52,56 +63,73 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
   }, [handleClose, modal, modalKey]);
 
   const handleDelete = useCallback(async () => {
-    if (!(await confirm("정말 삭제하시겠습니까?"))) return;
-    const response = await deleteTemplate(uuid);
-    const decision = decideTemplateMutation("delete", response.statusCode);
-    if (decision.reload) await loadTemplates();
-    await alert(
-      decision.message === "deleted"
-        ? "코드 템플릿이 삭제되었습니다."
-        : response.errorMessage,
-    );
-    if (decision.close) handleClose();
-  }, [alert, confirm, handleClose, loadTemplates, uuid]);
+    await runExclusiveTemplateMutation(mutationLock, async () => {
+      setPendingAction("delete");
+      try {
+        if (!(await confirm("정말 삭제하시겠습니까?"))) return;
+
+        const response = await deleteTemplate(uuid);
+        const decision = decideTemplateMutation("delete", response.statusCode);
+        if (decision.reload) await loadTemplates();
+        await alert(
+          decision.message === "deleted"
+            ? "코드 템플릿이 삭제되었습니다."
+            : response.errorMessage || "코드 템플릿을 삭제하지 못했습니다.",
+        );
+        if (decision.close) closeModal();
+      } catch {
+        await alert("코드 템플릿을 삭제하지 못했습니다.");
+      } finally {
+        setPendingAction(null);
+      }
+    });
+  }, [alert, closeModal, confirm, loadTemplates, uuid]);
 
   const handleSubmit = useCallback(async () => {
-    const form = {
-      name: templateName,
-      description: templateDescription,
-      language: templateLanguage,
-      content: templateContent,
-      isDefault,
-    };
-    if (validateTemplateForm(form)) return;
+    await runExclusiveTemplateMutation(mutationLock, async () => {
+      setPendingAction("submit");
+      try {
+        const form = {
+          name: templateName,
+          description: templateDescription,
+          language: templateLanguage,
+          content: templateContent,
+          isDefault,
+        };
+        const validationError = validateTemplateForm(form);
+        if (validationError) {
+          await alert(templateFormErrorMessage[validationError]);
+          return;
+        }
 
-    if (isEdit) {
-      const response = await updateTemplate(
-        buildUpdateTemplateRequest(form, uuid),
-      );
-      const decision = decideTemplateMutation("update", response.statusCode);
-      await alert(
-        decision.message === "updated"
-          ? "코드 템플릿이 수정되었습니다."
-          : response.errorMessage,
-      );
-      if (decision.reload) await loadTemplates();
-      if (decision.close) handleClose();
-      return;
-    } else {
-      const response = await createTemplate(buildCreateTemplateRequest(form));
-      const decision = decideTemplateMutation("create", response.statusCode);
-      await alert(
-        decision.message === "created"
-          ? "코드 템플릿이 생성되었습니다."
-          : response.errorMessage,
-      );
-      if (decision.reload) await loadTemplates();
-      if (decision.close) handleClose();
-      return;
-    }
+        const response = isEdit
+          ? await updateTemplate(buildUpdateTemplateRequest(form, uuid))
+          : await createTemplate(buildCreateTemplateRequest(form));
+        const decision = decideTemplateMutation(
+          isEdit ? "update" : "create",
+          response.statusCode,
+        );
+        await alert(
+          decision.message === "updated"
+            ? "코드 템플릿이 수정되었습니다."
+            : decision.message === "created"
+              ? "코드 템플릿이 생성되었습니다."
+              : response.errorMessage ||
+                `코드 템플릿을 ${isEdit ? "수정" : "생성"}하지 못했습니다.`,
+        );
+        if (decision.reload) await loadTemplates();
+        if (decision.close) closeModal();
+      } catch {
+        await alert(
+          `코드 템플릿을 ${isEdit ? "수정" : "생성"}하지 못했습니다.`,
+        );
+      } finally {
+        setPendingAction(null);
+      }
+    });
   }, [
     alert,
-    handleClose,
+    closeModal,
     isDefault,
     isEdit,
     loadTemplates,
@@ -125,6 +153,9 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
     setTemplateContent,
     isDefault,
     setIsDefault,
+    isSubmitting: pendingAction === "submit",
+    isDeleting: pendingAction === "delete",
+    isPending: pendingAction !== null,
     handleClose,
     handleDelete,
     handleSubmit,

@@ -8,6 +8,11 @@ export type TemplateForm = {
 
 export type TemplateFormError = "name-required" | "content-required";
 
+export const templateFormErrorMessage: Record<TemplateFormError, string> = {
+  "name-required": "템플릿 이름을 입력해주세요.",
+  "content-required": "템플릿 코드를 입력해주세요.",
+};
+
 export const validateTemplateForm = (
   form: TemplateForm,
 ): TemplateFormError | null => {
@@ -31,6 +36,24 @@ export type TemplateMutationDecision = {
   close: boolean;
 };
 
+export type TemplateMutationLock = {
+  current: boolean;
+};
+
+export const runExclusiveTemplateMutation = async <T>(
+  lock: TemplateMutationLock,
+  mutation: () => Promise<T>,
+): Promise<T | undefined> => {
+  if (lock.current) return undefined;
+
+  lock.current = true;
+  try {
+    return await mutation();
+  } finally {
+    lock.current = false;
+  }
+};
+
 export const decideTemplateMutation = (
   operation: "create" | "update" | "delete",
   statusCode: number,
@@ -43,9 +66,9 @@ export const decideTemplateMutation = (
   if (operation === "create") {
     return statusCode === 200
       ? { message: "created", reload: true, close: true }
-      : { message: "response-error", reload: false, close: true };
+      : { message: "response-error", reload: false, close: false };
   }
   return statusCode === 200
     ? { message: "updated", reload: true, close: true }
-    : { message: "response-error", reload: false, close: true };
+    : { message: "response-error", reload: false, close: false };
 };

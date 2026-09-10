@@ -131,6 +131,14 @@ try {
     templateForm.validateTemplateForm({ ...form, content: "\n" }),
     "content-required",
   );
+  assert.equal(
+    templateForm.templateFormErrorMessage["name-required"],
+    "템플릿 이름을 입력해주세요.",
+  );
+  assert.equal(
+    templateForm.templateFormErrorMessage["content-required"],
+    "템플릿 코드를 입력해주세요.",
+  );
   assert.deepEqual(templateForm.buildUpdateTemplateRequest(form, "uuid"), {
     ...form,
     uuid: "uuid",
@@ -143,7 +151,7 @@ try {
   assert.deepEqual(templateForm.decideTemplateMutation("update", 500), {
     message: "response-error",
     reload: false,
-    close: true,
+    close: false,
   });
   assert.deepEqual(templateForm.decideTemplateMutation("create", 200), {
     message: "created",
@@ -153,13 +161,52 @@ try {
   assert.deepEqual(templateForm.decideTemplateMutation("create", 500), {
     message: "response-error",
     reload: false,
-    close: true,
+    close: false,
   });
   assert.deepEqual(templateForm.decideTemplateMutation("delete", 500), {
     message: "response-error",
     reload: false,
     close: false,
   });
+  let finishFirstMutation;
+  let mutationCount = 0;
+  const mutationLock = { current: false };
+  const firstMutation = templateForm.runExclusiveTemplateMutation(
+    mutationLock,
+    async () => {
+      mutationCount += 1;
+      await new Promise((resolve) => {
+        finishFirstMutation = resolve;
+      });
+      return "first";
+    },
+  );
+  const duplicateMutation = await templateForm.runExclusiveTemplateMutation(
+    mutationLock,
+    async () => {
+      mutationCount += 1;
+      return "duplicate";
+    },
+  );
+  assert.equal(duplicateMutation, undefined);
+  assert.equal(mutationCount, 1);
+  finishFirstMutation();
+  assert.equal(await firstMutation, "first");
+  assert.equal(mutationLock.current, false);
+  assert.equal(
+    await templateForm.runExclusiveTemplateMutation(
+      mutationLock,
+      async () => "next",
+    ),
+    "next",
+  );
+  await assert.rejects(
+    templateForm.runExclusiveTemplateMutation(mutationLock, async () => {
+      throw new Error("request failed");
+    }),
+    /request failed/,
+  );
+  assert.equal(mutationLock.current, false);
   assert.equal(
     submission.getSubmissionUrl({ source: "BOJ", sourceId: 1000 }),
     "https://www.acmicpc.net/submit/1000",
