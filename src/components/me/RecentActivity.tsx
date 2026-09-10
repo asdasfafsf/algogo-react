@@ -1,138 +1,26 @@
-import { Typography } from "@components/common";
-import { Button } from "@components/Button";
-import { memo } from "react";
+import { BookOpen } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 
-interface Activity {
-  action: string;
-  problem: string;
-  time: string;
-}
-
-interface RecentActivityProps {
-  activities?: Activity[];
-}
-
-export const RecentActivity = memo(({ activities }: RecentActivityProps) => {
-  const displayActivities = activities || [];
-
-  if (!displayActivities || displayActivities.length === 0) {
-    return (
-      <div className="rounded-xl border border-border bg-card">
-        <div className="flex flex-col items-center justify-center p-12 text-center">
-          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-            <svg
-              className="w-10 h-10 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-              />
-            </svg>
-          </div>
-
-          <Typography
-            variant="h4"
-            weight="bold"
-            className="mb-3 text-foreground"
-          >
-            아직 활동 내역이 없어요
-          </Typography>
-          <Typography
-            variant="medium"
-            weight="regular"
-            className="mb-8 max-w-md text-muted-foreground"
-          >
-            첫 번째 문제를 해결하고 활동을 시작해보세요!
-            <br />
-            꾸준한 활동으로 실력을 키워나갈 수 있습니다.
-          </Typography>
-
-          <div className="flex items-center gap-2 mt-8 text-sm text-gray-400">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <Typography
-              variant="small"
-              weight="regular"
-              className="text-gray-400"
-            >
-              문제를 해결하면 이곳에 활동 기록이 표시됩니다
-            </Typography>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+export default function RecentActivity() {
   return (
-    <div className="rounded-xl border border-border bg-card">
-      <div className="p-8">
-        <Typography variant="h4" weight="bold" className="mb-8 text-foreground">
-          최근 활동
-        </Typography>
-
-        <div className="space-y-4">
-          {displayActivities.map((activity, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 p-3 transition-colors rounded-xl hover:bg-gray-50"
-            >
-              <div className="w-2 h-2 rounded-full bg-emerald-500" />
-              <div className="flex-1">
-                <Typography
-                  variant="medium"
-                  weight="semibold"
-                  className="text-foreground"
-                >
-                  {activity.action}
-                </Typography>
-                <Typography
-                  variant="small"
-                  weight="regular"
-                  className="text-muted-foreground"
-                >
-                  {activity.problem}
-                </Typography>
-              </div>
-              <Typography
-                variant="small"
-                weight="regular"
-                className="text-gray-400"
-              >
-                {activity.time}
-              </Typography>
-            </div>
-          ))}
+    <Card className="border-border/60 shadow-sm">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 font-display text-lg">
+          <BookOpen className="size-5 text-muted-foreground" />
+          최근 풀이
+        </CardTitle>
+        <p className="text-sm text-muted-foreground">
+          최근에 해결한 문제를 확인하는 영역입니다.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="flex min-h-36 flex-col items-center justify-center rounded-lg border border-dashed bg-muted/20 px-6 text-center">
+          <p className="font-medium">최근 풀이를 준비하고 있어요</p>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+            풀이 기록이 쌓이면 최근 활동을 이곳에서 확인할 수 있습니다.
+          </p>
         </div>
-
-        <div className="mt-8 text-center">
-          <Button
-            variant="text"
-            color="blue"
-            size="small"
-            className="font-medium"
-          >
-            모든 활동 보기
-          </Button>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
-});
-
-export default RecentActivity;
+}

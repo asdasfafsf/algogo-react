@@ -1,63 +1,61 @@
-import { Typography } from "@components/common";
+import { Link2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import useConnectedInfo from "@hook/me/useConnectedInfo";
 import OAuthCard from "./OAuthCard";
 
-export default function OAuthConnectedInfo() {
-  const { me, handleDisconnect, handleConnect } = useConnectedInfo();
+const oauthPlatforms = [
+  {
+    provider: "google" as OAuthProvider,
+    name: "Google",
+    icon: "/google-mark.png",
+    description: "Google 계정으로 알고고에 로그인할 수 있습니다.",
+  },
+  {
+    provider: "kakao" as OAuthProvider,
+    name: "Kakao",
+    icon: "/kakao_icon.png",
+    description: "Kakao 계정으로 알고고에 로그인할 수 있습니다.",
+  },
+] as const;
 
-  // OAuth 플랫폼 정보
-  const oauthPlatforms = [
-    {
-      provider: "google" as OAuthProvider,
-      name: "Google",
-      icon: "google-mark.png",
-      description: "구글 계정으로 간편하게 로그인하세요",
-      isConnected: !!me?.oauthList.find((elem) => elem.provider === "google"),
-    },
-    {
-      provider: "kakao" as OAuthProvider,
-      name: "Kakao",
-      icon: "kakao-mark.jpg",
-      description: "카카오 계정으로 간편하게 로그인하세요",
-      isConnected: !!me?.oauthList.find((elem) => elem.provider === "kakao"),
-    },
-  ];
+export default function OAuthConnectedInfo() {
+  const { me, pendingAction, handleDisconnect, handleConnect } =
+    useConnectedInfo();
+
+  if (!me) return null;
 
   return (
-    <div className="rounded-xl border border-border bg-card">
-      <div className="p-8">
-        <div className="mb-8">
-          <Typography
-            variant="h4"
-            weight="bold"
-            className="mb-2 text-foreground"
-          >
-            계정 연동 관리
-          </Typography>
-          <Typography
-            variant="medium"
-            weight="regular"
-            className="text-muted-foreground"
-          >
-            외부 플랫폼과 연동하여 더 많은 기능을 이용하세요
-          </Typography>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {oauthPlatforms.map((platform) => (
+    <Card className="border-border/60 shadow-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 font-display text-lg">
+          <Link2 className="size-5 text-muted-foreground" />
+          로그인 계정 연결
+        </CardTitle>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          로그인에 사용할 계정을 연결하거나 해제할 수 있습니다.
+        </p>
+      </CardHeader>
+      <CardContent className="grid gap-4 sm:grid-cols-2">
+        {oauthPlatforms.map((platform) => {
+          const platformPending =
+            pendingAction?.provider === platform.provider
+              ? pendingAction.action
+              : null;
+          return (
             <OAuthCard
               key={platform.provider}
-              provider={platform.provider}
-              name={platform.name}
-              icon={platform.icon}
-              description={platform.description}
-              isConnected={platform.isConnected}
+              {...platform}
+              isConnected={me.oauthList.some(
+                ({ provider }) => provider === platform.provider,
+              )}
+              pendingAction={platformPending}
+              disabled={pendingAction !== null}
               onConnect={handleConnect}
               onDisconnect={handleDisconnect}
             />
-          ))}
-        </div>
-      </div>
-    </div>
+          );
+        })}
+      </CardContent>
+    </Card>
   );
 }

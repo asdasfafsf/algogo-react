@@ -1,163 +1,50 @@
-import { Button as ShadcnButton } from "@/components/ui/button";
-import { Typography, Tooltip } from "@components/common";
-import { Button } from "@components/Button";
-import { LinkIcon } from "@heroicons/react/24/outline";
+import { ExternalLink } from "lucide-react";
+import { Badge } from "@components/ui/badge";
+import { Button } from "@components/ui/button";
+import { Card, CardContent } from "@components/ui/card";
 
 interface ExternalSiteCardProps {
-  siteKey: string;
   name: string;
   description: string;
-  color: string;
   icon: string;
-  isConnected: boolean;
-  connectedId?: string;
-  isComingSoon?: boolean;
   siteUrl: string;
-  onDisconnect: (siteKey: string) => void;
 }
 
 export default function ExternalSiteCard({
-  siteKey,
   name,
   description,
-  color,
   icon,
-  isConnected,
-  connectedId,
-  isComingSoon = false,
   siteUrl,
-  onDisconnect,
 }: ExternalSiteCardProps) {
   return (
-    <div
-      className={`relative rounded-xl border border-border bg-background p-6 ${
-        isComingSoon
-          ? "opacity-75 cursor-not-allowed"
-          : "hover:border-primary/30"
-      }`}
-    >
-      {/* 우측 상단 링크 아이콘 */}
-      <div className="absolute top-4 right-4">
-        <Tooltip
-          content={isComingSoon ? "서비스 준비중" : `${name} 사이트로 이동`}
-          placement="top"
-        >
-          <ShadcnButton
-            variant="ghost"
-            size="sm"
-            type="button"
-            onClick={() => {
-              if (!isComingSoon) {
-                window.open(siteUrl, "_blank");
-              }
-            }}
-            className={`p-1.5 rounded-lg transition-all duration-200 ${
-              isComingSoon
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
-            }`}
-            disabled={isComingSoon}
-          >
-            <LinkIcon className="w-4 h-4" />
-          </ShadcnButton>
-        </Tooltip>
-      </div>
-
-      <div className="flex items-center gap-4 mb-4">
-        <div
-          className={`w-12 h-12 ${color} rounded-xl flex items-center justify-center text-white text-xl shadow-xs ${
-            isComingSoon ? "opacity-60" : ""
-          }`}
-        >
-          {icon}
-        </div>
-        <div className="flex-1 pr-8">
-          <div className="flex items-center gap-2">
-            <Typography
-              variant="h6"
-              weight="semibold"
-              className="text-foreground"
-            >
-              {name}
-            </Typography>
-            {isComingSoon && (
-              <span className="px-2 py-1 text-xs font-medium text-orange-600 bg-orange-100 border border-orange-200 rounded-full">
-                준비중
-              </span>
-            )}
+    <Card className="border-border/60 bg-background shadow-none">
+      <CardContent className="p-5">
+        <div className="flex items-start gap-4">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-muted text-xl">
+            <span aria-hidden="true">{icon}</span>
           </div>
-          <div className="flex items-center gap-2 mt-1">
-            <div
-              className={`w-2 h-2 rounded-full ${
-                isComingSoon
-                  ? "bg-orange-400"
-                  : isConnected
-                    ? "bg-emerald-500"
-                    : "bg-gray-300"
-              }`}
-            />
-            <Typography
-              variant="small"
-              weight="regular"
-              className={`${
-                isComingSoon
-                  ? "text-orange-600"
-                  : isConnected
-                    ? "text-emerald-600"
-                    : "text-gray-500"
-              }`}
-            >
-              {isComingSoon
-                ? "서비스 준비중"
-                : isConnected
-                  ? `연동됨 (${connectedId})`
-                  : "연동 안됨"}
-            </Typography>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-display font-semibold">{name}</p>
+              <Badge variant="secondary">준비 중</Badge>
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {description}
+            </p>
           </div>
         </div>
-      </div>
-
-      <Typography
-        variant="small"
-        weight="regular"
-        className="mb-6 leading-relaxed text-muted-foreground"
-      >
-        {description}
-      </Typography>
-
-      {isComingSoon ? (
         <Button
-          variant="outlined"
-          color="gray"
-          size="small"
-          className="w-full cursor-not-allowed opacity-60"
-          disabled
+          asChild
+          variant="ghost"
+          size="sm"
+          className="mt-4 text-muted-foreground"
         >
-          준비중
+          <a href={siteUrl} target="_blank" rel="noreferrer">
+            사이트 보기
+            <ExternalLink />
+          </a>
         </Button>
-      ) : isConnected ? (
-        <Button
-          variant="outlined"
-          color="red"
-          size="small"
-          className="w-full"
-          onClick={() => onDisconnect(siteKey)}
-        >
-          연동 해제
-        </Button>
-      ) : (
-        <Button
-          variant="filled"
-          color="blue"
-          size="small"
-          className="w-full shadow-xs"
-          onClick={() => {
-            // TODO: 확장 프로그램을 통한 연동 처리
-          }}
-        >
-          연동하기
-        </Button>
-      )}
-    </div>
+      </CardContent>
+    </Card>
   );
 }

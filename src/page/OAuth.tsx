@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import OAuthCallbackStatus from "@components/me/OAuthCallbackStatus";
 import useAlertModal from "../hook/useAlertModal";
 import { useMeStore } from "../zustand/MeStore";
 import { executeLegacyOAuthCallback } from "@/application/account/oauthCallback";
@@ -7,11 +8,16 @@ import { executeLegacyOAuthCallback } from "@/application/account/oauthCallback"
 export default function OAuth() {
   const [alert] = useAlertModal();
   const navigate = useNavigate();
-  const { fetchToken, fetchMe } = useMeStore((state) => state);
-  const params = new URLSearchParams(window.location.search);
-  const destination = params.get("destination") || "";
+  const fetchToken = useMeStore((state) => state.fetchToken);
+  const fetchMe = useMeStore((state) => state.fetchMe);
+  const destination =
+    new URLSearchParams(window.location.search).get("destination") ?? "";
+  const hasStarted = useRef(false);
 
   useEffect(() => {
+    if (hasStarted.current) return;
+    hasStarted.current = true;
+
     const handleTokens = async () => {
       const outcome = await executeLegacyOAuthCallback({
         destination,
@@ -26,19 +32,13 @@ export default function OAuth() {
       navigate(outcome.destination);
     };
 
-    handleTokens();
-  }, []);
+    void handleTokens();
+  }, [alert, destination, fetchMe, fetchToken, navigate]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="flex items-center justify-center">
-          {/* Spinner */}
-          <div className="w-16 h-16 border-t-4 border-gray-200 border-solid rounded-full animate-spin" />
-        </div>
-        <p className="mt-6 text-lg font-medium text-foreground">
-          잠시만 기다려주세요
-        </p>
-      </div>
-    </div>
+    <OAuthCallbackStatus
+      title="로그인을 확인하고 있습니다"
+      description="인증이 완료되면 요청하신 페이지로 이동합니다."
+    />
   );
 }

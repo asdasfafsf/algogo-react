@@ -7,81 +7,101 @@ import { AxiosError } from "axios";
 import {
   createProfileUpdateRequest,
   selectProfileImageAfterUpdate,
+  socialListToValues,
 } from "@/domain/account/profile";
 
 export default function useMyInfo() {
   const me = useMeStore((state) => state.me);
   const updateMe = useMeStore((state) => state.updateMe);
-  const fetchMe = useMeStore((state) => state.fetchMe);
   const [name, setName] = useState(me?.name ?? "");
   const [profilePhoto, setProfilePhoto] = useState<File>();
   const [image, setImage] = useState<string>(me?.profilePhoto ?? "");
-
-  useEffect(() => {
-    fetchMe().then((me) => {
-      if (me) {
-        setImage(me.profilePhoto ?? "");
-      }
-    });
-  }, []);
-
   const [confirm] = useConfirmModal();
   const [alert] = useAlertModal();
   const [isEditMode, setEditMode] = useState(false);
-  const handleEditMode = useCallback(async () => {
+  const [isSaving, setIsSaving] = useState(false);
+
+  const resetDraft = useCallback(() => {
+    if (!me) return;
+
+    setName(me.name ?? "");
+    setImage(me.profilePhoto ?? "");
+    setProfilePhoto(undefined);
+    const socialValues = socialListToValues(me.socialList);
+    const { setValue } = useSocialInputStore.getState();
+    Object.entries(socialValues).forEach(([provider, value]) => {
+      setValue(provider as SocialProvider, value);
+    });
+  }, [me]);
+
+  useEffect(() => {
+    if (!isEditMode) resetDraft();
+  }, [isEditMode, resetDraft]);
+
+  const handleEditMode = useCallback(() => {
     if (me === null) {
-      alert("로그인 후 이용해주세요.");
+      void alert("로그인 후 이용해주세요.");
       return;
     }
 
-    setName(me?.name || "");
-    setEditMode((prev) => !prev);
-  }, [setEditMode, me]);
+    resetDraft();
+    setEditMode(true);
+  }, [alert, me, resetDraft]);
 
   const handleSave = useCallback(async () => {
+    if (isSaving) return;
+
     if (me === null) {
-      alert("로그인 후 이용해주세요.");
+      await alert("로그인 후 이용해주세요.");
       return;
     }
 
-    const isOk = await confirm("적용하시겠습니까?");
-    if (!isOk) {
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      await alert("이름을 입력해주세요.");
       return;
     }
 
-    const { values } = useSocialInputStore.getState();
-    const requestUpdateMeDto = createProfileUpdateRequest(
-      name,
-      profilePhoto,
-      values,
-    );
-
+    setIsSaving(true);
     try {
+      const isOk = await confirm("적용하시겠습니까?");
+      if (!isOk) return;
+
+      const { values } = useSocialInputStore.getState();
+      const requestUpdateMeDto = createProfileUpdateRequest(
+        trimmedName,
+        profilePhoto,
+        values,
+      );
       const res = await updateMe(requestUpdateMeDto);
-      setImage(selectProfileImageAfterUpdate(res, me.profilePhoto ?? ""));
       if (res.errorCode !== "0000") {
-        alert(res.errorMessage);
+        await alert(res.errorMessage || "저장 중 오류가 발생했습니다.");
+        return;
       }
-    } catch (error) {
-      setImage(me.profilePhoto ?? "");
-      if (error instanceof AxiosError) {
-        alert("저장 중 오류가 발생했습니다.");
-      }
-    } finally {
+
+      setImage(selectProfileImageAfterUpdate(res, me.profilePhoto ?? ""));
+      setProfilePhoto(undefined);
       setEditMode(false);
+    } catch (error) {
+      const message =
+        error instanceof AxiosError
+          ? "저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+          : "프로필을 저장하지 못했습니다. 다시 시도해주세요.";
+      await alert(message);
+    } finally {
+      setIsSaving(false);
     }
-  }, [me, name, profilePhoto, updateMe]);
+  }, [alert, confirm, isSaving, me, name, profilePhoto, updateMe]);
 
   const handleCancel = useCallback(() => {
     if (me === null) {
-      alert("로그인 후 이용해주세요.");
+      void alert("로그인 후 이용해주세요.");
       return;
     }
 
-    setImage(me.profilePhoto ?? "");
-    setProfilePhoto(undefined);
-    setEditMode((prev) => !prev);
-  }, [setEditMode, me]);
+    resetDraft();
+    setEditMode(false);
+  }, [alert, me, resetDraft]);
 
   const handleChangeName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +121,7 @@ export default function useMyInfo() {
   return {
     me,
     isEditMode,
+    isSaving,
     image,
     handleEditMode,
     handleSave,

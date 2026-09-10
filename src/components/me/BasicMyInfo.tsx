@@ -1,14 +1,16 @@
-import { Button as ShadcnButton } from "@/components/ui/button";
-import { Card } from "@components/Card/index";
-import { Typography, ProfilePhoto } from "@components/common/index";
-import { Input } from "@components/Input/index";
+import { useRef } from "react";
+import { Camera, Check, Loader2, Pencil, ShieldCheck, X } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { Button } from "@components/ui/button";
+import { Card, CardContent } from "@components/ui/card";
+import { Input } from "@components/ui/input";
 import useMyInfo from "@hook/me/useMyInfo";
-import { PencilIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function BasicMyInfo() {
   const {
     me,
     isEditMode,
+    isSaving,
     image,
     handleEditMode,
     handleSave,
@@ -17,222 +19,158 @@ export default function BasicMyInfo() {
     handleChangeName,
     handleChangeProfilePhoto,
   } = useMyInfo();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  if (!me) return null;
+
+  const fallback = me.name.trim().charAt(0).toUpperCase() || "A";
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        void handleChangeProfilePhoto(event, file, reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  };
 
   return (
-    <div className="relative">
-      {/* 배경 그라데이션 */}
-      <div className="hidden" />
-
-      <Card className="relative overflow-hidden rounded-xl border border-border bg-card shadow-none">
-        {isEditMode ? (
-          <div className="p-6 sm:p-8">
-            {/* 편집 모드 헤더 */}
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <Typography
-                  variant="h4"
-                  weight="bold"
-                  className="mb-1 text-foreground"
-                >
-                  프로필 편집
-                </Typography>
-                <Typography variant="small" className="text-muted-foreground">
-                  나만의 프로필을 완성해보세요
-                </Typography>
-              </div>
-              <div className="flex gap-2">
-                <ShadcnButton
-                  variant="ghost"
-                  size="sm"
-                  type="button"
-                  aria-label="프로필 편집 취소"
-                  onClick={handleCancel}
-                  className="p-3 text-gray-600 transition-all duration-200 bg-gray-100 rounded-full hover:text-gray-800 hover:bg-gray-200"
-                >
-                  <XMarkIcon className="w-5 h-5" />
-                </ShadcnButton>
-                <ShadcnButton
-                  variant="ghost"
-                  size="sm"
-                  type="button"
-                  aria-label="프로필 저장"
-                  onClick={handleSave}
-                  className="p-3 text-white transition-all duration-200 bg-blue-500 rounded-full hover:bg-blue-600"
-                >
-                  <CheckIcon className="w-5 h-5" />
-                </ShadcnButton>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
-              {/* 프로필 사진 섹션 */}
-              <div className="shrink-0">
-                <div className="relative group">
-                  <div className="absolute transition duration-300 rounded-full opacity-25 -inset-1 bg-linear-to-r from-blue-500 to-indigo-600 blur-sm group-hover:opacity-40" />
-                  <div className="relative">
-                    <ProfilePhoto
-                      handleChange={handleChangeProfilePhoto}
-                      src={image}
-                      isEditable
-                      size="large"
-                      className="transition-all duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* 정보 입력 섹션 */}
-              <div className="flex-1 space-y-8">
-                <div className="space-y-6">
-                  <div className="group">
-                    <label
-                      htmlFor="profile-name"
-                      className="mb-3 block text-xs font-semibold text-foreground"
-                    >
-                      이름
-                    </label>
-                    <div className="relative">
-                      <Input
-                        id="profile-name"
-                        onChange={handleChangeName}
-                        value={name}
-                        className="h-12 w-full rounded-lg border border-input bg-background px-4 text-sm focus:border-primary focus:ring-0"
-                        placeholder="이름을 입력하세요"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="group">
-                    <label
-                      htmlFor="profile-email"
-                      className="mb-3 block text-xs font-semibold text-foreground"
-                    >
-                      이메일
-                    </label>
-                    <div className="relative">
-                      <Input
-                        id="profile-email"
-                        disabled
-                        value={me?.email}
-                        className="h-12 w-full cursor-not-allowed rounded-lg border border-input bg-muted px-4 text-sm"
-                      />
-                      <div className="absolute transform -translate-y-1/2 right-4 top-1/2">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                      </div>
-                    </div>
-                    <Typography
-                      variant="small"
-                      className="flex items-center gap-1 mt-2 text-gray-400"
-                    >
-                      <svg
-                        className="w-3 h-3"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      가입 시 등록된 이메일입니다
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <Card className="relative overflow-hidden border-border/60 shadow-sm">
+      <div className="h-2 bg-linear-to-r from-primary via-blue-500 to-primary/60" />
+      <CardContent className="p-6 sm:p-8">
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h1 className="font-display text-xl font-bold sm:text-2xl">
+              {isEditMode ? "프로필 편집" : "내 프로필"}
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {isEditMode
+                ? "표시할 이름과 프로필 이미지를 변경할 수 있습니다."
+                : "계정 정보와 연결 상태를 관리하세요."}
+            </p>
           </div>
-        ) : (
-          <div className="p-6 sm:p-8">
-            {/* 프로필 표시 모드 */}
-            <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start">
-              {/* 프로필 사진 */}
-              <div className="shrink-0">
-                <div className="relative group">
-                  <div className="absolute rounded-full -inset-1 bg-linear-to-r from-blue-500 to-indigo-600 blur-sm opacity-20" />
-                  <div className="relative">
-                    <ProfilePhoto src={image} isEditable={false} size="large" />
-                  </div>
-                </div>
-              </div>
 
-              {/* 프로필 정보 */}
-              <div className="flex-1 space-y-4 text-center lg:text-left">
-                <div>
-                  <Typography
-                    variant="h4"
-                    weight="bold"
-                    className="mb-2 text-foreground"
-                  >
-                    {me?.name || "이름 없음"}
-                  </Typography>
-                  <Typography
-                    variant="medium"
-                    className="mb-4 text-muted-foreground"
-                  >
-                    {me?.email || "이메일 정보가 없습니다"}
-                  </Typography>
-                  {me?.email && (
-                    <div className="inline-flex items-center gap-2 rounded-full bg-muted px-4 py-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
-                      <Typography
-                        variant="small"
-                        className="font-medium text-muted-foreground"
-                      >
-                        인증된 계정
-                      </Typography>
-                    </div>
-                  )}
-                </div>
-
-                {/* 통계 정보 */}
-                <div className="flex flex-wrap gap-8 pt-6">
-                  <div className="text-center">
-                    <Typography
-                      variant="h5"
-                      weight="bold"
-                      className="text-primary"
-                    >
-                      0
-                    </Typography>
-                    <Typography variant="small" className="text-gray-500">
-                      해결한 문제
-                    </Typography>
-                  </div>
-                  <div className="text-center">
-                    <Typography
-                      variant="h5"
-                      weight="bold"
-                      className="text-indigo-600"
-                    >
-                      0
-                    </Typography>
-                    <Typography variant="small" className="text-gray-500">
-                      연속 일수
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-
-              {/* 편집 버튼 */}
-              <div className="shrink-0">
-                <ShadcnButton
-                  variant="ghost"
-                  size="sm"
-                  type="button"
-                  onClick={handleEditMode}
-                  className="px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-blue-500 rounded-full hover:bg-blue-600"
-                >
-                  <div className="flex items-center gap-2">
-                    <PencilIcon className="w-4 h-4" />
-                    <span>편집</span>
-                  </div>
-                </ShadcnButton>
-              </div>
+          {isEditMode ? (
+            <div className="flex shrink-0 gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label="프로필 편집 취소"
+                disabled={isSaving}
+                onClick={handleCancel}
+              >
+                <X />
+              </Button>
+              <Button
+                size="icon"
+                aria-label="프로필 저장"
+                disabled={isSaving || !name.trim()}
+                onClick={() => void handleSave()}
+              >
+                {isSaving ? <Loader2 className="animate-spin" /> : <Check />}
+              </Button>
             </div>
+          ) : (
+            <Button variant="outline" size="sm" onClick={handleEditMode}>
+              <Pencil />
+              프로필 편집
+            </Button>
+          )}
+        </div>
+
+        <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+          <div className="relative shrink-0">
+            <div className="rounded-full bg-linear-to-br from-primary via-blue-400 to-primary/40 p-[3px]">
+              <Avatar className="size-24 border-2 border-background sm:size-28">
+                <AvatarImage src={image} alt={`${me.name} 프로필`} />
+                <AvatarFallback className="bg-muted text-2xl font-bold">
+                  {fallback}
+                </AvatarFallback>
+              </Avatar>
+            </div>
+            {isEditMode && (
+              <>
+                <Button
+                  type="button"
+                  size="icon"
+                  className="absolute bottom-0 right-0 size-9 rounded-full border-2 border-background"
+                  aria-label="프로필 이미지 선택"
+                  disabled={isSaving}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Camera />
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="sr-only"
+                  aria-label="프로필 이미지 파일"
+                  onChange={handleImageChange}
+                />
+              </>
+            )}
           </div>
-        )}
-      </Card>
-    </div>
+
+          <div className="min-w-0 flex-1 space-y-5 text-center sm:text-left">
+            {isEditMode ? (
+              <div className="grid gap-5">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="profile-name"
+                    className="block text-sm font-medium"
+                  >
+                    이름
+                  </label>
+                  <Input
+                    id="profile-name"
+                    value={name}
+                    maxLength={50}
+                    autoComplete="name"
+                    disabled={isSaving}
+                    placeholder="이름을 입력하세요"
+                    onChange={handleChangeName}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="profile-email"
+                    className="block text-sm font-medium"
+                  >
+                    이메일
+                  </label>
+                  <Input
+                    id="profile-email"
+                    value={me.email}
+                    disabled
+                    className="min-w-0 text-ellipsis"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    가입한 OAuth 계정의 이메일은 변경할 수 없습니다.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <h2 className="break-words font-display text-2xl font-bold tracking-tight">
+                  {me.name}
+                </h2>
+                <p className="break-all text-sm text-muted-foreground">
+                  {me.email}
+                </p>
+                <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+                  <ShieldCheck className="size-4" />
+                  로그인 확인된 계정
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,5 +1,5 @@
-import Login from './Login';
+import Login from "./Login";
 
 export default function SignUp() {
-  return <Login name="회원가입" />;
+  return <Login mode="signup" />;
 }

@@ -1,5 +1,5 @@
 import useMeStore from "@zustand/MeStore";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import useConfirmModal from "@hook/useConfirmModal";
 import {
   createOAuthEntryUrl,
@@ -10,11 +10,13 @@ export default function useConnectedInfo() {
   const { VITE_ENV } = import.meta.env;
   const me = useMeStore((state) => state.me);
   const [confirm] = useConfirmModal();
+  const [pendingAction, setPendingAction] = useState<{
+    provider: OAuthProvider;
+    action: "connect" | "disconnect";
+  } | null>(null);
   const handleConnect = useCallback(
     async (_: unknown, provider: OAuthProvider) => {
-      if (!me) {
-        return;
-      }
+      if (!me || pendingAction) return;
 
       const isOk = await confirm("연동하시겠습니까?");
 
@@ -22,6 +24,7 @@ export default function useConnectedInfo() {
         return;
       }
 
+      setPendingAction({ provider, action: "connect" });
       window.location.href = createOAuthEntryUrl({
         environment: VITE_ENV,
         provider,
@@ -29,10 +32,12 @@ export default function useConnectedInfo() {
         action: "connect",
       });
     },
-    [me],
+    [confirm, me, pendingAction],
   );
   const handleDisconnect = useCallback(
     async (_: unknown, provider: OAuthProvider) => {
+      if (!me || pendingAction) return;
+
       const oauthList = me?.oauthList ?? [];
       const message = disconnectConfirmation(oauthList.length);
       const isOk = await confirm(message);
@@ -41,6 +46,7 @@ export default function useConnectedInfo() {
         return;
       }
 
+      setPendingAction({ provider, action: "disconnect" });
       window.location.href = createOAuthEntryUrl({
         environment: VITE_ENV,
         provider,
@@ -48,11 +54,12 @@ export default function useConnectedInfo() {
         action: "disconnect",
       });
     },
-    [me],
+    [confirm, me, pendingAction],
   );
 
   return {
     me,
+    pendingAction,
     handleConnect,
     handleDisconnect,
   };

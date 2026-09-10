@@ -1,19 +1,13 @@
 import { oauthConnectV2 } from "@api/oauth-v2";
+import OAuthCallbackStatus from "@components/me/OAuthCallbackStatus";
 import useOAuthCallback from "@hook/me/useOAuthCallback";
 
-export default function OAuthV2Callback() {
+export default function OAuthV2ConnectCallback() {
   useOAuthCallback("connect", oauthConnectV2);
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="flex items-center justify-center">
-          {/* Spinner */}
-          <div className="w-16 h-16 border-t-4 border-gray-200 border-solid rounded-full animate-spin" />
-        </div>
-        <p className="mt-6 text-lg font-medium text-foreground">
-          잠시만 기다려주세요
-        </p>
-      </div>
-    </div>
+    <OAuthCallbackStatus
+      title="계정 연결을 확인하고 있습니다"
+      description="연결이 완료되면 마이페이지로 돌아갑니다."
+    />
   );
 }

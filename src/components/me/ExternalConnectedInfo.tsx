@@ -1,97 +1,39 @@
-import { Typography } from "@components/common";
-import { useState } from "react";
-import useConfirmModal from "@hook/useConfirmModal";
-import useAlertModal from "@hook/useAlertModal";
+import { Code2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import ExternalSiteCard from "./ExternalSiteCard";
 
+const externalSites = [
+  {
+    name: "백준 Online Judge",
+    description: "백준에서 해결한 문제를 가져오는 기능입니다.",
+    icon: "🏆",
+    siteUrl: "https://www.acmicpc.net",
+  },
+  {
+    name: "Codeforces",
+    description: "Codeforces에서 해결한 문제를 가져오는 기능입니다.",
+    icon: "🚀",
+    siteUrl: "https://codeforces.com",
+  },
+] as const;
+
 export default function ExternalConnectedInfo() {
-  // 외부 사이트 계정 연동 상태 관리
-  const [externalAccounts, setExternalAccounts] = useState({
-    baekjoon: { id: "", isConnected: false },
-    codeforces: { id: "", isConnected: false },
-  });
-
-  const [confirm] = useConfirmModal();
-  const [alert] = useAlertModal();
-
-  // 외부 사이트 계정 연동/해제 핸들러
-  const handleExternalDisconnect = async (siteKey: string) => {
-    const result = await confirm(`${siteKey} 계정 연동을 해제하시겠습니까?`);
-    if (result) {
-      // TODO: API 호출로 실제 연동 해제 처리
-      setExternalAccounts((prev) => ({
-        ...prev,
-        [siteKey]: { id: "", isConnected: false },
-      }));
-
-      await alert(`${siteKey} 계정 연동이 해제되었습니다.`);
-    }
-  };
-
-  // 외부 사이트 정보
-  const externalSites = [
-    {
-      key: "baekjoon",
-      name: "백준 Online Judge",
-      description: "백준에서 해결한 문제들을 가져옵니다",
-      color: "bg-linear-to-r from-blue-600 to-blue-700",
-      icon: "🏆",
-      siteUrl: "https://www.acmicpc.net",
-      isComingSoon: true,
-    },
-    {
-      key: "codeforces",
-      name: "Codeforces",
-      description: "Codeforces에서 해결한 문제들을 가져옵니다",
-      color: "bg-linear-to-r from-red-500 to-red-600",
-      icon: "🚀",
-      siteUrl: "https://codeforces.com",
-      isComingSoon: true,
-    },
-  ];
-
   return (
-    <div className="rounded-xl border border-border bg-card">
-      <div className="p-8">
-        <div className="mb-8">
-          <Typography
-            variant="h4"
-            weight="bold"
-            className="mb-2 text-foreground"
-          >
-            외부 사이트 계정 연동
-          </Typography>
-          <Typography
-            variant="medium"
-            weight="regular"
-            className="text-muted-foreground"
-          >
-            코딩 테스트 사이트의 계정을 연동하여 풀이 기록을 가져오세요
-          </Typography>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {externalSites.map((site) => {
-            const account =
-              externalAccounts[site.key as keyof typeof externalAccounts];
-            return (
-              <ExternalSiteCard
-                key={site.key}
-                siteKey={site.key}
-                name={site.name}
-                description={site.description}
-                color={site.color}
-                icon={site.icon}
-                isConnected={account.isConnected}
-                connectedId={account.id}
-                isComingSoon={site.isComingSoon}
-                siteUrl={site.siteUrl}
-                onDisconnect={handleExternalDisconnect}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </div>
+    <Card className="border-border/60 shadow-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 font-display text-lg">
+          <Code2 className="size-5 text-muted-foreground" />
+          풀이 사이트 연결
+        </CardTitle>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          아직 제공되지 않는 기능입니다.
+        </p>
+      </CardHeader>
+      <CardContent className="grid gap-4 sm:grid-cols-2">
+        {externalSites.map((site) => (
+          <ExternalSiteCard key={site.name} {...site} />
+        ))}
+      </CardContent>
+    </Card>
   );
 }
