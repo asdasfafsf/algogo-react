@@ -275,6 +275,13 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
+  --color-tier-bronze: hsl(var(--tier-bronze));
+  --color-tier-silver: hsl(var(--tier-silver));
+  --color-tier-gold: hsl(var(--tier-gold));
+  --color-tier-platinum: hsl(var(--tier-platinum));
+  --color-tier-diamond: hsl(var(--tier-diamond));
+  --color-tier-ruby: hsl(var(--tier-ruby));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -453,6 +460,12 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --tier-bronze: 25 80% 45%;
+    --tier-silver: 215 20% 46%;
+    --tier-gold: 43 96% 50%;
+    --tier-platinum: 170 65% 38%;
+    --tier-diamond: 217 91% 60%;
+    --tier-ruby: 348 83% 52%;
     --radius: 0.75rem;
   }
   .dark {
@@ -480,6 +493,12 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --tier-bronze: 25 80% 56%;
+    --tier-silver: 215 18% 68%;
+    --tier-gold: 43 96% 58%;
+    --tier-platinum: 170 65% 50%;
+    --tier-diamond: 217 91% 67%;
+    --tier-ruby: 348 83% 62%;
   }
 }
 @layer base {

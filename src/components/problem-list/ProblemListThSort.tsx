@@ -1,54 +1,35 @@
-import { Button } from "@/components/ui/button";
-import { TableHead as ShadcnTableHead } from "@/components/ui/table";
-import { Typography } from "@components/common";
-import { PlayIcon } from "@heroicons/react/24/solid";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { TableHead } from "@components/ui/table";
 
 interface ProblemThSortProps {
   className?: string;
+  align?: "left" | "center";
   sort: 0 | 1 | 2;
   children: React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void | Promise<void>;
 }
 
 export default function ProblemThSort({
   sort,
   children,
   className = "",
+  align = "left",
   onClick = () => {},
 }: ProblemThSortProps) {
   return (
-    <ShadcnTableHead
+    <TableHead
       aria-sort={sort === 1 ? "ascending" : sort === 2 ? "descending" : "none"}
-      className={`${className} w-24`}
+      className={`cursor-pointer select-none hover:bg-muted/50 ${className}`}
+      onClick={onClick}
     >
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onClick}
-        className="h-auto p-0 font-semibold"
+      <button
+        type="button"
+        className={`flex w-full items-center gap-1 text-sm font-medium text-muted-foreground ${align === "center" ? "justify-center" : "justify-start"}`}
       >
-        <Typography
-          className="flex items-center"
-          weight="semibold"
-          variant="medium"
-        >
-          {children}
-        </Typography>
-        <div className="pb-0.5 relative">
-          <PlayIcon
-            fill="fill"
-            fillOpacity={sort === 1 ? 1 : 0.45}
-            opacity={sort === 1 ? 1 : 0.45}
-            className="relative w-2 h-2 transform -rotate-90"
-          />
-          <PlayIcon
-            fill="fill"
-            fillOpacity={sort === 2 ? 1 : 0.45}
-            opacity={sort === 2 ? 1 : 0.45}
-            className="relative w-2 h-2 transform rotate-90"
-          />
-        </div>
-      </Button>
-    </ShadcnTableHead>
+        {children}
+        {sort === 1 && <ChevronUp className="size-4" />}
+        {sort === 2 && <ChevronDown className="size-4" />}
+      </button>
+    </TableHead>
   );
 }

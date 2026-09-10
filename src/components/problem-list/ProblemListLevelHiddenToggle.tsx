@@ -1,7 +1,12 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { Eye, EyeOff, Tags } from "lucide-react";
 import { useProblemTableFilterStore } from "@zustand/ProblemTableFilterStore";
-import { Toggle } from "@components/ui/toggle";
-import { Tooltip } from "../common";
+import { Button } from "@components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
 
 export default function ProblemListLevelHiddenToggle() {
   const problemHidden = useProblemTableFilterStore(
@@ -11,29 +16,56 @@ export default function ProblemListLevelHiddenToggle() {
     (state) => state.setProblemHidden,
   );
 
-  const handleToggle = () => {
-    setProblemHidden((prev) => {
-      prev["난이도"] = !prev["난이도"];
-      return { ...prev };
-    });
+  const toggle = (column: "난이도" | "카테고리") => {
+    setProblemHidden((previous) => ({
+      ...previous,
+      [column]: !previous[column],
+    }));
   };
 
   return (
-    <Tooltip
-      content={problemHidden["난이도"] ? "난이도 보이기" : "난이도 숨기기"}
-    >
-      <Toggle
-        onClick={handleToggle}
-        pressed={problemHidden["난이도"]}
-        aria-label={problemHidden["난이도"] ? "난이도 보이기" : "난이도 숨기기"}
-        className="h-9 w-10 border border-input bg-background text-muted-foreground hover:bg-accent data-[state=on]:bg-accent data-[state=on]:text-primary"
-      >
-        {problemHidden["난이도"] ? (
-          <EyeSlashIcon className="w-9 h-9" />
-        ) : (
-          <EyeIcon className="w-9 h-9" />
-        )}
-      </Toggle>
-    </Tooltip>
+    <TooltipProvider delayDuration={100}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="w-11"
+            onClick={() => toggle("난이도")}
+            aria-label={
+              problemHidden["난이도"] ? "난이도 보기" : "난이도 숨기기"
+            }
+          >
+            {problemHidden["난이도"] ? <EyeOff size={16} /> : <Eye size={16} />}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          {problemHidden["난이도"] ? "난이도 보기" : "난이도 숨기기"}
+        </TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="w-11"
+            onClick={() => toggle("카테고리")}
+            aria-label={
+              problemHidden["카테고리"] ? "카테고리 보기" : "카테고리 숨기기"
+            }
+          >
+            <Tags
+              size={16}
+              className={problemHidden["카테고리"] ? "opacity-50" : undefined}
+            />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          {problemHidden["카테고리"] ? "카테고리 보기" : "카테고리 숨기기"}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

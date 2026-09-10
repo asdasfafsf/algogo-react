@@ -1,30 +1,80 @@
-import { Typography } from "@components/common/index";
 import ProblemLevelDropdown from "./ProblemLevelDropdown";
 import ProblemListLevelHiddenToggle from "./ProblemListLevelHiddenToggle";
 import ProblemListSearcher from "./ProblemListSearcher";
 import ProblemListTableFilter from "./ProblemListTableFilter";
 import ProblemStateDropdown from "./ProblemStateDropdown";
 import ProblemTypeDropdown from "./ProblemTypeDropdown";
+import useProblemListStore from "@zustand/ProblemListStore";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select";
+
+const PAGE_SIZE_OPTIONS = [10, 20, 50] as const;
 
 export default function ProblemListCardHeader() {
   return (
-    <div className="flex flex-wrap justify-between gap-4 mb-5 rounded-none">
-      <div className="w-full">
-        <div className="w-full h-10">
-          <Typography variant="h5">모든 문제</Typography>
-        </div>
-        <div className="grid w-full gap-3 md:grid-cols-2 md:items-center">
-          <ProblemListSearcher />
-          <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
-            <ProblemTypeDropdown />
-            <ProblemLevelDropdown />
-            <ProblemStateDropdown />
-            <ProblemListLevelHiddenToggle />
-          </div>
-        </div>
-
-        <ProblemListTableFilter />
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-lg font-semibold tracking-tight">전체 문제</h2>
+        <ProblemListSummary />
       </div>
+      <div className="flex flex-col gap-4 lg:flex-row">
+        <div className="flex-1">
+          <ProblemListSearcher />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <ProblemLevelDropdown />
+          <ProblemTypeDropdown />
+          <ProblemStateDropdown />
+          <ProblemListLevelHiddenToggle />
+        </div>
+      </div>
+      <ProblemListTableFilter />
+    </div>
+  );
+}
+
+function ProblemListSummary() {
+  const pagingInfo = useProblemListStore((state) => state.pagingInfo);
+  const setPagingInfo = useProblemListStore((state) => state.setPagingInfo);
+  const totalCount = useProblemListStore((state) => state.totalCount);
+  const isFetching = useProblemListStore((state) => state.isFetching);
+
+  return (
+    <div className="flex items-center gap-3">
+      <Select
+        value={String(pagingInfo.pageSize)}
+        onValueChange={(value) =>
+          setPagingInfo({ pageNo: 1, pageSize: Number(value) })
+        }
+      >
+        <SelectTrigger
+          aria-label="페이지당 문제 수"
+          className="h-8 w-auto cursor-pointer gap-1 text-xs"
+        >
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {PAGE_SIZE_OPTIONS.map((size) => (
+            <SelectItem
+              key={size}
+              value={String(size)}
+              className="cursor-pointer"
+            >
+              {size}개씩 보기
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {!isFetching && (
+        <span className="text-sm text-muted-foreground">
+          {totalCount}개의 문제
+        </span>
+      )}
     </div>
   );
 }

@@ -1,14 +1,12 @@
-import { Pagebar } from '@components/Pagebar/index';
-import useProblemListPagebar from '@hook/problem-list/useProblemListPagebar';
+import { Pagebar } from "@components/Pagebar/index";
+import useProblemListPagebar from "@hook/problem-list/useProblemListPagebar";
 
 export default function ProblemListCardFooter() {
-  const {
-    pagingInfo,
-    maxPageNo,
-    handleChangePageNo,
-  } = useProblemListPagebar();
+  const { pagingInfo, maxPageNo, handleChangePageNo } = useProblemListPagebar();
+  if (maxPageNo < 1) return null;
+
   return (
-    <div className="flex items-center w-full h-20">
+    <div className="mt-4 flex w-full items-center">
       <Pagebar
         currentPage={pagingInfo.pageNo}
         displayedPageRange={10}

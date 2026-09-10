@@ -1,13 +1,15 @@
-import { Typography } from "@components/common";
 import { Checkbox } from "@components/Checkbox/index";
 import { Dropdown } from "@components/Dropdown/index";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDown, ListChecks } from "lucide-react";
 import React from "react";
 import useProblemStateDropdown from "@/hook/problem-list/useProblemStateDropdown";
 
 export default React.memo(() => {
   const { open, handler, problemStateList, handleClick } =
     useProblemStateDropdown();
+  const selectedCount = problemStateList.filter(
+    (item) => item.isSelected,
+  ).length;
   return (
     <Dropdown
       align="bottom-left"
@@ -16,12 +18,17 @@ export default React.memo(() => {
       className="px-0 py-0"
       showArrow={false}
     >
-      <div
-        className={`flex cursor-pointer items-center gap-1 rounded-md border p-2 ${open ? "border-primary/30 bg-accent text-accent-foreground" : "border-input bg-background text-foreground hover:bg-accent"}`}
-      >
-        <Typography variant="medium">상태</Typography>
-        <ChevronDownIcon
-          className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+      <div className="flex h-10 w-[200px] cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-background px-4 transition-colors hover:border-foreground/30 hover:bg-accent/60">
+        <div className="flex min-w-0 items-center gap-2">
+          <ListChecks
+            className={`size-4 shrink-0 ${selectedCount > 0 ? "text-green-600" : "opacity-50"}`}
+          />
+          <span className="truncate text-sm font-medium">
+            {selectedCount > 0 ? `상태 (${selectedCount})` : "상태"}
+          </span>
+        </div>
+        <ChevronDown
+          className={`size-3.5 shrink-0 opacity-40 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </div>
 
