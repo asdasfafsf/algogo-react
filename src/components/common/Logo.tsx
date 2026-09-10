@@ -1,25 +1,25 @@
 interface LogoProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   className?: string;
   color?: string;
 }
 
 const sizeMap = {
-  small: 'w-8 h-8',
-  medium: 'w-12 h-12',
-  large: 'w-16 h-16',
+  small: "w-8 h-8",
+  medium: "w-12 h-12",
+  large: "w-16 h-16",
 };
 
-export default function Logo({ size = 'medium', className = '', color = 'blue-500' }: LogoProps) {
+export default function Logo({ size = "medium", className = "" }: LogoProps) {
   return (
-    <div className={`relative ${sizeMap[size]} ${className}`}>
-      <div className="relative flex items-center justify-center w-full h-full rounded-full">
-        {/* Left Bracket */}
-        <div className={`absolute left-[15%] w-[30%] h-[70%] border-2 border-r-0 border-${color} rounded-l-md animate-pulse`} />
-        {/* Right Bracket */}
-        <div className={`absolute right-[15%] w-[30%] h-[70%] border-2 border-l-0 border-${color} rounded-r-md animate-pulse`} />
-        {/* Center Dot */}
-        <div className={`w-[25%] h-[25%] bg-${color} rounded-full animate-bounce`} />
+    <div
+      className={`relative ${sizeMap[size]} ${className}`}
+      aria-hidden="true"
+    >
+      <div className="relative flex h-full w-full items-center justify-center">
+        <div className="absolute left-[15%] h-[70%] w-[30%] rounded-l-md border-2 border-r-0 border-current" />
+        <div className="absolute right-[15%] h-[70%] w-[30%] rounded-r-md border-2 border-l-0 border-current" />
+        <div className="h-[25%] w-[25%] rounded-full bg-current" />
       </div>
     </div>
   );

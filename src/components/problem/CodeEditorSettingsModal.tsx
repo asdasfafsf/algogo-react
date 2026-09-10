@@ -46,10 +46,10 @@ export default function CodeEditorSettingsModal() {
             문제 표시와 코드 편집기 설정을 변경합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="rounded-2xl bg-white w-full max-w-full shadow-2xl animate-in fade-in duration-200">
+        <div className="w-full max-w-full animate-in rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl fade-in duration-200">
           {/* 헤더 */}
           <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
-            <Typography variant="h6" className="font-bold text-gray-800">
+            <Typography variant="h6" className="font-bold text-foreground">
               화면 설정
             </Typography>
           </div>
@@ -62,7 +62,7 @@ export default function CodeEditorSettingsModal() {
                 <Typography
                   variant="paragraph"
                   weight="semibold"
-                  className="mb-4 text-gray-700"
+                  className="mb-4 text-foreground"
                 >
                   문제 설정
                 </Typography>
@@ -77,7 +77,7 @@ export default function CodeEditorSettingsModal() {
                 <Typography
                   variant="paragraph"
                   weight="semibold"
-                  className="mb-4 text-gray-700"
+                  className="mb-4 text-foreground"
                 >
                   에디터 설정
                 </Typography>

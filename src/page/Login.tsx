@@ -35,12 +35,12 @@ export default function Login({ name = "로그인" }: LoginProps) {
     window.location.href = url;
   };
   return (
-    <section className="grid min-h-dvh place-items-center bg-muted/30 px-4 py-12">
+    <section className="relative grid min-h-dvh place-items-center overflow-hidden bg-background px-4 py-12 before:absolute before:left-1/2 before:top-0 before:h-96 before:w-[44rem] before:-translate-x-1/2 before:rounded-full before:bg-primary/10 before:blur-3xl">
       <div className="w-full max-w-md space-y-6">
         <div className="flex justify-center">
           <LogoWithText size="medium" />
         </div>
-        <Card className="gap-0 overflow-hidden border-border/80 p-0 shadow-sm">
+        <Card className="gap-0 overflow-hidden border-border/80 bg-card/85 p-0 shadow-xl shadow-black/10 backdrop-blur">
           <CardHeader className="space-y-2 px-8 pt-8 text-center">
             <CardTitle className="text-2xl">{name}</CardTitle>
             <CardDescription>

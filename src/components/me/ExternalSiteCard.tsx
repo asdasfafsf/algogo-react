@@ -30,10 +30,10 @@ export default function ExternalSiteCard({
 }: ExternalSiteCardProps) {
   return (
     <div
-      className={`p-6 transition-all duration-300 bg-white border border-gray-200 rounded-2xl relative ${
+      className={`relative rounded-xl border border-border bg-background p-6 ${
         isComingSoon
           ? "opacity-75 cursor-not-allowed"
-          : "hover:border-gray-300 hover:shadow-md"
+          : "hover:border-primary/30"
       }`}
     >
       {/* 우측 상단 링크 아이콘 */}
@@ -76,7 +76,7 @@ export default function ExternalSiteCard({
             <Typography
               variant="h6"
               weight="semibold"
-              className="text-gray-900"
+              className="text-foreground"
             >
               {name}
             </Typography>
@@ -120,7 +120,7 @@ export default function ExternalSiteCard({
       <Typography
         variant="small"
         weight="regular"
-        className="mb-6 leading-relaxed text-gray-600"
+        className="mb-6 leading-relaxed text-muted-foreground"
       >
         {description}
       </Typography>

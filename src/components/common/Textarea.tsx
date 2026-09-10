@@ -11,7 +11,7 @@ const sizes = {
   large: "min-h-[150px] text-base",
 };
 const colors = {
-  gray: "focus-visible:border-gray-900",
+  gray: "focus-visible:border-ring",
   purple: "focus-visible:border-purple-500",
   red: "focus-visible:border-red-500",
   green: "focus-visible:border-green-500",
@@ -43,7 +43,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {label && (
           <label
             htmlFor={fieldId}
-            className="mb-1.5 block text-xs font-medium text-gray-600"
+            className="mb-1.5 block text-xs font-medium text-muted-foreground"
           >
             {label}
           </label>
@@ -53,7 +53,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           id={fieldId}
           disabled={disabled}
           className={cn(
-            "resize-none text-blue-gray-700",
+            "resize-none text-foreground",
             variants[variant],
             sizes[size],
             colors[color],

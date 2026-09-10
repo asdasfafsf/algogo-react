@@ -13,14 +13,14 @@ export default function ProblemListCardHeader() {
         <div className="w-full h-10">
           <Typography variant="h5">모든 문제</Typography>
         </div>
-        <div className="flex flex-wrap items-center justify-between w-full gap-2">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="grid w-full gap-3 md:grid-cols-2 md:items-center">
+          <ProblemListSearcher />
+          <div className="flex flex-wrap items-center justify-start gap-2 md:justify-end">
             <ProblemTypeDropdown />
             <ProblemLevelDropdown />
             <ProblemStateDropdown />
             <ProblemListLevelHiddenToggle />
           </div>
-          <ProblemListSearcher />
         </div>
 
         <ProblemListTableFilter />

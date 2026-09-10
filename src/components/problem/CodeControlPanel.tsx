@@ -25,7 +25,8 @@ export default function CodeControlPanel() {
             className={
               state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
             }
-            color="blue"
+            color="white"
+            variant="text"
             size="small"
           >
             초기화
@@ -35,7 +36,8 @@ export default function CodeControlPanel() {
             className={
               state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
             }
-            color="blue"
+            color="white"
+            variant="outlined"
             size="small"
             onClick={handleExecute}
           >
@@ -47,7 +49,8 @@ export default function CodeControlPanel() {
               state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
             }
             size="small"
-            color="blue"
+            color="white"
+            variant="text"
             onClick={handleClickAddTestCase}
           >
             테스트 케이스 추가
@@ -56,7 +59,8 @@ export default function CodeControlPanel() {
           <Button
             disabled={state === "PENDING"}
             className={`${state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""}`}
-            color="blue"
+            color="white"
+            variant="text"
             size="small"
             onClick={handleTest}
           >

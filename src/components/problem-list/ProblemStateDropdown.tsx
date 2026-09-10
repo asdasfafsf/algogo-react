@@ -17,7 +17,7 @@ export default React.memo(() => {
       showArrow={false}
     >
       <div
-        className={`flex items-center gap-1 p-2 ${open ? "bg-indigo-200 text-indigo-800 hover:bg-indigo-300" : "bg-gray-200 text-gray-800 hover:bg-gray-300 "} rounded-md cursor-pointer`}
+        className={`flex cursor-pointer items-center gap-1 rounded-md border p-2 ${open ? "border-primary/30 bg-accent text-accent-foreground" : "border-input bg-background text-foreground hover:bg-accent"}`}
       >
         <Typography variant="medium">상태</Typography>
         <ChevronDownIcon

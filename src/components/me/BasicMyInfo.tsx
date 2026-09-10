@@ -23,7 +23,7 @@ export default function BasicMyInfo() {
       {/* 배경 그라데이션 */}
       <div className="hidden" />
 
-      <Card className="relative overflow-hidden border-0 rounded-2xl border border-border shadow-sm bg-card">
+      <Card className="relative overflow-hidden rounded-xl border border-border bg-card shadow-none">
         {isEditMode ? (
           <div className="p-6 sm:p-8">
             {/* 편집 모드 헤더 */}
@@ -32,11 +32,11 @@ export default function BasicMyInfo() {
                 <Typography
                   variant="h4"
                   weight="bold"
-                  className="mb-1 text-gray-900"
+                  className="mb-1 text-foreground"
                 >
                   프로필 편집
                 </Typography>
-                <Typography variant="small" className="text-gray-500">
+                <Typography variant="small" className="text-muted-foreground">
                   나만의 프로필을 완성해보세요
                 </Typography>
               </div>
@@ -87,7 +87,7 @@ export default function BasicMyInfo() {
                   <div className="group">
                     <label
                       htmlFor="profile-name"
-                      className="block mb-3 text-xs font-semibold text-gray-700"
+                      className="mb-3 block text-xs font-semibold text-foreground"
                     >
                       이름
                     </label>
@@ -96,7 +96,7 @@ export default function BasicMyInfo() {
                         id="profile-name"
                         onChange={handleChangeName}
                         value={name}
-                        className="w-full h-12 px-4 text-sm transition-all duration-200 bg-white border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-0"
+                        className="h-12 w-full rounded-lg border border-input bg-background px-4 text-sm focus:border-primary focus:ring-0"
                         placeholder="이름을 입력하세요"
                       />
                     </div>
@@ -105,7 +105,7 @@ export default function BasicMyInfo() {
                   <div className="group">
                     <label
                       htmlFor="profile-email"
-                      className="block mb-3 text-xs font-semibold text-gray-700"
+                      className="mb-3 block text-xs font-semibold text-foreground"
                     >
                       이메일
                     </label>
@@ -114,7 +114,7 @@ export default function BasicMyInfo() {
                         id="profile-email"
                         disabled
                         value={me?.email}
-                        className="w-full h-12 px-4 text-sm border-2 border-gray-200 rounded-lg cursor-not-allowed bg-gray-50"
+                        className="h-12 w-full cursor-not-allowed rounded-lg border border-input bg-muted px-4 text-sm"
                       />
                       <div className="absolute transform -translate-y-1/2 right-4 top-1/2">
                         <div className="w-2 h-2 bg-gray-400 rounded-full" />
@@ -162,19 +162,22 @@ export default function BasicMyInfo() {
                   <Typography
                     variant="h4"
                     weight="bold"
-                    className="mb-2 text-gray-900"
+                    className="mb-2 text-foreground"
                   >
                     {me?.name || "이름 없음"}
                   </Typography>
-                  <Typography variant="medium" className="mb-4 text-gray-600">
+                  <Typography
+                    variant="medium"
+                    className="mb-4 text-muted-foreground"
+                  >
                     {me?.email || "이메일 정보가 없습니다"}
                   </Typography>
                   {me?.email && (
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-muted px-4 py-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full" />
                       <Typography
                         variant="small"
-                        className="font-medium text-gray-600"
+                        className="font-medium text-muted-foreground"
                       >
                         인증된 계정
                       </Typography>
@@ -188,7 +191,7 @@ export default function BasicMyInfo() {
                     <Typography
                       variant="h5"
                       weight="bold"
-                      className="text-blue-600"
+                      className="text-primary"
                     >
                       0
                     </Typography>

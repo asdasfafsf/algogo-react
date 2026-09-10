@@ -9,7 +9,7 @@ export function TrainingSection() {
       <Typography variant="h5" className="mb-4">
         문제 풀이
       </Typography>
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:[&>*:first-child]:col-span-2 md:[&>*:first-child]:row-span-2 md:[&>*:first-child]:min-h-40">
         <TrainingCard
           title="오늘의 문제"
           description="매일 새로운 도전"

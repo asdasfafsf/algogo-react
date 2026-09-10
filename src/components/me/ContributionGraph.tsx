@@ -20,7 +20,7 @@ import {
 } from "@/domain/account/contribution";
 
 const contributionColors = [
-  "bg-gray-100 border-gray-200",
+  "bg-muted border-border",
   "bg-emerald-200 border-emerald-300",
   "bg-emerald-400 border-emerald-500",
   "bg-emerald-600 border-emerald-700",
@@ -96,21 +96,21 @@ const ContributionGraph = memo(
     }, [currentYear]);
 
     return (
-      <Card className="overflow-hidden transition-all duration-300 border-gray-100 bg-linear-to-br from-white to-gray-50 hover:shadow-lg">
+      <Card className="overflow-hidden border-border bg-card shadow-none">
         <div className="p-4 sm:p-6 lg:p-8">
           <div className="flex flex-col gap-4 mb-6 sm:mb-8">
             <div>
               <Typography
                 variant="h4"
                 weight="bold"
-                className="mb-2 text-gray-900"
+                className="mb-2 text-foreground"
               >
                 활동 기록
               </Typography>
               <Typography
                 variant="medium"
                 weight="regular"
-                className="text-gray-600"
+                className="text-muted-foreground"
               >
                 {viewMode === "current"
                   ? "최근 1년간의 문제 해결 활동을 확인해보세요"
@@ -119,7 +119,7 @@ const ContributionGraph = memo(
             </div>
 
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-              <div className="flex items-center p-1 bg-white border border-gray-200 shadow-xs rounded-xl">
+              <div className="flex items-center rounded-xl border border-border bg-background p-1">
                 <ShadcnButton
                   variant="ghost"
                   size="sm"
@@ -161,15 +161,15 @@ const ContributionGraph = memo(
                       type="button"
                       onClick={handlePrevYear}
                       disabled={selectedYear <= 2020}
-                      className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-xs hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="rounded-lg border border-input bg-background p-2 text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <ChevronLeftIcon className="w-4 h-4 text-gray-600" />
                     </ShadcnButton>
-                    <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-xs">
+                    <div className="rounded-lg border border-input bg-background px-4 py-2">
                       <Typography
                         variant="medium"
                         weight="semibold"
-                        className="text-gray-900"
+                        className="text-foreground"
                       >
                         {selectedYear}년
                       </Typography>
@@ -180,7 +180,7 @@ const ContributionGraph = memo(
                       type="button"
                       onClick={handleNextYear}
                       disabled={selectedYear >= currentYear}
-                      className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-xs hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="rounded-lg border border-input bg-background p-2 text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <ChevronRightIcon className="w-4 h-4 text-gray-600" />
                     </ShadcnButton>
@@ -192,7 +192,7 @@ const ContributionGraph = memo(
                     적음
                   </Typography>
                   <div className="flex gap-1">
-                    <div className="w-3 h-3 bg-gray-100 border-gray-200 rounded-sm" />
+                    <div className="h-3 w-3 rounded-sm border-border bg-muted" />
                     <div className="w-3 h-3 rounded-sm bg-emerald-200 border-emerald-300" />
                     <div className="w-3 h-3 rounded-sm bg-emerald-400 border-emerald-500" />
                     <div className="w-3 h-3 rounded-sm bg-emerald-600 border-emerald-700" />
@@ -206,7 +206,7 @@ const ContributionGraph = memo(
             </div>
           </div>
 
-          <SurfaceCard className="block gap-0 py-0 p-4 overflow-x-auto bg-white border border-gray-100 shadow-xs rounded-2xl sm:p-6">
+          <SurfaceCard className="block gap-0 overflow-x-auto rounded-xl border border-border bg-background p-4 py-0 shadow-none sm:p-6">
             <div className="flex gap-1 mb-2 ml-12 w-[1050px]">
               {weeks.map((_, weekIndex) => {
                 const monthPos = monthPositions.find(
@@ -268,7 +268,7 @@ const ContributionGraph = memo(
                 적음
               </Typography>
               <div className="flex gap-1">
-                <div className="w-3 h-3 bg-gray-100 border-gray-200 rounded-sm" />
+                <div className="h-3 w-3 rounded-sm border-border bg-muted" />
                 <div className="w-3 h-3 rounded-sm bg-emerald-200 border-emerald-300" />
                 <div className="w-3 h-3 rounded-sm bg-emerald-400 border-emerald-500" />
                 <div className="w-3 h-3 rounded-sm bg-emerald-600 border-emerald-700" />

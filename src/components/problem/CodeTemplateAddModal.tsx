@@ -74,11 +74,11 @@ export default function CodeTemplateAddModal({
             코드 템플릿의 이름, 언어와 내용을 편집합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="w-full bg-white rounded-2xl shadow-xl animate-in fade-in duration-200">
+        <div className="w-full animate-in rounded-xl border border-border bg-popover text-popover-foreground shadow-xl fade-in duration-200">
           <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
             <h2
               id="template-title"
-              className="text-xl font-semibold text-gray-800"
+              className="text-xl font-semibold text-foreground"
             >
               {title}
             </h2>
@@ -88,7 +88,7 @@ export default function CodeTemplateAddModal({
             <div>
               <label
                 htmlFor="templateName"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-foreground"
               >
                 템플릿 이름
               </label>
@@ -105,7 +105,7 @@ export default function CodeTemplateAddModal({
             <div>
               <label
                 htmlFor="templateDescription"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-foreground"
               >
                 설명
               </label>
@@ -122,7 +122,7 @@ export default function CodeTemplateAddModal({
             <div>
               <label
                 htmlFor="templateLanguage"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-foreground"
               >
                 언어
               </label>
@@ -132,7 +132,7 @@ export default function CodeTemplateAddModal({
                 onChange={(e) =>
                   setTemplateLanguage(e.target.value as Language)
                 }
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200 bg-white"
+                className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-[15px] text-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
               >
                 {languageList.map((elem) => (
                   <option key={elem} value={elem}>
@@ -145,7 +145,7 @@ export default function CodeTemplateAddModal({
             <div>
               <label
                 htmlFor="templateContent"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="mb-2 block text-sm font-medium text-foreground"
               >
                 템플릿 코드
               </label>
@@ -180,7 +180,7 @@ export default function CodeTemplateAddModal({
               />
               <label
                 htmlFor="isDefault"
-                className="text-sm font-medium text-gray-700 cursor-pointer"
+                className="cursor-pointer text-sm font-medium text-foreground"
               >
                 기본 템플릿으로 설정
               </label>
