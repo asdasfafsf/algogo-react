@@ -1,13 +1,15 @@
+import { ChevronDown, Plus, Pencil } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
-  ChevronDownIcon,
-  PlusIcon,
-  PencilIcon,
-} from "@heroicons/react/24/outline";
-import { Dropdown } from "@components/Dropdown/index";
-import { Typography } from "@components/common/index";
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
 import CodeTemplateAddModal from "./CodeTemplateAddModal";
 import useCodeTemplateDropdown from "@hook/editor/useCodeTemplateDropdown";
-
 export default function CodeTemplateDropdown() {
   const {
     open,
@@ -18,72 +20,58 @@ export default function CodeTemplateDropdown() {
     handleEditTemplate,
     handleAddTemplate,
   } = useCodeTemplateDropdown(CodeTemplateAddModal);
-  const handler = toggleOpen;
-
+  const displayedTitle =
+    templateList.find((item) => item.uuid === title)?.name ?? title;
   return (
-    <Dropdown
-      handler={handler}
+    <DropdownMenu
       open={open}
-      className="p-0 bg-gray-900 border-gray-800 rounded-md"
-      showArrow={false}
+      onOpenChange={(next) => {
+        if (next !== open) toggleOpen();
+      }}
     >
-      <div className="flex w-36 h-10 items-center justify-between border-gray-800 rounded-md border-solid border py-2 px-4 cursor-pointer">
-        <Typography
-          className="text-gray-400 truncate max-w-[80px]"
-          weight="semilight"
-          variant="medium"
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-36 justify-between gap-2 border-white/15 bg-gray-900 text-gray-100 hover:bg-gray-800"
+          aria-label="코드 템플릿"
         >
-          {title}
-        </Typography>
-        <ChevronDownIcon
-          strokeWidth={2.5}
-          className={` h-3.5 w-3.5 transition-transform text-gray-400 ${
-            open ? "rotate-180" : ""
-          }`}
-        />
-      </div>
-      <ul className="p-0 bg-gray-900 rounded-sm w-36">
-        {[
-          templateList.map((elem) => (
-            <li
-              key={elem.uuid}
-              onClick={() => handleChangeTemplate(elem.uuid)}
-              className="flex items-center justify-between w-full gap-1 p-3 bg-gray-900 rounded-md cursor-pointer hover:bg-gray-600"
+          <span className="truncate">{displayedTitle}</span>
+          <ChevronDown className="size-4 shrink-0" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="dark w-60" align="start">
+        <DropdownMenuLabel>저장한 템플릿</DropdownMenuLabel>
+        {templateList.length === 0 && (
+          <DropdownMenuItem disabled>저장한 템플릿이 없습니다</DropdownMenuItem>
+        )}
+        {templateList.map((item) => (
+          <div key={item.uuid} className="flex items-center">
+            <DropdownMenuItem
+              className="min-w-0 flex-1"
+              onSelect={() => {
+                void handleChangeTemplate(item.uuid);
+              }}
             >
-              <Typography
-                className="text-gray-400 truncate max-w-[100px]"
-                weight="semilight"
-                variant="medium"
-              >
-                {elem.name}
-              </Typography>
-              <div
-                className="w-4 cursor-context-menu hover:text-gray-400"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleEditTemplate(elem.uuid);
-                }}
-              >
-                <PencilIcon className="size-4" />
-              </div>
-            </li>
-          )),
-          <li
-            onClick={handleAddTemplate}
-            key="추가하기"
-            className="flex items-center w-full gap-1 p-3 bg-gray-900 rounded-md cursor-crosshair hover:bg-gray-600"
-          >
-            <PlusIcon className="size-4" />
-            <Typography
-              className="text-gray-400"
-              weight="semilight"
-              variant="medium"
+              <span className="truncate">{item.name}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              aria-label={`${item.name} 수정`}
+              className="shrink-0"
+              onSelect={() => {
+                void handleEditTemplate(item.uuid);
+              }}
             >
-              추가하기
-            </Typography>
-          </li>,
-        ]}
-      </ul>
-    </Dropdown>
+              <Pencil className="size-4" />
+            </DropdownMenuItem>
+          </div>
+        ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={handleAddTemplate}>
+          <Plus className="size-4" />
+          추가하기
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

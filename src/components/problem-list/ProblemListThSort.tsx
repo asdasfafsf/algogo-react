@@ -1,21 +1,37 @@
-import { Typography } from '@components/common';
-import { PlayIcon } from '@heroicons/react/24/solid';
+import { Button } from "@/components/ui/button";
+import { TableHead as ShadcnTableHead } from "@/components/ui/table";
+import { Typography } from "@components/common";
+import { PlayIcon } from "@heroicons/react/24/solid";
 
 interface ProblemThSortProps {
   className?: string;
   sort: 0 | 1 | 2;
-  children: React.ReactNode,
-  onClick?: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>
-
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
 }
 
 export default function ProblemThSort({
-  sort, children, className = '', onClick = () => {},
+  sort,
+  children,
+  className = "",
+  onClick = () => {},
 }: ProblemThSortProps) {
   return (
-    <th onClick={onClick} className={`${className} w-24`}>
-      <div className="flex items-center gap-1 cursor-pointer">
-        <Typography className="flex items-center" weight="semibold" variant="medium">
+    <ShadcnTableHead
+      aria-sort={sort === 1 ? "ascending" : sort === 2 ? "descending" : "none"}
+      className={`${className} w-24`}
+    >
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onClick}
+        className="h-auto p-0 font-semibold"
+      >
+        <Typography
+          className="flex items-center"
+          weight="semibold"
+          variant="medium"
+        >
           {children}
         </Typography>
         <div className="pb-0.5 relative">
@@ -32,7 +48,7 @@ export default function ProblemThSort({
             className="relative w-2 h-2 transform rotate-90"
           />
         </div>
-      </div>
-    </th>
+      </Button>
+    </ShadcnTableHead>
   );
 }

@@ -1,70 +1,71 @@
-import { ClipboardDocumentListIcon, PlayIcon, TrashIcon } from '@heroicons/react/24/outline';
-import React from 'react';
-import { Tooltip } from '@components/common';
-
+import type { RefObject } from "react";
+import { ClipboardPaste, Play, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 interface CodeResultInputProps {
-  inputTextAreaRef: React.RefObject<HTMLTextAreaElement | null>
+  inputTextAreaRef: RefObject<HTMLTextAreaElement | null>;
   input: string;
-  handleChangeInput: (e: React.ChangeEvent<HTMLElement>, input: string) => void | Promise<void>
-  handleClickRun: (e:React.MouseEvent<HTMLElement>) => void | Promise<void>
-  handleClickPaste: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>
+  onInputChange: (value: string) => void;
+  onRun: () => void | Promise<void>;
+  onPaste: () => void | Promise<void>;
 }
-
-export default function CodeResultInput(
-  {
-    inputTextAreaRef, input, handleChangeInput, handleClickRun, handleClickPaste,
-  } : CodeResultInputProps,
-) {
+export default function CodeResultInput({
+  inputTextAreaRef,
+  input,
+  onInputChange,
+  onRun,
+  onPaste,
+}: CodeResultInputProps) {
   return (
-    <div className="relative h-full">
-      <nav className="flex justify-end w-full gap-1 overflow-x-hidden">
-        <div className="absolute z-10 flex gap-2 bg-gray-900 right-6">
-          <Tooltip
-            content="실행"
+    <div className="flex h-full flex-col p-3">
+      <nav
+        aria-label="테스트 입력 도구"
+        className="mb-2 flex items-center justify-between"
+      >
+        <span className="text-xs text-gray-400">표준 입력</span>
+        <div className="flex gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-emerald-400"
+            aria-label="입력으로 실행"
+            onClick={onRun}
           >
-            <div className="cursor-pointer" onClick={handleClickRun}>
-              <PlayIcon
-                className="w-6 h-6 text-green-500"
-              />
-            </div>
-          </Tooltip>
-          <Tooltip
-            content="붙여넣기"
+            <Play />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            aria-label="입력 붙여넣기"
+            onClick={onPaste}
           >
-            <div className="cursor-pointer" onClick={handleClickPaste}>
-              <ClipboardDocumentListIcon className="w-6 h-6 text-white" />
-            </div>
-          </Tooltip>
-          <Tooltip
-
-            content="지우기"
+            <ClipboardPaste />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-red-400"
+            aria-label="입력 지우기"
+            onClick={() => onInputChange("")}
           >
-            <div
-              onClick={() => {
-                if (inputTextAreaRef.current) {
-                  inputTextAreaRef.current.value = '';
-                  const event = new Event('input', { bubbles: true });
-                  inputTextAreaRef.current.dispatchEvent(event);
-                }
-              }}
-              className="cursor-pointer"
-            >
-              <TrashIcon className="w-6 h-6 text-red-500" />
-            </div>
-          </Tooltip>
+            <Trash2 />
+          </Button>
         </div>
       </nav>
-      <textarea
+      <Textarea
         ref={inputTextAreaRef}
+        aria-label="테스트 입력"
         value={input}
-        onChange={(e) => handleChangeInput(e, e.target.value)}
+        onChange={(e) => onInputChange(e.target.value)}
         onKeyDown={(e) => {
-          if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-            handleClickRun(e as unknown as React.MouseEvent<HTMLElement>);
+          if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+            e.preventDefault();
+            void onRun();
           }
         }}
         placeholder="테스트 입력"
-        className="h-[calc(100%-64px)] font-mono focus:outline-hidden resize-none rounded-md p-2 z-0 w-full relative text-white border-gray-900 border-none bg-gray-900"
+        className="min-h-0 flex-1 resize-none border-white/10 bg-gray-900 font-mono text-white"
       />
     </div>
   );

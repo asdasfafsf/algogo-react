@@ -1,11 +1,20 @@
-import { Button, IconButton } from '@components/Button';
-import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@components/ui/pagination";
 
 interface PagebarProps {
-  currentPage: number,
-  displayedPageRange: number,
+  currentPage: number;
+  displayedPageRange: number;
   maxPage?: number;
-  handleChangePage: (e: React.MouseEvent<HTMLButtonElement>, pageNo: number) => void | Promise<void>
+  handleChangePage: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    pageNo: number,
+  ) => void | Promise<void>;
 }
 
 export default function Pagebar({
@@ -14,72 +23,47 @@ export default function Pagebar({
   maxPage,
   handleChangePage,
 }: PagebarProps) {
-  const handleClickNext = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    e.currentTarget.blur();
-    if (maxPage && currentPage >= maxPage) {
-      return;
-    }
-
-    handleChangePage(e, currentPage + 1);
-  };
-
-  const handleClickPrev = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    e.currentTarget.blur();
-    if (currentPage === 1) return;
-
-    handleChangePage(e, currentPage - 1);
-  };
-
+  const firstPage =
+    Math.floor((currentPage - 1) / displayedPageRange) * displayedPageRange + 1;
+  const pages = Array.from(
+    { length: displayedPageRange },
+    (_, index) => firstPage + index,
+  );
   return (
-    <div className="flex items-center justify-center w-full gap-4">
-      <Button
-        variant="text"
-        className="flex items-center gap-2"
-        onClick={handleClickPrev}
-        disabled={currentPage === 1}
-      >
-        <ArrowLeftIcon strokeWidth={2} className="w-4 h-4" />
-        {' '}
-        이전 페이지
-      </Button>
-      <div className="flex items-center gap-2">
-        <div className="items-center hidden gap-2 md:flex">
-          {Array.from(
-            Array(displayedPageRange),
-            (_, k) => (
-              Math.floor((currentPage - 1) / displayedPageRange)) * displayedPageRange + (k + 1),
-          ).map((pageNo) => (
-            <IconButton
-              key={pageNo}
-              disabled={maxPage ? maxPage < pageNo : false}
-              variant={currentPage === pageNo ? 'filled' : 'text'}
-              onClick={(e) => handleChangePage(e, pageNo)}
-            >
-              {pageNo}
-            </IconButton>
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            disabled={currentPage === 1}
+            onClick={(event) => handleChangePage(event, currentPage - 1)}
+          />
+        </PaginationItem>
+        <div className="hidden items-center gap-1 md:flex">
+          {pages.map((pageNo) => (
+            <PaginationItem key={pageNo}>
+              <PaginationLink
+                aria-label={`${pageNo}페이지`}
+                isActive={pageNo === currentPage}
+                disabled={maxPage ? pageNo > maxPage : false}
+                onClick={(event) => handleChangePage(event, pageNo)}
+              >
+                {pageNo}
+              </PaginationLink>
+            </PaginationItem>
           ))}
         </div>
-        <div className="flex items-center gap-2 md:hidden">
-          <IconButton
-            variant="text"
-            // color="gray"
-            onClick={(e) => handleChangePage(e, currentPage)}
-          >
+        <PaginationItem className="md:hidden">
+          <PaginationLink isActive aria-label={`현재 ${currentPage}페이지`}>
             {currentPage}
-          </IconButton>
-        </div>
-      </div>
-      <Button
-        variant="text"
-        className="flex items-center justify-center gap-2"
-        onClick={handleClickNext}
-        disabled={maxPage ? currentPage >= maxPage : false}
-      >
-        다음 페이지
-        <ArrowRightIcon strokeWidth={2} className="relative w-4 h-4" />
-      </Button>
-    </div>
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext
+            disabled={maxPage ? currentPage >= maxPage : false}
+            onClick={(event) => handleChangePage(event, currentPage + 1)}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }

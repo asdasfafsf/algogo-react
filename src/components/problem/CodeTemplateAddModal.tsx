@@ -1,4 +1,13 @@
-import { TranslucentOverlay } from "@components/common/index";
+import { NativeSelect } from "@/components/ui/native-select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input as ShadcnInput } from "@/components/ui/input";
+
 import { Button } from "@components/Button/index";
 import { languageList, monocoLanguageMap } from "@constant/Language";
 import Editor from "@monaco-editor/react";
@@ -28,7 +37,6 @@ export default function CodeTemplateAddModal({
 }: CodeTemplateAddModalProps) {
   const {
     settings,
-    isVisible,
     templateName,
     setTemplateName,
     templateDescription,
@@ -53,140 +61,147 @@ export default function CodeTemplateAddModal({
   });
 
   return (
-    <TranslucentOverlay
-      className={`z-50 flex items-center justify-center fixed inset-0 bg-black/30 transition-opacity ${
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+    <Dialog
+      open={true}
+      onOpenChange={(open) => {
+        if (!open) handleClose();
+      }}
     >
-      <div
-        role="dialog"
-        aria-labelledby="template-title"
-        className="w-[560px] bg-white rounded-2xl shadow-xl animate-in fade-in duration-200"
-      >
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
-          <h2
-            id="template-title"
-            className="text-xl font-semibold text-gray-800"
-          >
-            {title}
-          </h2>
-        </div>
-
-        <div className="px-8 py-6 space-y-5">
-          <div>
-            <label
-              htmlFor="templateName"
-              className="block mb-2 text-sm font-medium text-gray-700"
+      <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
+        <DialogHeader className="sr-only">
+          <DialogTitle>코드 템플릿</DialogTitle>
+          <DialogDescription>
+            코드 템플릿의 이름, 언어와 내용을 편집합니다.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="w-full bg-white rounded-2xl shadow-xl animate-in fade-in duration-200">
+          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+            <h2
+              id="template-title"
+              className="text-xl font-semibold text-gray-800"
             >
-              템플릿 이름
-            </label>
-            <input
-              id="templateName"
-              type="text"
-              value={templateName}
-              onChange={(e) => setTemplateName(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200"
-              placeholder="템플릿 이름을 입력하세요"
-            />
+              {title}
+            </h2>
           </div>
 
-          <div>
-            <label
-              htmlFor="templateDescription"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              설명
-            </label>
-            <input
-              id="templateDescription"
-              type="text"
-              value={templateDescription}
-              onChange={(e) => setTemplateDescription(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200"
-              placeholder="템플릿 설명을 입력하세요"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="templateLanguage"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              언어
-            </label>
-            <select
-              id="templateLanguage"
-              value={templateLanguage}
-              onChange={(e) => setTemplateLanguage(e.target.value as Language)}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200 bg-white"
-            >
-              {languageList.map((elem) => (
-                <option key={elem} value={elem}>
-                  {elem}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="templateContent"
-              className="block mb-2 text-sm font-medium text-gray-700"
-            >
-              템플릿 코드
-            </label>
-            <div className="relative h-[300px] border border-gray-200 rounded-xl overflow-hidden">
-              <Editor
-                height="100%"
-                language={monocoLanguageMap[templateLanguage]}
-                className="h-full"
-                theme="vs-dark"
-                value={templateContent}
-                onChange={(value) => value && setTemplateContent(value)}
-                options={{
-                  insertSpaces: true,
-                  lineNumbers: settings.lineNumber,
-                  contextmenu: false,
-                  fontSize: settings.fontSize,
-                  tabSize: settings.tabSize,
-                  minimap: { enabled: false },
-                  scrollbar: { vertical: "auto", horizontal: "auto" },
-                  codeLens: false,
-                  autoIndent: "advanced",
-                }}
+          <div className="px-8 py-6 space-y-5">
+            <div>
+              <label
+                htmlFor="templateName"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                템플릿 이름
+              </label>
+              <ShadcnInput
+                id="templateName"
+                type="text"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200"
+                placeholder="템플릿 이름을 입력하세요"
               />
+            </div>
+
+            <div>
+              <label
+                htmlFor="templateDescription"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                설명
+              </label>
+              <ShadcnInput
+                id="templateDescription"
+                type="text"
+                value={templateDescription}
+                onChange={(e) => setTemplateDescription(e.target.value)}
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200"
+                placeholder="템플릿 설명을 입력하세요"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="templateLanguage"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                언어
+              </label>
+              <NativeSelect
+                id="templateLanguage"
+                value={templateLanguage}
+                onChange={(e) =>
+                  setTemplateLanguage(e.target.value as Language)
+                }
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-[15px] transition-all duration-200 bg-white"
+              >
+                {languageList.map((elem) => (
+                  <option key={elem} value={elem}>
+                    {elem}
+                  </option>
+                ))}
+              </NativeSelect>
+            </div>
+
+            <div>
+              <label
+                htmlFor="templateContent"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                템플릿 코드
+              </label>
+              <div className="relative h-[300px] border border-gray-200 rounded-xl overflow-hidden">
+                <Editor
+                  height="100%"
+                  language={monocoLanguageMap[templateLanguage]}
+                  className="h-full"
+                  theme="vs-dark"
+                  value={templateContent}
+                  onChange={(value) => value && setTemplateContent(value)}
+                  options={{
+                    insertSpaces: true,
+                    lineNumbers: settings.lineNumber,
+                    contextmenu: false,
+                    fontSize: settings.fontSize,
+                    tabSize: settings.tabSize,
+                    minimap: { enabled: false },
+                    scrollbar: { vertical: "auto", horizontal: "auto" },
+                    codeLens: false,
+                    autoIndent: "advanced",
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="isDefault"
+                checked={isDefault}
+                onCheckedChange={setIsDefault}
+              />
+              <label
+                htmlFor="isDefault"
+                className="text-sm font-medium text-gray-700 cursor-pointer"
+              >
+                기본 템플릿으로 설정
+              </label>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="isDefault"
-              checked={isDefault}
-              onChange={(e) => setIsDefault(e.target.checked)}
-            />
-            <label
-              htmlFor="isDefault"
-              className="text-sm font-medium text-gray-700 cursor-pointer"
-            >
-              기본 템플릿으로 설정
-            </label>
+          <div className="flex justify-end gap-2 px-4 pb-4 mx-4">
+            <Button onClick={handleClose} color="gray">
+              취소
+            </Button>
+            {isEdit && (
+              <Button onClick={handleDelete} color="red">
+                삭제
+              </Button>
+            )}
+            <Button onClick={handleSubmit} color="blue">
+              {isEdit ? "수정" : "추가"}
+            </Button>
           </div>
         </div>
-
-        <div className="flex justify-end gap-2 px-4 pb-4 mx-4">
-          <Button onClick={handleClose} color="gray">
-            취소
-          </Button>
-          {isEdit && (
-            <Button onClick={handleDelete} color="red">
-              삭제
-            </Button>
-          )}
-          <Button onClick={handleSubmit} color="blue">
-            {isEdit ? "수정" : "추가"}
-          </Button>
-        </div>
-      </div>
-    </TranslucentOverlay>
+      </DialogContent>
+    </Dialog>
   );
 }

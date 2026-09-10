@@ -1,15 +1,12 @@
-import React from 'react';
-import {
-  Tab, TabHeader, TabPanel, TabBody,
-} from '@components/tab/index';
-import useExecute from '@hook/useExecute';
-import useCodeResultPanel from '@hook/useCodeResultPanel';
-import CodeEditorResizer from './CodeEditorResizer';
-import CodeResultInput from './CodeResultInput';
-import CodeResultOutput from './CodeResultOutput';
-import CodeTestCaseTable from './CodeTestCaseTable';
-
-export function CodeResultPannel() {
+import { memo } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import useExecute from "@hook/useExecute";
+import useCodeResultPanel from "@hook/useCodeResultPanel";
+import CodeEditorResizer from "./CodeEditorResizer";
+import CodeResultInput from "./CodeResultInput";
+import CodeResultOutput from "./CodeResultOutput";
+import CodeTestCaseTable from "./CodeTestCaseTable";
+function CodeResultPannel() {
   const {
     input,
     output,
@@ -22,54 +19,45 @@ export function CodeResultPannel() {
     handleClickResetOutput,
     testCaseList,
   } = useCodeResultPanel();
-
   const { handleExecute } = useExecute();
   return (
-    <div
-      className="w-full h-full overflow-x-hidden overflow-y-hidden"
-    >
+    <div className="dark h-full w-full overflow-hidden bg-gray-900 text-white">
       <CodeEditorResizer />
-      <TabHeader className="h-10 min-w-[360px] overflow-hidden">
-        <Tab
-          text="입력"
-          isSelected={selectedIndex === 0}
-          handleClick={(e) => { handleClickTab(e, 0); }}
-        />
-        <Tab
-          text="실행 결과"
-          isSelected={selectedIndex === 1}
-          handleClick={(e) => { handleClickTab(e, 1); }}
-        />
-        <Tab
-          text="테스트 케이스"
-          isSelected={selectedIndex === 2}
-          handleClick={(e) => { handleClickTab(e, 2); }}
-        />
-      </TabHeader>
-      <TabBody className="h-[calc(100%-44px)]">
-        <TabPanel isSelected={selectedIndex === 0}>
+      <Tabs
+        value={String(selectedIndex)}
+        onValueChange={(value) => handleClickTab(Number(value))}
+        className="flex h-[calc(100%-10px)] flex-col"
+      >
+        <TabsList
+          aria-label="코드 실행 패널"
+          className="w-full shrink-0 justify-start rounded-none border-b border-white/10 bg-gray-900 px-2"
+        >
+          <TabsTrigger value="0">입력</TabsTrigger>
+          <TabsTrigger value="1">실행 결과</TabsTrigger>
+          <TabsTrigger value="2">테스트 케이스</TabsTrigger>
+        </TabsList>
+        <TabsContent value="0" className="m-0 min-h-0 flex-1">
           <CodeResultInput
-            handleClickRun={() => { handleExecute(); }}
-            handleClickPaste={handleClickPasteInput}
-            handleChangeInput={handleChangeInput}
+            onRun={() => handleExecute()}
+            onPaste={handleClickPasteInput}
+            onInputChange={handleChangeInput}
             input={input}
             inputTextAreaRef={inputTextAreaRef}
           />
-        </TabPanel>
-        <TabPanel isSelected={selectedIndex === 1}>
+        </TabsContent>
+        <TabsContent value="1" className="m-0 min-h-0 flex-1">
           <CodeResultOutput
             output={output}
             handleClickRun={() => handleExecute()}
             handleClickCopy={handleClickCopyOutput}
             handleClickReset={handleClickResetOutput}
           />
-        </TabPanel>
-        <TabPanel isSelected={selectedIndex === 2}>
+        </TabsContent>
+        <TabsContent value="2" className="m-0 min-h-0 flex-1">
           <CodeTestCaseTable executeResultList={testCaseList} />
-        </TabPanel>
-      </TabBody>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
-
-export default React.memo(CodeResultPannel);
+export default memo(CodeResultPannel);

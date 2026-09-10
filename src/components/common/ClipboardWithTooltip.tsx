@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { Typography, Tooltip } from '@components/common/index';
-import { CheckIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import EnterIcon from '/public/assets/enter.svg?react';
-import SpaceIcon from '/public/assets/space.svg?react';
+import { Button } from "@/components/ui/button";
+import React, { useCallback } from "react";
+import { Typography, Tooltip } from "@components/common/index";
+import { CheckIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
+import { CornerDownLeft as EnterIcon, Space as SpaceIcon } from "lucide-react";
 
 interface ClipboardWithTooltipProps {
   content: string;
@@ -13,7 +13,7 @@ interface ClipboardWithTooltipProps {
 export default function ClipboardWithTooltip({
   content,
   handleCopyCallback = () => {},
-  className = '',
+  className = "",
 }: ClipboardWithTooltipProps) {
   const [copied, setCopied] = React.useState(false);
 
@@ -27,61 +27,50 @@ export default function ClipboardWithTooltip({
     handleCopyCallback(content);
   };
 
-  const handleKeyDown = async (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      await handleClick();
-    }
-  };
-
   return (
-    <Tooltip content={copied ? '복사됨' : '복사'}>
-      <div
+    <Tooltip content={copied ? "복사됨" : "복사"}>
+      <Button
+        variant="ghost"
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        role="button"
-        tabIndex={0}
-        className={`flex justify-start items-center gap-x-3 px-4 py-2.5 w-full cursor-pointer focus:outline-hidden bg-black text-white border rounded-md${className}`}
+        className={`h-auto whitespace-normal flex justify-start items-center gap-x-3 px-4 py-2.5 w-full cursor-pointer focus:outline-hidden bg-black text-white border rounded-md ${className}`}
       >
         <div className="w-full">
-          {content
-            .split(/\n/)
-            .map((elem, contentIndex, contentArr) => (
-              <div
-                key={`${elem}-${contentIndex}`}
-                className="flex flex-wrap whitespace-normal wrap-break-word w-[calc(100%-10px)]"
-              >
-                {elem.split(' ').map((text, index, arr) => (
-                  <React.Fragment key={`${text}-${index}`}>
-                    <Typography
-                      className="text-base text-white font-D2Coding"
-                      variant="paragraph"
-                    >
-                      {text}
-                    </Typography>
+          {content.split(/\n/).map((elem, contentIndex, contentArr) => (
+            <div
+              key={`${elem}-${contentIndex}`}
+              className="flex flex-wrap whitespace-normal wrap-break-word w-[calc(100%-10px)]"
+            >
+              {elem.split(" ").map((text, index, arr) => (
+                <React.Fragment key={`${text}-${index}`}>
+                  <Typography
+                    className="text-base text-white font-D2Coding"
+                    variant="paragraph"
+                  >
+                    {text}
+                  </Typography>
 
-                    {index < arr.length - 1 ? (
-                      <div className="flex items-center justify-center text-blue-500">
-                        <SpaceIcon className="w-4 h-4 font-bold" />
-                      </div>
-                    ) : null}
-                  </React.Fragment>
-                ))}
-                {contentIndex < contentArr.length - 1 ? (
-                  <div className="flex items-center justify-center text-blue-500">
-                    <EnterIcon className="w-4 h-4" />
-                  </div>
-                ) : null}
-              </div>
-            ))}
+                  {index < arr.length - 1 ? (
+                    <div className="flex items-center justify-center text-blue-500">
+                      <SpaceIcon className="w-4 h-4 font-bold" />
+                    </div>
+                  ) : null}
+                </React.Fragment>
+              ))}
+              {contentIndex < contentArr.length - 1 ? (
+                <div className="flex items-center justify-center text-blue-500">
+                  <EnterIcon className="w-4 h-4" />
+                </div>
+              ) : null}
+            </div>
+          ))}
         </div>
         {copied ? (
           <CheckIcon className="w-4 h-4 text-white" />
         ) : (
           <DocumentDuplicateIcon className="w-4 h-4 text-white" />
         )}
-      </div>
+      </Button>
     </Tooltip>
   );
 }

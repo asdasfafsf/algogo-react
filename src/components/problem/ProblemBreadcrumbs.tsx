@@ -1,40 +1,44 @@
-import { Breadcrumbs } from '@components/common/index';
-
-type ProblemBreadCrumbsPath = {
-  to: string;
-  path: string;
-};
+import { ChevronRight, Home } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type ProblemBreadCrumbsProps = {
-  pathList: ProblemBreadCrumbsPath[],
-  current: string
+  pathList: { to: string; path: string }[];
+  current: string;
 };
 
-export default function ProblemBreadcrumbs({ pathList, current }: ProblemBreadCrumbsProps) {
+export default function ProblemBreadcrumbs({
+  pathList,
+  current,
+}: ProblemBreadCrumbsProps) {
   return (
-    <Breadcrumbs
-      className="text-white bg-gray-900"
-      separator=">"
-    >
-      <a
-        href="/"
-        className="opacity-60 hover:opacity-100 text-white pb-0.5"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-4 h-4"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-        </svg>
-      </a>
-      {pathList.map(({ path, to }) => (
-        <a href={to} key={path} className="text-white opacity-60 hover:opacity-100 hover:font-bold">
-          <div className="h-full">{path}</div>
-        </a>
-      )) }
-      <a href="#" className="w-auto font-bold text-white">{current}</a>
-    </Breadcrumbs>
+    <nav aria-label="문제 경로" className="min-w-0 px-3 text-sm text-white">
+      <ol className="flex min-w-0 items-center gap-1">
+        <li className="shrink-0">
+          <Button asChild variant="ghost" size="icon" className="size-8">
+            <a href="/" aria-label="홈">
+              <Home />
+            </a>
+          </Button>
+        </li>
+        {pathList.map(({ path, to }) => (
+          <li key={path} className="hidden shrink-0 items-center gap-1 sm:flex">
+            <ChevronRight className="size-3 text-gray-500" />
+            <a href={to} className="text-gray-400 hover:text-white">
+              {path}
+            </a>
+          </li>
+        ))}
+        <li className="flex min-w-0 items-center gap-1">
+          <ChevronRight className="size-3 shrink-0 text-gray-500" />
+          <span
+            aria-current="page"
+            title={current}
+            className="truncate font-semibold"
+          >
+            {current}
+          </span>
+        </li>
+      </ol>
+    </nav>
   );
 }

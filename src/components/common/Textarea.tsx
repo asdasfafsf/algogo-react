@@ -1,75 +1,69 @@
-import { useState } from 'react';
-
+import { forwardRef, useId, type ComponentProps } from "react";
+import { Textarea as ShadcnTextarea } from "@components/ui/textarea";
+import { cn } from "@lib/utils";
 const variants = {
-  static: 'border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5',
-  standard: 'border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5',
-  outlined:
-    'rounded-[7px] border border-blue-gray-200  bg-transparent px-3 py-2.5',
+  static: "rounded-none border-x-0 border-t-0",
+  standard: "rounded-none border-x-0 border-t-0",
+  outlined: "",
 };
-
 const sizes = {
-  medium: 'min-h-[100px] text-sm',
-  large: 'min-h-[150px] text-base',
+  medium: "min-h-[100px] text-sm",
+  large: "min-h-[150px] text-base",
 };
-
 const colors = {
-  gray: 'focus:border-gray-900 focus:text-gray-900',
-  purple: 'focus:border-purple-500 focus:text-purple-500',
-  red: 'focus:border-red-500 focus:text-red-500',
-  green: 'focus:border-green-500 focus:text-green-500',
+  gray: "focus-visible:border-gray-900",
+  purple: "focus-visible:border-purple-500",
+  red: "focus-visible:border-red-500",
+  green: "focus-visible:border-green-500",
 };
-
-interface TextAreaProps {
+interface TextAreaProps extends ComponentProps<"textarea"> {
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   color?: keyof typeof colors;
   label?: string;
-  disabled?: boolean;
-  className?: string;
-  [key: string]: unknown;
 }
-
-export default function Textarea({
-  variant = 'outlined',
-  size = 'medium',
-  color = 'gray',
-  label = '',
-  disabled = false,
-  className = '',
-  ...props
-}: TextAreaProps) {
-  const [value, setValue] = useState('');
-  const hasValue = value.length > 0;
-
-  const variantClass = variants[variant];
-  const sizeClass = sizes[size];
-  const colorClass = colors[color];
-
-  return (
-    <div className="relative w-full min-w-[200px]">
-      <textarea
-        className={`peer h-full w-full resize-none ${variantClass} ${sizeClass} font-normal text-blue-gray-700 outline-hidden transition-all disabled:resize-none disabled:border-0 disabled:bg-blue-gray-50 ${
-          disabled ? 'cursor-not-allowed' : ''
-        } ${colorClass} ${className}`}
-        placeholder=" "
-        disabled={disabled}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        {...props}
-      />
-      {hasValue && (
-        <label
-          className={`pointer-events-none absolute left-0 ${
-            variant === 'static' ? '-top-2.5' : '-top-1.5'
-          } flex h-full w-full select-none ${
-            size === 'medium' ? 'text-[11px]' : 'text-sm'
-          } font-normal leading-tight text-blue-gray-400 transition-all ${
-            disabled ? 'text-transparent' : ''
-          }`}
-        >
-          {label}
-        </label>
-      )}
-    </div>
-  );
-}
+const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  (
+    {
+      variant = "outlined",
+      size = "medium",
+      color = "gray",
+      label = "",
+      disabled,
+      className,
+      id,
+      ...props
+    },
+    ref,
+  ) => {
+    const generated = useId();
+    const fieldId = id ?? generated;
+    return (
+      <div className="relative w-full min-w-[200px]">
+        {label && (
+          <label
+            htmlFor={fieldId}
+            className="mb-1.5 block text-xs font-medium text-gray-600"
+          >
+            {label}
+          </label>
+        )}
+        <ShadcnTextarea
+          ref={ref}
+          id={fieldId}
+          disabled={disabled}
+          className={cn(
+            "resize-none text-blue-gray-700",
+            variants[variant],
+            sizes[size],
+            colors[color],
+            className,
+          )}
+          {...props}
+        />
+      </div>
+    );
+  },
+);
+Textarea.displayName = "Textarea";
+export default Textarea;

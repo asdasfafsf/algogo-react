@@ -1,13 +1,15 @@
-import { Typography } from '@components/common';
-import { useNavigate } from 'react-router-dom';
-import { TrainingCard } from './TrainingCard';
+import { Typography } from "@components/common";
+import { useNavigate } from "react-router-dom";
+import { TrainingCard } from "./TrainingCard";
 
 export function TrainingSection() {
   const navigate = useNavigate();
   return (
     <div>
-      <Typography variant="h5" className="mb-4">문제 풀이</Typography>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <Typography variant="h5" className="mb-4">
+        문제 풀이
+      </Typography>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <TrainingCard
           title="오늘의 문제"
           description="매일 새로운 도전"
@@ -15,7 +17,7 @@ export function TrainingSection() {
           color="blue"
           status="active"
           onClick={() => {
-            navigate('/problem/today');
+            navigate("/problem/today");
           }}
         />
         <TrainingCard
@@ -25,7 +27,7 @@ export function TrainingSection() {
           color="purple"
           status="coming-soon"
           onClick={() => {
-            navigate('/problem/type');
+            navigate("/problem/type");
           }}
         />
         <TrainingCard
@@ -37,6 +39,5 @@ export function TrainingSection() {
         />
       </div>
     </div>
-
   );
 }

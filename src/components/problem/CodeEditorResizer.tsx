@@ -1,20 +1,16 @@
-import useCodeEditorResizer from '@hook/useCodeEditorResizer';
-
+import { GripHorizontal } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import useCodeEditorResizer from "@hook/useCodeEditorResizer";
 export default function CodeEditorResizer() {
   const handleMouseDown = useCodeEditorResizer()[1];
   return (
-    <div
-      className="h-[10px] bg-gray-900 cursor-row-resize flex items-center justify-center group/size1 min-w-[360px] overflow-hidden"
+    <Separator
+      decorative={false}
+      aria-label="코드와 결과 패널 크기 조절"
+      onMouseDown={handleMouseDown}
+      className="group flex h-2.5 w-full cursor-row-resize items-center justify-center bg-gray-800 hover:bg-blue-600/40"
     >
-      <div
-        className="fixed flex justify-center invisible w-12 h-12 bg-gray-900 rounded-xl group-hover/size1:visible"
-      >
-        {/* <ArrowUpIcon className="w-4 h-4 text-white" /> */}
-      </div>
-      <div
-        onMouseDown={handleMouseDown}
-        className="w-full h-full"
-      />
-    </div>
+      <GripHorizontal className="size-3 text-gray-500 group-hover:text-blue-300" />
+    </Separator>
   );
 }

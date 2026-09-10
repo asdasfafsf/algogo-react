@@ -1,14 +1,8 @@
-// Section.tsx
-import React from 'react';
-
-export default function Section(props: { children: React.ReactNode }) {
+import type { ReactNode } from "react";
+export default function Section({ children }: { children: ReactNode }) {
   return (
-    <section className="flex items-center justify-center px-4">
-      <div className="container max-w-(--breakpoint-xl)">
-        <div className="max-w-full">
-          {props.children}
-        </div>
-      </div>
+    <section className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+      <div className="min-w-0">{children}</div>
     </section>
   );
 }

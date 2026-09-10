@@ -1,16 +1,15 @@
-// src/components/Carousel/Carousel.tsx
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  forwardRef,
-  TouchEvent,
-  MouseEvent,
-  useImperativeHandle,
-} from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@components/ui/button";
+import {
+  Carousel as ShadcnCarousel,
+  type CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from "@components/ui/carousel";
+import { cn } from "@lib/utils";
 
-export interface CarouselProps extends React.ComponentProps<'div'> {
+export interface CarouselProps extends React.ComponentProps<"div"> {
   children: React.ReactNode;
   prevArrow?: React.ReactNode;
   nextArrow?: React.ReactNode;
@@ -19,7 +18,6 @@ export interface CarouselProps extends React.ComponentProps<'div'> {
   autoplayDelay?: number;
   transition?: number;
   loop?: boolean;
-  className?: string;
   slideRef?: React.Ref<HTMLDivElement>;
 }
 
@@ -34,221 +32,141 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       autoplayDelay = 3000,
       transition = 500,
       loop = true,
-      className = '',
+      className,
       slideRef,
+      onMouseEnter,
+      onMouseLeave,
+      onFocusCapture,
+      onBlurCapture,
       ...props
     },
     ref,
   ) => {
+    const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
-    const slides = React.Children.toArray(children);
-    const total = slides.length;
-
-    const autoplayRef = useRef<NodeJS.Timeout | null>(null);
     const isHovered = useRef(false);
-
-    const startX = useRef<number | null>(null);
-    const isDragging = useRef<boolean>(false);
-
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    useImperativeHandle(ref, () => containerRef.current as HTMLDivElement);
-
-    const nextSlide = useCallback(() => {
-      setCurrent((prev) => {
-        if (prev + 1 < total) {
-          return prev + 1;
-        }
-        return loop ? 0 : prev;
-      });
-    }, [total, loop]);
-
-    const prevSlide = useCallback(() => {
-      setCurrent((prev) => {
-        if (prev - 1 >= 0) {
-          return prev - 1;
-        }
-        return loop ? total - 1 : prev;
-      });
-    }, [total, loop]);
+    const hasFocusWithin = useRef(false);
+    const slides = React.Children.toArray(children);
 
     useEffect(() => {
-      if (autoplay) {
-        if (autoplayRef.current) {
-          clearInterval(autoplayRef.current);
-        }
-        autoplayRef.current = setInterval(() => {
-          if (!isHovered.current) {
-            nextSlide();
-          }
-        }, autoplayDelay);
-      }
-
+      if (!api) return;
+      const select = () => setCurrent(api.selectedScrollSnap());
+      select();
+      api.on("select", select).on("reInit", select);
       return () => {
-        if (autoplayRef.current) {
-          clearInterval(autoplayRef.current);
-        }
+        api.off("select", select).off("reInit", select);
       };
-    }, [autoplay, autoplayDelay, nextSlide]);
+    }, [api]);
 
-    const goToSlide = (index: number): void => {
-      setCurrent(index);
-    };
-
-    const handleMouseEnter = (): void => {
-      isHovered.current = true;
-    };
-
-    const handleMouseLeave = (): void => {
-      isHovered.current = false;
-      isDragging.current = false;
-      startX.current = null;
-    };
-
-    const handleTouchStart = (e: TouchEvent): void => {
-      startX.current = e.touches[0].clientX;
-      isDragging.current = true;
-    };
-
-    const handleTouchMove = (e: TouchEvent): void => {
-      if (!isDragging.current || startX.current === null) return;
-      const currentX = e.touches[0].clientX;
-      const diff = startX.current - currentX;
-
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-          nextSlide();
-        } else {
-          prevSlide();
-        }
-        isDragging.current = false;
-        startX.current = null;
-      }
-    };
-
-    const handleTouchEnd = (): void => {
-      isDragging.current = false;
-      startX.current = null;
-    };
-
-    const handleMouseDown = (e: MouseEvent): void => {
-      startX.current = e.clientX;
-      isDragging.current = true;
-    };
-
-    const handleMouseMove = (e: MouseEvent): void => {
-      if (!isDragging.current || startX.current === null) return;
-      const currentX = e.clientX;
-      const diff = startX.current - currentX;
-
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-          nextSlide();
-        } else {
-          prevSlide();
-        }
-        isDragging.current = false;
-        startX.current = null;
-      }
-    };
-
-    const handleMouseUp = (): void => {
-      isDragging.current = false;
-      startX.current = null;
-    };
+    useEffect(() => {
+      if (!api || !autoplay || slides.length < 2) return;
+      const timer = window.setInterval(() => {
+        if (!isHovered.current && !hasFocusWithin.current) api.scrollNext();
+      }, autoplayDelay);
+      return () => window.clearInterval(timer);
+    }, [api, autoplay, autoplayDelay, slides.length]);
 
     return (
-      <div
-        className={`relative overflow-hidden h-64 ${className}`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        ref={containerRef}
+      <ShadcnCarousel
+        ref={ref}
+        setApi={setApi}
+        opts={{
+          loop,
+          duration: Math.max(10, Math.min(60, Math.round(transition / 10))),
+        }}
+        className={cn(
+          "h-64 overflow-hidden [&>div:first-child]:h-full",
+          className,
+        )}
+        onMouseEnter={(event) => {
+          isHovered.current = true;
+          onMouseEnter?.(event);
+        }}
+        onMouseLeave={(event) => {
+          isHovered.current = false;
+          onMouseLeave?.(event);
+        }}
+        onFocusCapture={(event) => {
+          hasFocusWithin.current = true;
+          onFocusCapture?.(event);
+        }}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) {
+            hasFocusWithin.current = false;
+          }
+          onBlurCapture?.(event);
+        }}
         {...props}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
       >
-        <div
-          className="flex h-full transition-transform"
-          style={{
-            transform: `translateX(-${current * 100}%)`,
-            transitionDuration: `${transition}ms`,
-          }}
+        <CarouselContent
           ref={slideRef}
+          className="ml-0 h-full"
           aria-live="polite"
         >
           {slides.map((slide, index) => (
-            <div
+            <CarouselItem
               key={index}
-              className="shrink-0 w-full h-full"
+              className="h-full pl-0"
+              aria-label={`${index + 1} / ${slides.length}`}
               aria-hidden={current !== index}
+              inert={current !== index}
             >
               {slide}
-            </div>
+            </CarouselItem>
           ))}
-        </div>
+        </CarouselContent>
 
-        {prevArrow ? (
-          <button
-            type="button"
-            className="absolute z-10 text-3xl text-gray-600 transform -translate-y-1/2 top-1/2 left-4"
-            onClick={prevSlide}
-            aria-label="Previous Slide"
-          >
-            {prevArrow}
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="absolute z-10 text-3xl text-gray-600 transform -translate-y-1/2 top-1/2 left-4"
-            onClick={prevSlide}
-            aria-label="Previous Slide"
-          >
-            &#10094;
-          </button>
-        )}
-
-        {nextArrow ? (
-          <button
-            type="button"
-            className="absolute z-10 text-3xl text-gray-600 transform -translate-y-1/2 top-1/2 right-4"
-            onClick={nextSlide}
-            aria-label="Next Slide"
-          >
-            {nextArrow}
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="absolute z-10 text-3xl text-gray-600 transform -translate-y-1/2 top-1/2 right-4"
-            onClick={nextSlide}
-            aria-label="Next Slide"
-          >
-            &#10095;
-          </button>
-        )}
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
+          onClick={() => api?.scrollPrev()}
+          aria-label="이전 슬라이드"
+        >
+          {prevArrow ?? <ChevronLeft />}
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
+          onClick={() => api?.scrollNext()}
+          aria-label="다음 슬라이드"
+        >
+          {nextArrow ?? <ChevronRight />}
+        </Button>
 
         {navigation && (
-        <div className="absolute flex space-x-2 transform -translate-x-1/2 bottom-4 left-1/2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              className={`w-3 h-3 rounded-full ${
-                current === index ? 'bg-gray-800' : 'bg-gray-400'
-              }`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+          <div
+            className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1 rounded-full bg-background/80 px-2 py-1"
+            role="group"
+            aria-label="슬라이드 선택"
+          >
+            {slides.map((_, index) => (
+              <Button
+                key={index}
+                type="button"
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "size-5 rounded-full p-1 hover:bg-transparent",
+                  current === index
+                    ? "text-foreground"
+                    : "text-muted-foreground",
+                )}
+                onClick={() => api?.scrollTo(index)}
+                aria-label={`${index + 1}번 슬라이드로 이동`}
+                aria-current={current === index ? "true" : undefined}
+              >
+                <span className="size-2.5 rounded-full bg-current" />
+              </Button>
+            ))}
+          </div>
         )}
-      </div>
+      </ShadcnCarousel>
     );
   },
 );
-
+Carousel.displayName = "Carousel";
 export default Carousel;

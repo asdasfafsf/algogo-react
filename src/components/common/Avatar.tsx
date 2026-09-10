@@ -1,65 +1,73 @@
-import React from 'react';
+import type { MouseEvent } from "react";
+import {
+  Avatar as AvatarRoot,
+  AvatarFallback,
+  AvatarImage,
+} from "@components/ui/avatar";
+import { cn } from "@lib/utils";
 
 interface AvatarProps {
   src: string;
   alt?: string;
-  size?: 'small' | 'medium' | 'large';
-  variant?: 'circular' | 'rounded' | 'square';
-  borderColor?: 'blue' | 'red' | 'green' | 'amber' | 'slate' | 'gray' | 'white' | 'black' | 'none';
+  size?: "small" | "medium" | "large";
+  variant?: "circular" | "rounded" | "square";
+  borderColor?:
+    | "blue"
+    | "red"
+    | "green"
+    | "amber"
+    | "slate"
+    | "gray"
+    | "white"
+    | "black"
+    | "none";
   withBorder?: boolean;
   className?: string;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void;
 }
-
-const sizeClasses: Record<string, string> = {
-  small: 'w-8 h-8',
-  medium: 'w-10 h-10',
-  large: 'w-12 h-12',
+const sizes = { small: "size-8", medium: "size-10", large: "size-12" };
+const variants = {
+  circular: "rounded-full",
+  rounded: "rounded-md",
+  square: "rounded-none",
 };
-
-const borderClasses: Record<string, string> = {
-  blue: 'border border-blue-600',
-  red: 'border border-red-600',
-  green: 'border border-green-600',
-  amber: 'border border-amber-600',
-  slate: 'border border-slate-600',
-  gray: 'border border-gray-600',
-  white: 'border border-white',
-  black: 'border border-black',
-  none: 'border-none',
-};
-
-const variantClasses: Record<string, string> = {
-  circular: 'rounded-full',
-  rounded: 'rounded-md',
-  square: 'rounded-none',
+const borders = {
+  blue: "border-blue-600",
+  red: "border-red-600",
+  green: "border-green-600",
+  amber: "border-amber-600",
+  slate: "border-slate-600",
+  gray: "border-gray-600",
+  white: "border-white",
+  black: "border-black",
+  none: "border-transparent",
 };
 
 export default function Avatar({
   src,
-  alt = 'avatar',
-  size = 'medium',
-  variant = 'circular',
-  borderColor = 'none',
+  alt = "avatar",
+  size = "medium",
+  variant = "circular",
+  borderColor = "none",
   withBorder = false,
-  className = '',
+  className,
   onClick,
 }: AvatarProps) {
-  const baseClasses = `
-    ${sizeClasses[size]}
-    ${variantClasses[variant]}
-    ${withBorder && borderColor !== 'none' ? borderClasses[borderColor] : ''}
-    overflow-hidden object-cover object-center transition-all
-  `;
-
-  const finalClass = baseClasses.replace(/\s+/g, ' ').trim();
-
   return (
-    <div
-      className={`${finalClass} ${className}`}
+    <AvatarRoot
+      className={cn(
+        sizes[size],
+        variants[variant],
+        withBorder && "border",
+        withBorder && borders[borderColor],
+        className,
+      )}
       onClick={onClick}
     >
-      <img src={src} alt={alt} className="w-full h-full" />
-    </div>
+      <AvatarImage src={src} alt={alt} />
+      <AvatarFallback aria-label={alt}>
+        {alt.slice(0, 1).toUpperCase()}
+      </AvatarFallback>
+    </AvatarRoot>
   );
 }

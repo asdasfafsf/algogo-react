@@ -1,11 +1,13 @@
 // import { Typography } from '@components/common';
 import {
-  OAuthConnectedInfo, ExternalConnectedInfo, BasicMyInfo,
-} from '@components/me';
-import ContributionGraph from '@components/me/ContributionGraph';
-import StatsCards from '@components/me/StatsCards';
-import RecentActivity from '@components/me/RecentActivity';
-import DefaultLayout from '../layout/DefaultLayout';
+  OAuthConnectedInfo,
+  ExternalConnectedInfo,
+  BasicMyInfo,
+} from "@components/me";
+import ContributionGraph from "@components/me/ContributionGraph";
+import StatsCards from "@components/me/StatsCards";
+import RecentActivity from "@components/me/RecentActivity";
+import DefaultLayout from "../layout/DefaultLayout";
 
 function My() {
   // 잔디 데이터 생성 (최근 365일)
@@ -13,10 +15,9 @@ function My() {
 
   return (
     <DefaultLayout>
-      <div className="min-h-screen bg-white">
-        <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-background">
+        <div className="py-8 mx-auto max-w-7xl sm:py-12">
           <div className="space-y-8">
-
             {/* 프로필 카드 */}
             <BasicMyInfo />
 
@@ -34,10 +35,8 @@ function My() {
 
             {/* 최근 활동 */}
             <RecentActivity />
-
           </div>
         </div>
-
       </div>
     </DefaultLayout>
   );

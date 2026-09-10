@@ -1,24 +1,22 @@
-import { Tooltip } from 'react-tooltip';
-import IconButton, { IconButtonProps } from './IconButton';
-
-interface TooltipIconButtonProps extends IconButtonProps {
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
+import IconButton, { type IconButtonProps } from "./IconButton";
+interface Props extends IconButtonProps {
   content: string;
 }
-
-export default function TooltipIconButton(props: TooltipIconButtonProps) {
-  const {
-    children, className, content, ...pickProps
-  } = props;
-
+export default function TooltipIconButton({ content, ...props }: Props) {
   return (
-    <Tooltip content={content}>
-      <IconButton
-        {...pickProps}
-        className={className ?? ''}
-      >
-        {children}
-      </IconButton>
-
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <IconButton {...props} />
+        </TooltipTrigger>
+        <TooltipContent>{content}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

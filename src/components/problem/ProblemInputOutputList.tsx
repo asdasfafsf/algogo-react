@@ -1,19 +1,24 @@
-import EnterIcon from '/public/assets/enter.svg?react';
-import SpaceIcon from '/public/assets/space.svg?react'
-import React from 'react';
+import { CornerDownLeft as EnterIcon, Space as SpaceIcon } from "lucide-react";
+import React from "react";
 import {
-  Typography, Line, ClipboardWithTooltip,
-} from '@components/common/index';
-import useCodeResultPanelStore from '@zustand/CodeResultPanelStore';
-import ProblemContent from './ProblemContent';
-import { ProblemInputOutput } from '@/type/Problem.type';
+  Typography,
+  Line,
+  ClipboardWithTooltip,
+} from "@components/common/index";
+import useCodeResultPanelStore from "@zustand/CodeResultPanelStore";
+import ProblemContent from "./ProblemContent";
+import { ProblemInputOutput } from "@/type/Problem.type";
 
 interface ProblemInputOutputProps {
   inputOutputList: ProblemInputOutput[];
 }
 
-export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputProps) {
-  const setSelectedIndex = useCodeResultPanelStore((state) => state.setSelectedIndex);
+export function ProblemInputOutputList({
+  inputOutputList,
+}: ProblemInputOutputProps) {
+  const setSelectedIndex = useCodeResultPanelStore(
+    (state) => state.setSelectedIndex,
+  );
   return (
     <>
       <Typography variant="h5">입출력 예시</Typography>
@@ -25,14 +30,18 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
             <EnterIcon />
           </div>
           &nbsp;
-          <Typography variant="medium" className="font-medium">: 다음 줄</Typography>
+          <Typography variant="medium" className="font-medium">
+            : 다음 줄
+          </Typography>
         </div>
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center w-6 h-6 text-blue-500 bg-gray-900 rounded-sm">
             <SpaceIcon />
           </div>
           &nbsp;
-          <Typography variant="medium" className="font-medium">: 스페이스</Typography>
+          <Typography variant="medium" className="font-medium">
+            : 스페이스
+          </Typography>
         </div>
       </div>
       <Line className="my-4 opacity-0" />
@@ -46,12 +55,18 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
           <Line className="relative my-2">
             <div className="absolute w-12 h-[2px] bg-blue-500" />
           </Line>
-          <Typography variant="h6" className="my-2 font-medium">입력</Typography>
+          <Typography variant="h6" className="my-2 font-medium">
+            입력
+          </Typography>
           <ClipboardWithTooltip
-            handleCopyCallback={() => { setSelectedIndex(0); }}
+            handleCopyCallback={() => {
+              setSelectedIndex(0);
+            }}
             content={elem.input}
           />
-          <Typography variant="h6" className="my-2 font-medium">출력</Typography>
+          <Typography variant="h6" className="my-2 font-medium">
+            출력
+          </Typography>
           <ClipboardWithTooltip content={elem.output} />
 
           {elem.content && (
@@ -62,7 +77,6 @@ export function ProblemInputOutputList({ inputOutputList }: ProblemInputOutputPr
           )}
         </div>
       ))}
-
     </>
   );
 }

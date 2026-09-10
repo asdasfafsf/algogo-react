@@ -1,7 +1,8 @@
-import Chip, { ChipProps } from './Chip';
+import Chip, { ChipProps } from "./Chip";
+import { Button } from "@components/ui/button";
 
-type ChipWithSelectecdProps = Omit<ChipProps, 'color' | 'variant'> & {
-  isSelected: boolean
+type ChipWithSelectecdProps = Omit<ChipProps, "color" | "variant"> & {
+  isSelected: boolean;
   onClick: (e: React.MouseEvent<HTMLElement>) => Promise<void> | void;
 };
 
@@ -10,18 +11,19 @@ export default function ChipWithSelected({
   onClick,
   ...props
 }: ChipWithSelectecdProps) {
-  const color = isSelected ? 'blue' : 'gray';
+  const color = isSelected ? "blue" : "gray";
   return (
-    <div
+    <Button
+      variant="ghost"
+      aria-pressed={isSelected}
       onClick={onClick}
-      className="flex gap-2 cursor-pointer"
+      className="h-auto cursor-pointer p-0 font-normal hover:bg-transparent"
     >
       <Chip
         {...props}
-        variant={`${isSelected ? 'filled' : 'ghost'}`}
+        variant={`${isSelected ? "filled" : "ghost"}`}
         color={color}
       />
-
-    </div>
+    </Button>
   );
 }

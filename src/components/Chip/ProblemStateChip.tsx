@@ -2,9 +2,9 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   ClockIcon,
-} from '@heroicons/react/24/outline';
-import { ProblemState } from '@/type/Problem.type';
-import { PROBLEM_STATE } from '@/constant/problem.state.constant';
+} from "@heroicons/react/24/outline";
+import { ProblemState } from "@/type/Problem.type";
+import { PROBLEM_STATE } from "@/constant/problem.state.constant";
 
 interface ProblemStateChipProps {
   state: ProblemState;
@@ -26,7 +26,9 @@ export default function ProblemStateChip({
     case PROBLEM_STATE.SOLVED:
       return (
         <div className="flex items-center justify-center gap-1.5 px-2.5 py-1 bg-green-50 rounded-full border border-green-200">
-          {showIcon && <CheckCircleIcon className="w-3.5 h-3.5 text-green-600" />}
+          {showIcon && (
+            <CheckCircleIcon className="w-3.5 h-3.5 text-green-600" />
+          )}
           <span className="text-xs font-medium text-green-700">성공</span>
         </div>
       );

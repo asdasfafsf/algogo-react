@@ -1,5 +1,3 @@
-import Pagebar from './Pagebar';
+import Pagebar from "./Pagebar";
 
-export {
-  Pagebar,
-};
+export { Pagebar };

@@ -1,26 +1,41 @@
-import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import { useProblemContentSizeStore } from '@zustand/ProblemContentSizeStore';
-import { Typography } from '../common';
-
+import { Minus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useProblemContentSizeStore } from "@zustand/ProblemContentSizeStore";
 export default function ProblemContentResizer() {
-  const setSize = useProblemContentSizeStore((state) => state.setSize);
-  const size = useProblemContentSizeStore((state) => state.size);
+  const setSize = useProblemContentSizeStore((s) => s.setSize);
+  const size = useProblemContentSizeStore((s) => s.size);
   return (
-    <div className="flex items-center gap-1 rounded-md border w-24">
-      <MinusCircleIcon
-        onClick={() => { setSize((prev) => Math.max(prev - 10, 100) as ProblemContentSize); }}
-        className="w-6 h-6 cursor-zoom-out"
-      />
-      <Typography variant="medium" weight="semilight">
-        {' '}
-        {size}
-        %
-        {' '}
-      </Typography>
-      <PlusCircleIcon
-        onClick={() => { setSize((prev) => Math.min(prev + 10, 200) as ProblemContentSize); }}
-        className="w-6 h-6 cursor-zoom-in"
-      />
+    <div className="inline-flex items-center gap-1 rounded-lg border border-border bg-muted/40 p-0.5">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="size-7"
+        aria-label="문제 글자 축소"
+        disabled={size <= 100}
+        onClick={() =>
+          setSize((prev) => Math.max(prev - 10, 100) as ProblemContentSize)
+        }
+      >
+        <Minus className="size-3.5" />
+      </Button>
+      <span
+        className="min-w-10 text-center text-xs tabular-nums"
+        aria-live="polite"
+      >
+        {size}%
+      </span>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="size-7"
+        aria-label="문제 글자 확대"
+        disabled={size >= 200}
+        onClick={() =>
+          setSize((prev) => Math.min(prev + 10, 200) as ProblemContentSize)
+        }
+      >
+        <Plus className="size-3.5" />
+      </Button>
     </div>
   );
 }

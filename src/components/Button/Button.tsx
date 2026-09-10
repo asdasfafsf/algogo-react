@@ -1,150 +1,115 @@
-import React, { MouseEvent } from 'react';
-
-interface ButtonProps {
-  variant?: 'filled' | 'gradient' | 'outlined' | 'text';
-  size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-  color?: 'blue' | 'red' | 'green' | 'amber' | 'slate' | 'gray' | 'black' | 'yellow' | 'white';
-  icon?: React.ReactNode;
-  className?: string;
-  iconPosition?: 'left' | 'right';
-  children: React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => unknown | Promise<unknown>;
-  onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  disabled?: boolean;
+import { forwardRef, type MouseEvent, type ReactNode } from "react";
+import {
+  Button as ShadcnButton,
+  type ButtonProps as ShadcnButtonProps,
+} from "@components/ui/button";
+import { cn } from "@lib/utils";
+type LegacyVariant = "filled" | "gradient" | "outlined" | "text";
+type LegacySize = "xsmall" | "small" | "medium" | "large" | "xlarge";
+type Color =
+  | "blue"
+  | "red"
+  | "green"
+  | "amber"
+  | "slate"
+  | "gray"
+  | "black"
+  | "yellow"
+  | "white";
+interface ButtonProps extends Omit<ShadcnButtonProps, "variant" | "size"> {
+  variant?: LegacyVariant;
+  color?: Color;
+  size?: LegacySize;
+  icon?: ReactNode;
+  iconPosition?: "left" | "right";
   ripple?: boolean;
 }
-
-const baseClasses = [
-  'inline-flex',
-  'align-middle',
-  'select-none',
-  'font-bold',
-  'text-center',
-  'uppercase',
-  'transition-all',
-  'rounded-lg',
-  'focus:opacity-[0.85]',
-  'focus:shadow-none',
-  'active:opacity-[0.85]',
-  'active:shadow-none',
-  'disabled:opacity-50',
-  'disabled:shadow-none',
-  'disabled:pointer-events-none',
-  'relative',
-  'overflow-hidden',
-  'items-center',
-  'justify-center',
-  'cursor-pointer',
-  'whitespace-nowrap', // 줄바꿈 방지
-].join(' ');
-
-const variantColorClasses: Record<string, Record<string, string>> = {
+const variants: Record<LegacyVariant, Record<Color, string>> = {
   filled: {
-    blue: 'bg-blue-500 text-white shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20',
-    red: 'bg-red-600 text-white shadow-red-600/10 hover:shadow-lg hover:shadow-red-600/20',
-    green: 'bg-green-600 text-white shadow-green-600/10 hover:shadow-lg hover:shadow-green-600/20',
-    amber: 'bg-amber-600 text-white shadow-amber-600/10 hover:shadow-lg hover:shadow-amber-600/20',
-    slate: 'bg-slate-800 text-white shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20',
-    gray: 'bg-gray-600 text-white shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20',
-    black: 'bg-black text-white shadow-black/10 hover:shadow-lg hover:shadow-black/20',
-    yellow: 'bg-yellow-300 text-white shadow-yellow-300/10 hover:shadow-lg hover:shadow-yellow-500/20',
-    white: 'bg-white text-black shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20',
+    blue: "bg-blue-500 text-white hover:bg-blue-600",
+    red: "bg-red-600 text-white hover:bg-red-700",
+    green: "bg-green-600 text-white hover:bg-green-700",
+    amber: "bg-amber-600 text-white hover:bg-amber-700",
+    slate: "bg-slate-800 text-white hover:bg-slate-700",
+    gray: "bg-gray-600 text-white hover:bg-gray-700",
+    black: "bg-black text-white hover:bg-gray-800",
+    yellow: "bg-yellow-400 text-gray-900 hover:bg-yellow-500",
+    white: "bg-white text-black hover:bg-gray-100",
   },
   gradient: {
-    blue: 'bg-linear-to-tr from-blue-600 to-blue-700 text-white shadow-blue-700/10 hover:shadow-lg hover:shadow-blue-700/20',
-    red: 'bg-linear-to-tr from-red-600 to-red-700 text-white shadow-red-700/10 hover:shadow-lg hover:shadow-red-700/20',
-    green: 'bg-linear-to-tr from-green-600 to-green-700 text-white shadow-green-700/10 hover:shadow-lg hover:shadow-green-700/20',
-    amber: 'bg-linear-to-tr from-amber-600 to-amber-700 text-white shadow-amber-700/10 hover:shadow-lg hover:shadow-amber-700/20',
-    slate: 'bg-linear-to-tr from-slate-800 to-slate-700 text-white shadow-slate-700/10 hover:shadow-lg hover:shadow-slate-700/20',
-    gray: 'bg-linear-to-tr from-gray-600 to-gray-700 text-white shadow-gray-700/10 hover:shadow-lg hover:shadow-gray-700/20',
-    black: 'bg-linear-to-tr from-black to-gray-800 text-white shadow-gray-800/10 hover:shadow-lg hover:shadow-gray-800/20',
-    yellow: 'bg-linear-to-tr from-yellow-500 to-yellow-600 text-white shadow-yellow-600/10 hover:shadow-lg hover:shadow-yellow-600/20',
-    white: 'bg-linear-to-tr from-white to-gray-200 text-black shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20',
+    blue: "bg-linear-to-tr from-blue-600 to-blue-700 text-white",
+    red: "bg-linear-to-tr from-red-600 to-red-700 text-white",
+    green: "bg-linear-to-tr from-green-600 to-green-700 text-white",
+    amber: "bg-linear-to-tr from-amber-600 to-amber-700 text-white",
+    slate: "bg-linear-to-tr from-slate-800 to-slate-700 text-white",
+    gray: "bg-linear-to-tr from-gray-600 to-gray-700 text-white",
+    black: "bg-linear-to-tr from-black to-gray-800 text-white",
+    yellow: "bg-linear-to-tr from-yellow-500 to-yellow-600 text-white",
+    white: "bg-linear-to-tr from-white to-gray-200 text-black",
   },
   outlined: {
-    blue: 'border border-blue-500 text-blue-500 shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 hover:bg-blue-500 hover:text-white',
-    red: 'border border-red-600 text-red-600 shadow-red-600/10 hover:shadow-lg hover:shadow-red-600/20 hover:bg-red-600 hover:text-white',
-    green: 'border border-green-600 text-green-600 shadow-green-600/10 hover:shadow-lg hover:shadow-green-600/20 hover:bg-green-600 hover:text-white',
-    amber: 'border border-amber-600 text-amber-600 shadow-amber-600/10 hover:shadow-lg hover:shadow-amber-600/20 hover:bg-amber-600 hover:text-white',
-    slate: 'border border-slate-800 text-slate-800 shadow-slate-800/10 hover:shadow-lg hover:shadow-slate-800/20 hover:bg-slate-800 hover:text-white',
-    gray: 'border border-gray-600 text-gray-600 shadow-gray-600/10 hover:shadow-lg hover:shadow-gray-600/20 hover:bg-gray-600 hover:text-white',
-    black: 'border border-black text-black shadow-black/10 hover:shadow-lg hover:shadow-black/20 hover:bg-black hover:text-white',
-    yellow: 'border border-yellow-500 text-yellow-500 shadow-yellow-500/10 hover:shadow-lg hover:shadow-yellow-500/20 hover:bg-yellow-500 hover:text-white',
-    white: 'border border-white text-white shadow-gray-300/10 hover:shadow-lg hover:shadow-gray-300/20 hover:bg-white hover:text-black',
+    blue: "border-blue-500 text-blue-600 hover:bg-blue-50",
+    red: "border-red-600 text-red-600 hover:bg-red-50",
+    green: "border-green-600 text-green-600 hover:bg-green-50",
+    amber: "border-amber-600 text-amber-600 hover:bg-amber-50",
+    slate: "border-slate-800 text-slate-800 hover:bg-slate-50",
+    gray: "border-gray-500 text-gray-600 hover:bg-gray-50",
+    black: "border-black text-black hover:bg-gray-50",
+    yellow: "border-yellow-500 text-yellow-600 hover:bg-yellow-50",
+    white: "border-white text-white hover:bg-white/10",
   },
   text: {
-    blue: 'bg-transparent text-blue-500',
-    red: 'bg-transparent text-red-600',
-    green: 'bg-transparent text-green-600',
-    amber: 'bg-transparent text-amber-600',
-    slate: 'bg-transparent text-slate-800',
-    gray: 'bg-transparent text-gray-600',
-    black: 'bg-transparent text-black',
-    yellow: 'bg-transparent text-yellow-500',
-    white: 'bg-transparent text-white',
+    blue: "text-blue-600 hover:bg-blue-50",
+    red: "text-red-600 hover:bg-red-50",
+    green: "text-green-600 hover:bg-green-50",
+    amber: "text-amber-600 hover:bg-amber-50",
+    slate: "text-slate-800 hover:bg-slate-100",
+    gray: "text-gray-600 hover:bg-gray-100",
+    black: "text-black hover:bg-gray-100",
+    yellow: "text-yellow-600 hover:bg-yellow-50",
+    white: "text-white hover:bg-white/10",
   },
 };
-
-const sizeClasses: Record<string, string> = {
-  xsmall: 'py-1 px-2 text-xs',
-  small: 'py-1.5 px-3 text-xs',
-  medium: 'py-3 px-6 text-xs',
-  large: 'py-3.5 px-7 text-xs',
-  xlarge: 'py-4 px-8 text-xs',
+const sizes = {
+  xsmall: "h-7 px-2 text-xs",
+  small: "h-8 px-3 text-xs",
+  medium: "h-10 px-6 text-xs",
+  large: "h-11 px-7 text-xs",
+  xlarge: "h-12 px-8 text-xs",
 };
-
-export default function Button({
-  variant = 'filled',
-  size = 'medium',
-  color = 'black',
-  icon,
-  iconPosition = 'left',
-  children,
-  onClick,
-  onMouseLeave,
-  disabled,
-  className = '',
-  ripple = false,
-}: ButtonProps) {
-  const handleAnimation = (e: MouseEvent<HTMLButtonElement>) => {
-    if (!ripple) return;
-
-    const rippleEffect = document.createElement('span');
-    rippleEffect.className = 'absolute bg-white rounded-full opacity-50';
-    const maxSize = Math.max(e.currentTarget.clientWidth, e.currentTarget.clientHeight);
-    const size = `${maxSize * 2}px`;
-    rippleEffect.style.width = size;
-    rippleEffect.style.height = size;
-    rippleEffect.style.left = `${e.clientX - e.currentTarget.offsetLeft - maxSize}px`;
-    rippleEffect.style.top = `${e.clientY - e.currentTarget.offsetTop - maxSize}px`;
-    rippleEffect.style.transform = 'scale(0)';
-    rippleEffect.style.transition = 'transform 1.2s ease, opacity 1.2s ease';
-    e.currentTarget.appendChild(rippleEffect);
-
-    setTimeout(() => {
-      rippleEffect.style.transform = 'scale(4)';
-      rippleEffect.style.opacity = '0';
-    }, 0);
-
-    setTimeout(() => rippleEffect.remove(), 600);
-  };
-
-  return (
-    <button
-      className={`${className} ${baseClasses} ${variantColorClasses[variant][color]} ${sizeClasses[size]} ${
-        className}`}
-      onClick={(e) => {
-        if (ripple) handleAnimation(e);
-        if (onClick) onClick(e);
-        e.currentTarget.blur();
-      }}
-      onMouseLeave={onMouseLeave}
-      disabled={disabled}
-      type="button"
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = "filled",
+      size = "medium",
+      color = "black",
+      icon,
+      iconPosition = "left",
+      children,
+      className,
+      onClick,
+      ripple: _,
+      ...props
+    },
+    ref,
+  ) => (
+    <ShadcnButton
+      ref={ref}
+      variant={variant === "outlined" ? "outline" : "ghost"}
+      className={cn(
+        "font-bold uppercase",
+        variants[variant][color],
+        sizes[size],
+        className,
+      )}
+      onClick={(e: MouseEvent<HTMLButtonElement>) => onClick?.(e)}
+      {...props}
     >
-      {icon && iconPosition === 'left' && <span className="mr-1.5">{icon}</span>}
+      {icon && iconPosition === "left" && icon}
       {children}
-      {icon && iconPosition === 'right' && <span className="ml-1.5">{icon}</span>}
-    </button>
-  );
-}
+      {icon && iconPosition === "right" && icon}
+    </ShadcnButton>
+  ),
+);
+Button.displayName = "Button";
+export default Button;

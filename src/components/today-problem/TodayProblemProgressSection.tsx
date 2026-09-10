@@ -1,7 +1,8 @@
-import { Typography } from '@components/common';
-import { Card } from '@components/Card';
-import { FadeInSection } from '@components/common/FadeInSection';
-import { todayProblemProgress } from '@/domain/problems';
+import { Progress } from "@/components/ui/progress";
+import { Typography } from "@components/common";
+import { Card } from "@components/Card";
+import { FadeInSection } from "@components/common/FadeInSection";
+import { todayProblemProgress } from "@/domain/problems";
 
 interface TodayProblemProgressSectionProps {
   currentIndex: number;
@@ -27,12 +28,11 @@ export function TodayProblemProgressSection({
                 {currentIndex + 1} / {totalProblems} 완료
               </Typography>
             </div>
-            <div className="w-full h-3 bg-blue-200 rounded-full">
-              <div
-                className="h-3 transition-all duration-500 rounded-full bg-linear-to-r from-blue-500 to-indigo-600"
-                style={{ width: `${progressPercentage}%` }}
-              />
-            </div>
+            <Progress
+              value={progressPercentage}
+              aria-label="오늘의 진행 상황"
+              className="h-3"
+            />
           </div>
         </Card>
       </div>

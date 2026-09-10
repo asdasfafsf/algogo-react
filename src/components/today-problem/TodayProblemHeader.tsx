@@ -1,12 +1,13 @@
-import { Typography } from '@components/common';
+import { Button as ShadcnButton } from "@/components/ui/button";
+import { Typography } from "@components/common";
 import {
   ClockIcon,
   CalendarDaysIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-} from '@heroicons/react/24/outline';
-import { useState, useEffect, memo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+} from "@heroicons/react/24/outline";
+import { useState, useEffect, memo } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   canNavigateToNextDay,
   formatUtcMidnightCountdown,
@@ -14,7 +15,7 @@ import {
   nextDayOffset,
   parseTodayProblemDay,
   previousDayOffset,
-} from '@/domain/problems';
+} from "@/domain/problems";
 
 interface TodayProblemHeaderProps {
   totalProblems: number;
@@ -30,24 +31,24 @@ const DateDisplay = memo(({ currentTime }: { currentTime: Date }) => {
   }, [currentTime]);
 
   const formatDate = (d: Date) =>
-    new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long',
+    new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
     }).format(d);
 
   return (
     <span
       className={`text-sm font-medium text-slate-600 transition-opacity duration-150 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
+        isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
       {formatDate(currentTime)}
     </span>
   );
 });
-DateDisplay.displayName = 'DateDisplay';
+DateDisplay.displayName = "DateDisplay";
 
 const CountdownTimer = memo(() => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -69,12 +70,12 @@ const CountdownTimer = memo(() => {
     </div>
   );
 });
-CountdownTimer.displayName = 'CountdownTimer';
+CountdownTimer.displayName = "CountdownTimer";
 
 export const TodayProblemHeader = memo(
   ({ totalProblems }: TodayProblemHeaderProps) => {
     const [searchParam, setSearchParam] = useSearchParams();
-    const day = parseTodayProblemDay(searchParam.get('day'));
+    const day = parseTodayProblemDay(searchParam.get("day"));
 
     const calcDate = (d: number) => {
       const date = new Date();
@@ -93,17 +94,17 @@ export const TodayProblemHeader = memo(
       // 오늘(day=0)보다 미래로는 이동할 수 없도록 제한
       if (!canNavigateToNextDay(day)) return;
 
-      setSearchParam(prev => {
-        const v = nextDayOffset(parseTodayProblemDay(prev.get('day')));
-        prev.set('day', v.toString());
+      setSearchParam((prev) => {
+        const v = nextDayOffset(parseTodayProblemDay(prev.get("day")));
+        prev.set("day", v.toString());
         return prev;
       });
     };
 
     const handlePrevDay = () => {
-      setSearchParam(prev => {
-        const v = previousDayOffset(parseTodayProblemDay(prev.get('day')));
-        prev.set('day', v.toString());
+      setSearchParam((prev) => {
+        const v = previousDayOffset(parseTodayProblemDay(prev.get("day")));
+        prev.set("day", v.toString());
         return prev;
       });
     };
@@ -114,27 +115,31 @@ export const TodayProblemHeader = memo(
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-100/30 via-transparent to-transparent" />
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border rounded-full shadow-xs bg-white/80 backdrop-blur-xs border-slate-200/50">
-            <button
+            <ShadcnButton
+              variant="ghost"
+              size="sm"
               type="button"
               className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-slate-100 transition-colors"
               onClick={handlePrevDay}
             >
               <ChevronLeftIcon className="w-3 h-3 text-slate-500" />
-            </button>
+            </ShadcnButton>
             <CalendarDaysIcon className="w-4 h-4 text-slate-500" />
             <DateDisplay currentTime={currentTime} />
-            <button
+            <ShadcnButton
+              variant="ghost"
+              size="sm"
               type="button"
               onClick={handleNextDay}
               className={`flex items-center justify-center w-6 h-6 rounded-full transition-colors ${
                 !canNavigateToNextDay(day)
-                  ? 'cursor-not-allowed opacity-50'
-                  : 'hover:bg-slate-100'
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:bg-slate-100"
               }`}
               disabled={!canNavigateToNextDay(day)}
             >
               <ChevronRightIcon className="w-3 h-3 text-slate-500" />
-            </button>
+            </ShadcnButton>
           </div>
 
           <div className="mb-8">
@@ -186,4 +191,4 @@ export const TodayProblemHeader = memo(
     );
   },
 );
-TodayProblemHeader.displayName = 'TodayProblemHeader';
+TodayProblemHeader.displayName = "TodayProblemHeader";
