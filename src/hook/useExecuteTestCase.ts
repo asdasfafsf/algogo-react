@@ -11,6 +11,7 @@ import {
   canStartExecution,
   executeWithAuthenticationRetry,
 } from "@/application/editor/execute";
+import { toExecutionFailureResult } from "@/domain/execute/error";
 
 export default function useExecuteTestCase() {
   const setRunning = useTestCaseListStore((state) => state.setRunning);
@@ -34,34 +35,50 @@ export default function useExecuteTestCase() {
 
     const { run, execute } = useExecuteSocketStore.getState();
 
-    const result = await executeWithAuthenticationRetry(
-      state,
-      () => {
-        const { testCaseList } = useTestCaseListStore.getState();
-        const { code, language } = useCodeEditorStore.getState();
-        return buildExecutionRequest(
-          { code, language },
-          testCaseList.map((testCase) => testCase.input),
-        );
-      },
-      {
-        connect,
-        refreshAuthentication: refresh,
-        subscribe: (isRetry) => {
-          if (isRetry) setRunning();
-          execute(handleExecute);
-        },
-        run,
-      },
-      () => {
-        if (modal?.top()?.key === "TESTCASE") modal.pop();
-        setSelectedIndex(2);
-        setRunning();
-      },
-    );
+    const showFailure = (failure: ResponseExecuteResult) => {
+      const { testCaseList } = useTestCaseListStore.getState();
+      testCaseList.forEach((_testCase, seq) => {
+        handleExecute({ ...failure, seq });
+      });
+    };
 
-    if (result.code === "9002") {
-      handleRun(result);
+    try {
+      const result = await executeWithAuthenticationRetry(
+        state,
+        () => {
+          const { testCaseList } = useTestCaseListStore.getState();
+          const { code, language } = useCodeEditorStore.getState();
+          return buildExecutionRequest(
+            { code, language },
+            testCaseList.map((testCase) => testCase.input),
+          );
+        },
+        {
+          connect,
+          refreshAuthentication: refresh,
+          subscribe: (isRetry) => {
+            if (isRetry) setRunning();
+            execute(handleExecute);
+          },
+          run,
+        },
+        () => {
+          if (modal?.top()?.key === "TESTCASE") modal.pop();
+          setSelectedIndex(2);
+          setRunning();
+        },
+      );
+
+      if (result.code === "9002") {
+        handleRun(result);
+      } else if (result.code !== "0000") {
+        showFailure(result);
+        await alert(result.result);
+      }
+    } catch (error) {
+      const failure = toExecutionFailureResult(error);
+      showFailure(failure);
+      await alert(failure.result);
     }
   }, [state]);
 
