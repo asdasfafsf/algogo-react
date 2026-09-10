@@ -1,9 +1,11 @@
-import React from 'react';
-import { Typography } from '@components/common/index';
-import ProblemLevelViewer from './ProblemLevelViewer';
+import React from "react";
+import { Clock, HardDrive, Send, Target, UserRoundCheck } from "lucide-react";
+import { formatProblemLevel } from "@/domain/problems/problemPresentation";
+import ProblemLevelViewer from "./ProblemLevelViewer";
 
 interface ProblemInfoProps {
-  levelText: ProblemLevel,
+  level: number;
+  levelText: string;
   submitCount: number;
   answerCount: number;
   answerRate: number;
@@ -12,63 +14,43 @@ interface ProblemInfoProps {
   answerPeopleCount: number;
 }
 function ProblemInfo({
-  levelText, submitCount, answerCount, answerPeopleCount, answerRate, memoryLimit, timeout,
+  level,
+  levelText,
+  submitCount,
+  answerCount,
+  answerPeopleCount,
+  answerRate,
+  memoryLimit,
+  timeout,
 }: ProblemInfoProps) {
+  const numberFormatter = new Intl.NumberFormat("ko-KR");
   return (
-    <div className="my-2 min-h-4">
-      <div className="flex flex-wrap items-center gap-1 jus">
-        <ProblemLevelViewer intialState="hide" level={levelText} />
-        <div className="flex flex-wrap items-center">
-          <Typography variant="medium" className="font-bold">제출 : </Typography>
-        &nbsp;
-          <Typography variant="medium" className="font-medium">
-            {submitCount}
-          </Typography>
-        </div>
-      &nbsp;
-
-        <div className="flex flex-wrap items-center">
-          <Typography variant="medium" className="font-bold">정답 : </Typography>
-        &nbsp;
-          <Typography variant="medium" className="font-medium">{answerCount}</Typography>
-        </div>
-      &nbsp;
-        <div className="flex flex-wrap items-center">
-          <Typography variant="medium" className="font-bold">맞힌 사람 : </Typography>
-        &nbsp;
-          <Typography variant="medium" className="font-medium">{answerPeopleCount}</Typography>
-        </div>
-      &nbsp;
-        <div className="flex flex-wrap items-center">
-          <Typography variant="medium" className="font-bold">정답률 : </Typography>
-        &nbsp;
-          <Typography variant="medium" className="font-medium">
-            {answerRate}
-            %
-          </Typography>
-        </div>
-      &nbsp;
-        <div className="flex flex-wrap items-center">
-          <Typography variant="medium" className="font-bold">시간 제한 : </Typography>
-        &nbsp;
-          <Typography variant="medium" className="font-medium">
-            {timeout}
-            {' '}
-            ms
-          </Typography>
-        </div>
-      &nbsp;
-        <div className="flex flex-wrap items-center">
-          <Typography variant="medium" className="font-bold"> 메모리 제한 : </Typography>
-        &nbsp;
-          <Typography variant="medium" className="font-medium">
-            {memoryLimit}
-            {' '}
-            MB
-          </Typography>
-        </div>
-      &nbsp;
-      </div>
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
+      <ProblemLevelViewer
+        intialState="hide"
+        level={formatProblemLevel(level, levelText)}
+      />
+      <span className="inline-flex items-center gap-1.5">
+        <Clock className="size-3.5" />
+        시간 {numberFormatter.format(timeout)} ms
+      </span>
+      <span className="inline-flex items-center gap-1.5">
+        <HardDrive className="size-3.5" />
+        메모리 {numberFormatter.format(memoryLimit)} MB
+      </span>
+      <span className="inline-flex items-center gap-1.5">
+        <Send className="size-3.5" />
+        제출 {numberFormatter.format(submitCount)}
+      </span>
+      <span className="inline-flex items-center gap-1.5">
+        <Target className="size-3.5" />
+        정답 {numberFormatter.format(answerCount)} ·{" "}
+        {answerRate.toLocaleString("ko-KR", { maximumFractionDigits: 2 })}%
+      </span>
+      <span className="inline-flex items-center gap-1.5">
+        <UserRoundCheck className="size-3.5" />
+        맞힌 사람 {numberFormatter.format(answerPeopleCount)}
+      </span>
     </div>
   );
 }

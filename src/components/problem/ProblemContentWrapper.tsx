@@ -1,4 +1,3 @@
-import { Line, Typography } from "../common";
 import ProblemContent from "./ProblemContent";
 
 interface ProblemContentWrapperProps {
@@ -13,13 +12,14 @@ export default function ProblemContentWrapper({
   content,
 }: ProblemContentWrapperProps) {
   return (
-    <div>
-      {" "}
-      <Typography variant="h6" scale={scale} className="text-muted-foreground">
+    <section className="space-y-3">
+      <h2
+        style={{ zoom: scale }}
+        className="text-sm font-semibold uppercase tracking-wide text-muted-foreground"
+      >
         {title}
-      </Typography>
-      <Line className="mb-4 mt-2 opacity-40" />
-      <ProblemContent content={content} />
-    </div>
+      </h2>
+      <ProblemContent scale={scale} content={content} />
+    </section>
   );
 }

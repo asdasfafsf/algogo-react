@@ -6,7 +6,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import useModal from "@plugins/modal/useModal";
-import { Typography, Line } from "@components/common/index";
+import { Typography } from "@components/common/index";
 import { Button } from "@components/Button/index";
 import { Card } from "@components/Card";
 
@@ -78,21 +78,15 @@ export default function CompilerInfoModal() {
       }}
     >
       <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
-        <DialogHeader className="sr-only">
-          <DialogTitle>컴파일러 정보</DialogTitle>
-          <DialogDescription>
-            언어별 컴파일 및 실행 환경입니다.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="max-h-[80vh] w-full bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200 flex flex-col">
+        <div className="flex max-h-[80vh] w-full animate-in flex-col rounded-2xl bg-background text-foreground shadow-2xl fade-in duration-200">
           {/* Header */}
           <div className="pb-0">
-            <div className="px-8 pt-8">
-              <Typography variant="h4" weight="bold" className="mb-4">
-                컴파일러 정보
-              </Typography>
-            </div>
-            <Line className="bg-gray-200 " />
+            <DialogHeader className="border-b border-border px-8 py-6 text-left">
+              <DialogTitle>컴파일러 정보</DialogTitle>
+              <DialogDescription>
+                언어별 컴파일 및 실행 환경입니다.
+              </DialogDescription>
+            </DialogHeader>
           </div>
           {/* 스크롤 가능한 콘텐츠 영역 */}
           <div className="flex-1 p-8 pt-0 overflow-y-auto">
@@ -117,11 +111,11 @@ export default function CompilerInfoModal() {
                       <Typography
                         variant="paragraph"
                         weight="semibold"
-                        className="text-gray-700"
+                        className="text-foreground"
                       >
                         컴파일 명령어
                       </Typography>
-                      <div className="p-3 border border-gray-200 rounded-md bg-gray-50">
+                      <div className="rounded-md border border-border bg-muted/40 p-3">
                         <Typography
                           variant="medium"
                           weight="semilight"
@@ -136,11 +130,11 @@ export default function CompilerInfoModal() {
                     <Typography
                       variant="paragraph"
                       weight="semibold"
-                      className="text-gray-700"
+                      className="text-foreground"
                     >
                       실행 명령어
                     </Typography>
-                    <div className="p-3 border border-gray-200 rounded-md bg-gray-50">
+                    <div className="rounded-md border border-border bg-muted/40 p-3">
                       <Typography
                         variant="medium"
                         weight="semilight"
@@ -157,7 +151,7 @@ export default function CompilerInfoModal() {
           {/* Footer */}
           <div className="p-8">
             <div className="flex justify-center">
-              <Button onClick={handleClose}>닫기</Button>
+              <Button onClick={handleClose}>확인</Button>
             </div>
           </div>
         </div>

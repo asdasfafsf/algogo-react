@@ -33,14 +33,14 @@ export default function CodeTemplateDropdown() {
         <Button
           variant="outline"
           size="sm"
-          className="w-36 justify-between gap-2 border-white/15 bg-gray-900 text-gray-100 hover:bg-gray-800"
+          className="h-8 w-36 justify-between gap-2 bg-background text-xs"
           aria-label="코드 템플릿"
         >
           <span className="truncate">{displayedTitle}</span>
           <ChevronDown className="size-4 shrink-0" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="dark w-60" align="start">
+      <DropdownMenuContent className="w-60" align="start">
         <DropdownMenuLabel>저장한 템플릿</DropdownMenuLabel>
         {templateList.length === 0 && (
           <DropdownMenuItem disabled>저장한 템플릿이 없습니다</DropdownMenuItem>

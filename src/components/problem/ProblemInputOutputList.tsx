@@ -18,9 +18,9 @@ export function ProblemInputOutputList({
 
   return (
     <section>
-      <Typography variant="h6" className="mb-4 text-muted-foreground">
+      <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
         입출력 예시
-      </Typography>
+      </h2>
       <div className="mb-4 flex items-center gap-4 text-xs text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">
           <CornerDownLeft className="size-3.5 text-primary" />

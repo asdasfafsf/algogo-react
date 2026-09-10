@@ -68,22 +68,13 @@ export default function CodeTemplateAddModal({
       }}
     >
       <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
-        <DialogHeader className="sr-only">
-          <DialogTitle>코드 템플릿</DialogTitle>
+        <DialogHeader className="border-b border-border px-8 py-6 text-left">
+          <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
             코드 템플릿의 이름, 언어와 내용을 편집합니다.
           </DialogDescription>
         </DialogHeader>
         <div className="w-full animate-in rounded-xl border border-border bg-popover text-popover-foreground shadow-xl fade-in duration-200">
-          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
-            <h2
-              id="template-title"
-              className="text-xl font-semibold text-foreground"
-            >
-              {title}
-            </h2>
-          </div>
-
           <div className="px-8 py-6 space-y-5">
             <div>
               <label
@@ -154,7 +145,7 @@ export default function CodeTemplateAddModal({
                   height="100%"
                   language={monocoLanguageMap[templateLanguage]}
                   className="h-full"
-                  theme="vs-dark"
+                  theme={settings.theme}
                   value={templateContent}
                   onChange={(value) => value && setTemplateContent(value)}
                   options={{

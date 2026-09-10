@@ -25,16 +25,19 @@ export default function CodeTestCaseTable({
   const { state, handleTest } = useExecuteTestCase();
   const summary = summarizeTestCases(executeResultList);
   return (
-    <div className="w-full h-full bg-gray-900">
-      <div className="w-full py-2 overflow-x-hidden flex justify-between">
+    <div className="h-full w-full bg-background">
+      <div className="flex w-full justify-between overflow-x-auto border-b border-border px-2 py-2">
         <div className="flex items-center gap-2 ml-2">
-          <div className="flex items-center gap-1 px-3 py-1 rounded bg-opacity-10 bg-green-500">
+          <div className="flex items-center gap-1 rounded bg-emerald-500/10 px-3 py-1">
             <div className="w-2 h-2 rounded-full bg-green-500" />
-            <Typography variant="small" className="text-green-500 font-medium">
+            <Typography
+              variant="small"
+              className="font-medium text-emerald-600 dark:text-emerald-400"
+            >
               성공 {summary.success}
             </Typography>
           </div>
-          <div className="flex items-center gap-1 px-3 py-1 rounded bg-opacity-10 bg-red-500">
+          <div className="flex items-center gap-1 rounded bg-red-500/10 px-3 py-1">
             <div className="w-2 h-2 rounded-full bg-red-500" />
             <Typography variant="small" className="text-red-500 font-medium">
               실패 {summary.failure}
@@ -66,19 +69,19 @@ export default function CodeTestCaseTable({
           </Button>
         </div>
       </div>
-      <Card className="h-[calc(100%-96px)] w-full overflow-auto bg-gray-900">
-        <ShadcnTable className="w-full text-center bg-gray-900 table-fixed min-w-max">
+      <Card className="h-[calc(100%-52px)] w-full overflow-auto rounded-none border-0 bg-background shadow-none">
+        <ShadcnTable className="min-w-max table-fixed bg-background text-center">
           <ShadcnTableHeader>
             <ShadcnTableRow>
               {["입력", "출력", "예상 결과", "일치 여부"].map(
                 (head, index, arr) => (
                   <ShadcnTableHead
                     key={head}
-                    className={`${index + 1 !== arr.length ? "w-[28%]" : "w-[16%]"} border-b border-blue-gray-100 bg-gray-900 p-4`}
+                    className={`${index + 1 !== arr.length ? "w-[28%]" : "w-[16%]"} border-b border-border bg-muted/20 p-4`}
                   >
                     <Typography
                       variant="small"
-                      className="font-normal leading-none text-white opacity-70"
+                      className="font-normal leading-none text-muted-foreground"
                     >
                       {head}
                     </Typography>
@@ -87,18 +90,17 @@ export default function CodeTestCaseTable({
               )}
             </ShadcnTableRow>
           </ShadcnTableHeader>
-          <ShadcnTableBody className="bg-gray-900">
+          <ShadcnTableBody className="bg-background">
             {executeResultList.map(
               ({ input, output, expected, state }, index, arr) => {
                 const isLast = index === arr.length - 1;
-                const classes = `bg-gray-900 p-4 ${isLast ? "" : "border-b"}`;
+                const classes = `bg-background p-4 ${isLast ? "" : "border-b border-border"}`;
 
                 return (
                   <ShadcnTableRow className="h-12" key={index}>
                     <ShadcnTableCell className={`${classes} w-28%`}>
                       <Typography
                         variant="small"
-                        color="white"
                         className="font-normal text-center wrap-break-word"
                       >
                         {input}
@@ -107,7 +109,6 @@ export default function CodeTestCaseTable({
                     <ShadcnTableCell className={`${classes} w-28%`}>
                       <Typography
                         variant="small"
-                        color="white"
                         className="font-normal text-center wrap-break-word"
                       >
                         {output}
@@ -116,7 +117,6 @@ export default function CodeTestCaseTable({
                     <ShadcnTableCell className={`${classes} w-28%`}>
                       <Typography
                         variant="small"
-                        color="white"
                         className="font-normal text-center wrap-break-word"
                       >
                         {expected}

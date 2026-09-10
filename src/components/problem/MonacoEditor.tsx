@@ -1,20 +1,19 @@
-import Editor from '@monaco-editor/react';
-import useCodeEditor from '@hook/useCodeEditor';
-import { monocoLanguageMap } from '@constant/Language';
+import Editor from "@monaco-editor/react";
+import useCodeEditor from "@hook/useCodeEditor";
+import { monocoLanguageMap } from "@constant/Language";
 
 export default function CodeEditorBody() {
-  const {
-    code, settings, language, handleEditorMount, handleEditorChange,
-  } = useCodeEditor();
+  const { code, settings, language, handleEditorMount, handleEditorChange } =
+    useCodeEditor();
 
   return (
     <Editor
-      height="calc(100% - 48px)"
+      height="100%"
       width="100%"
       className="h-full"
       language={monocoLanguageMap[language]}
       defaultLanguage={monocoLanguageMap[language]}
-      defaultValue="input your code"
+      defaultValue=""
       theme={settings.theme}
       value={code}
 
@@ -27,9 +26,9 @@ export default function CodeEditorBody() {
         fontSize: settings.fontSize,
         tabSize: settings.tabSize,
         minimap: { enabled: false },
-        scrollbar: { vertical: 'auto', horizontal: 'auto' },
+        scrollbar: { vertical: "auto", horizontal: "auto" },
         codeLens: false,
-        autoIndent: 'advanced',
+        autoIndent: "advanced",
       }}
     />
   );
