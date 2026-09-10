@@ -1,122 +1,95 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
-import useModal from '@plugins/modal/useModal';
-import { Tooltip, TranslucentOverlay, Typography } from '@components/common/index';
-import { Button } from '@components/Button/index';
-import useInput from '@hook/useInput';
-import { Input } from '../Input';
-
-interface PromptModalProps {
+import { useState } from "react";
+import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
+import useModal from "@plugins/modal/useModal";
+import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@components/ui/dialog";
+interface Props {
   content: string;
   defaultValue?: string | boolean;
   title?: string;
 }
-
-export default function PromptModal({ title, defaultValue = '', content }: PromptModalProps) {
+export default function PromptModal({
+  title = "입력",
+  defaultValue = "",
+  content,
+}: Props) {
   const modal = useModal();
-  const [isVisible, setIsVisible] = useState(false);
-  const { value, handleChange, setValue } = useInput();
-
-  const handleOk = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsVisible(false);
-
-    if (value === '') {
-      modal.top().resolve(defaultValue);
-    } else {
-      modal.top().resolve(value);
-    }
-  }, [value]);
-
-  const handleClose = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      e.stopPropagation();
-      setIsVisible(false);
-      modal.top().resolve(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'Escape':
-          setIsVisible(false);
-          modal.top().resolve(false);
-          break;
-        case 'Enter':
-          setIsVisible(false);
-          if (value === '') {
-            modal.top().resolve(defaultValue);
-          } else {
-            modal.top().resolve(value);
-          }
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeydown);
-    };
-  }, [modal, value]);
-
+  const [value, setValue] = useState(
+    typeof defaultValue === "string" ? defaultValue : "",
+  );
+  const finish = (result: string | boolean) => modal.top()?.resolve(result);
   return (
-    <TranslucentOverlay
-      className={`flex items-center justify-center fixed inset-0 bg-black/30 transition-opacity ${isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) finish(false);
+      }}
     >
-      <div
-        className="w-[400px] bg-white rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.1)] animate-in fade-in duration-200"
-      >
-        <header className="flex items-end justify-end w-full p-2" />
-        <section className="px-4 py-2 h-28">
-          <div>
-            {title ? <Typography variant="medium" weight="regular">{title}</Typography> : ''}
-            <div className="h-4" />
-            <Input
-              label={content}
-              placeholder={content}
-              value={value}
-              onChange={handleChange}
-              icon={(
-                <Tooltip content="붙여넣기">
-                  <div
-                    onClick={async () => {
-                      const text = await navigator.clipboard.readText();
-                      setValue(text);
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <ClipboardDocumentListIcon className="z-10 w-5 h-5" />
-                  </div>
-                </Tooltip>
-              )}
-            />
-          </div>
-        </section>
-        <footer className="flex items-end justify-end w-full gap-1 p-2">
-          <Button
-            onClick={handleClose}
-            color="gray"
-            className="rounded-2xl"
-          >
+      <DialogContent className="max-w-[400px]">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{content}</DialogDescription>
+        </DialogHeader>
+        <div className="relative">
+          <Input
+            autoFocus
+            aria-label={content}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                finish(value || defaultValue);
+              }
+            }}
+            className="pr-10"
+          />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label="클립보드에서 붙여넣기"
+                  className="absolute right-1 top-1/2 size-8 -translate-y-1/2"
+                  onClick={async () =>
+                    setValue(await navigator.clipboard.readText())
+                  }
+                >
+                  <ClipboardDocumentListIcon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>붙여넣기</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => finish(false)}>
             취소
           </Button>
           <Button
-            onClick={handleOk}
-            color="blue"
-            className="rounded-2xl"
+            className="bg-blue-600 hover:bg-blue-700"
+            onClick={() => finish(value || defaultValue)}
           >
             확인
           </Button>
-        </footer>
-      </div>
-    </TranslucentOverlay>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

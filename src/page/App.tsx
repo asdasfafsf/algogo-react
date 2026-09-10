@@ -41,11 +41,9 @@ function App() {
 
   return (
     <DefaultLayout>
-      <div className="my-8">
+      <div className="my-6 space-y-8 sm:my-8 sm:space-y-10">
         <MainCarousel />
-        <div className="h-8" />
         <TrainingSection />
-        <div className="h-8" />
         <ProblemListCard />
       </div>
     </DefaultLayout>

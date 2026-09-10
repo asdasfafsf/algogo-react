@@ -1,7 +1,8 @@
-import { ReactNode, Children } from 'react';
-import useDropdown from '@hook/useDropdown';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-
+import { Children, type ReactNode, useState } from "react";
+import * as Popover from "@radix-ui/react-popover";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { Button } from "@components/ui/button";
+import { cn } from "@lib/utils";
 interface DropdownProps {
   className?: string;
   open?: boolean;
@@ -9,77 +10,86 @@ interface DropdownProps {
   children: ReactNode;
   showArrow?: boolean;
   align?:
-  | 'top'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom'
-  | 'bottom-left'
-  | 'bottom-right'
-  | 'left'
-  | 'left-top'
-  | 'left-bottom'
-  | 'right'
-  | 'right-top'
-  | 'right-bottom';
+    | "top"
+    | "top-left"
+    | "top-right"
+    | "bottom"
+    | "bottom-left"
+    | "bottom-right"
+    | "left"
+    | "left-top"
+    | "left-bottom"
+    | "right"
+    | "right-top"
+    | "right-bottom";
 }
-
+const placement = {
+  top: { side: "top", align: "center" },
+  "top-left": { side: "top", align: "start" },
+  "top-right": { side: "top", align: "end" },
+  bottom: { side: "bottom", align: "center" },
+  "bottom-left": { side: "bottom", align: "start" },
+  "bottom-right": { side: "bottom", align: "end" },
+  left: { side: "left", align: "center" },
+  "left-top": { side: "left", align: "start" },
+  "left-bottom": { side: "left", align: "end" },
+  right: { side: "right", align: "center" },
+  "right-top": { side: "right", align: "start" },
+  "right-bottom": { side: "right", align: "end" },
+} as const;
 export default function Dropdown({
-  className = '',
+  className = "",
   open = false,
   handler,
   children,
   showArrow = true,
-  align = 'bottom', // 기본값
+  align = "bottom",
 }: DropdownProps) {
-  const [isOpen, menuRef, divRef, handleOpen] = useDropdown(open, handler ?? null);
-
-  const childrenArray = Children.toArray(children);
-  const header = childrenArray[0];
-  const content = childrenArray.slice(1);
-
-  const alignClass = {
-    top: 'bottom-full left-1/2 transform -translate-x-1/2 -translate-y-full',
-    bottom: 'top-full left-1/2 transform -translate-x-1/2',
-    left: 'top-1/2 right-full transform -translate-y-1/2 -translate-x-full',
-    right: 'top-1/2 left-full transform -translate-y-1/2',
-    'top-left': 'bottom-full left-0 transform -translate-y-full',
-    'top-right': 'bottom-full right-0 transform -translate-y-full',
-    'bottom-left': 'top-full left-0',
-    'bottom-right': 'top-full right-0',
-    'top-left-center': 'bottom-full left-1/4 transform -translate-y-full -translate-x-1/4',
-    'top-right-center': 'bottom-full right-1/4 transform -translate-y-full translate-x-1/4',
-    'bottom-left-center': 'top-full left-1/4 transform translate-y-full -translate-x-1/4',
-    'bottom-right-center': 'top-full right-1/4 transform translate-y-full translate-x-1/4',
-    'left-top': 'top-1/4 right-full transform -translate-y-1/4 -translate-x-full',
-    'left-bottom': 'bottom-1/4 right-full transform translate-y-1/4 -translate-x-full',
-    'right-top': 'top-1/4 left-full transform -translate-y-1/4',
-    'right-bottom': 'bottom-1/4 left-full transform translate-y-1/4',
-  };
-
+  const [header, ...content] = Children.toArray(children);
+  const position = placement[align];
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(open);
+  const displayedOpen = handler ? open : uncontrolledOpen;
+  const rootProps = handler
+    ? {
+        open,
+        onOpenChange: (next: boolean) => {
+          if (next !== open) void handler();
+        },
+      }
+    : { defaultOpen: open, onOpenChange: setUncontrolledOpen };
   return (
-    <div className="relative">
-      <div
-        ref={menuRef}
-        onClick={handleOpen}
-        className="flex items-center cursor-pointer"
-      >
-        {header}
-        {showArrow && (
-          <ChevronDownIcon
-            className={`w-4 h-4 transition-transform ${
-              isOpen ? 'rotate-180' : ''
-            }`}
-          />
-        )}
-      </div>
-      {isOpen && (
-        <div
-          ref={divRef}
-          className={`absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg ${alignClass[align]} ${className}`}
+    <Popover.Root {...rootProps}>
+      <Popover.Trigger asChild>
+        <Button
+          variant="ghost"
+          className="h-auto cursor-pointer p-0 font-normal normal-case hover:bg-transparent"
+        >
+          {header}
+          {showArrow && (
+            <ChevronDownIcon
+              aria-hidden
+              className={cn(
+                "size-4 transition-transform",
+                displayedOpen && "rotate-180",
+              )}
+            />
+          )}
+          <span className="sr-only">메뉴 열기</span>
+        </Button>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          side={position.side}
+          align={position.align}
+          sideOffset={6}
+          className={cn(
+            "z-50 rounded-md border border-gray-300 bg-white shadow-lg outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
+            className,
+          )}
         >
           {content}
-        </div>
-      )}
-    </div>
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
   );
 }

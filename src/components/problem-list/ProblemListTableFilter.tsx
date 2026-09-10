@@ -1,10 +1,11 @@
-import useProblemTableFilter from '@hook/problem-list/useProblemTableFilter';
+import useProblemTableFilter from "@hook/problem-list/useProblemTableFilter";
 // src/components/Table/ProblemTableFilter.tsx
 
-import React from 'react';
-import { Typography } from '@components/common';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
-import { ChipWithSelected } from '@components/Chip/index';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Typography } from "@components/common";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { ChipWithSelected } from "@components/Chip/index";
 
 function ProblemListTableFilter() {
   const {
@@ -17,14 +18,16 @@ function ProblemListTableFilter() {
     <div className="mt-2">
       {/* <Line /> */}
       <div className="flex flex-wrap gap-2 py-2">
-        <div
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={handleReset}
           className="flex items-center gap-1 cursor-pointer"
           aria-label="초기화"
         >
           <ArrowPathIcon className="w-4 h-4" />
           <Typography variant="small">초기화</Typography>
-        </div>
+        </Button>
 
         {problemOptionList.map(({ type, isSelected, name }, index) =>
           isSelected ? (

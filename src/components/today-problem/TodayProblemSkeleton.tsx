@@ -1,15 +1,16 @@
-import { memo } from 'react';
-import { FadeInSection } from '@components/common/FadeInSection';
-import { Card } from '@components/Card';
+import { Card as SurfaceCard } from "@/components/ui/card";
+import { memo } from "react";
+import { FadeInSection } from "@components/common/FadeInSection";
+import { Card } from "@components/Card";
 
 const NavigationTabsSkeleton = memo(() => (
   <FadeInSection className="px-6 mt-8 mb-12">
     <div className="mx-auto max-w-4xl">
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (
-          <div
+          <SurfaceCard
             key={index}
-            className="p-4 rounded-xl border-2 border-slate-200 bg-white animate-pulse"
+            className="block gap-0 py-0 p-4 rounded-xl border-2 border-slate-200 bg-white animate-pulse"
           >
             <div className="flex flex-col gap-2">
               <div className="flex justify-between items-center">
@@ -22,13 +23,13 @@ const NavigationTabsSkeleton = memo(() => (
               </div>
               <div className="w-16 h-3 bg-slate-200 rounded" />
             </div>
-          </div>
+          </SurfaceCard>
         ))}
       </div>
     </div>
   </FadeInSection>
 ));
-NavigationTabsSkeleton.displayName = 'NavigationTabsSkeleton';
+NavigationTabsSkeleton.displayName = "NavigationTabsSkeleton";
 
 const ProblemCardSkeleton = memo(() => (
   <FadeInSection className="px-6 mb-12">
@@ -54,7 +55,10 @@ const ProblemCardSkeleton = memo(() => (
           {/* 통계 카드들 */}
           <div className="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="flex gap-3 items-center p-4 bg-slate-100 rounded-xl">
+              <div
+                key={index}
+                className="flex gap-3 items-center p-4 bg-slate-100 rounded-xl"
+              >
                 <div className="w-8 h-8 bg-slate-200 rounded-full" />
                 <div className="flex-1">
                   <div className="w-16 h-4 bg-slate-200 rounded mb-1" />
@@ -74,7 +78,7 @@ const ProblemCardSkeleton = memo(() => (
     </div>
   </FadeInSection>
 ));
-ProblemCardSkeleton.displayName = 'ProblemCardSkeleton';
+ProblemCardSkeleton.displayName = "ProblemCardSkeleton";
 
 const DotsSkeleton = memo(() => (
   <div className="px-6 mb-20">
@@ -92,7 +96,7 @@ const DotsSkeleton = memo(() => (
     </div>
   </div>
 ));
-DotsSkeleton.displayName = 'DotsSkeleton';
+DotsSkeleton.displayName = "DotsSkeleton";
 
 export const TodayProblemSkeleton = memo(() => (
   <div className="min-h-screen bg-white">
@@ -156,4 +160,4 @@ export const TodayProblemSkeleton = memo(() => (
   </div>
 ));
 
-TodayProblemSkeleton.displayName = 'TodayProblemSkeleton';
+TodayProblemSkeleton.displayName = "TodayProblemSkeleton";

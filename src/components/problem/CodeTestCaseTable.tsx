@@ -1,3 +1,11 @@
+import {
+  Table as ShadcnTable,
+  TableHeader as ShadcnTableHeader,
+  TableRow as ShadcnTableRow,
+  TableHead as ShadcnTableHead,
+  TableBody as ShadcnTableBody,
+  TableCell as ShadcnTableCell,
+} from "@/components/ui/table";
 import useExecuteTestCase from "@hook/useExecuteTestCase";
 import useModal from "@plugins/modal/useModal";
 import { Button } from "@components/Button";
@@ -59,12 +67,12 @@ export default function CodeTestCaseTable({
         </div>
       </div>
       <Card className="h-[calc(100%-96px)] w-full overflow-auto bg-gray-900">
-        <table className="w-full text-center bg-gray-900 table-fixed min-w-max">
-          <thead>
-            <tr>
+        <ShadcnTable className="w-full text-center bg-gray-900 table-fixed min-w-max">
+          <ShadcnTableHeader>
+            <ShadcnTableRow>
               {["입력", "출력", "예상 결과", "일치 여부"].map(
                 (head, index, arr) => (
-                  <th
+                  <ShadcnTableHead
                     key={head}
                     className={`${index + 1 !== arr.length ? "w-[28%]" : "w-[16%]"} border-b border-blue-gray-100 bg-gray-900 p-4`}
                   >
@@ -74,20 +82,20 @@ export default function CodeTestCaseTable({
                     >
                       {head}
                     </Typography>
-                  </th>
+                  </ShadcnTableHead>
                 ),
               )}
-            </tr>
-          </thead>
-          <tbody className="bg-gray-900">
+            </ShadcnTableRow>
+          </ShadcnTableHeader>
+          <ShadcnTableBody className="bg-gray-900">
             {executeResultList.map(
               ({ input, output, expected, state }, index, arr) => {
                 const isLast = index === arr.length - 1;
                 const classes = `bg-gray-900 p-4 ${isLast ? "" : "border-b"}`;
 
                 return (
-                  <tr className="h-12" key={index}>
-                    <td className={`${classes} w-28%`}>
+                  <ShadcnTableRow className="h-12" key={index}>
+                    <ShadcnTableCell className={`${classes} w-28%`}>
                       <Typography
                         variant="small"
                         color="white"
@@ -95,8 +103,8 @@ export default function CodeTestCaseTable({
                       >
                         {input}
                       </Typography>
-                    </td>
-                    <td className={`${classes} w-28%`}>
+                    </ShadcnTableCell>
+                    <ShadcnTableCell className={`${classes} w-28%`}>
                       <Typography
                         variant="small"
                         color="white"
@@ -104,8 +112,8 @@ export default function CodeTestCaseTable({
                       >
                         {output}
                       </Typography>
-                    </td>
-                    <td className={`${classes} w-28%`}>
+                    </ShadcnTableCell>
+                    <ShadcnTableCell className={`${classes} w-28%`}>
                       <Typography
                         variant="small"
                         color="white"
@@ -113,8 +121,8 @@ export default function CodeTestCaseTable({
                       >
                         {expected}
                       </Typography>
-                    </td>
-                    <td className={`${classes} w-16%`}>
+                    </ShadcnTableCell>
+                    <ShadcnTableCell className={`${classes} w-16%`}>
                       <Typography
                         variant="small"
                         color={
@@ -128,13 +136,13 @@ export default function CodeTestCaseTable({
                       >
                         {state}
                       </Typography>
-                    </td>
-                  </tr>
+                    </ShadcnTableCell>
+                  </ShadcnTableRow>
                 );
               },
             )}
-          </tbody>
-        </table>
+          </ShadcnTableBody>
+        </ShadcnTable>
       </Card>
     </div>
   );

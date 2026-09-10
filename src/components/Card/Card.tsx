@@ -1,18 +1,20 @@
-import React from 'react';
-
-type CardProps = {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
-};
-
-export default function Card({ children, className = '', onClick }: CardProps) {
+import type { ComponentProps } from "react";
+import { Card as ShadcnCard } from "@components/ui/card";
+import { cn } from "@lib/utils";
+type CardProps = ComponentProps<typeof ShadcnCard>;
+export default function Card({
+  children,
+  className,
+  onClick,
+  ...props
+}: CardProps) {
   return (
-    <div
-      className={`${!className.includes('bg-') ? 'bg-white' : ''} rounded-lg shadow-lg ${className}`}
+    <ShadcnCard
+      className={cn("border-0 bg-white shadow-lg", className)}
       onClick={onClick}
+      {...props}
     >
-      <div>{children}</div>
-    </div>
+      {children}
+    </ShadcnCard>
   );
 }

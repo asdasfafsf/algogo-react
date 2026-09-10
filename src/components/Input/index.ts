@@ -1,5 +1,3 @@
-import Input from './input';
+import Input from "./input";
 
-export {
-  Input,
-};
+export { Input };

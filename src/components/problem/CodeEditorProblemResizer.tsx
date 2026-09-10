@@ -1,45 +1,39 @@
-import { Typography } from '@components/common';
-import { SelectBox, SelectBoxItem } from '@components/SelectBox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface CodeEditorProblemResizerProps {
-  handleSelect: (e: unknown, index: number) => void | Promise<void>,
+  handleSelect: (event: unknown, value: number) => void | Promise<void>;
   selectedIndex: number;
 }
+const FONT_SIZES = [100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200];
 
 export default function CodeEditorProblemResizer({
   selectedIndex,
   handleSelect,
-} : CodeEditorProblemResizerProps) {
+}: CodeEditorProblemResizerProps) {
   return (
-    <div className="flex">
-      <div className="flex w-20 py-2">
-        <Typography
-          weight="semibold"
-          variant="medium"
-        >
-          글자 크기
-        </Typography>
-      </div>
-      <SelectBox className="h-24 w-36">
-        {[100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200].map((elem, index) => (
-          <SelectBoxItem
-            onClick={(e) => handleSelect(e, elem)}
-            className={`${selectedIndex === index ? 'bg-blue-300 text-white' : ''} cursor-pointer`}
-            key={elem}
-          >
-            <Typography
-              weight="semilight"
-              variant="medium"
-            >
-              {elem}
-              %
-            </Typography>
-          </SelectBoxItem>
-        ))}
-      </SelectBox>
-      {/* <MagnifyingGlassMinusIcon className="w-6 h-6" />
-      <Typography variant="small">100%</Typography>
-      <MagnifyingGlassPlusIcon className="w-6 h-6" /> */}
+    <div className="flex items-center gap-3">
+      <span className="w-20 text-sm font-semibold">글자 크기</span>
+      <Select
+        value={String(FONT_SIZES[selectedIndex])}
+        onValueChange={(value) => void handleSelect(undefined, Number(value))}
+      >
+        <SelectTrigger aria-label="문제 글자 크기" className="w-36">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {FONT_SIZES.map((size) => (
+            <SelectItem key={size} value={String(size)}>
+              {size}%
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 }

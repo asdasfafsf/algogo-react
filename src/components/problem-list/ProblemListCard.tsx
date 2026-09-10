@@ -1,14 +1,15 @@
-import ProblemListCardHeader from './ProblemListCardHeader';
-import ProblemListTable from './ProblemListTable';
-import ProblemListCardFooter from './ProblemListCardFooter';
+import { Card } from "@/components/ui/card";
+import ProblemListCardHeader from "./ProblemListCardHeader";
+import ProblemListTable from "./ProblemListTable";
+import ProblemListCardFooter from "./ProblemListCardFooter";
 
 export default function ProblemListCard() {
   return (
     <div className="mb-16">
       <ProblemListCardHeader />
-      <div className="border border-gray-300 rounded-lg">
+      <Card className="block gap-0 overflow-hidden rounded-xl border-border py-0 shadow-sm">
         <ProblemListTable />
-      </div>
+      </Card>
       <ProblemListCardFooter />
     </div>
   );

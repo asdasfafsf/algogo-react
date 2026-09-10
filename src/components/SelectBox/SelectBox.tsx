@@ -3,10 +3,15 @@ interface SelectBoxProps {
   children: React.ReactNode;
 }
 
-export default function SelectBox({ className = '', children }: SelectBoxProps) {
+export default function SelectBox({
+  className = "",
+  children,
+}: SelectBoxProps) {
   return (
-    <div className={`border border-gray-200 rounded-md ${className} overflow-y-scroll`}>
-      <ul className="w-full h-full">
+    <div
+      className={`overflow-y-auto rounded-lg border border-input bg-background ${className}`}
+    >
+      <ul className="h-full w-full p-1" role="listbox">
         {children}
       </ul>
     </div>

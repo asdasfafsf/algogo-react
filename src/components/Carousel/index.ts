@@ -1,7 +1,2 @@
-import Carousel from './Carousel';
-import MainCarousel from './MainCarousel';
-
-export {
-  MainCarousel,
-  Carousel,
-};
+export { default as Carousel } from "./Carousel";
+export { default as MainCarousel } from "./MainCarousel";

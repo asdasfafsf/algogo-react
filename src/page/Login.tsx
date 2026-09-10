@@ -1,6 +1,14 @@
+import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
-import { Typography } from "@components/common";
-import { Button } from "@components/Button";
+import { LogoWithText } from "@components/common";
+import { Button as ShadcnButton } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { createOAuthEntryUrl } from "@/domain/account/oauth";
 
 const { VITE_ENV } = import.meta.env;
@@ -27,56 +35,49 @@ export default function Login({ name = "로그인" }: LoginProps) {
     window.location.href = url;
   };
   return (
-    <section className="grid items-center h-screen p-8">
-      <div className="text-center">
-        <Typography variant="h3" className="mb-2">
-          {name}
-        </Typography>
-        {/* <Typography color="gray" className="mb-12 font-normal" /> */}
-        <form action="#" className="mx-auto max-w-[24rem] text-left">
-          <Button
-            color="white"
-            size="large"
-            className="flex items-center justify-center w-full h-12 gap-2 mt-4 text-black"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-              handleOAuth(e, "google")
-            }
-          >
-            <img src="google-mark.png" alt="google" className="w-6 h-6" />{" "}
-            구글로 시작하기
-          </Button>
-          <Button
-            size="large"
-            className="bg-kakao! flex items-center justify-center w-full h-12 gap-2 mt-4 text-black!"
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-              handleOAuth(e, "kakao")
-            }
-          >
-            <img src="kakao_icon.png" alt="kakao" className="w-5 h-5" />
-            카카오로 시작하기
-          </Button>
-
-          <div className="flex items-center w-full gap-2 my-6">
-            <hr className="w-full bg-blue-gray-50" />
-            <Typography
-              variant="small"
-              className="font-medium opacity-50 text-blue-gray"
+    <section className="grid min-h-dvh place-items-center bg-muted/30 px-4 py-12">
+      <div className="w-full max-w-md space-y-6">
+        <div className="flex justify-center">
+          <LogoWithText size="medium" />
+        </div>
+        <Card className="gap-0 overflow-hidden border-border/80 p-0 shadow-sm">
+          <CardHeader className="space-y-2 px-8 pt-8 text-center">
+            <CardTitle className="text-2xl">{name}</CardTitle>
+            <CardDescription>
+              알고고에서 다음 문제를 이어가세요.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3 p-8 pt-6">
+            <ShadcnButton
+              variant="outline"
+              className="h-12 w-full gap-3"
+              onClick={(e) => handleOAuth(e, "google")}
             >
-              OR
-            </Typography>
-            <hr className="w-full bg-blue-gray-50" />
-          </div>
-          <Button
-            onClick={() => navigate("/")}
-            color="white"
-            className="w-full mb-2"
-          >
-            처음으로
-          </Button>
-          <Button onClick={() => navigate(-1)} className="w-full">
-            이전으로
-          </Button>
-        </form>
+              <img src="/google-mark.png" alt="" className="size-5" />
+              구글로 시작하기
+            </ShadcnButton>
+            <ShadcnButton
+              className="h-12 w-full gap-3 bg-kakao text-black hover:bg-kakao/85"
+              onClick={(e) => handleOAuth(e, "kakao")}
+            >
+              <img src="/kakao_icon.png" alt="" className="size-5" />
+              카카오로 시작하기
+            </ShadcnButton>
+            <div className="flex items-center gap-3 py-3">
+              <Separator className="flex-1" />
+              <span className="text-xs text-muted-foreground">또는</span>
+              <Separator className="flex-1" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <ShadcnButton variant="outline" onClick={() => navigate("/")}>
+                처음으로
+              </ShadcnButton>
+              <ShadcnButton variant="ghost" onClick={() => navigate(-1)}>
+                이전으로
+              </ShadcnButton>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

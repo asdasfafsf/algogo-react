@@ -1,22 +1,19 @@
-import { Bars3Icon } from '@heroicons/react/24/outline';
-import { LogoWithText } from '@components/common';
-import { Button } from '@components/Button/index';
-
+import { Link } from "react-router-dom";
+import { LogoWithText } from "@components/common";
+import { Button } from "@/components/ui/button";
 export default function LandingHeader() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 shadow-xs bg-white/80 backdrop-blur-md">
-      <div className="container max-w-(--breakpoint-xl) px-4 mx-auto">
-        <div className="flex items-center justify-between h-16">
-          <LogoWithText size="medium" />
-          <nav className="items-center hidden space-x-8 md:flex">
-            <Button color="blue" size="medium">
-              시작하기
-            </Button>
-          </nav>
-          <Button color="white" className="md:hidden" size="small">
-            <Bars3Icon className="w-6 h-6 text-black" />
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <LogoWithText size="medium" />
+        <nav aria-label="시작 메뉴" className="flex items-center gap-2">
+          <Button variant="ghost" asChild>
+            <Link to="/login">로그인</Link>
           </Button>
-        </div>
+          <Button asChild>
+            <Link to="/signup">시작하기</Link>
+          </Button>
+        </nav>
       </div>
     </header>
   );

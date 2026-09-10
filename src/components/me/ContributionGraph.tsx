@@ -1,3 +1,5 @@
+import { Card as SurfaceCard } from "@/components/ui/card";
+import { Button as ShadcnButton } from "@/components/ui/button";
 import { Typography, Tooltip } from "@components/common";
 import { Card } from "@components/Card";
 import { useState, useMemo, useCallback, memo } from "react";
@@ -118,7 +120,9 @@ const ContributionGraph = memo(
 
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <div className="flex items-center p-1 bg-white border border-gray-200 shadow-xs rounded-xl">
-                <button
+                <ShadcnButton
+                  variant="ghost"
+                  size="sm"
                   type="button"
                   onClick={() => setViewMode("current")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
@@ -130,8 +134,10 @@ const ContributionGraph = memo(
                   <ClockIcon className="w-4 h-4" />
                   <span className="hidden sm:inline">최근 1년</span>
                   <span className="sm:hidden">1년</span>
-                </button>
-                <button
+                </ShadcnButton>
+                <ShadcnButton
+                  variant="ghost"
+                  size="sm"
                   type="button"
                   onClick={() => setViewMode("yearly")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
@@ -143,20 +149,22 @@ const ContributionGraph = memo(
                   <CalendarIcon className="w-4 h-4" />
                   <span className="hidden sm:inline">연도별</span>
                   <span className="sm:hidden">연도</span>
-                </button>
+                </ShadcnButton>
               </div>
 
               <div className="flex items-center gap-4">
                 {viewMode === "yearly" && (
                   <div className="flex items-center gap-2">
-                    <button
+                    <ShadcnButton
+                      variant="ghost"
+                      size="sm"
                       type="button"
                       onClick={handlePrevYear}
                       disabled={selectedYear <= 2020}
                       className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-xs hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <ChevronLeftIcon className="w-4 h-4 text-gray-600" />
-                    </button>
+                    </ShadcnButton>
                     <div className="px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-xs">
                       <Typography
                         variant="medium"
@@ -166,14 +174,16 @@ const ContributionGraph = memo(
                         {selectedYear}년
                       </Typography>
                     </div>
-                    <button
+                    <ShadcnButton
+                      variant="ghost"
+                      size="sm"
                       type="button"
                       onClick={handleNextYear}
                       disabled={selectedYear >= currentYear}
                       className="p-2 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-xs hover:bg-gray-50 hover:border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <ChevronRightIcon className="w-4 h-4 text-gray-600" />
-                    </button>
+                    </ShadcnButton>
                   </div>
                 )}
 
@@ -196,7 +206,7 @@ const ContributionGraph = memo(
             </div>
           </div>
 
-          <div className="p-4 overflow-x-auto bg-white border border-gray-100 shadow-xs rounded-2xl sm:p-6">
+          <SurfaceCard className="block gap-0 py-0 p-4 overflow-x-auto bg-white border border-gray-100 shadow-xs rounded-2xl sm:p-6">
             <div className="flex gap-1 mb-2 ml-12 w-[1050px]">
               {weeks.map((_, weekIndex) => {
                 const monthPos = monthPositions.find(
@@ -268,7 +278,7 @@ const ContributionGraph = memo(
                 많음
               </Typography>
             </div>
-          </div>
+          </SurfaceCard>
         </div>
       </Card>
     );

@@ -1,57 +1,50 @@
-import React from 'react';
-import { Tooltip as ReactTooltip } from 'react-tooltip';
-import 'react-tooltip/dist/react-tooltip.css';
-
+import type { ReactElement } from "react";
+import {
+  Tooltip as Root,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
 interface WrappedTooltipProps {
   className?: string;
-  children: React.ReactElement<{
-    'data-tooltip-id'?: string;
-    'data-tooltip-content'?: string;
-    'data-tooltip-place'?: WrappedTooltipProps['placement'];
-  }>;
+  children: ReactElement;
   content: string;
   placement?:
-  | 'top'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom'
-  | 'bottom-start'
-  | 'bottom-end'
-  | 'left'
-  | 'left-start'
-  | 'left-end'
-  | 'right'
-  | 'right-start'
-  | 'right-end';
+    | "top"
+    | "top-start"
+    | "top-end"
+    | "bottom"
+    | "bottom-start"
+    | "bottom-end"
+    | "left"
+    | "left-start"
+    | "left-end"
+    | "right"
+    | "right-start"
+    | "right-end";
 }
-
-function Tooltip({
+export default function Tooltip({
   children,
   content,
-  className = '',
-  placement = 'top',
-  ...props
+  className = "",
+  placement = "top",
 }: WrappedTooltipProps) {
-  const id = React.useId();
-
+  const [side, edge] = placement.split("-") as [
+    "top" | "bottom" | "left" | "right",
+    ("start" | "end")?,
+  ];
   return (
-    <>
-      {React.cloneElement(children, {
-        'data-tooltip-id': id,
-        'data-tooltip-content': content,
-        'data-tooltip-place': placement,
-      })}
-      <ReactTooltip
-        id={id}
-        className={className}
-        style={{
-          position: 'absolute', // 부모 overflow 무시
-          zIndex: 10, // 다른 요소 위에 렌더링
-        }}
-        {...props}
-      />
-    </>
+    <TooltipProvider delayDuration={300}>
+      <Root>
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipContent
+          side={side}
+          align={edge ?? "center"}
+          className={className}
+        >
+          {content}
+        </TooltipContent>
+      </Root>
+    </TooltipProvider>
   );
 }
-
-export default React.memo(Tooltip);
