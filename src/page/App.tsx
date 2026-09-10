@@ -2,7 +2,7 @@ import { DefaultLayout } from "@layout/index";
 import { MainCarousel } from "@components/Carousel";
 import ProblemListCard from "@components/problem-list/ProblemListCard";
 import { useEffect } from "react";
-import { TrainingSection } from "@components/Training/TrainingSection";
+import QuickNavStrip from "@components/home/QuickNavStrip";
 import {
   EDITOR_CLEANUP_INTERVAL_MS,
   isEditorCleanupDue,
@@ -41,9 +41,12 @@ function App() {
 
   return (
     <DefaultLayout>
-      <div className="my-6 space-y-8 sm:my-8 sm:space-y-10">
+      <div className="my-8 space-y-10">
         <MainCarousel />
-        <TrainingSection />
+        <section className="space-y-4">
+          <h2 className="text-lg font-semibold tracking-tight">빠른 탐색</h2>
+          <QuickNavStrip />
+        </section>
         <ProblemListCard />
       </div>
     </DefaultLayout>

@@ -1,42 +1,52 @@
-import { Link2, ArrowUpRight } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 export default function UpcomingSystemUpdateContent() {
   return (
-    <Card className="relative flex h-full flex-col justify-center overflow-hidden rounded-none border-0 bg-[#111827] text-white shadow-none before:absolute before:-right-24 before:-top-24 before:size-72 before:rounded-full before:bg-primary/15 before:blur-3xl">
-      <CardHeader className="relative z-10 px-10 pb-0 sm:px-14">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="grid size-9 place-items-center rounded-lg border border-white/10 bg-white/5 text-primary">
-            <Link2 className="size-5" />
-          </span>
-          <Badge className="border border-primary/25 bg-primary/10 text-primary">
-            업데이트 소식
-          </Badge>
-        </div>
-        <CardTitle className="font-billboard text-2xl font-normal leading-tight tracking-tight sm:text-4xl">
-          더 편리한 계정 연동을
-          <br />
-          준비하고 있어요.
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="relative z-10 px-10 pb-0 pt-3 sm:px-14">
-        <p className="text-sm leading-6 text-slate-400">
-          다양한 플랫폼과 연결해서
-          <br />
-          학습 기록을 한곳에서 만나보세요.
-        </p>
-        <div className="mt-4 flex items-center gap-2 text-xs font-medium text-primary">
-          <ArrowUpRight className="size-4" />
-          새로운 소식을 곧 전해드릴게요
-        </div>
-      </CardContent>
+    <div className="relative flex h-full items-center overflow-hidden bg-[#111827] px-8 py-12 text-white sm:px-10 sm:py-16 lg:px-14 lg:py-20 dark:bg-[#1f2937]">
       <div
         aria-hidden="true"
-        className="absolute right-16 top-1/2 hidden size-44 -translate-y-1/2 rounded-full border border-white/10 lg:block"
-      >
-        <span className="absolute left-12 top-8 size-28 rounded-full border border-white/7" />
-        <span className="absolute bottom-8 left-4 size-3 rounded-full bg-white/15" />
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 30% 20%, hsla(208,55%,50%,0.15) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.25) 100%)",
+        }}
+      />
+      <div className="relative z-10 flex w-full items-center justify-between gap-8">
+        <div className="max-w-xl">
+          <span className="mb-3 inline-flex text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
+            추천
+          </span>
+          <h2 className="font-billboard text-2xl font-normal leading-[1.1] tracking-tight text-white sm:text-3xl lg:text-4xl">
+            백준 계정 연동 준비중
+          </h2>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70 sm:text-base">
+            백준(BOJ) 계정을 연동하여 풀이 현황을 자동으로 동기화할 수 있도록
+            준비하고 있습니다.
+          </p>
+          <span
+            role="button"
+            aria-disabled="true"
+            className="mt-6 inline-flex cursor-not-allowed rounded-full bg-white/10 px-7 py-2.5 text-[15px] font-medium text-white/40"
+          >
+            준비중
+          </span>
+        </div>
+        <div
+          aria-hidden="true"
+          className="relative hidden h-64 w-72 shrink-0 items-center justify-center lg:flex xl:w-96"
+        >
+          <div className="absolute size-48 rounded-full bg-white/[0.03] blur-[60px]" />
+          <div className="absolute size-44 rounded-full border border-white/10" />
+          <div className="absolute size-28 translate-x-8 -translate-y-4 rounded-full border border-white/[0.07]" />
+          <div className="absolute size-3 -translate-x-16 translate-y-12 rounded-full bg-white/15" />
+        </div>
       </div>
-    </Card>
+    </div>
   );
 }

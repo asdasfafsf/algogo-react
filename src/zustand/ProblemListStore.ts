@@ -1,12 +1,12 @@
-import { create } from 'zustand';
-import { getProblemList } from '@api/problems-v2';
-import { PROBLEM_SORT_DEFAULT } from '@constant/ProblemSort';
-import { ProblemState, ProblemSummary, ProblemType } from '@/type/Problem.type';
+import { create } from "zustand";
+import { getProblemList } from "@api/problems-v2";
+import { PROBLEM_SORT_DEFAULT } from "@constant/ProblemSort";
+import { ProblemState, ProblemSummary, ProblemType } from "@/type/Problem.type";
 import {
   buildProblemListRequest,
   calculateMaxPage,
   type ProblemPaging,
-} from '@/domain/problems';
+} from "@/domain/problems";
 
 type PagingInfo = ProblemPaging;
 
@@ -18,6 +18,7 @@ type ProblemListStore = {
   maxPageNo: number;
   setMaxPageNo: (updater: Updater<number>) => void | Promise<void>;
   isFetching: boolean;
+  totalCount: number;
   setFetching: (updater: Updater<boolean>) => void | Promise<void>;
   fetchProblemList: (
     pagingInfo: PagingInfo,
@@ -27,12 +28,12 @@ type ProblemListStore = {
   ) => Promise<void> | void;
 };
 
-export const useProblemListStore = create<ProblemListStore>(set => ({
+export const useProblemListStore = create<ProblemListStore>((set) => ({
   problemList: [],
-  setProblemList: updater =>
-    set(state => ({
+  setProblemList: (updater) =>
+    set((state) => ({
       problemList:
-        typeof updater === 'function'
+        typeof updater === "function"
           ? (updater as (prev: ProblemSummary[]) => ProblemSummary[])(
               state.problemList,
             )
@@ -42,26 +43,27 @@ export const useProblemListStore = create<ProblemListStore>(set => ({
     pageNo: 1,
     pageSize: 20,
   },
-  setPagingInfo: updater =>
-    set(state => ({
+  setPagingInfo: (updater) =>
+    set((state) => ({
       pagingInfo:
-        typeof updater === 'function'
+        typeof updater === "function"
           ? (updater as (prev: PagingInfo) => PagingInfo)(state.pagingInfo)
           : updater,
     })),
   maxPageNo: 1,
-  setMaxPageNo: updater =>
-    set(state => ({
+  totalCount: 0,
+  setMaxPageNo: (updater) =>
+    set((state) => ({
       maxPageNo:
-        typeof updater === 'function'
+        typeof updater === "function"
           ? (updater as (prev: number) => number)(state.maxPageNo)
           : updater,
     })),
-  isFetching: false,
-  setFetching: updater =>
-    set(state => ({
+  isFetching: true,
+  setFetching: (updater) =>
+    set((state) => ({
       isFetching:
-        typeof updater === 'function'
+        typeof updater === "function"
           ? (updater as (prev: boolean) => boolean)(state.isFetching)
           : updater,
     })),
@@ -70,7 +72,7 @@ export const useProblemListStore = create<ProblemListStore>(set => ({
     pagingInfo: PagingInfo,
     problemOptionList: ProblemOption[],
     problemSort: ProblemSort = PROBLEM_SORT_DEFAULT,
-    problemTitle: string = '',
+    problemTitle: string = "",
   ) => {
     const { pageNo, pageSize } = pagingInfo;
 
@@ -101,6 +103,7 @@ export const useProblemListStore = create<ProblemListStore>(set => ({
       set(() => ({
         problemList,
         maxPageNo,
+        totalCount,
         isFetching: false,
       }));
     } finally {

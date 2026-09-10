@@ -2,9 +2,8 @@ import { Button } from "@components/Button/index";
 import { Input } from "@components/Input/index";
 import { Dropdown } from "@components/Dropdown/index";
 import { ChipWithSelected } from "@components/Chip/index";
-import { Typography } from "@components/common";
 import useInput from "@hook/useInput";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDown, Tag } from "lucide-react";
 import React from "react";
 import useProbleTypeDropdown from "@hook/problem-list/useProblemTypeDropdown";
 
@@ -17,6 +16,9 @@ export default React.memo(() => {
     handleOk,
     handler,
   } = useProbleTypeDropdown();
+  const selectedCount = problemTypeList.filter(
+    (item) => item.isSelected,
+  ).length;
 
   const { value: filterValue, handleChange } = useInput();
   return (
@@ -27,12 +29,17 @@ export default React.memo(() => {
       showArrow={false}
       align="bottom-left"
     >
-      <div
-        className={`flex cursor-pointer items-center gap-1 rounded-md border p-2 ${open ? "border-primary/30 bg-accent text-accent-foreground" : "border-input bg-background text-foreground hover:bg-accent"}`}
-      >
-        <Typography variant="medium">유형</Typography>
-        <ChevronDownIcon
-          className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+      <div className="flex h-10 w-[200px] cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-background px-4 transition-colors hover:border-foreground/30 hover:bg-accent/60">
+        <div className="flex min-w-0 items-center gap-2">
+          <Tag
+            className={`size-4 shrink-0 ${selectedCount > 0 ? "text-primary" : "opacity-50"}`}
+          />
+          <span className="truncate text-sm font-medium">
+            {selectedCount > 0 ? `유형 (${selectedCount})` : "유형"}
+          </span>
+        </div>
+        <ChevronDown
+          className={`size-3.5 shrink-0 opacity-40 transition-transform ${open ? "rotate-180" : ""}`}
         />
       </div>
       <div className="p-4">

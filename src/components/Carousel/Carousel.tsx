@@ -116,28 +116,32 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           ))}
         </CarouselContent>
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
-          onClick={() => api?.scrollPrev()}
-          aria-label="이전 슬라이드"
-        >
-          {prevArrow ?? <ChevronLeft />}
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
-          onClick={() => api?.scrollNext()}
-          aria-label="다음 슬라이드"
-        >
-          {nextArrow ?? <ChevronRight />}
-        </Button>
+        {slides.length > 1 && (
+          <>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
+              onClick={() => api?.scrollPrev()}
+              aria-label="이전 슬라이드"
+            >
+              {prevArrow ?? <ChevronLeft />}
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
+              onClick={() => api?.scrollNext()}
+              aria-label="다음 슬라이드"
+            >
+              {nextArrow ?? <ChevronRight />}
+            </Button>
+          </>
+        )}
 
-        {navigation && (
+        {navigation && slides.length > 1 && (
           <div
             className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1 rounded-full bg-background/80 px-2 py-1"
             role="group"

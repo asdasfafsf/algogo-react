@@ -1,6 +1,6 @@
-import { PROBLEM_SORT_MAP } from '@constant/ProblemSort';
-import { PROBLEM_TYPE_MAP } from '@constant/ProblemType.constant';
-import { PROBLEM_STATE } from '@/constant/problem.state.constant';
+import { PROBLEM_SORT_MAP } from "@constant/ProblemSort";
+import { PROBLEM_TYPE_MAP } from "@constant/ProblemType.constant";
+import { PROBLEM_STATE } from "@/constant/problem.state.constant";
 
 export type ProblemState = (typeof PROBLEM_STATE)[keyof typeof PROBLEM_STATE];
 export type IquiryProblemsSummary = {
@@ -32,7 +32,7 @@ export type ProblemSummary = {
   sourceId: string;
   sourceUrl: string;
   level: number;
-  typeList: ProblemType[];
+  typeList?: ProblemType[];
   state: ProblemState;
 };
 
@@ -113,7 +113,7 @@ export type TodayProblem = {
   source: string;
   sourceId: string;
   sourceUrl: string;
-  typeList: ProblemType[];
+  typeList?: ProblemType[];
   difficulty: string;
   state: ProblemState;
 };

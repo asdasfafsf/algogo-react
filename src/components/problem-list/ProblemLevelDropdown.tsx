@@ -3,7 +3,7 @@ import { Dropdown } from "@components/Dropdown/index";
 import { ChipWithSelected } from "@components/Chip/index";
 import { Typography } from "@components/common";
 import React from "react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDown, Signal } from "lucide-react";
 import useProblemLevelDropdown from "@hook/problem-list/useProblemLevelDropdown";
 
 export default React.memo(() => {
@@ -15,6 +15,9 @@ export default React.memo(() => {
     handleOk,
     handler,
   ] = useProblemLevelDropdown();
+  const selectedCount = problemLevelList.filter(
+    (item) => item.isSelected,
+  ).length;
 
   return (
     <Dropdown
@@ -23,14 +26,17 @@ export default React.memo(() => {
       open={isOpen}
       handler={handler}
     >
-      <div
-        className={`flex cursor-pointer items-center gap-1 rounded-md border p-2 ${isOpen ? "border-primary/30 bg-accent text-accent-foreground" : "border-input bg-background text-foreground hover:bg-accent"}`}
-      >
-        <Typography variant="medium">난이도</Typography>
-        <ChevronDownIcon
-          className={`w-4 h-4 transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
+      <div className="flex h-10 w-[200px] cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-background px-4 transition-colors hover:border-foreground/30 hover:bg-accent/60">
+        <div className="flex min-w-0 items-center gap-2">
+          <Signal
+            className={`size-4 shrink-0 ${selectedCount > 0 ? "text-tier-gold" : "opacity-50"}`}
+          />
+          <span className="truncate text-sm font-medium">
+            {selectedCount > 0 ? `난이도 ${selectedCount}개` : "난이도"}
+          </span>
+        </div>
+        <ChevronDown
+          className={`size-3.5 shrink-0 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </div>
 

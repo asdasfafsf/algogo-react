@@ -26,7 +26,15 @@ export default function Pagebar({
   const firstPage =
     Math.floor((currentPage - 1) / displayedPageRange) * displayedPageRange + 1;
   const pages = Array.from(
-    { length: displayedPageRange },
+    {
+      length: Math.max(
+        0,
+        Math.min(
+          displayedPageRange,
+          (maxPage ?? firstPage + displayedPageRange - 1) - firstPage + 1,
+        ),
+      ),
+    },
     (_, index) => firstPage + index,
   );
   return (
@@ -44,7 +52,6 @@ export default function Pagebar({
               <PaginationLink
                 aria-label={`${pageNo}페이지`}
                 isActive={pageNo === currentPage}
-                disabled={maxPage ? pageNo > maxPage : false}
                 onClick={(event) => handleChangePage(event, pageNo)}
               >
                 {pageNo}

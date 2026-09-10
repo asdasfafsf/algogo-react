@@ -4,12 +4,12 @@ import ProblemListCardFooter from "./ProblemListCardFooter";
 
 export default function ProblemListCard() {
   return (
-    <div className="mb-16">
+    <section className="mb-16 space-y-4">
       <ProblemListCardHeader />
-      <div className="block overflow-hidden border-y border-border">
+      <div className="block overflow-hidden rounded-lg border border-border/60">
         <ProblemListTable />
       </div>
       <ProblemListCardFooter />
-    </div>
+    </section>
   );
 }
