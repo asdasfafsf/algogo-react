@@ -1,87 +1,281 @@
-import { Button } from "@components/Button/index";
-import { Dropdown } from "@components/Dropdown/index";
-import { ChipWithSelected } from "@components/Chip/index";
-import { Typography } from "@components/common";
 import React from "react";
-import { ChevronDown, Signal } from "lucide-react";
+import { ChevronDown, Signal, X } from "lucide-react";
+import { Button } from "@components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@components/ui/popover";
 import useProblemLevelDropdown from "@hook/problem-list/useProblemLevelDropdown";
+import { getProblemLevelRank } from "@/domain/problems/problemLevelSelection";
+import { cn } from "@lib/utils";
 
-export default React.memo(() => {
-  const [
+const TIERS = [
+  {
+    key: "bronze",
+    label: "브론즈",
+    values: ["5", "4", "3", "2", "1"],
+    color: "text-tier-bronze",
+    background: "bg-tier-bronze/20",
+    activeBackground: "bg-tier-bronze/30",
+  },
+  {
+    key: "silver",
+    label: "실버",
+    values: ["10", "9", "8", "7", "6"],
+    color: "text-tier-silver",
+    background: "bg-tier-silver/20",
+    activeBackground: "bg-tier-silver/30",
+  },
+  {
+    key: "gold",
+    label: "골드",
+    values: ["15", "14", "13", "12", "11"],
+    color: "text-tier-gold",
+    background: "bg-tier-gold/20",
+    activeBackground: "bg-tier-gold/30",
+  },
+  {
+    key: "platinum",
+    label: "플래티넘",
+    values: ["20", "19", "18", "17", "16"],
+    color: "text-tier-platinum",
+    background: "bg-tier-platinum/20",
+    activeBackground: "bg-tier-platinum/30",
+  },
+  {
+    key: "diamond",
+    label: "다이아",
+    values: ["25", "24", "23", "22", "21"],
+    color: "text-tier-diamond",
+    background: "bg-tier-diamond/20",
+    activeBackground: "bg-tier-diamond/30",
+  },
+  {
+    key: "ruby",
+    label: "루비",
+    values: ["30", "29", "28", "27", "26"],
+    color: "text-tier-ruby",
+    background: "bg-tier-ruby/20",
+    activeBackground: "bg-tier-ruby/30",
+  },
+] as const;
+
+function ProblemLevelDropdown() {
+  const {
     isOpen,
     problemLevelList,
     handleSelect,
+    handleSelectTier,
     handleReset,
     handleOk,
-    handler,
-  ] = useProblemLevelDropdown();
+    handleOpenChange,
+  } = useProblemLevelDropdown();
   const selectedCount = problemLevelList.filter(
-    (item) => item.isSelected,
+    ({ isSelected }) => isSelected,
   ).length;
+  const unknownOption = problemLevelList.find(({ value }) => value === "0");
 
   return (
-    <Dropdown
-      align="bottom-left"
-      showArrow={false}
-      open={isOpen}
-      handler={handler}
-    >
-      <div className="flex h-10 w-[200px] cursor-pointer items-center justify-between gap-2 rounded-md border border-input bg-background px-4 transition-colors hover:border-foreground/30 hover:bg-accent/60">
-        <div className="flex min-w-0 items-center gap-2">
-          <Signal
-            className={`size-4 shrink-0 ${selectedCount > 0 ? "text-tier-gold" : "opacity-50"}`}
-          />
-          <span className="truncate text-sm font-medium">
-            {selectedCount > 0 ? `난이도 ${selectedCount}개` : "난이도"}
+    <Popover open={isOpen} onOpenChange={handleOpenChange}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "h-10 w-[200px] justify-between gap-2 rounded-md px-4 transition-all duration-200",
+            "hover:border-foreground/30 hover:bg-accent/60",
+            selectedCount > 0
+              ? "border-tier-gold/50 bg-tier-gold/5 text-foreground shadow-sm hover:border-tier-gold/70 hover:bg-tier-gold/10"
+              : "bg-background",
+          )}
+          aria-label={
+            selectedCount > 0
+              ? `난이도 필터, ${selectedCount}개 선택됨`
+              : "난이도 필터"
+          }
+        >
+          <span className="flex min-w-0 items-center gap-2">
+            <Signal
+              aria-hidden
+              className={cn(
+                "size-4 shrink-0 transition-colors",
+                selectedCount > 0 ? "text-tier-gold" : "opacity-50",
+              )}
+            />
+            <span className="truncate text-sm font-medium">
+              {selectedCount > 0 ? `난이도 ${selectedCount}개` : "난이도"}
+            </span>
           </span>
+          <ChevronDown
+            aria-hidden
+            className={cn(
+              "size-3.5 shrink-0 transition-transform duration-200",
+              isOpen && "rotate-180",
+              selectedCount > 0 ? "opacity-70" : "opacity-40",
+            )}
+          />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="start"
+        sideOffset={8}
+        className="flex max-h-[min(560px,var(--radix-popover-content-available-height))] w-[min(360px,calc(100vw-2rem))] flex-col overflow-hidden border-border/60 p-0 shadow-lg"
+        aria-label="난이도 선택"
+      >
+        <div className="flex shrink-0 items-center justify-between border-b border-border/40 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold tracking-tight">
+              난이도 선택
+            </span>
+            {selectedCount > 0 && (
+              <span className="rounded-full bg-tier-gold/10 px-2 py-0.5 text-xs font-medium tabular-nums text-tier-gold">
+                {selectedCount}
+              </span>
+            )}
+          </div>
+          {selectedCount > 0 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleReset}
+              className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-destructive/5 hover:text-destructive"
+            >
+              초기화
+              <X aria-hidden className="size-3.5" />
+            </Button>
+          )}
         </div>
-        <ChevronDown
-          className={`size-3.5 shrink-0 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`}
-        />
-      </div>
 
-      <div className="p-4" key="problemLevelDropdown">
-        {["브론즈", "실버", "골드", "플래티넘", "다이아", "루비"].map(
-          (level) => (
-            <React.Fragment key={level}>
-              <div className="my-2">
-                <Typography
-                  weight="light"
-                  variant="medium"
-                >{`${level}`}</Typography>
-              </div>
-              <div className="flex flex-wrap gap-2 w-80 max-w-80">
-                {problemLevelList
-                  .filter(({ name }) => name.includes(level))
-                  .map(({ name, isSelected }) => (
-                    <ChipWithSelected
-                      key={name}
-                      value={name}
-                      isSelected={isSelected}
-                      onClick={(e) => {
-                        handleSelect(e, name);
-                      }}
+        <div className="overflow-y-auto p-4">
+          <div className="flex h-9 items-center">
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked={unknownOption?.isSelected === true}
+              aria-label="알 수 없음 난이도"
+              onClick={() => handleSelect("0")}
+              className={cn(
+                "rounded-md border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
+                "hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+                unknownOption?.isSelected
+                  ? "border-foreground/20 bg-muted text-foreground shadow-sm"
+                  : "border-border/40 bg-transparent text-muted-foreground/70 hover:border-border hover:bg-muted/30 hover:text-foreground",
+              )}
+            >
+              알 수 없음
+            </button>
+          </div>
+
+          <div className="my-2 border-t border-border/40" />
+
+          <div className="space-y-2">
+            {TIERS.map((tier) => {
+              const tierOptions = tier.values.map((value) => {
+                const option = problemLevelList.find(
+                  (problemLevel) => problemLevel.value === value,
+                );
+                return { value, isSelected: option?.isSelected === true };
+              });
+              const selectedTierCount = tierOptions.filter(
+                ({ isSelected }) => isSelected,
+              ).length;
+              const isEntireTierSelected =
+                selectedTierCount === tierOptions.length;
+              const hasTierSelection = selectedTierCount > 0;
+              const tierSelectionState = isEntireTierSelected
+                ? true
+                : hasTierSelection
+                  ? "mixed"
+                  : false;
+
+              return (
+                <div
+                  key={tier.key}
+                  role="group"
+                  aria-label={`${tier.label} 난이도`}
+                  className="flex h-9 items-center gap-3"
+                >
+                  <div className="flex w-[60px] shrink-0 items-center gap-2">
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "h-5 w-1 rounded-full transition-colors",
+                        hasTierSelection
+                          ? cn("bg-current", tier.color)
+                          : "bg-muted-foreground/20",
+                      )}
                     />
-                  ))}
-              </div>
-            </React.Fragment>
-          ),
-        )}
+                    <span
+                      className={cn(
+                        "truncate text-xs transition-colors",
+                        hasTierSelection
+                          ? cn(tier.color, "font-semibold")
+                          : "text-muted-foreground",
+                      )}
+                    >
+                      {tier.label}
+                    </span>
+                  </div>
 
-        <div className="flex items-center justify-end gap-2 mt-4">
-          <Button
-            className="bg-gray-500"
-            color="gray"
-            size="small"
-            onClick={handleReset}
-          >
-            초기화
-          </Button>
-          <Button color="blue" size="small" onClick={handleOk}>
+                  <div className="flex gap-1.5">
+                    {tierOptions.map(({ value, isSelected }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        role="checkbox"
+                        aria-checked={isSelected}
+                        aria-label={`${tier.label} ${getProblemLevelRank(value)}`}
+                        onClick={() => handleSelect(value)}
+                        className={cn(
+                          "size-8 rounded-md border border-transparent text-xs font-bold transition-all duration-200",
+                          "hover:scale-105 active:scale-95 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+                          isSelected
+                            ? cn(
+                                tier.activeBackground,
+                                tier.color,
+                                "border-current shadow-sm",
+                              )
+                            : "bg-muted/40 text-muted-foreground/60 hover:bg-muted hover:text-foreground",
+                        )}
+                      >
+                        {getProblemLevelRank(value)}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    role="checkbox"
+                    aria-checked={tierSelectionState}
+                    aria-label={`${tier.label} 전체 선택`}
+                    onClick={() => handleSelectTier(tier.values)}
+                    className={cn(
+                      "ml-auto shrink-0 rounded-md border border-transparent px-2.5 py-1 text-xs font-semibold transition-all duration-200",
+                      "hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      isEntireTierSelected
+                        ? cn(tier.background, tier.color, "border-current")
+                        : hasTierSelection
+                          ? cn(tier.color, "opacity-50 hover:opacity-100")
+                          : "text-muted-foreground/50 hover:bg-muted/50 hover:text-foreground",
+                    )}
+                  >
+                    전체
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex shrink-0 items-center justify-end border-t border-border/40 bg-popover px-4 py-3">
+          <Button size="sm" onClick={handleOk} className="h-8 px-4 text-xs">
             적용
           </Button>
         </div>
-      </div>
-    </Dropdown>
+      </PopoverContent>
+    </Popover>
   );
-});
+}
+
+export default React.memo(ProblemLevelDropdown);

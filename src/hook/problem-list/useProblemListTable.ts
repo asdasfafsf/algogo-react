@@ -47,7 +47,7 @@ export default function useProblemListTable() {
   }, [fetchProblemList]);
 
   useDidMountEffect(() => {
-    setPagingInfo(DEFAULT_PROBLEM_PAGE);
+    setPagingInfo({ ...DEFAULT_PROBLEM_PAGE });
   }, [problemOptionList]);
 
   useDidMountEffect(() => {
