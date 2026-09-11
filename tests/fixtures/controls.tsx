@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import HeaderMenu from "@layout/HeaderMenu";
+import { problemNavGroup } from "@/config/nav";
 import apiClient from "@api/apiClient";
 import ModalProvider from "@plugins/modal/ModalProvider";
 import useCodeEditorStore from "@zustand/CodeEditorStore";
@@ -272,24 +273,7 @@ function ActualConsumersFixture() {
     <section className="grid gap-5 rounded-lg border p-4">
       <h2 className="font-semibold">실제 메뉴와 필터 소비처</h2>
       <div className="flex flex-wrap items-center gap-3">
-        <HeaderMenu
-          menuItem={{
-            title: "헤더 샘플",
-            pathList: ["/fixture"],
-            subMenuList: [
-              {
-                title: "이동 가능한 항목",
-                pathList: ["/fixture-target"],
-                canAccess: true,
-              },
-              {
-                title: "준비 중 항목",
-                pathList: ["/disabled"],
-                canAccess: false,
-              },
-            ],
-          }}
-        />
+        <HeaderMenu menuItem={problemNavGroup} />
         <ThemeToggle />
         <ProfileMenu me={sampleMe} />
         <LanguageDropdown />

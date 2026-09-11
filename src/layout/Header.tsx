@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Menu } from "lucide-react";
+import { ChevronRight, Menu } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@components/brand/Logo";
 import { ProfileMenu } from "@components/Dropdown";
 import ThemeToggle from "@components/ThemeToggle";
 import { Button } from "@components/ui/button";
+import { preparedNavItems, problemNavGroup } from "@/config/nav";
 import {
   Sheet,
   SheetClose,
@@ -16,45 +17,6 @@ import {
 import { cn } from "@lib/utils";
 import useMeStore from "@zustand/MeStore";
 import HeaderMenu from "./HeaderMenu";
-
-const problemItems = [
-  {
-    title: "모든 문제",
-    pathList: ["/"],
-    canAccess: true,
-  },
-  {
-    title: "오늘의 문제",
-    pathList: ["/problem/today"],
-    canAccess: true,
-  },
-  {
-    title: "유형별 문제",
-    pathList: ["/problem/type"],
-    canAccess: false,
-  },
-] as const;
-
-const preparedItems = ["대회", "랭킹", "커뮤니티"] as const;
-
-const problemMenu = {
-  title: "문제",
-  pathList: ["/", "/problem"],
-  subMenuList: [...problemItems],
-};
-
-function PreparedNavItem({ label }: { label: string }) {
-  return (
-    <span
-      aria-disabled="true"
-      aria-label={`${label}, 지금은 선택할 수 없음`}
-      title="지금은 선택할 수 없음"
-      className="inline-flex h-9 cursor-not-allowed items-center rounded-md px-3 text-sm font-medium text-muted-foreground/55"
-    >
-      {label}
-    </span>
-  );
-}
 
 export default function Header() {
   const navigate = useNavigate();
@@ -79,17 +41,12 @@ export default function Header() {
           <Logo size="sm" />
         </Link>
 
-        <nav
-          aria-label="주 메뉴"
-          className="hidden flex-1 justify-center md:flex"
-        >
-          <div className="flex items-center gap-1">
-            <HeaderMenu menuItem={problemMenu} />
-            {preparedItems.map((item) => (
-              <PreparedNavItem key={item} label={item} />
-            ))}
-          </div>
-        </nav>
+        <div className="hidden flex-1 justify-center md:flex">
+          <HeaderMenu
+            menuItem={problemNavGroup}
+            preparedItems={preparedNavItems}
+          />
+        </div>
 
         <div className="hidden items-center gap-2 md:flex">
           <ThemeToggle />
@@ -128,7 +85,10 @@ export default function Header() {
                 <Menu className="size-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="flex w-[300px] flex-col p-0">
+            <SheetContent
+              side="right"
+              className="flex w-[min(20rem,calc(100vw-1rem))] flex-col p-0"
+            >
               <div className="border-b px-5 py-4">
                 <SheetHeader className="text-left">
                   <SheetTitle className="sr-only">주 메뉴</SheetTitle>
@@ -147,59 +107,92 @@ export default function Header() {
                 aria-label="모바일 메뉴"
                 className="flex-1 overflow-y-auto px-5 py-6"
               >
-                <div>
-                  <p className="px-3 text-xs font-semibold text-muted-foreground">
+                <section aria-labelledby="mobile-problem-menu">
+                  <p
+                    id="mobile-problem-menu"
+                    className="px-3 text-xs font-semibold text-muted-foreground"
+                  >
                     문제
                   </p>
                   <div className="mt-2 flex flex-col gap-1">
-                    {problemItems.map((item) =>
-                      item.canAccess ? (
+                    {problemNavGroup.items.map((item) =>
+                      !item.disabled ? (
                         <SheetClose key={item.title} asChild>
                           <Link
-                            to={item.pathList[0]}
+                            to={item.href}
                             aria-current={
-                              item.pathList[0] === pathname ? "page" : undefined
+                              item.href === "/"
+                                ? pathname === "/"
+                                  ? "page"
+                                  : undefined
+                                : pathname.startsWith(item.href)
+                                  ? "page"
+                                  : undefined
                             }
                             className={cn(
-                              "rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring active:bg-accent/80",
-                              item.pathList[0] === pathname &&
+                              "group flex min-h-12 items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring active:bg-accent/80",
+                              (item.href === "/"
+                                ? pathname === "/"
+                                : pathname.startsWith(item.href)) &&
                                 "bg-accent text-accent-foreground",
                             )}
                           >
-                            {item.title}
+                            <span>
+                              <span className="block">{item.title}</span>
+                              <span className="mt-0.5 block text-xs font-normal text-muted-foreground group-hover:text-accent-foreground">
+                                {item.description}
+                              </span>
+                            </span>
+                            <ChevronRight
+                              aria-hidden="true"
+                              className="size-4 shrink-0 text-muted-foreground/70 transition-transform group-hover:translate-x-0.5"
+                            />
                           </Link>
                         </SheetClose>
                       ) : (
                         <span
                           key={item.title}
                           aria-disabled="true"
-                          className="flex cursor-not-allowed items-center justify-between rounded-md px-3 py-2.5 text-sm text-muted-foreground/55"
+                          className="flex min-h-12 cursor-not-allowed items-center justify-between rounded-md px-3 py-2.5 text-sm text-muted-foreground/55"
                         >
-                          {item.title}
-                          <span className="text-xs">곧</span>
+                          <span>
+                            <span className="block font-medium">
+                              {item.title}
+                            </span>
+                            <span className="mt-0.5 block text-xs">
+                              {item.description}
+                            </span>
+                          </span>
+                          <span className="text-xs">준비 중</span>
                         </span>
                       ),
                     )}
                   </div>
-                </div>
-                <div className="mt-7 border-t pt-6">
-                  <p className="px-3 text-xs font-semibold text-muted-foreground">
+                </section>
+                <section
+                  aria-labelledby="mobile-prepared-menu"
+                  className="mt-7 border-t pt-6"
+                >
+                  <p
+                    id="mobile-prepared-menu"
+                    className="px-3 text-xs font-semibold text-muted-foreground"
+                  >
                     다른 메뉴
                   </p>
                   <div className="mt-2 flex flex-col">
-                    {preparedItems.map((item) => (
+                    {preparedNavItems.map((item) => (
                       <span
                         key={item}
                         aria-disabled="true"
-                        title="곧 이용할 수 있어요"
-                        className="flex cursor-not-allowed items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground/55"
+                        title="준비 중"
+                        className="flex min-h-11 cursor-not-allowed items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground/55"
                       >
                         {item}
-                        <span className="text-xs font-normal">곧</span>
+                        <span className="text-xs font-normal">준비 중</span>
                       </span>
                     ))}
                   </div>
-                </div>
+                </section>
               </nav>
               <div className="mt-auto border-t bg-muted/30 p-5">
                 <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
