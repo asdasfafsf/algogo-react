@@ -1,4 +1,5 @@
-import { CheckCircle2, Loader2, Unlink } from "lucide-react";
+import { Loader2, Unlink } from "lucide-react";
+import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 
@@ -31,30 +32,21 @@ export default function OAuthCard({
     <Card className="border-border/60 bg-background shadow-none">
       <CardContent className="p-5">
         <div className="flex items-center gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-white shadow-xs">
+          <div className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-white">
             <img src={icon} alt="" className="size-7 object-contain" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-display font-semibold">{name}</p>
-            <div
-              className={`mt-1 flex items-center gap-1.5 text-xs font-medium ${
-                isConnected
-                  ? "text-emerald-600 dark:text-emerald-300"
-                  : "text-muted-foreground"
-              }`}
-            >
-              {isConnected ? (
-                <CheckCircle2 className="size-3.5" />
-              ) : (
-                <span className="size-2 rounded-full bg-muted-foreground/40" />
-              )}
-              {isConnected ? "연결됨" : "연결되지 않음"}
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-display font-semibold">{name}</p>
+              <Badge variant={isConnected ? "secondary" : "outline"}>
+                {isConnected ? "연결됨" : "연결 안 됨"}
+              </Badge>
             </div>
           </div>
         </div>
 
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          {description}
+          {isConnected ? `${name} 로그인을 사용할 수 있습니다.` : description}
         </p>
 
         {isConnected ? (
