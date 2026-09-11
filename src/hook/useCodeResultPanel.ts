@@ -3,8 +3,34 @@ import useCodeResultPanelStore from "../zustand/CodeResultPanelStore";
 import useCodeEditorStore from "../zustand/CodeEditorStore";
 import useTestCaseListStore from "../zustand/TestCaseListStore";
 import useProblemStore from "../zustand/ProblemStore";
+import useToastModal from "@hook/modal/useToastModal";
+import {
+  copyTextWithFeedback,
+  pasteTextWithFeedback,
+  type ClipboardFeedback,
+  type ClipboardReadText,
+  type ClipboardWriteText,
+} from "@lib/clipboard";
+import useExclusiveAsync from "@hook/useExclusiveAsync";
 
-export default function useCodeResultPanel() {
+interface UseCodeResultPanelOptions {
+  clipboardReader?: ClipboardReadText | null;
+  clipboardWriter?: ClipboardWriteText | null;
+}
+
+export default function useCodeResultPanel({
+  clipboardReader,
+  clipboardWriter,
+}: UseCodeResultPanelOptions = {}) {
+  const {
+    isPending: isInputPastePending,
+    runExclusive: runExclusiveInputPaste,
+  } = useExclusiveAsync();
+  const {
+    isPending: isOutputCopyPending,
+    runExclusive: runExclusiveOutputCopy,
+  } = useExclusiveAsync();
+  const { toast } = useToastModal();
   const {
     selectedIndex,
     setSelectedIndex,
@@ -33,10 +59,30 @@ export default function useCodeResultPanel() {
     }
   }, [problem]);
 
+  const showClipboardFeedback = useCallback(
+    ({ message, variant }: ClipboardFeedback) => {
+      void toast(message, 3000, variant).catch(() => undefined);
+    },
+    [toast],
+  );
+
   const handleClickPasteInput = useCallback(async () => {
-    const input = await navigator.clipboard.readText();
-    setInput(input);
-  }, [setInput]);
+    const attempt = await runExclusiveInputPaste(() =>
+      pasteTextWithFeedback(clipboardReader),
+    );
+    if (!attempt.started) return;
+
+    const result = attempt.value;
+    if (result.status === "success") {
+      setInput(result.value);
+    }
+    showClipboardFeedback(result.feedback);
+  }, [
+    clipboardReader,
+    runExclusiveInputPaste,
+    setInput,
+    showClipboardFeedback,
+  ]);
 
   const handleChangeInput = useCallback(
     (input: string) => {
@@ -46,10 +92,17 @@ export default function useCodeResultPanel() {
   );
 
   const handleClickCopyOutput = useCallback(async () => {
-    await navigator.clipboard.writeText(
-      `${output.result}${output.detail ? `\n${output.detail}` : ""}`,
+    const attempt = await runExclusiveOutputCopy(() =>
+      copyTextWithFeedback(
+        `${output.result}${output.detail ? `\n${output.detail}` : ""}`,
+        clipboardWriter,
+      ),
     );
-  }, [output]);
+    if (!attempt.started) return;
+
+    const result = attempt.value;
+    showClipboardFeedback(result.feedback);
+  }, [clipboardWriter, output, runExclusiveOutputCopy, showClipboardFeedback]);
 
   const handleClickResetOutput = useCallback(
     () =>
@@ -73,6 +126,8 @@ export default function useCodeResultPanel() {
     outputTextAreaRef,
     selectedIndex,
     testCaseList,
+    isInputPastePending,
+    isOutputCopyPending,
     handleClickTab,
     handleClickPasteInput,
     handleChangeInput,
