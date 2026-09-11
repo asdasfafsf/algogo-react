@@ -30,6 +30,37 @@ interface CarouselContextValue {
 
 const CarouselContext = React.createContext<CarouselContextValue | null>(null);
 
+const INTERACTIVE_ELEMENT_SELECTOR = [
+  "a[href]",
+  "button",
+  "input",
+  "select",
+  "textarea",
+  "[contenteditable]:not([contenteditable='false'])",
+  "[tabindex]:not([tabindex='-1'])",
+  "[role='button']",
+  "[role='checkbox']",
+  "[role='combobox']",
+  "[role='link']",
+  "[role='menuitem']",
+  "[role='option']",
+  "[role='radio']",
+  "[role='slider']",
+  "[role='spinbutton']",
+  "[role='switch']",
+  "[role='tab']",
+  "[role='textbox']",
+].join(",");
+
+function isInteractiveDescendant(
+  target: EventTarget | null,
+  carousel: HTMLDivElement,
+) {
+  if (!(target instanceof Element) || target === carousel) return false;
+  const interactiveElement = target.closest(INTERACTIVE_ELEMENT_SELECTOR);
+  return Boolean(interactiveElement && carousel.contains(interactiveElement));
+}
+
 function useCarousel() {
   const context = React.useContext(CarouselContext);
   if (!context) throw new Error("useCarousel must be used within a Carousel");
@@ -45,6 +76,8 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       plugins,
       className,
       children,
+      onKeyDownCapture,
+      tabIndex = 0,
       ...props
     },
     ref,
@@ -78,15 +111,28 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     const scrollNext = React.useCallback(() => api?.scrollNext(), [api]);
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === "ArrowLeft") {
+        onKeyDownCapture?.(event);
+        if (
+          event.defaultPrevented ||
+          isInteractiveDescendant(event.target, event.currentTarget)
+        ) {
+          return;
+        }
+
+        const previousKey =
+          orientation === "horizontal" ? "ArrowLeft" : "ArrowUp";
+        const nextKey =
+          orientation === "horizontal" ? "ArrowRight" : "ArrowDown";
+
+        if (event.key === previousKey) {
           event.preventDefault();
           scrollPrev();
-        } else if (event.key === "ArrowRight") {
+        } else if (event.key === nextKey) {
           event.preventDefault();
           scrollNext();
         }
       },
-      [scrollNext, scrollPrev],
+      [onKeyDownCapture, orientation, scrollNext, scrollPrev],
     );
 
     return (
@@ -107,6 +153,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           className={cn("relative", className)}
           role="region"
           aria-roledescription="carousel"
+          tabIndex={tabIndex}
           {...props}
         >
           {children}

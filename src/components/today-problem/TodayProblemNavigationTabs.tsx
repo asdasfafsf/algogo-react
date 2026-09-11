@@ -1,12 +1,12 @@
-import { Fragment, useRef } from "react";
+import { Fragment } from "react";
 import { Check, X } from "lucide-react";
+import { TabsList, TabsTrigger } from "@components/ui/tabs";
 import { PROBLEM_STATE } from "@/constant/problem.state.constant";
 import type { TodayProblem } from "@/type/Problem.type";
 
 interface TodayProblemNavigationTabsProps {
   problems: TodayProblem[];
   currentIndex: number;
-  onProblemSelect: (index: number) => void;
 }
 
 function difficultyRing(level: number): string {
@@ -22,16 +22,16 @@ function difficultyRing(level: number): string {
 function circleClass(problem: TodayProblem, selected: boolean): string {
   if (problem.state === PROBLEM_STATE.SOLVED) {
     return selected
-      ? "border-green-500 bg-green-50 text-green-600 ring-2 ring-green-500/30 scale-110"
+      ? "scale-110 border-green-500 bg-green-50 text-green-600 ring-2 ring-green-500/30 data-[state=active]:bg-green-50 data-[state=active]:text-green-600"
       : "border-green-500/50 bg-green-50 text-green-600";
   }
   if (problem.state === PROBLEM_STATE.FAILED) {
     return selected
-      ? "border-red-500 bg-red-50 text-red-600 ring-2 ring-red-500/30 scale-110"
+      ? "scale-110 border-red-500 bg-red-50 text-red-600 ring-2 ring-red-500/30 data-[state=active]:bg-red-50 data-[state=active]:text-red-600"
       : "border-red-500/50 bg-red-50 text-red-600";
   }
   if (selected) {
-    return "border-primary bg-primary/20 text-primary ring-2 ring-primary/30 scale-110";
+    return "scale-110 border-primary bg-primary/20 text-primary ring-2 ring-primary/30 data-[state=active]:bg-primary/20 data-[state=active]:text-primary";
   }
   return `border-foreground/12 bg-foreground/5 text-foreground/40 ring-1 ${difficultyRing(problem.level)}`;
 }
@@ -39,19 +39,10 @@ function circleClass(problem: TodayProblem, selected: boolean): string {
 export function TodayProblemNavigationTabs({
   problems,
   currentIndex,
-  onProblemSelect,
 }: TodayProblemNavigationTabsProps) {
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
-
-  const selectAndFocus = (nextIndex: number) => {
-    onProblemSelect(nextIndex);
-    window.requestAnimationFrame(() => tabRefs.current[nextIndex]?.focus());
-  };
-
   return (
-    <nav
-      className="flex items-center justify-center"
-      role="tablist"
+    <TabsList
+      className="flex h-auto items-center justify-center rounded-none bg-transparent p-0 text-inherit"
       aria-label="문제 탐색"
     >
       {problems.map((problem, index) => {
@@ -68,29 +59,10 @@ export function TodayProblemNavigationTabs({
                 aria-hidden="true"
               />
             )}
-            <button
-              type="button"
-              role="tab"
-              aria-selected={isSelected}
+            <TabsTrigger
+              value={problem.uuid}
               aria-label={`문제 ${index + 1}: ${problem.title}`}
-              tabIndex={isSelected ? 0 : -1}
-              ref={(element) => {
-                tabRefs.current[index] = element;
-              }}
-              className={`flex size-8 cursor-pointer items-center justify-center rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:size-9 ${circleClass(problem, isSelected)}`}
-              onClick={() => onProblemSelect(index)}
-              onKeyDown={(event) => {
-                if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-                  event.preventDefault();
-                  selectAndFocus((index + 1) % problems.length);
-                }
-                if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-                  event.preventDefault();
-                  selectAndFocus(
-                    (index - 1 + problems.length) % problems.length,
-                  );
-                }
-              }}
+              className={`size-8 cursor-pointer rounded-full border p-0 transition-all duration-200 focus-visible:ring-offset-2 data-[state=active]:shadow-none sm:size-9 ${circleClass(problem, isSelected)}`}
             >
               {problem.state === PROBLEM_STATE.SOLVED ? (
                 <Check size={14} strokeWidth={3} />
@@ -99,10 +71,10 @@ export function TodayProblemNavigationTabs({
               ) : (
                 <span className="text-xs font-semibold">{index + 1}</span>
               )}
-            </button>
+            </TabsTrigger>
           </Fragment>
         );
       })}
-    </nav>
+    </TabsList>
   );
 }
