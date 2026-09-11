@@ -23,7 +23,7 @@ export default function LandingFooter() {
               <Logo size="sm" />
             </Link>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              여러 저지의 문제를 한곳에서 찾고, 바로 풀어보세요.
+              여러 저지의 문제를 한 곳에서 찾고, 바로 풀어보세요.
             </p>
           </div>
 
