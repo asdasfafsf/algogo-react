@@ -11,14 +11,17 @@ import "../../src/index.css";
 const loggedInUser: Me = {
   uuid: "fixture-user",
   name: "홍길동",
-  profilePhoto: "",
+  profilePhoto:
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Crect width='96' height='96' fill='%23dbeafe'/%3E%3C/svg%3E",
   email: "fixture@example.invalid",
-  socialList: [],
+  socialList: [{ provider: "github", content: "fixture-user" }],
   oauthList: [{ provider: "google" }],
 };
 
-function setFixtureSession(mode: "logged-in" | "error") {
-  if (mode === "error") {
+type FixtureMode = "logged-in" | "save-failure" | "load-error";
+
+function setFixtureSession(mode: FixtureMode) {
+  if (mode === "load-error") {
     localStorage.setItem("accessToken", "fixture-token");
     useMeStore.setState({
       me: null,
@@ -32,9 +35,21 @@ function setFixtureSession(mode: "logged-in" | "error") {
     me: loggedInUser,
     fetchMe: async () => loggedInUser,
     updateMe: async (request) => {
+      if (mode === "save-failure") {
+        return {
+          statusCode: 503,
+          errorCode: "DATABASE_TIMEOUT",
+          errorMessage: "SQL timeout: profile-service.internal/fixture-user",
+          data: null,
+        };
+      }
       const nextUser = {
         ...loggedInUser,
         name: request.name ?? loggedInUser.name,
+        profilePhoto: request.file
+          ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96'%3E%3Ccircle cx='48' cy='48' r='48' fill='%2393c5fd'/%3E%3C/svg%3E"
+          : loggedInUser.profilePhoto,
+        socialList: request.socialList ?? loggedInUser.socialList,
       };
       useMeStore.setState({ me: nextUser });
       return {
@@ -50,10 +65,11 @@ function setFixtureSession(mode: "logged-in" | "error") {
 setFixtureSession("logged-in");
 
 function MyProfileFixture() {
-  const [mode, setMode] = useState<"logged-in" | "error">("logged-in");
+  const [mode, setMode] = useState<FixtureMode>("logged-in");
   const [pending, setPending] = useState(false);
+  const currentMe = useMeStore((state) => state.me);
 
-  const changeMode = (nextMode: "logged-in" | "error") => {
+  const changeMode = (nextMode: FixtureMode) => {
     setFixtureSession(nextMode);
     setMode(nextMode);
   };
@@ -64,15 +80,27 @@ function MyProfileFixture() {
         <h1 className="font-display text-xl font-bold">내 정보 fixture</h1>
         <div className="flex flex-wrap gap-2" aria-label="fixture 상태 전환">
           <Button variant="outline" onClick={() => changeMode("logged-in")}>
-            로그인 상태
+            저장 성공 상태
           </Button>
-          <Button variant="outline" onClick={() => changeMode("error")}>
+          <Button variant="outline" onClick={() => changeMode("save-failure")}>
+            저장 실패 상태
+          </Button>
+          <Button variant="outline" onClick={() => changeMode("load-error")}>
             불러오기 오류
           </Button>
         </div>
       </header>
 
       <My key={mode} />
+
+      <output
+        aria-label="fixture 프로필 상태"
+        className="block rounded border border-dashed border-border p-3 text-sm"
+      >
+        {currentMe
+          ? `${currentMe.name} | 사진 ${currentMe.profilePhoto ? "보존" : "없음"} | 소셜 ${currentMe.socialList.map(({ provider }) => provider).join(", ")}`
+          : "로그아웃 상태"}
+      </output>
 
       <section className="space-y-3 border-t border-border pt-6">
         <div>
