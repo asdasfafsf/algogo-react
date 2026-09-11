@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Typography, Tooltip } from "@components/common/index";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import useProblemLevelViewer from "@hook/useProblemLevelViewer";
 import React from "react";
 import { ProblemLevelChip } from "../Chip";
@@ -13,25 +18,31 @@ function ProblemLevelViewer({ intialState, level }: ProblemLevelViewerProps) {
   const [levelState, tooltipContent, handleClick] =
     useProblemLevelViewer(intialState);
   return (
-    <Tooltip content={tooltipContent}>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={handleClick}
-        className="flex flex-wrap items-center mr-1 cursor-pointer"
-      >
-        <Typography variant="medium" className="font-bold whitespace-nowrap">
-          난이도 :{" "}
-        </Typography>
-        <span className="ml-1">
-          {levelState === "hide" ? (
-            <ProblemLevelChip level="숨김" />
-          ) : (
-            <ProblemLevelChip level={level} />
-          )}
-        </span>
-      </Button>
-    </Tooltip>
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClick}
+            aria-label={tooltipContent}
+            className="mr-1 flex flex-wrap items-center cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <span className="whitespace-nowrap text-sm font-bold leading-snug">
+              난이도 :
+            </span>
+            <span className="ml-1">
+              {levelState === "hide" ? (
+                <ProblemLevelChip level="숨김" />
+              ) : (
+                <ProblemLevelChip level={level} />
+              )}
+            </span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{tooltipContent}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
