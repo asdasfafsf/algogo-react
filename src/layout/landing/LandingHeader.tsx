@@ -13,10 +13,19 @@ export default function LandingHeader() {
           <Logo size="sm" />
         </Link>
         <nav aria-label="시작 메뉴" className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="active:bg-accent"
+            asChild
+          >
             <Link to="/login">로그인</Link>
           </Button>
-          <Button size="sm" className="rounded-full px-4 sm:px-5" asChild>
+          <Button
+            size="sm"
+            className="rounded-full px-4 active:bg-primary/80 sm:px-5"
+            asChild
+          >
             <Link to="/signup">시작하기</Link>
           </Button>
         </nav>

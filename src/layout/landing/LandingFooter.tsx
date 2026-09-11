@@ -1,101 +1,51 @@
-import type { ReactNode } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGithub,
-  faLinkedin,
-  faXTwitter,
-} from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import Logo from "@components/brand/Logo";
 
-function PreparedFooterLink({ children }: { children: ReactNode }) {
+function UpcomingItem({ children }: { children: string }) {
   return (
-    <span aria-disabled="true" title="준비중" className="cursor-not-allowed">
+    <span className="text-muted-foreground" aria-disabled="true">
       {children}
-      <span className="sr-only"> 준비중</span>
     </span>
   );
 }
 
 export default function LandingFooter() {
   return (
-    <footer className="border-t bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="space-y-4">
+    <footer className="border-t border-border/70 bg-background">
+      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:px-10">
+        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-start">
+          <div className="space-y-3">
             <Link
               to="/"
-              className="flex items-center gap-2"
+              className="inline-flex transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               aria-label="알고고 홈"
             >
               <Logo size="sm" />
             </Link>
-            <p className="text-sm text-muted-foreground">
-              외부 저지 사이트의 문제를 모아
-              <br />
-              에디터와 실행환경을 제공합니다.
+            <p className="text-sm leading-6 text-muted-foreground">
+              여러 온라인 저지의 문제를 한 곳에서 찾아 풀어보세요.
             </p>
           </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold tracking-wider">
-              PLATFORM
-            </h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <Link
-                  to="/"
-                  className="transition-colors hover:text-foreground"
-                >
-                  문제
-                </Link>
-              </li>
-              <li>
-                <PreparedFooterLink>대회</PreparedFooterLink>
-              </li>
-              <li>
-                <PreparedFooterLink>랭킹</PreparedFooterLink>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold tracking-wider">
-              COMMUNITY
-            </h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <PreparedFooterLink>자유게시판</PreparedFooterLink>
-              </li>
-              <li>
-                <PreparedFooterLink>질문 &amp; 답변</PreparedFooterLink>
-              </li>
-              <li>
-                <PreparedFooterLink>디스코드</PreparedFooterLink>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="mb-4 text-sm font-semibold tracking-wider">
-              CONNECT
-            </h3>
-            <div className="flex space-x-4 text-muted-foreground">
-              <span aria-disabled="true" title="GitHub 준비중">
-                <FontAwesomeIcon icon={faGithub} className="size-5" />
-                <span className="sr-only">GitHub 준비중</span>
-              </span>
-              <span aria-disabled="true" title="Twitter 준비중">
-                <FontAwesomeIcon icon={faXTwitter} className="size-5" />
-                <span className="sr-only">Twitter 준비중</span>
-              </span>
-              <span aria-disabled="true" title="LinkedIn 준비중">
-                <FontAwesomeIcon icon={faLinkedin} className="size-5" />
-                <span className="sr-only">LinkedIn 준비중</span>
-              </span>
-            </div>
+          <div className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm sm:pt-1">
+            <Link
+              to="/problem"
+              className="font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:text-primary/65"
+            >
+              문제 목록
+            </Link>
+            <Link
+              to="/problem/today"
+              className="font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:text-primary/65"
+            >
+              오늘의 문제
+            </Link>
+            <UpcomingItem>대회 · 곧 열려요</UpcomingItem>
+            <UpcomingItem>랭킹 · 곧 열려요</UpcomingItem>
           </div>
         </div>
-        <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Algogo. All rights reserved.</p>
-        </div>
+        <p className="mt-10 border-t border-border/70 pt-5 text-xs text-muted-foreground">
+          © {new Date().getFullYear()} Algogo
+        </p>
       </div>
     </footer>
   );
