@@ -25,6 +25,9 @@ const expectedCursors = {
   roleButton: "pointer",
   row: "pointer",
   checkbox: "pointer",
+  checkboxLabel: "pointer",
+  disabledCheckbox: "not-allowed",
+  disabledCheckboxLabel: "not-allowed",
   menuItem: "pointer",
   disabledMenuItem: "not-allowed",
   selectTrigger: "pointer",
@@ -94,7 +97,27 @@ function CursorControlsFixture() {
           <Button id="disabledButton" disabled>
             비활성 버튼
           </Button>
-          <Checkbox id="checkbox" aria-label="선택" />
+          <label
+            id="checkboxLabel"
+            className="inline-flex cursor-pointer items-center gap-2"
+            htmlFor="checkbox"
+          >
+            <Checkbox id="checkbox" aria-label="선택" />
+            <span>선택</span>
+          </label>
+          <label
+            id="disabledCheckboxLabel"
+            className="inline-flex cursor-not-allowed items-center gap-2 opacity-50"
+            htmlFor="disabledCheckbox"
+          >
+            <Checkbox
+              id="disabledCheckbox"
+              aria-label="선택된 비활성 체크박스"
+              checked
+              disabled
+            />
+            <span>선택된 비활성 체크박스</span>
+          </label>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
