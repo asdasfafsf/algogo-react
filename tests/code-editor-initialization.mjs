@@ -6,7 +6,6 @@ const projectRoot = fileURLToPath(new URL("..", import.meta.url));
 const calls = [];
 const storage = new Map();
 globalThis.__codeEditorApi = {};
-globalThis.location = { pathname: "/problem/problem-uuid" };
 globalThis.localStorage = {
   getItem: (key) => storage.get(key) ?? null,
   setItem: (key, value) => storage.set(key, value),
@@ -103,7 +102,9 @@ try {
     getTemplates: () => templates,
     loadCode: () => ({ statusCode: 200, data: [] }),
   });
-  const initialized = await useCodeEditorStore.getState().initialize();
+  const initialized = await useCodeEditorStore
+    .getState()
+    .initialize("problem-uuid");
   assert.equal(initialized.type, "loaded");
   assert.deepEqual(calls, ["setting", "templates", "code"]);
   assert.equal(useCodeEditorStore.getState().code, "#include <bits/stdc++.h>");
@@ -116,7 +117,9 @@ try {
       throw new Error("loadCode must not be called after 401");
     },
   });
-  const unauthenticated = await useCodeEditorStore.getState().initialize();
+  const unauthenticated = await useCodeEditorStore
+    .getState()
+    .initialize("problem-uuid");
   assert.deepEqual(unauthenticated, { type: "unauthenticated" });
   assert.deepEqual(calls, ["setting", "templates"]);
 
@@ -130,14 +133,15 @@ try {
       throw new Error("loadCode must not run after a template failure");
     },
   });
-  const requestFailed = await useCodeEditorStore.getState().initialize();
+  const requestFailed = await useCodeEditorStore
+    .getState()
+    .initialize("problem-uuid");
   assert.deepEqual(requestFailed, { type: "request-failed" });
   assert.deepEqual(calls, ["setting", "templates"]);
 
   console.log("ALGOGO-115 code editor initialization tests passed");
 } finally {
   delete globalThis.__codeEditorApi;
-  delete globalThis.location;
   delete globalThis.localStorage;
   await server.close();
 }

@@ -1,16 +1,17 @@
 import { useCallback, useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { editor, IKeyboardEvent, KeyCode, KeyMod } from "monaco-editor";
-import useProblemStore from "@zustand/ProblemStore";
 import useMeStore from "@zustand/MeStore";
 import { useCodeEditorStore } from "../zustand/CodeEditorStore";
 import useExecute from "./useExecute";
 import useToastModal from "./modal/useToastModal";
 import { editorCodeStorageKey } from "@/domain/editor/persistence";
 import { canInitializeEditor } from "@/domain/editor/templateInitialization";
+import { saveEditorCode } from "@/application/editor/save";
 
 export default function useCodeEditor() {
   const editorRef = useRef<unknown>(null);
-  const initializationRequestedRef = useRef(false);
+  const initializationProblemUuidRef = useRef<string | null>(null);
   const code = useCodeEditorStore((state) => state.code);
   const setCode = useCodeEditorStore((state) => state.setCode);
   const language = useCodeEditorStore((state) => state.language);
@@ -19,8 +20,8 @@ export default function useCodeEditor() {
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
   const executeRef = useRef(() => handleExecute());
-  const [isSaving, setIsSaving] = useState(false);
-  const problem = useProblemStore((state) => state.problem);
+  const saveLockRef = useRef(false);
+  const { problemUuid } = useParams<"problemUuid">();
   const me = useMeStore((state) => state.me);
 
   const initialize = useCodeEditorStore((state) => state.initialize);
@@ -38,10 +39,16 @@ export default function useCodeEditor() {
   });
 
   const handleFetch = useCallback(async () => {
-    if (!hasStoredSession || initializationRequestedRef.current) return;
+    if (
+      !hasStoredSession ||
+      !problemUuid ||
+      initializationProblemUuidRef.current === problemUuid
+    ) {
+      return;
+    }
 
-    initializationRequestedRef.current = true;
-    const result = await initialize();
+    initializationProblemUuidRef.current = problemUuid;
+    const result = await initialize(problemUuid);
     if (result.type === "loaded") return;
 
     await toast(
@@ -51,11 +58,11 @@ export default function useCodeEditor() {
       5000,
       "fail",
     );
-  }, [hasStoredSession, initialize, toast]);
+  }, [hasStoredSession, initialize, problemUuid, toast]);
 
   useEffect(() => {
     if (!hasStoredSession) {
-      initializationRequestedRef.current = false;
+      initializationProblemUuidRef.current = null;
       return;
     }
 
@@ -68,12 +75,10 @@ export default function useCodeEditor() {
         value = "";
       }
       setCode(value);
-      setIsSaving(false);
 
-      if (problem) {
-        const { uuid } = problem;
+      if (problemUuid) {
         localStorage.setItem(
-          editorCodeStorageKey(uuid, language),
+          editorCodeStorageKey(problemUuid, language),
           JSON.stringify({
             code: value,
             language,
@@ -82,7 +87,7 @@ export default function useCodeEditor() {
         );
       }
     },
-    [setCode, setIsSaving, language, problem],
+    [language, problemUuid, setCode],
   );
 
   const handleFocus = useCallback(() => {
@@ -94,18 +99,20 @@ export default function useCodeEditor() {
   }, []);
 
   const handleSave = useCallback(async () => {
-    if (isSaving) {
-      return;
-    }
-    setIsSaving(true);
-    await updateCode();
-    toast("코드가 저장되었습니다.", 3000, "success");
-  }, [isSaving]);
+    if (!problemUuid) return;
+
+    await saveEditorCode(saveLockRef, problemUuid, {
+      save: updateCode,
+      notify: ({ message, variant }) => {
+        void toast(message, 3000, variant);
+      },
+    });
+  }, [problemUuid, toast, updateCode]);
   const saveRef = useRef(handleSave);
 
   useEffect(() => {
     saveRef.current = handleSave;
-  }, [isSaving]);
+  }, [handleSave]);
 
   const handleEditorKeydown = useCallback((e: IKeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.keyCode === KeyCode.KeyS) {
