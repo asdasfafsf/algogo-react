@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { createSelectors } from './selector';
+import { create } from "zustand";
 
 type ProblemWidthStore = {
   problemWidth: number;
@@ -11,5 +10,4 @@ export const useProblemWidthStore = create<ProblemWidthStore>((set) => ({
   setProblemWidth: (width: number) => set(() => ({ problemWidth: width })),
 }));
 
-export const ProblemWidthSelectors = createSelectors(useProblemWidthStore);
 export default useProblemWidthStore;
