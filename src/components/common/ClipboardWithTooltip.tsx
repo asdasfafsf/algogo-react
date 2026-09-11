@@ -12,7 +12,8 @@ import {
   CornerDownLeft as EnterIcon,
   Space as SpaceIcon,
 } from "lucide-react";
-import { writeTextToClipboard, type ClipboardWriteText } from "@lib/clipboard";
+import { copyTextWithFeedback, type ClipboardWriteText } from "@lib/clipboard";
+import useExclusiveAsync from "@hook/useExclusiveAsync";
 
 const FEEDBACK_DURATION_MS = 2500;
 
@@ -34,8 +35,10 @@ export default function ClipboardWithTooltip({
   ariaLabel = "입출력 예시 복사",
 }: ClipboardWithTooltipProps) {
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { isPending: isCopyPending, runExclusive } = useExclusiveAsync();
 
   const clearFeedbackTimer = useCallback(() => {
     if (feedbackTimerRef.current) {
@@ -46,6 +49,7 @@ export default function ClipboardWithTooltip({
 
   const resetFeedback = useCallback(() => {
     setCopyStatus("idle");
+    setFeedbackMessage("");
     setTooltipOpen(false);
     feedbackTimerRef.current = null;
   }, []);
@@ -63,22 +67,29 @@ export default function ClipboardWithTooltip({
   );
 
   const handleClick = async () => {
-    clearFeedbackTimer();
-    setCopyStatus("copying");
+    const attempt = await runExclusive(async () => {
+      clearFeedbackTimer();
+      setCopyStatus("copying");
+      return copyTextWithFeedback(content, clipboardWriter);
+    });
+    if (!attempt.started) return;
 
-    try {
-      await writeTextToClipboard(content, clipboardWriter);
+    const result = attempt.value;
+    setFeedbackMessage(result.feedback.message);
+
+    if (result.status === "success") {
       setCopyStatus("success");
       setTooltipOpen(true);
       scheduleFeedbackReset();
       void Promise.resolve()
         .then(() => handleCopyCallback(content))
         .catch(() => undefined);
-    } catch {
-      setCopyStatus("error");
-      setTooltipOpen(true);
-      scheduleFeedbackReset();
+      return;
     }
+
+    setCopyStatus("error");
+    setTooltipOpen(true);
+    scheduleFeedbackReset();
   };
 
   const tooltipContent =
@@ -91,13 +102,9 @@ export default function ClipboardWithTooltip({
           : "복사";
 
   const liveMessage =
-    copyStatus === "success"
-      ? "입출력 예시를 복사했습니다."
-      : copyStatus === "error"
-        ? "입출력 예시를 복사하지 못했습니다. 다시 시도해 주세요."
-        : copyStatus === "copying"
-          ? "입출력 예시를 복사하고 있습니다."
-          : "";
+    copyStatus === "copying"
+      ? "입출력 예시를 복사하고 있습니다."
+      : feedbackMessage;
 
   return (
     <>
@@ -108,8 +115,8 @@ export default function ClipboardWithTooltip({
               variant="ghost"
               onClick={handleClick}
               aria-label={ariaLabel}
-              aria-busy={copyStatus === "copying"}
-              disabled={copyStatus === "copying"}
+              aria-busy={isCopyPending}
+              disabled={isCopyPending}
               className={`h-auto w-full cursor-pointer items-center justify-start gap-x-3 whitespace-normal rounded-md border bg-black px-4 py-2.5 text-white hover:bg-black/85 hover:text-white focus-visible:ring-2 focus-visible:ring-ring ${className}`}
             >
               <code className="w-full text-left text-base font-D2Coding text-white">

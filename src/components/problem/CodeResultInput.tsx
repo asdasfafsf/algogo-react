@@ -8,6 +8,7 @@ interface CodeResultInputProps {
   onInputChange: (value: string) => void;
   onRun: () => void | Promise<void>;
   onPaste: () => void | Promise<void>;
+  pastePending?: boolean;
 }
 export default function CodeResultInput({
   inputTextAreaRef,
@@ -15,6 +16,7 @@ export default function CodeResultInput({
   onInputChange,
   onRun,
   onPaste,
+  pastePending = false,
 }: CodeResultInputProps) {
   return (
     <div className="flex h-full flex-col p-3">
@@ -38,6 +40,8 @@ export default function CodeResultInput({
             size="icon"
             className="size-8"
             aria-label="입력 붙여넣기"
+            aria-busy={pastePending}
+            disabled={pastePending}
             onClick={onPaste}
           >
             <ClipboardPaste />

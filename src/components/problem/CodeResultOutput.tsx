@@ -13,6 +13,7 @@ interface CodeResultOutputProps {
   handleClickReset: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
   handleClickCopy: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
   handleClickRun: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
+  copyPending?: boolean;
 }
 
 export default function CodeResultOutput({
@@ -20,6 +21,7 @@ export default function CodeResultOutput({
   handleClickReset,
   handleClickCopy,
   handleClickRun,
+  copyPending = false,
 }: CodeResultOutputProps) {
   return (
     <div className="relative h-full">
@@ -66,6 +68,8 @@ export default function CodeResultOutput({
                   variant="ghost"
                   size="icon"
                   aria-label="출력 복사"
+                  aria-busy={copyPending}
+                  disabled={copyPending}
                   className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
                   onClick={handleClickCopy}
                 >

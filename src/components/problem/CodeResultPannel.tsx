@@ -18,6 +18,8 @@ function CodeResultPannel() {
     handleClickCopyOutput,
     handleClickResetOutput,
     testCaseList,
+    isInputPastePending,
+    isOutputCopyPending,
   } = useCodeResultPanel();
   const { handleExecute } = useExecute();
   return (
@@ -58,6 +60,7 @@ function CodeResultPannel() {
             onInputChange={handleChangeInput}
             input={input}
             inputTextAreaRef={inputTextAreaRef}
+            pastePending={isInputPastePending}
           />
         </TabsContent>
         <TabsContent value="1" className="m-0 min-h-0 flex-1">
@@ -66,6 +69,7 @@ function CodeResultPannel() {
             handleClickRun={() => handleExecute()}
             handleClickCopy={handleClickCopyOutput}
             handleClickReset={handleClickResetOutput}
+            copyPending={isOutputCopyPending}
           />
         </TabsContent>
         <TabsContent value="2" className="m-0 min-h-0 flex-1">
