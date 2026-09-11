@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Problem auth gate fixture</title>
+    <script>
+      window.__algogoGuestQa = { codeRequests: [], runtimeErrors: [] };
+      window.addEventListener("error", (event) => {
+        window.__algogoGuestQa.runtimeErrors.push(event.message);
+        window.dispatchEvent(new Event("algogo-guest-qa-change"));
+      });
+      window.addEventListener("unhandledrejection", (event) => {
+        window.__algogoGuestQa.runtimeErrors.push(String(event.reason));
+        window.dispatchEvent(new Event("algogo-guest-qa-change"));
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/tests/fixtures/problem-auth-gate.tsx"></script>
+  </body>
+</html>
