@@ -63,24 +63,22 @@ export default function TodayProblem() {
                     className="mt-7 data-[state=active]:animate-fade-in sm:mt-9"
                   >
                     {selectedProblem?.uuid === problem.uuid && (
-                      <>
-                        <TodayProblemCard
-                          problem={selectedProblem}
-                          index={currentProblemIndex}
-                          content={selectedProblemDetail?.content}
-                          isContentLoading={isDetailLoading}
-                        />
-                        <div className="mt-5">
-                          <TodayProblemRoster
-                            problems={todayProblems}
-                            currentIndex={currentProblemIndex}
-                            onProblemSelect={setCurrentProblemIndex}
-                          />
-                        </div>
-                      </>
+                      <TodayProblemCard
+                        problem={selectedProblem}
+                        index={currentProblemIndex}
+                        content={selectedProblemDetail?.content}
+                        isContentLoading={isDetailLoading}
+                      />
                     )}
                   </TabsContent>
                 ))}
+                <div className="mt-5">
+                  <TodayProblemRoster
+                    problems={todayProblems}
+                    currentIndex={currentProblemIndex}
+                    onProblemSelect={setCurrentProblemIndex}
+                  />
+                </div>
               </Tabs>
             )}
           </>
