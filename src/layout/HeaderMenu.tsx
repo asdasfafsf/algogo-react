@@ -1,73 +1,106 @@
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import type { HeaderNavGroup } from "@/config/nav";
 import { cn } from "@lib/utils";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@components/ui/navigation-menu";
 
-type HeaderMenuItem = {
-  title: string;
-  pathList: readonly string[];
-  subMenuList: readonly {
-    title: string;
-    pathList: readonly string[];
-    canAccess: boolean;
-  }[];
-};
-export default function HeaderMenu({ menuItem }: { menuItem: HeaderMenuItem }) {
+function isCurrentPath(pathname: string, href: string) {
+  return href === "/" ? pathname === href : pathname.startsWith(href);
+}
+
+function PreparedNavItem({ label }: { label: string }) {
+  return (
+    <span
+      aria-disabled="true"
+      aria-label={`${label}, 준비 중`}
+      title="준비 중"
+      className="inline-flex h-9 cursor-not-allowed items-center rounded-md px-4 text-sm font-medium text-muted-foreground/55"
+    >
+      {label}
+      <span className="sr-only"> 준비 중</span>
+    </span>
+  );
+}
+
+export default function HeaderMenu({
+  menuItem,
+  preparedItems = [],
+}: {
+  menuItem: HeaderNavGroup;
+  preparedItems?: readonly string[];
+}) {
   const { pathname } = useLocation();
-  const isActive = menuItem.pathList.some((path) =>
-    path === "/" ? pathname === path : pathname.startsWith(path),
+  const isActive = menuItem.items.some(
+    (item) => !item.disabled && isCurrentPath(pathname, item.href),
   );
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          aria-current={isActive ? "page" : undefined}
-          className={cn(
-            "my-auto h-9 gap-1 px-3 text-muted-foreground hover:text-foreground active:bg-accent/80 [&[data-state=open]>svg]:rotate-180",
-            isActive && "bg-accent text-accent-foreground",
-          )}
-        >
-          {menuItem.title}
-          <ChevronDown aria-hidden className="size-3.5 transition-transform" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-52">
-        {menuItem.subMenuList.map((item) =>
-          item.canAccess ? (
-            <DropdownMenuItem
-              key={item.title}
-              asChild
-              className="cursor-pointer py-2 active:bg-accent/80"
-            >
-              <Link
-                to={item.pathList[0]}
-                aria-current={
-                  item.pathList.includes(pathname) ? "page" : undefined
+    <NavigationMenu aria-label="주 메뉴">
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger data-active={isActive || undefined}>
+            {menuItem.title}
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[600px] grid-cols-2 gap-3 p-4">
+              {menuItem.items.map((item) => {
+                const active = isCurrentPath(pathname, item.href);
+
+                if (item.disabled) {
+                  return (
+                    <li
+                      key={item.title}
+                      aria-disabled="true"
+                      className="cursor-not-allowed rounded-lg p-3 text-muted-foreground/55"
+                    >
+                      <p className="text-sm font-medium leading-none">
+                        {item.title}
+                        <span className="sr-only"> 준비 중</span>
+                      </p>
+                      <p className="mt-1.5 text-sm leading-snug">
+                        {item.description}
+                      </p>
+                    </li>
+                  );
                 }
-              >
-                {item.title}
-              </Link>
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem
-              key={item.title}
-              disabled
-              className="justify-between"
-            >
-              <span>{item.title}</span>
-              <span className="text-xs font-normal">곧</span>
-            </DropdownMenuItem>
-          ),
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
+
+                return (
+                  <li key={item.title}>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to={item.href}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "block cursor-pointer rounded-lg p-3 outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset active:bg-accent/80",
+                          active && "bg-accent/70 text-accent-foreground",
+                        )}
+                      >
+                        <p className="text-sm font-medium leading-none">
+                          {item.title}
+                        </p>
+                        <p className="mt-1.5 text-sm leading-snug text-muted-foreground">
+                          {item.description}
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        {preparedItems.map((item) => (
+          <NavigationMenuItem key={item}>
+            <PreparedNavItem label={item} />
+          </NavigationMenuItem>
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }
