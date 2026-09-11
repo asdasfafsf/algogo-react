@@ -18,24 +18,13 @@ try {
     server.ssrLoadModule("/src/application/account/oauthCallback.ts"),
   ]);
 
-  const values = profile.socialListToValues([
+  const socialList = [
     { provider: "github", content: "octocat" },
     { provider: "instagram", content: "photo" },
-  ]);
-  assert.deepEqual(values, {
-    instagram: "photo",
-    youtube: "",
-    linkedin: "",
-    github: "octocat",
-  });
+  ];
   assert.deepEqual(
-    profile.createProfileUpdateRequest("Ada", undefined, values).socialList,
-    [
-      { provider: "instagram", content: "photo" },
-      { provider: "youtube", content: "" },
-      { provider: "linkedin", content: "" },
-      { provider: "github", content: "octocat" },
-    ],
+    profile.createProfileUpdateRequest("Ada", undefined, socialList).socialList,
+    socialList,
   );
   assert.equal(
     profile.selectProfileImageAfterUpdate(

@@ -2,12 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import useMeStore from "@zustand/MeStore";
 import useAlertModal from "@hook/useAlertModal";
 import useConfirmModal from "@hook/useConfirmModal";
-import useSocialInputStore from "@zustand/SocialInputStore";
 import { AxiosError } from "axios";
 import {
   createProfileUpdateRequest,
   selectProfileImageAfterUpdate,
-  socialListToValues,
 } from "@/domain/account/profile";
 
 export default function useMyInfo() {
@@ -27,11 +25,6 @@ export default function useMyInfo() {
     setName(me.name ?? "");
     setImage(me.profilePhoto ?? "");
     setProfilePhoto(undefined);
-    const socialValues = socialListToValues(me.socialList);
-    const { setValue } = useSocialInputStore.getState();
-    Object.entries(socialValues).forEach(([provider, value]) => {
-      setValue(provider as SocialProvider, value);
-    });
   }, [me]);
 
   useEffect(() => {
@@ -67,11 +60,10 @@ export default function useMyInfo() {
       const isOk = await confirm("적용하시겠습니까?");
       if (!isOk) return;
 
-      const { values } = useSocialInputStore.getState();
       const requestUpdateMeDto = createProfileUpdateRequest(
         trimmedName,
         profilePhoto,
-        values,
+        me.socialList,
       );
       const res = await updateMe(requestUpdateMeDto);
       if (res.errorCode !== "0000") {
