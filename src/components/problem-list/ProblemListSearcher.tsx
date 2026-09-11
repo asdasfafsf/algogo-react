@@ -18,7 +18,7 @@ export default function ProblemListSearcher() {
         type="button"
         onClick={handleClickSearch}
         aria-label="검색"
-        className="absolute inset-y-0 left-0 z-10 flex w-9 items-center justify-center rounded-l-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+        className="absolute inset-y-0 left-0 z-10 flex w-9 items-center justify-center rounded-l-md text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring active:bg-muted"
       >
         <Search className="size-4" />
       </button>
@@ -30,7 +30,7 @@ export default function ProblemListSearcher() {
         onChange={handleChangeProblemTitle}
         placeholder="문제 제목 검색..."
         aria-label="문제 제목 검색"
-        className="h-10 pl-9"
+        className="h-10 pl-9 hover:border-foreground/25"
       />
     </div>
   );

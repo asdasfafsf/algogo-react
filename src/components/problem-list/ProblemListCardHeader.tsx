@@ -54,7 +54,7 @@ function ProblemListSummary() {
       >
         <SelectTrigger
           aria-label="페이지당 문제 수"
-          className="h-8 w-auto cursor-pointer gap-1 text-xs"
+          className="h-8 w-auto cursor-pointer gap-1 text-xs transition-colors hover:border-foreground/30 hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring active:bg-accent"
         >
           <SelectValue />
         </SelectTrigger>
@@ -63,7 +63,7 @@ function ProblemListSummary() {
             <SelectItem
               key={size}
               value={String(size)}
-              className="cursor-pointer"
+              className="cursor-pointer data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground"
             >
               {size}개씩 보기
             </SelectItem>

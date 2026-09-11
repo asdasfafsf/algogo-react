@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
+import { cn } from "@lib/utils";
 
 export default function ProblemListLevelHiddenToggle() {
   const problemHidden = useProblemTableFilterStore(
@@ -31,7 +32,10 @@ export default function ProblemListLevelHiddenToggle() {
             type="button"
             variant="outline"
             size="icon"
-            className="w-11"
+            className={cn(
+              "w-11 hover:border-foreground/30 hover:bg-accent/60 active:bg-accent",
+              problemHidden["난이도"] && "bg-muted text-muted-foreground",
+            )}
             onClick={() => toggle("난이도")}
             aria-pressed={problemHidden["난이도"]}
             aria-label={
@@ -51,7 +55,10 @@ export default function ProblemListLevelHiddenToggle() {
             type="button"
             variant="outline"
             size="icon"
-            className="w-11"
+            className={cn(
+              "w-11 hover:border-foreground/30 hover:bg-accent/60 active:bg-accent",
+              problemHidden["카테고리"] && "bg-muted text-muted-foreground",
+            )}
             onClick={() => toggle("카테고리")}
             aria-pressed={problemHidden["카테고리"]}
             aria-label={
