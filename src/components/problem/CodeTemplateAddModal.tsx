@@ -7,11 +7,10 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Input as ShadcnInput } from "@/components/ui/input";
-
-import { Button } from "@components/Button/index";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { languageList, monocoLanguageMap } from "@constant/Language";
 import Editor from "@monaco-editor/react";
-import { Checkbox } from "../Checkbox";
 import useCodeTemplateForm from "@hook/editor/useCodeTemplateForm";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 
@@ -170,7 +169,7 @@ export default function CodeTemplateAddModal({
               <Checkbox
                 id="isDefault"
                 checked={isDefault}
-                onCheckedChange={setIsDefault}
+                onCheckedChange={(checked) => setIsDefault(checked === true)}
               />
               <label
                 htmlFor="isDefault"
@@ -182,15 +181,23 @@ export default function CodeTemplateAddModal({
           </div>
 
           <div className="flex justify-end gap-2 px-4 pb-4 mx-4">
-            <Button onClick={handleClose} color="gray" disabled={isPending}>
+            <Button
+              variant="outline"
+              onClick={handleClose}
+              disabled={isPending}
+            >
               취소
             </Button>
             {isEdit && (
-              <Button onClick={handleDelete} color="red" disabled={isPending}>
+              <Button
+                variant="destructive"
+                onClick={handleDelete}
+                disabled={isPending}
+              >
                 {isDeleting ? "삭제 중..." : "삭제"}
               </Button>
             )}
-            <Button onClick={handleSubmit} color="blue" disabled={isPending}>
+            <Button onClick={handleSubmit} disabled={isPending}>
               {isSubmitting
                 ? isEdit
                   ? "수정 중..."

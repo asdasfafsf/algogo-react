@@ -1,6 +1,6 @@
 import React from "react";
 import { CornerDownLeft, Space } from "lucide-react";
-import { ClipboardWithTooltip, Typography } from "@components/common/index";
+import { ClipboardWithTooltip } from "@components/common/index";
 import useCodeResultPanelStore from "@zustand/CodeResultPanelStore";
 import type { ProblemInputOutput } from "@/type/Problem.type";
 import ProblemContent from "./ProblemContent";
@@ -37,29 +37,23 @@ export function ProblemInputOutputList({
             key={`example-${index}`}
             className="rounded-xl border border-border bg-muted/25 p-4"
           >
-            <Typography variant="small" className="mb-3 text-muted-foreground">
+            <p className="mb-3 text-xs font-bold leading-snug text-muted-foreground">
               예시 {index + 1}
-            </Typography>
+            </p>
             <div className="grid gap-4 min-[420px]:grid-cols-2">
               <div>
-                <Typography
-                  variant="small"
-                  className="mb-2 text-muted-foreground"
-                >
+                <p className="mb-2 text-xs font-bold leading-snug text-muted-foreground">
                   입력
-                </Typography>
+                </p>
                 <ClipboardWithTooltip
                   handleCopyCallback={() => setSelectedIndex(0)}
                   content={example.input}
                 />
               </div>
               <div>
-                <Typography
-                  variant="small"
-                  className="mb-2 text-muted-foreground"
-                >
+                <p className="mb-2 text-xs font-bold leading-snug text-muted-foreground">
                   출력
-                </Typography>
+                </p>
                 <ClipboardWithTooltip content={example.output} />
               </div>
             </div>

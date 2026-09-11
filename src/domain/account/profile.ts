@@ -1,32 +1,5 @@
-export const socialProviders = [
-  "instagram",
-  "youtube",
-  "linkedin",
-  "github",
-] as const;
-
-export type AccountSocialProvider = (typeof socialProviders)[number];
-export type SocialValues = Record<AccountSocialProvider, string>;
-
-export const emptySocialValues = (): SocialValues => ({
-  instagram: "",
-  youtube: "",
-  linkedin: "",
-  github: "",
-});
-
-export const socialListToValues = (
-  socialList: ReadonlyArray<{
-    provider: AccountSocialProvider;
-    content: string;
-  }>,
-): SocialValues => {
-  const values = emptySocialValues();
-  socialList.forEach(({ provider, content }) => {
-    values[provider] = content;
-  });
-  return values;
-};
+export type AccountSocialProvider =
+  "instagram" | "youtube" | "linkedin" | "github";
 
 export interface AccountSocial {
   provider: AccountSocialProvider;
@@ -39,17 +12,17 @@ export interface ProfileUpdateData<TFile> {
   socialList: AccountSocial[];
 }
 
-export const socialValuesToList = (values: SocialValues): AccountSocial[] =>
-  socialProviders.map((provider) => ({ provider, content: values[provider] }));
-
 export const createProfileUpdateRequest = <TFile>(
   name: string,
   file: TFile | undefined,
-  socialValues: SocialValues,
+  socialList: ReadonlyArray<AccountSocial>,
 ): ProfileUpdateData<TFile> => ({
   name,
   file,
-  socialList: socialValuesToList(socialValues),
+  socialList: socialList.map(({ provider, content }) => ({
+    provider,
+    content,
+  })),
 });
 
 export const selectProfileImageAfterUpdate = (
