@@ -79,8 +79,23 @@ assert.match(
 );
 assert.match(
   sources.TestCaseModal,
-  /min-h-\[100px\] resize-none/,
-  "test case textareas must retain their fixed editing area",
+  /min-h-28[\s\S]*resize-none/,
+  "test case textareas must retain the current fixed editing height",
+);
+assert.match(
+  sources.TestCaseModal,
+  /className="[^"]*\bgrid\b[^"]*\bsm:grid-cols-2\b/,
+  "test case editors must use two columns from the desktop breakpoint",
+);
+assert.match(
+  sources.TestCaseModal,
+  /handleClickAddTestCase/,
+  "test case modal must keep the add-case action",
+);
+assert.match(
+  sources.TestCaseModal,
+  /removeTestCase\(index\)/,
+  "test case modal must keep the per-case delete action",
 );
 assert.match(
   sources.CodeTestCaseTable,
