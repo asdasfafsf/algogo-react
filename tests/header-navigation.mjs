@@ -35,6 +35,12 @@ try {
   );
   assert.deepEqual(preparedNavItems, ["대회", "랭킹", "커뮤니티"]);
   assert.match(headerMenu, /<NavigationMenu aria-label="주 메뉴">/);
+  const navigationMenuSource = await readFile(
+    new URL("../src/components/ui/navigation-menu.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(navigationMenuSource, /delayDuration=\{0\}/);
+  assert.doesNotMatch(navigationMenuSource, /skipDelayDuration/);
   assert.match(headerMenu, /preparedItems = \[\]/);
   assert.match(headerMenu, /<PreparedNavItem label=\{item\} \/>/);
   assert.doesNotMatch(header, /aria-label="주 메뉴"/);
