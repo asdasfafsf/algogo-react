@@ -1,52 +1,47 @@
-import { useCallback, useState } from 'react';
-import { useProblemWidthStore } from '../zustand/ProblemWidthStore';
+import { useCallback } from "react";
+import {
+  clampProblemWidth,
+  getViewportWidth,
+  RESIZER_KEYBOARD_STEP,
+} from "@lib/resizer";
+import usePointerResize from "@hook/usePointerResize";
+import { useProblemWidthStore } from "../zustand/ProblemWidthStore";
 
 export default function useProblemSidebar() {
   const problemWidth = useProblemWidthStore((state) => state.problemWidth);
-  const setProblemWidth = useProblemWidthStore((state) => state.setProblemWidth);
-  const [open, setOpen] = useState(true);
+  const setProblemWidth = useProblemWidthStore(
+    (state) => state.setProblemWidth,
+  );
+  const clampWidth = useCallback(
+    (width: number) => clampProblemWidth(width, getViewportWidth()),
+    [],
+  );
+  const handlePointerDown = usePointerResize({
+    axis: "x",
+    cursor: "col-resize",
+    value: problemWidth,
+    clampValue: clampWidth,
+    onResize: setProblemWidth,
+  });
 
-  const handleClickOpen = useCallback(() => {
-    setOpen((prev) => !prev);
-  }, []);
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
-  const handleMouseDown = useCallback((clickEvent: React.MouseEvent<Element, MouseEvent>) => {
-    if (clickEvent.target instanceof HTMLButtonElement || clickEvent.target instanceof SVGElement) {
-      return;
-    }
-    clickEvent.stopPropagation();
-    let currentSize = problemWidth;
-    const screenWidth = (window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth);
-
-    document.body.style.userSelect = 'none';
-    document.body.style.pointerEvents = 'none';
-    document.body.style.cursor = 'col-resize';
-
-    const mouseMoveHandler = (moveEvent: MouseEvent) => {
-      const deltaX = moveEvent.clientX - clickEvent.clientX;
-      currentSize = problemWidth + deltaX;
-      if ((deltaX > 0 && (currentSize) < screenWidth - 100)
-        || (deltaX < 0 && (currentSize) > 100)) {
-        setProblemWidth(currentSize);
-      }
-    };
-
-    // 5️⃣
-    const mouseUpHandler = () => {
-      document.body.style.removeProperty('user-select');
-      document.body.style.removeProperty('pointer-events');
-      document.body.style.removeProperty('cursor');
-      document.removeEventListener('mousemove', mouseMoveHandler);
-    };
-
-    // 1️⃣
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler, { once: true });
-  }, [problemWidth]);
+      event.preventDefault();
+      const delta =
+        event.key === "ArrowLeft"
+          ? -RESIZER_KEYBOARD_STEP
+          : RESIZER_KEYBOARD_STEP;
+      setProblemWidth(clampWidth(problemWidth + delta));
+    },
+    [clampWidth, problemWidth, setProblemWidth],
+  );
 
   return {
-    problemWidth, handleMouseDown, open, handleClickOpen,
+    problemWidth,
+    maxProblemWidth: Math.max(100, getViewportWidth() - 100),
+    handlePointerDown,
+    handleKeyDown,
   } as const;
 }

@@ -1,5 +1,6 @@
 import { Button as ShadcnButton } from "@/components/ui/button";
-import React, { useRef } from "react";
+import { Separator } from "@/components/ui/separator";
+import React from "react";
 import { MathJaxContext } from "better-react-mathjax";
 
 import useProblemSidebar from "../../hook/useProblemSidebar";
@@ -16,9 +17,8 @@ export function ProblemSidebar({
   open,
   handleClickOpen,
 }: ProblemSidebarProps) {
-  const draggableRef = useRef<HTMLDivElement>(null);
-
-  const { problemWidth, handleMouseDown } = useProblemSidebar();
+  const { problemWidth, maxProblemWidth, handlePointerDown, handleKeyDown } =
+    useProblemSidebar();
   const { isMobile } = useScreenSize();
 
   return (
@@ -48,41 +48,52 @@ export function ProblemSidebar({
         className="relative z-10 flex w-full border-r border-border bg-background"
       >
         {children}
-        <div className="relative">
+        <div className="group relative">
+          <Separator
+            decorative={false}
+            orientation="vertical"
+            aria-label="문제와 코드 패널 크기 조절"
+            aria-valuemin={100}
+            aria-valuemax={maxProblemWidth}
+            aria-valuenow={open ? problemWidth : undefined}
+            aria-valuetext={
+              open ? `문제 패널 너비 ${problemWidth}px` : undefined
+            }
+            tabIndex={open ? 0 : -1}
+            onPointerDown={open ? handlePointerDown : undefined}
+            onKeyDown={open ? handleKeyDown : undefined}
+            className="absolute -right-2.5 z-10 h-full w-5 touch-none cursor-col-resize bg-transparent outline-none focus-visible:bg-primary/30 focus-visible:ring-2 focus-visible:ring-ring"
+          />
           <div
-            ref={draggableRef}
-            onMouseDown={open ? (e) => handleMouseDown(e) : undefined}
-            className="group absolute -right-2.5 z-10 h-full w-5 cursor-col-resize"
+            className={`absolute top-1/2 -right-4 z-20 -translate-y-1/2 transition-opacity ${
+              open
+                ? "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 [@media(hover:none)]:opacity-100"
+                : "opacity-100"
+            }`}
           >
-            <div
-              className={`absolute top-1/2 -translate-y-1/2 -right-4 transition-opacity z-20 ${
-                open ? "opacity-0 group-hover:opacity-100" : "opacity-100"
-              }`}
+            <ShadcnButton
+              variant="ghost"
+              size="sm"
+              type="button"
+              aria-label={open ? "문제 접기" : "문제 펼치기"}
+              onClick={handleClickOpen}
+              className="rounded-full border border-border bg-background p-1.5 text-foreground shadow-sm hover:bg-muted"
             >
-              <ShadcnButton
-                variant="ghost"
-                size="sm"
-                type="button"
-                aria-label={open ? "문제 접기" : "문제 펼치기"}
-                onClick={handleClickOpen}
-                className="rounded-full border border-border bg-background p-1.5 text-foreground shadow-sm hover:bg-muted"
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  {open ? (
-                    <path d="M15 19l-7-7 7-7" />
-                  ) : (
-                    <path d="M9 5l7 7-7 7" />
-                  )}
-                </svg>
-              </ShadcnButton>
-            </div>
+                {open ? (
+                  <path d="M15 19l-7-7 7-7" />
+                ) : (
+                  <path d="M9 5l7 7-7 7" />
+                )}
+              </svg>
+            </ShadcnButton>
           </div>
         </div>
       </aside>
