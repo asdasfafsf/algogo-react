@@ -1,7 +1,4 @@
-import {
-  UserCircleIcon,
-  ArrowRightStartOnRectangleIcon,
-} from "@heroicons/react/24/solid";
+import { LogOut, UserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "@components/common";
 import { Button } from "@components/ui/button";
@@ -28,7 +25,7 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="rounded-full p-0"
+          className="rounded-full p-0 hover:bg-accent active:bg-accent/80"
           aria-label="프로필 메뉴 열기"
         >
           <Avatar
@@ -40,12 +37,15 @@ export default function ProfileMenu({ me }: ProfileMenuProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuItem onSelect={() => navigate("/me")}>
-          <UserCircleIcon className="size-5" />
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onSelect={() => navigate("/me")}
+        >
+          <UserRound className="size-4" />
           마이페이지
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => logout()}>
-          <ArrowRightStartOnRectangleIcon className="size-5" />
+        <DropdownMenuItem className="cursor-pointer" onSelect={() => logout()}>
+          <LogOut className="size-4" />
           로그아웃
         </DropdownMenuItem>
       </DropdownMenuContent>

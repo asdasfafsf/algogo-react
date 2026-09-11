@@ -54,7 +54,7 @@ export default function ThemeToggle() {
           variant="ghost"
           size="icon"
           aria-label="테마 변경"
-          className="size-9 text-muted-foreground"
+          className="size-9 text-muted-foreground hover:text-foreground active:bg-accent/80"
         >
           <CurrentIcon />
         </Button>
@@ -64,7 +64,7 @@ export default function ThemeToggle() {
           <DropdownMenuItem
             key={value}
             onSelect={() => selectTheme(value)}
-            className="gap-2"
+            className="cursor-pointer gap-2"
           >
             <Icon className="size-4" />
             <span className="flex-1">{label}</span>

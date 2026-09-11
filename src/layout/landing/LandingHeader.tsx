@@ -7,7 +7,7 @@ export default function LandingHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <Link
           to="/landing"
-          className="shrink-0 transition-opacity hover:opacity-85"
+          className="shrink-0 rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:opacity-65"
           aria-label="알고고 소개 홈"
         >
           <Logo size="sm" />
@@ -16,8 +16,8 @@ export default function LandingHeader() {
           <Button
             variant="ghost"
             size="sm"
-            className="active:bg-accent"
             asChild
+            className="active:bg-accent/80"
           >
             <Link to="/login">로그인</Link>
           </Button>

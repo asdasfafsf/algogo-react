@@ -1,51 +1,50 @@
 import { Link } from "react-router-dom";
 import Logo from "@components/brand/Logo";
 
-function UpcomingItem({ children }: { children: string }) {
-  return (
-    <span className="text-muted-foreground" aria-disabled="true">
-      {children}
-    </span>
-  );
-}
+const readyLinks = [
+  { label: "문제", href: "/" },
+  { label: "오늘의 문제", href: "/problem/today" },
+] as const;
+
+const linkClassName =
+  "rounded-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:text-primary";
 
 export default function LandingFooter() {
   return (
-    <footer className="border-t border-border/70 bg-background">
-      <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8 lg:px-10">
-        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-start">
-          <div className="space-y-3">
+    <footer className="border-t bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+          <div className="max-w-sm">
             <Link
               to="/"
-              className="inline-flex transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="inline-flex rounded-md outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:opacity-65"
               aria-label="알고고 홈"
             >
               <Logo size="sm" />
             </Link>
-            <p className="text-sm leading-6 text-muted-foreground">
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
               여러 온라인 저지의 문제를 한 곳에서 찾아 풀어보세요.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-x-10 gap-y-3 text-sm sm:pt-1">
-            <Link
-              to="/problem"
-              className="font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:text-primary/65"
-            >
-              문제 목록
-            </Link>
-            <Link
-              to="/problem/today"
-              className="font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:text-primary/65"
-            >
-              오늘의 문제
-            </Link>
-            <UpcomingItem>대회 · 곧 열려요</UpcomingItem>
-            <UpcomingItem>랭킹 · 곧 열려요</UpcomingItem>
+
+          <div className="text-sm sm:self-center">
+            <nav aria-label="하단 메뉴">
+              <ul className="flex flex-wrap gap-x-5 gap-y-2">
+                {readyLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link to={item.href} className={linkClassName}>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
-        <p className="mt-10 border-t border-border/70 pt-5 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Algogo
-        </p>
+
+        <div className="mt-8 border-t pt-5 text-xs text-muted-foreground">
+          <p>© {new Date().getFullYear()} Algogo</p>
+        </div>
       </div>
     </footer>
   );

@@ -20,6 +20,6 @@ assert.doesNotMatch(
   /HeroCodePreview|editor preview|blur-3xl|radial-gradient/,
 );
 assert.doesNotMatch(landing, /개발 예정|기능|지원|처리/);
-assert.match(footer, /대회 · 곧 열려요/);
+assert.doesNotMatch(footer, /대회|랭킹|곧 열려요/);
 assert.doesNotMatch(footer, /PreparedFooterLink|FontAwesomeIcon|CONNECT/);
 console.log("ALGOGO-114 landing presentation tests passed");
