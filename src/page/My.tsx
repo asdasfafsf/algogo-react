@@ -1,14 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Loader2, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  BasicMyInfo,
-  ExternalConnectedInfo,
-  OAuthConnectedInfo,
-} from "@components/me";
-import ContributionGraph from "@components/me/ContributionGraph";
-import RecentActivity from "@components/me/RecentActivity";
-import StatsCards from "@components/me/StatsCards";
+import { BasicMyInfo, OAuthConnectedInfo } from "@components/me";
 import { Button } from "@components/ui/button";
 import useMeStore from "@zustand/MeStore";
 import DefaultLayout from "../layout/DefaultLayout";
@@ -106,11 +99,7 @@ function My() {
         {visibleStatus === "authenticated" && me && (
           <div className="space-y-8">
             <BasicMyInfo />
-            <StatsCards />
-            <ContributionGraph />
             <OAuthConnectedInfo />
-            <ExternalConnectedInfo />
-            <RecentActivity />
           </div>
         )}
       </div>

@@ -22,32 +22,46 @@ interface ProblemSectionProps {
   problem: ProblemType | undefined;
 }
 
-interface LoginRequiredNoticeProps {
+interface LoginRequiredOverlayProps {
   destination: string;
-  message: string;
+  id: string;
 }
 
-function LoginRequiredNotice({
+export function LoginRequiredOverlay({
   destination,
-  message,
-}: LoginRequiredNoticeProps) {
+  id,
+}: LoginRequiredOverlayProps) {
+  const titleId = id + "-title";
+  const descriptionId = id + "-description";
+
   return (
     <aside
-      aria-label="로그인 필요"
-      className="absolute inset-x-0 top-0 z-20 flex min-h-12 flex-wrap items-center gap-x-3 gap-y-2 border-b border-border/70 bg-background px-3 py-2 sm:px-4"
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+      className="absolute inset-0 z-20 flex overflow-y-auto bg-background/70 p-4 backdrop-blur-sm"
     >
-      <p className="min-w-0 flex-1 text-xs font-medium text-muted-foreground sm:text-sm">
-        {message}
-      </p>
-      <div className="flex shrink-0 items-center gap-1" aria-label="인증 이동">
-        <Button asChild size="sm" variant="ghost">
-          <Link to={createAuthRedirectPath("/signup", destination)}>
-            회원가입
-          </Link>
-        </Button>
-        <Button asChild size="sm">
-          <Link to={createAuthRedirectPath("/login", destination)}>로그인</Link>
-        </Button>
+      <div className="m-auto w-full max-w-sm rounded-xl border border-border bg-card p-5 text-center shadow-lg sm:p-6">
+        <h2 id={titleId} className="text-lg font-semibold text-card-foreground">
+          로그인하고 문제를 풀어보세요
+        </h2>
+        <p
+          id={descriptionId}
+          className="mt-2 text-sm leading-relaxed text-muted-foreground"
+        >
+          로그인하면 풀이를 작성하고 바로 실행할 수 있어요.
+        </p>
+        <div className="mt-5 grid grid-cols-2 gap-2" aria-label="인증 이동">
+          <Button asChild variant="outline">
+            <Link to={createAuthRedirectPath("/signup", destination)}>
+              회원가입
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link to={createAuthRedirectPath("/login", destination)}>
+              로그인
+            </Link>
+          </Button>
+        </div>
       </div>
     </aside>
   );
@@ -98,11 +112,11 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
     </>
   );
 
-  const codeLoginNotice = !me && (
-    <LoginRequiredNotice destination={destination} message="코드 작성 · 실행" />
+  const codeLoginOverlay = !me && (
+    <LoginRequiredOverlay destination={destination} id="code-login" />
   );
-  const resultLoginNotice = !me && (
-    <LoginRequiredNotice destination={destination} message="실행 결과" />
+  const resultLoginOverlay = !me && (
+    <LoginRequiredOverlay destination={destination} id="result-login" />
   );
 
   return (
@@ -166,7 +180,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
               <div inert={!me} className="h-full">
                 <CodeEditor />
               </div>
-              {codeLoginNotice}
+              {codeLoginOverlay}
             </div>
             <div
               inert={selectedIndex !== 2}
@@ -179,7 +193,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
               <div inert={!me} className="h-full">
                 <CodeResultPannel />
               </div>
-              {resultLoginNotice}
+              {resultLoginOverlay}
             </div>
           </>
         ) : (
@@ -199,7 +213,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
             <div inert={!me} className="flex h-full min-h-0 flex-col">
               {workspace}
             </div>
-            {codeLoginNotice}
+            {codeLoginOverlay}
           </div>
         )}
       </div>
