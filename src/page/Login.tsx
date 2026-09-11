@@ -65,7 +65,7 @@ export default function Login({ mode = "login" }: LoginProps) {
 
   return (
     <main className="flex min-h-dvh bg-background">
-      <aside className="relative hidden w-[45%] overflow-hidden bg-linear-to-br from-primary/90 via-primary to-primary/80 p-12 text-primary-foreground md:flex md:flex-col md:justify-between">
+      <aside className="relative hidden w-[45%] overflow-hidden bg-[#101a2d] p-12 text-primary-foreground md:flex md:flex-col md:justify-between">
         <div
           className="absolute inset-0 overflow-hidden opacity-20"
           aria-hidden="true"

@@ -1,30 +1,19 @@
-import Logo from "./Logo";
-import Typography from "./Typography";
+import BrandLogo from "@components/brand/Logo";
 
 interface LogoWithTextProps {
-  size: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large";
 }
-type Variant =
-  "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "paragraph" | "small" | "medium";
+
+const sizeMap = {
+  small: "sm",
+  medium: "md",
+  large: "lg",
+} as const;
 
 export default function LogoWithText({ size = "medium" }: LogoWithTextProps) {
-  const textVarient = {
-    small: "h3",
-    medium: "h2",
-    large: "h1",
-  };
-
   return (
     <a href="/" className="inline-flex items-center min-w-fit">
-      <div className="flex items-center">
-        <Logo color="currentColor" size={size} className="relative" />
-        <Typography
-          className="relative m-0 p-0 font-logo font-normal text-foreground"
-          variant={textVarient[size] as Variant}
-        >
-          알고고
-        </Typography>
-      </div>
+      <BrandLogo size={sizeMap[size]} className="text-foreground" />
     </a>
   );
 }

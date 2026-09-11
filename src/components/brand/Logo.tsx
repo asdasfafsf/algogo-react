@@ -8,14 +8,14 @@ interface LogoProps {
 }
 
 const textSizeMap = {
-  sm: "text-3xl",
-  md: "text-5xl",
-  lg: "text-7xl",
+  sm: "text-2xl",
+  md: "text-[2rem]",
+  lg: "text-5xl",
 } as const;
 
 const gapMap = {
-  sm: "gap-1.5",
-  md: "gap-2",
+  sm: "gap-2",
+  md: "gap-2.5",
   lg: "gap-3",
 } as const;
 
@@ -25,12 +25,16 @@ export default function Logo({
   className,
 }: LogoProps) {
   return (
-    <span className={cn("inline-flex items-center", gapMap[size], className)}>
+    <span
+      className={cn("inline-flex items-center", gapMap[size], className)}
+      role={showText ? undefined : "img"}
+      aria-label={showText ? undefined : "알고고"}
+    >
       <AlgogoSymbol size={size} />
       {showText && (
         <span
           className={cn(
-            "font-logo font-normal tracking-tight",
+            "font-Pretendard font-bold leading-none tracking-tight",
             textSizeMap[size],
           )}
         >
