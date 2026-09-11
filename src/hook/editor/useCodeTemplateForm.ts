@@ -9,6 +9,7 @@ import {
   decideTemplateMutation,
   runExclusiveTemplateMutation,
   templateFormErrorMessage,
+  templateMutationFailureMessage,
   validateTemplateForm,
 } from "@/domain/editor/templateForm";
 
@@ -60,11 +61,11 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
         await alert(
           decision.message === "deleted"
             ? "코드 템플릿이 삭제되었습니다."
-            : response.errorMessage || "코드 템플릿을 삭제하지 못했습니다.",
+            : templateMutationFailureMessage("delete"),
         );
         if (decision.close) closeModal();
       } catch {
-        await alert("코드 템플릿을 삭제하지 못했습니다.");
+        await alert(templateMutationFailureMessage("delete"));
       } finally {
         setPendingAction(null);
       }
@@ -100,14 +101,13 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
             ? "코드 템플릿이 수정되었습니다."
             : decision.message === "created"
               ? "코드 템플릿이 생성되었습니다."
-              : response.errorMessage ||
-                `코드 템플릿을 ${isEdit ? "수정" : "생성"}하지 못했습니다.`,
+              : templateMutationFailureMessage(isEdit ? "update" : "create"),
         );
         if (decision.reload) await loadTemplates();
         if (decision.close) closeModal();
       } catch {
         await alert(
-          `코드 템플릿을 ${isEdit ? "수정" : "생성"}하지 못했습니다.`,
+          templateMutationFailureMessage(isEdit ? "update" : "create"),
         );
       } finally {
         setPendingAction(null);
