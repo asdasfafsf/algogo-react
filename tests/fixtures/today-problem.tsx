@@ -108,7 +108,7 @@ apiClient.defaults.adapter = async (config) => {
     };
   }
 
-  const problemUuid = config.url?.split("/").at(-1) ?? "";
+  const problemUuid = config.url?.split("/").pop() ?? "";
 
   return {
     data: {
