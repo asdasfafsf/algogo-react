@@ -5,6 +5,8 @@ import { ProblemState, ProblemSummary, ProblemType } from "@/type/Problem.type";
 import {
   buildProblemListRequest,
   calculateMaxPage,
+  problemListLoadFailureMessage,
+  problemListQueryOutcome,
   type ProblemPaging,
 } from "@/domain/problems";
 
@@ -29,8 +31,6 @@ type ProblemListStore = {
   ) => Promise<void> | void;
 };
 
-const PROBLEM_LIST_ERROR_MESSAGE =
-  "네트워크 상태를 확인한 뒤 다시 시도해 주세요.";
 let latestProblemListRequestId = 0;
 
 export const useProblemListStore = create<ProblemListStore>((set, get) => ({
@@ -89,7 +89,7 @@ export const useProblemListStore = create<ProblemListStore>((set, get) => ({
       ...(showSkeletonImmediately ? { isFetching: true } : {}),
     });
 
-    const setProblemListError = (message = PROBLEM_LIST_ERROR_MESSAGE) => {
+    const setProblemListError = (message = problemListLoadFailureMessage) => {
       set({
         problemList: [],
         maxPageNo: 0,
@@ -122,17 +122,13 @@ export const useProblemListStore = create<ProblemListStore>((set, get) => ({
       });
       if (requestId !== latestProblemListRequestId) return;
 
-      if (
-        response.statusCode !== 200 ||
-        !response.data ||
-        !Array.isArray(response.data.problemList) ||
-        typeof response.data.totalCount !== "number"
-      ) {
-        setProblemListError(response.errorMessage || undefined);
+      const outcome = problemListQueryOutcome(response);
+      if (outcome.type === "failure") {
+        setProblemListError(outcome.message);
         return;
       }
       clearTimeout(skeletonTimeout);
-      const { data } = response;
+      const { data } = outcome;
       const { problemList, totalCount } = data;
       const maxPageNo = calculateMaxPage(totalCount, pageSize);
       set(() => ({

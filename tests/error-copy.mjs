@@ -16,7 +16,13 @@ try {
     server.ssrLoadModule("/src/domain/editor/templateForm.ts"),
     server.ssrLoadModule("/src/domain/execute/error.ts"),
   ]);
-  const [dropdownSource, formSource, toastSource] = await Promise.all([
+  const [
+    dropdownSource,
+    formSource,
+    toastSource,
+    problemListStoreSource,
+    homeTodayProblemsSource,
+  ] = await Promise.all([
     fs.readFile(
       new URL("../src/hook/editor/useCodeTemplateDropdown.ts", import.meta.url),
       "utf8",
@@ -27,6 +33,14 @@ try {
     ),
     fs.readFile(
       new URL("../src/components/modal/ToastModal.tsx", import.meta.url),
+      "utf8",
+    ),
+    fs.readFile(
+      new URL("../src/zustand/ProblemListStore.ts", import.meta.url),
+      "utf8",
+    ),
+    fs.readFile(
+      new URL("../src/hook/home/useHomeTodayProblems.ts", import.meta.url),
       "utf8",
     ),
   ]);
@@ -56,6 +70,8 @@ try {
   assert.match(formSource, /runExclusiveTemplateMutation/);
   assert.match(toastSource, /className="sr-only"/);
   assert.match(toastSource, /Check icon|Error icon|Warning icon/);
+  assert.doesNotMatch(problemListStoreSource, /response\.errorMessage/);
+  assert.doesNotMatch(homeTodayProblemsSource, /response\.errorMessage/);
 
   console.log("ALGOGO-127 user-facing error copy tests passed");
 } finally {
