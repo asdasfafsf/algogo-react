@@ -282,6 +282,22 @@
   --color-tier-diamond: hsl(var(--tier-diamond));
   --color-tier-ruby: hsl(var(--tier-ruby));
 
+  --color-cat-array: hsl(var(--cat-array));
+  --color-cat-stack-queue: hsl(var(--cat-stack-queue));
+  --color-cat-tree: hsl(var(--cat-tree));
+  --color-cat-graph-traversal: hsl(var(--cat-graph-traversal));
+  --color-cat-shortest-path: hsl(var(--cat-shortest-path));
+  --color-cat-dp-basic: hsl(var(--cat-dp-basic));
+  --color-cat-dp-advanced: hsl(var(--cat-dp-advanced));
+  --color-cat-string: hsl(var(--cat-string));
+  --color-cat-math: hsl(var(--cat-math));
+  --color-cat-geometry: hsl(var(--cat-geometry));
+  --color-cat-sort-search: hsl(var(--cat-sort-search));
+  --color-cat-greedy: hsl(var(--cat-greedy));
+  --color-cat-implementation: hsl(var(--cat-implementation));
+  --color-cat-combinatorics: hsl(var(--cat-combinatorics));
+  --color-cat-advanced-ds: hsl(var(--cat-advanced-ds));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -466,6 +482,21 @@
     --tier-platinum: 170 65% 38%;
     --tier-diamond: 217 91% 60%;
     --tier-ruby: 348 83% 52%;
+    --cat-array: 198 45% 45%;
+    --cat-stack-queue: 260 42% 48%;
+    --cat-tree: 142 45% 42%;
+    --cat-graph-traversal: 280 42% 48%;
+    --cat-shortest-path: 310 42% 48%;
+    --cat-dp-basic: 48 50% 45%;
+    --cat-dp-advanced: 65 45% 45%;
+    --cat-string: 155 45% 42%;
+    --cat-math: 355 45% 45%;
+    --cat-geometry: 330 42% 48%;
+    --cat-sort-search: 185 45% 42%;
+    --cat-greedy: 8 50% 45%;
+    --cat-implementation: 240 40% 48%;
+    --cat-combinatorics: 120 42% 42%;
+    --cat-advanced-ds: 270 42% 48%;
     --radius: 0.75rem;
   }
   .dark {
@@ -499,6 +530,21 @@
     --tier-platinum: 170 65% 50%;
     --tier-diamond: 217 91% 67%;
     --tier-ruby: 348 83% 62%;
+    --cat-array: 198 45% 58%;
+    --cat-stack-queue: 260 42% 62%;
+    --cat-tree: 142 45% 56%;
+    --cat-graph-traversal: 280 42% 62%;
+    --cat-shortest-path: 310 42% 62%;
+    --cat-dp-basic: 48 50% 58%;
+    --cat-dp-advanced: 65 45% 58%;
+    --cat-string: 155 45% 56%;
+    --cat-math: 355 45% 60%;
+    --cat-geometry: 330 42% 62%;
+    --cat-sort-search: 185 45% 56%;
+    --cat-greedy: 8 50% 60%;
+    --cat-implementation: 240 40% 62%;
+    --cat-combinatorics: 120 42% 56%;
+    --cat-advanced-ds: 270 42% 62%;
   }
 }
 @layer base {
