@@ -25,3 +25,10 @@
    - OAuth URL의 destination이 현재 destination과 같아야 한다.
 4. 로고, 전환 링크, OAuth 버튼을 마우스와 Tab/Enter로 조작한다.
    - hover, focus-visible, active 상태가 보이고 disabled OAuth 버튼은 포커스나 클릭을 받지 않아야 한다.
+
+## 루트 브라우저 확인 결과
+
+- 실제 `/login`과 `/signup` 화면에서 상단 로고, 제목·설명, 화면 전환 링크, OAuth 버튼만 남은 구성을 확인했다.
+- query와 hash가 포함된 `destination`으로 로그인에서 회원가입을 전환했고, 주소가 그대로 보존됐다.
+- 320×720 모바일에서 문서 너비가 320px로 유지됐고 제목·탭·OAuth 버튼이 겹치거나 잘리지 않았다.
+- OAuth 버튼의 계산 커서는 모두 `pointer`였고, 데스크톱과 모바일에서 장식 패널이나 목적이 모호한 링크가 표시되지 않았다.
