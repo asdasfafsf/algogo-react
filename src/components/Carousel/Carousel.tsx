@@ -44,13 +44,22 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   ) => {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
+    const [canScrollPrev, setCanScrollPrev] = useState(false);
+    const [canScrollNext, setCanScrollNext] = useState(false);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+      () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    );
     const isHovered = useRef(false);
     const hasFocusWithin = useRef(false);
     const slides = React.Children.toArray(children);
 
     useEffect(() => {
       if (!api) return;
-      const select = () => setCurrent(api.selectedScrollSnap());
+      const select = () => {
+        setCurrent(api.selectedScrollSnap());
+        setCanScrollPrev(api.canScrollPrev());
+        setCanScrollNext(api.canScrollNext());
+      };
       select();
       api.on("select", select).on("reInit", select);
       return () => {
@@ -59,12 +68,26 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     }, [api]);
 
     useEffect(() => {
-      if (!api || !autoplay || slides.length < 2) return;
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const updateMotionPreference = () => {
+        setPrefersReducedMotion(mediaQuery.matches);
+      };
+
+      updateMotionPreference();
+      mediaQuery.addEventListener("change", updateMotionPreference);
+      return () => {
+        mediaQuery.removeEventListener("change", updateMotionPreference);
+      };
+    }, []);
+
+    useEffect(() => {
+      if (!api || !autoplay || prefersReducedMotion || slides.length < 2)
+        return;
       const timer = window.setInterval(() => {
         if (!isHovered.current && !hasFocusWithin.current) api.scrollNext();
       }, autoplayDelay);
       return () => window.clearInterval(timer);
-    }, [api, autoplay, autoplayDelay, slides.length]);
+    }, [api, autoplay, autoplayDelay, prefersReducedMotion, slides.length]);
 
     return (
       <ShadcnCarousel
@@ -101,7 +124,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         <CarouselContent
           ref={slideRef}
           className="ml-0 h-full"
-          aria-live="polite"
+          aria-live={autoplay && !prefersReducedMotion ? "off" : "polite"}
         >
           {slides.map((slide, index) => (
             <CarouselItem
@@ -124,6 +147,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
               size="icon"
               className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
               onClick={() => api?.scrollPrev()}
+              disabled={!canScrollPrev}
               aria-label="이전 슬라이드"
             >
               {prevArrow ?? <ChevronLeft />}
@@ -134,6 +158,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
               size="icon"
               className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
               onClick={() => api?.scrollNext()}
+              disabled={!canScrollNext}
               aria-label="다음 슬라이드"
             >
               {nextArrow ?? <ChevronRight />}
