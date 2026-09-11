@@ -1,16 +1,18 @@
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Trash2 } from "lucide-react";
 import useTestCase from "@hook/useTestCase";
 import useExecuteTestCase from "@hook/useExecuteTestCase";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
+
+const MAX_TEST_CASES = 10;
 
 export default function TestCaseModal({
   resolve,
@@ -33,117 +35,139 @@ export default function TestCaseModal({
         if (!open) handleClickClose();
       }}
     >
-      <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
-        <DialogHeader className="border-b border-border px-8 py-6 text-left">
-          <DialogTitle>테스트 케이스</DialogTitle>
+      <DialogContent className="flex max-h-[90dvh] max-w-2xl flex-col gap-0 overflow-hidden p-0">
+        <DialogHeader className="shrink-0 border-b border-border px-5 py-5 pr-12 text-left sm:px-8 sm:py-6 sm:pr-14">
+          <div className="flex items-baseline justify-between gap-4">
+            <DialogTitle>테스트 케이스</DialogTitle>
+            <span className="shrink-0 text-xs font-medium tabular-nums text-muted-foreground">
+              {testCaseList.length} / {MAX_TEST_CASES}
+            </span>
+          </div>
           <DialogDescription>
             입력과 예상 출력을 추가하고 테스트합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="min-h-64 w-full animate-in rounded-xl border border-border bg-popover p-0 text-popover-foreground shadow-2xl fade-in duration-200">
-          <div className="px-8 scroll-y overflow-y-auto max-h-[60vh]">
-            {testCaseList.length ? (
-              testCaseList.map(({ input, expected, readOnly }, index, arr) => (
-                <div key={index} className="w-full">
-                  <div className="relative flex w-full mb-2">
-                    <span
-                      className={`animate-fadeIn inline-flex items-center whitespace-nowrap rounded-md border border-transparent px-2.5 py-1 text-xs font-bold shadow-xs ${
-                        readOnly
-                          ? "bg-red-100 text-red-600"
-                          : "bg-blue-100 text-blue-600"
-                      }`}
-                    >
-                      입력 {index + 1}
-                    </span>
-                    {readOnly ? (
-                      ""
-                    ) : (
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 sm:px-8">
+          {testCaseList.length ? (
+            testCaseList.map(({ input, expected, readOnly }, index) => {
+              const inputId = `test-case-${index}-input`;
+              const expectedId = `test-case-${index}-expected`;
+              const headingId = `test-case-${index}-heading`;
+              const textareaClassName = `min-h-28 resize-none font-D2Coding ${
+                readOnly ? "bg-muted/30 text-muted-foreground" : ""
+              }`;
+
+              return (
+                <section
+                  key={index}
+                  aria-labelledby={headingId}
+                  className="border-b border-border py-5 sm:py-6"
+                >
+                  <div className="mb-4 grid min-h-9 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+                    <div className="flex min-w-0 items-baseline gap-2.5">
+                      <h3
+                        id={headingId}
+                        className="text-sm font-semibold text-foreground"
+                      >
+                        케이스 {index + 1}
+                      </h3>
+                      {readOnly && (
+                        <span className="text-xs font-medium text-muted-foreground">
+                          기본 제공
+                        </span>
+                      )}
+                    </div>
+                    {!readOnly && (
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="sm"
                         aria-label={`테스트 케이스 ${index + 1} 삭제`}
                         onClick={() => removeTestCase(index)}
-                        className="ml-auto size-8 text-muted-foreground hover:text-destructive"
+                        className="h-8 justify-self-end px-2.5 font-medium text-muted-foreground hover:text-destructive"
                       >
-                        <Trash2 aria-hidden className="size-5 text-gray-600" />
+                        삭제
                       </Button>
                     )}
                   </div>
-                  {readOnly ? (
-                    <Textarea
-                      aria-label={`입력 ${index + 1}`}
-                      value={input}
-                      readOnly
-                      className="min-h-[100px] resize-none"
-                    />
-                  ) : (
-                    <Textarea
-                      aria-label={`입력 ${index + 1}`}
-                      value={input}
-                      className="min-h-[100px] resize-none font-D2Coding"
-                      onChange={(e) => {
-                        handleChangeInput(index, e.target.value);
-                      }}
-                      placeholder="입력을 입력하세요"
-                    />
-                  )}
-                  <span
-                    className={`animate-fadeIn mb-2 inline-flex items-center whitespace-nowrap rounded-md border border-transparent px-2.5 py-1 text-xs font-bold shadow-xs ${
-                      readOnly
-                        ? "bg-red-100 text-red-600"
-                        : "bg-blue-100 text-blue-600"
-                    }`}
-                  >
-                    출력 {index + 1}
-                  </span>
-                  {readOnly ? (
-                    <Textarea
-                      aria-label={`예상 출력 ${index + 1}`}
-                      value={expected}
-                      readOnly
-                      className="min-h-[100px] resize-none"
-                    />
-                  ) : (
-                    <Textarea
-                      aria-label={`예상 출력 ${index + 1}`}
-                      value={expected}
-                      className="min-h-[100px] resize-none font-D2Coding"
-                      onChange={(e) => {
-                        handleChangeOutput(index, e.target.value);
-                      }}
-                      placeholder="출력을 입력하세요"
-                    />
-                  )}
-                  {index + 1 < arr.length && (
-                    <hr className="my-4 border-border" />
-                  )}
-                </div>
-              ))
-            ) : (
-              <div className="flex items-center justify-center h-24">
-                <p className="text-base font-semibold text-gray-600">
-                  테스트 케이스가 없습니다.
-                </p>
-              </div>
-            )}
-          </div>
 
-          {testCaseList.length < 10 ? (
-            <div className="flex justify-center px-8 mb-5">
-              <Button onClick={handleClickAddTestCase} className="w-full">
-                테스트 케이스 추가
-              </Button>
-            </div>
+                  <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={inputId}
+                        className="block text-xs font-semibold text-foreground"
+                      >
+                        입력
+                      </label>
+                      <Textarea
+                        id={inputId}
+                        value={input}
+                        readOnly={readOnly}
+                        className={textareaClassName}
+                        onChange={(event) => {
+                          handleChangeInput(index, event.target.value);
+                        }}
+                        placeholder="입력을 입력하세요"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label
+                        htmlFor={expectedId}
+                        className="block text-xs font-semibold text-foreground"
+                      >
+                        예상 출력
+                      </label>
+                      <Textarea
+                        id={expectedId}
+                        value={expected}
+                        readOnly={readOnly}
+                        className={textareaClassName}
+                        onChange={(event) => {
+                          handleChangeOutput(index, event.target.value);
+                        }}
+                        placeholder="예상 출력을 입력하세요"
+                      />
+                    </div>
+                  </div>
+                </section>
+              );
+            })
           ) : (
-            ""
+            <div className="flex min-h-36 flex-col items-center justify-center gap-1 text-center">
+              <p className="text-sm font-semibold text-foreground">
+                테스트 케이스가 없습니다.
+              </p>
+              <p className="text-xs text-muted-foreground">
+                입력과 예상 출력을 직접 추가해 보세요.
+              </p>
+            </div>
           )}
-          <div className="flex justify-end gap-1 px-8 mb-4">
-            <Button onClick={handleTest}>테스트</Button>
-            <Button variant="secondary" onClick={handleClickClose}>
-              완료
+
+          <div className="py-5 sm:py-6">
+            <Button
+              variant="outline"
+              onClick={handleClickAddTestCase}
+              disabled={testCaseList.length >= MAX_TEST_CASES}
+              className="w-full border-dashed"
+            >
+              {testCaseList.length >= MAX_TEST_CASES
+                ? "최대 10개까지 추가할 수 있습니다"
+                : "테스트 케이스 추가"}
             </Button>
           </div>
         </div>
+
+        <DialogFooter className="sticky bottom-0 z-10 shrink-0 flex-row gap-2 border-t border-border bg-background/95 px-5 py-4 backdrop-blur-sm sm:px-8 sm:py-5">
+          <Button
+            variant="outline"
+            onClick={handleClickClose}
+            className="flex-1 sm:flex-none"
+          >
+            완료
+          </Button>
+          <Button onClick={handleTest} className="flex-1 sm:flex-none">
+            테스트
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
