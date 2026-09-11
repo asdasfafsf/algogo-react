@@ -8,15 +8,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useLanguageDropdown from "@hook/useLanguageDropdown";
 export default function LanguageDropdown() {
-  const { open, handler, selectedIndex, languageList, handleUpdate } =
+  const { open, handleOpenChange, selectedIndex, languageList, handleUpdate } =
     useLanguageDropdown();
   return (
-    <DropdownMenu
-      open={open}
-      onOpenChange={(next) => {
-        if (next !== open) handler();
-      }}
-    >
+    <DropdownMenu open={open} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
@@ -32,7 +27,7 @@ export default function LanguageDropdown() {
         {languageList.map((language, index) => (
           <DropdownMenuItem
             key={language}
-            onClick={(e) => handleUpdate(e, index)}
+            onSelect={() => handleUpdate(index)}
             className="justify-between"
           >
             {language}

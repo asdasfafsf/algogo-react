@@ -33,6 +33,7 @@ export default function ProblemListLevelHiddenToggle() {
             size="icon"
             className="w-11"
             onClick={() => toggle("난이도")}
+            aria-pressed={problemHidden["난이도"]}
             aria-label={
               problemHidden["난이도"] ? "난이도 보기" : "난이도 숨기기"
             }
@@ -52,6 +53,7 @@ export default function ProblemListLevelHiddenToggle() {
             size="icon"
             className="w-11"
             onClick={() => toggle("카테고리")}
+            aria-pressed={problemHidden["카테고리"]}
             aria-label={
               problemHidden["카테고리"] ? "카테고리 보기" : "카테고리 숨기기"
             }

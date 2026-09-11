@@ -63,7 +63,7 @@ export default function ThemeToggle() {
         {options.map(({ value, label, Icon }) => (
           <DropdownMenuItem
             key={value}
-            onClick={() => selectTheme(value)}
+            onSelect={() => selectTheme(value)}
             className="gap-2"
           >
             <Icon className="size-4" />
