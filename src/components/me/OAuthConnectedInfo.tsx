@@ -32,7 +32,7 @@ export default function OAuthConnectedInfo() {
           로그인 계정 연결
         </CardTitle>
         <p className="text-sm leading-relaxed text-muted-foreground">
-          로그인에 사용할 계정을 연결하거나 해제할 수 있습니다.
+          Google 또는 Kakao 계정을 연결해 로그인 방법을 관리하세요.
         </p>
       </CardHeader>
       <CardContent className="grid gap-4 sm:grid-cols-2">
