@@ -40,6 +40,30 @@ try {
     ),
     "old",
   );
+  assert.deepEqual(
+    profile.profileSaveOutcome(
+      { errorCode: "UNAUTHORIZED", data: null },
+      "old",
+    ),
+    {
+      type: "failure",
+      message: "로그인 정보를 확인할 수 없어요. 다시 로그인해 주세요.",
+    },
+  );
+  assert.deepEqual(
+    profile.profileSaveOutcome(
+      { errorCode: "DATABASE_TIMEOUT", data: null },
+      "old",
+    ),
+    {
+      type: "failure",
+      message: "프로필을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+    },
+  );
+  assert.equal(
+    profile.profileSaveRequestFailure().message,
+    "프로필 저장 중 연결에 문제가 생겼어요. 잠시 후 다시 시도해 주세요.",
+  );
 
   assert.equal(oauth.parseOAuthDestination("{bad", "login"), "/");
   assert.equal(oauth.parseOAuthDestination("null", "connect"), "/me");
@@ -58,6 +82,16 @@ try {
   );
   assert.match(oauth.disconnectConfirmation(1), /회원 탈퇴/);
   assert.equal(oauth.disconnectConfirmation(2), "연동 취소하시겠습니까?");
+  assert.deepEqual(oauth.oauthFailure("login"), {
+    type: "failure",
+    destination: "/login",
+    message: "로그인에 실패했습니다. 다시 시도해주세요.",
+  });
+  assert.deepEqual(oauth.oauthFailure("disconnect"), {
+    type: "failure",
+    destination: "/me",
+    message: "연동 해제에 실패했습니다. 다시 시도해주세요.",
+  });
 
   const leapYear = contribution.createCalendarYearData(
     [{ date: "2024-02-29", count: 3 }],
@@ -96,7 +130,28 @@ try {
     session.isHttpSuccess({ errorCode: "FAIL", statusCode: 200 }),
     true,
   );
-  assert.throws(() => session.requireRefreshToken(null), /refreshToken/);
+  assert.deepEqual(session.refreshTokenOutcome(null), {
+    type: "failure",
+    code: "REFRESH_TOKEN_MISSING",
+  });
+  assert.deepEqual(
+    session.sessionRequestOutcome(
+      { statusCode: 401, data: { accessToken: "a", refreshToken: "r" } },
+      "token",
+    ),
+    { type: "failure", code: "TOKEN_REQUEST_FAILED" },
+  );
+  assert.deepEqual(
+    session.sessionRequestOutcome(
+      { statusCode: 503, data: { accessToken: "a", refreshToken: "r" } },
+      "refresh",
+    ),
+    { type: "failure", code: "REFRESH_REQUEST_FAILED" },
+  );
+  assert.equal(
+    new session.AccountSessionError("TOKEN_REQUEST_FAILED").message,
+    "TOKEN_REQUEST_FAILED",
+  );
 
   const stored = [];
   const login = await callback.executeOAuthCallback({
