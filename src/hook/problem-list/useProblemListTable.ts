@@ -47,21 +47,15 @@ export default function useProblemListTable() {
     fetchProblemList(pagingInfo, problemOptionList, problemSort, problemTitle);
   }, [pagingInfo, problemSort]);
 
-  const handleClickProblem = useCallback(
-    (_e: React.MouseEvent<HTMLElement>, problemUuid: string) => {
-      window.open(
-        `${window.location.origin}/problem/${problemUuid}`,
-        "_blank",
-        "noopener, noreferrer",
-      );
-    },
-    [],
-  );
+  const handleClickProblem = useCallback((problemUuid: string) => {
+    window.open(
+      `${window.location.origin}/problem/${problemUuid}`,
+      "_blank",
+      "noopener, noreferrer",
+    );
+  }, []);
   const handleClickProblemTh = useCallback(
-    (
-      _e: React.MouseEvent<HTMLElement>,
-      head: "제목" | "난이도" | "정답률" | "제출",
-    ) => {
+    (head: "제목" | "난이도" | "정답률" | "제출") => {
       setProblemSort((prevSort) => {
         return nextProblemSort(prevSort, head) as ProblemSort;
       });

@@ -6,7 +6,7 @@ interface ProblemThSortProps {
   align?: "left" | "center";
   sort: 0 | 1 | 2;
   children: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void | Promise<void>;
+  onClick?: () => void | Promise<void>;
 }
 
 export default function ProblemThSort({
@@ -19,12 +19,12 @@ export default function ProblemThSort({
   return (
     <TableHead
       aria-sort={sort === 1 ? "ascending" : sort === 2 ? "descending" : "none"}
-      className={`cursor-pointer select-none hover:bg-muted/50 ${className}`}
-      onClick={onClick}
+      className={`p-0 ${className}`}
     >
       <button
         type="button"
-        className={`flex w-full items-center gap-1 text-sm font-medium text-muted-foreground ${align === "center" ? "justify-center" : "justify-start"}`}
+        className={`flex h-12 w-full select-none items-center gap-1 px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring active:bg-muted/70 ${align === "center" ? "justify-center" : "justify-start"}`}
+        onClick={onClick}
       >
         {children}
         {sort === 1 && <ChevronUp className="size-4" />}
