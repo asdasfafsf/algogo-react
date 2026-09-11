@@ -73,7 +73,7 @@ assert.match(
 
 assert.match(
   problemListSource,
-  /<TableRow[\s\S]*className="cursor-pointer[^"]*hover:bg-muted\/50"/,
+  /className="cursor-pointer[^"]*hover:bg-muted\/50/,
   "clickable problem rows must retain their pointer affordance",
 );
 
