@@ -12,6 +12,12 @@ const dropdownMenuSource = await readProjectFile(
   "src/components/ui/dropdown-menu.tsx",
 );
 const checkboxSource = await readProjectFile("src/components/ui/checkbox.tsx");
+const buttonSource = await readProjectFile("src/components/ui/button.tsx");
+const tabsSource = await readProjectFile("src/components/ui/tabs.tsx");
+const toggleSource = await readProjectFile("src/components/ui/toggle.tsx");
+const fixtureSource = await readProjectFile(
+  "tests/fixtures/cursor-controls.tsx",
+);
 const problemListSource = await readProjectFile(
   "src/components/problem-list/ProblemListTable.tsx",
 );
@@ -65,11 +71,79 @@ for (const [name, source] of [
   );
 }
 
+for (const className of [
+  "disabled:hover:bg-primary",
+  "disabled:hover:bg-destructive",
+  "disabled:hover:bg-background",
+  "disabled:hover:text-foreground",
+  "disabled:hover:bg-secondary",
+  "disabled:hover:bg-transparent",
+  "disabled:hover:no-underline",
+]) {
+  assert.ok(
+    buttonSource.includes(className),
+    `disabled Button hover state must preserve its base appearance: ${className}`,
+  );
+}
+
+for (const className of [
+  "disabled:data-[state=off]:hover:bg-transparent",
+  "disabled:data-[state=off]:hover:text-foreground",
+  "disabled:data-[state=on]:hover:bg-accent",
+  "disabled:data-[state=on]:hover:text-accent-foreground",
+]) {
+  assert.ok(
+    toggleSource.includes(className),
+    `disabled Toggle hover state must preserve its base appearance: ${className}`,
+  );
+}
+
 assert.match(
   checkboxSource,
   /data-\[disabled\]:cursor-not-allowed/,
   "Checkbox must expose a disabled cursor",
 );
+
+for (const [name, source] of [
+  ["Button", buttonSource],
+  ["TabsTrigger", tabsSource],
+  ["Toggle", toggleSource],
+]) {
+  assert.doesNotMatch(
+    source,
+    /disabled:pointer-events-none/,
+    `${name} must remain the pointer target while disabled so the global not-allowed cursor is visible`,
+  );
+  assert.match(
+    source,
+    /disabled:opacity-50/,
+    `${name} must retain its disabled visual treatment`,
+  );
+}
+
+for (const id of [
+  "activeTab",
+  "disabledTab",
+  "activeToggle",
+  "disabledToggle",
+  "disabledSelectTrigger",
+  "disabledButtonDestructive",
+  "disabledButtonOutline",
+  "disabledButtonSecondary",
+  "disabledButtonGhost",
+  "disabledButtonLink",
+  "disabledTogglePressed",
+  "disabledToggleOutline",
+  "dialogCloseLink",
+  "disabledDialogCloseLink",
+  "sheetCloseLink",
+  "disabledSheetCloseLink",
+]) {
+  assert.ok(
+    fixtureSource.includes(`id=\"${id}\"`),
+    `cursor fixture must cover ${id}`,
+  );
+}
 
 assert.match(
   problemListSource,
@@ -77,4 +151,4 @@ assert.match(
   "clickable problem rows must retain their pointer affordance",
 );
 
-console.log("ALGOGO-116 interaction cursor regression tests passed");
+console.log("Interaction cursor regression tests passed");

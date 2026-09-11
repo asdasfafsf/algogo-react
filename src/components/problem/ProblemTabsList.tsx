@@ -21,7 +21,7 @@ export default function ProblemTabsList() {
           disabled
           aria-label={`${label}, 준비 중`}
           title={`${label} 기능을 준비하고 있습니다`}
-          className="gap-1.5 rounded-none px-4 py-2.5 disabled:pointer-events-auto disabled:cursor-not-allowed disabled:opacity-70"
+          className="gap-1.5 rounded-none px-4 py-2.5 disabled:opacity-70"
         >
           <span>{label}</span>
           <span
