@@ -257,7 +257,6 @@ function ActualConsumersFixture() {
         <HeaderMenu
           menuItem={{
             title: "헤더 샘플",
-            subTitle: "헤더 메뉴",
             pathList: ["/fixture"],
             subMenuList: [
               {

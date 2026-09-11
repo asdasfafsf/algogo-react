@@ -44,7 +44,7 @@ export default function Pagebar({
             aria-label="이전 페이지"
             disabled={currentPage === 1}
             onClick={(event) => handleChangePage(event, currentPage - 1)}
-            className="size-10 sm:h-9 sm:w-auto sm:px-3"
+            className="size-10 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring active:bg-accent/80 disabled:cursor-not-allowed disabled:hover:bg-transparent sm:h-9 sm:w-auto sm:px-3"
           >
             <ChevronLeft aria-hidden className="size-4" />
             <span className="hidden sm:inline">이전</span>
@@ -57,6 +57,7 @@ export default function Pagebar({
                 aria-label={`${pageNo}페이지`}
                 isActive={pageNo === currentPage}
                 onClick={(event) => handleChangePage(event, pageNo)}
+                className="hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring active:bg-accent/80"
               >
                 {pageNo}
               </PaginationLink>
@@ -68,7 +69,7 @@ export default function Pagebar({
             isActive
             disabled
             aria-label={`현재 ${currentPage}페이지, 전체 ${maxPage ?? currentPage}페이지`}
-            className="h-10 w-auto min-w-16 px-3 tabular-nums disabled:opacity-100"
+            className="h-10 w-auto min-w-16 px-3 tabular-nums disabled:opacity-100 disabled:hover:bg-background"
           >
             {currentPage}
             <span aria-hidden className="px-1 text-muted-foreground">
@@ -84,7 +85,7 @@ export default function Pagebar({
             aria-label="다음 페이지"
             disabled={maxPage ? currentPage >= maxPage : false}
             onClick={(event) => handleChangePage(event, currentPage + 1)}
-            className="size-10 sm:h-9 sm:w-auto sm:px-3"
+            className="size-10 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring active:bg-accent/80 disabled:cursor-not-allowed disabled:hover:bg-transparent sm:h-9 sm:w-auto sm:px-3"
           >
             <span className="hidden sm:inline">다음</span>
             <ChevronRight aria-hidden className="size-4" />

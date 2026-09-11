@@ -1,10 +1,13 @@
-import axios from 'axios';
-import { showAlert } from '@plugins/modal/ModalProvider';
+import axios from "axios";
+import { showAlert } from "@plugins/modal/ModalProvider";
 
 const { VITE_ENV } = import.meta.env;
-const baseURL = VITE_ENV === 'development' ? 'http://localhost:3001' : 'https://www.algogo.co.kr';
-const headers = { 'Content-Type': 'application/json;charset=UTF-8' };
-const withCredentials = VITE_ENV === 'development';
+const baseURL =
+  VITE_ENV === "development"
+    ? "http://localhost:3001"
+    : "https://www.algogo.co.kr";
+const headers = { "Content-Type": "application/json;charset=UTF-8" };
+const withCredentials = VITE_ENV === "development";
 
 const apiClient = axios.create({
   baseURL,
@@ -20,11 +23,11 @@ const failedQueue: {
 
 apiClient.interceptors.request.use((config) => {
   // if (!config.headers.Authorization) {
-  if (config.url?.includes('/api/v2/auth/refresh')) {
+  if (config.url?.includes("/api/v2/auth/refresh")) {
     return config;
   }
 
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   } else {
@@ -41,7 +44,11 @@ apiClient.interceptors.response.use(
     const data = error.response?.data;
     const { config } = error;
 
-    if (data?.statusCode === 401 && (data?.errorCode === 'JWT_EXPIRED' || data?.errorMessage?.includes('만료'))) {
+    if (
+      data?.statusCode === 401 &&
+      (data?.errorCode === "JWT_EXPIRED" ||
+        data?.errorMessage?.includes("만료"))
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -52,28 +59,28 @@ apiClient.interceptors.response.use(
 
       isRefreshing = true;
 
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) {
         failedQueue.forEach(({ reject }) => reject(error));
         failedQueue.length = 0;
         isRefreshing = false;
         return Promise.resolve({
           status: 401,
-          errorCode: 'UNAUTHORIZED',
-          errorMessage: 'refreshToken이 없습니다.',
+          errorCode: "UNAUTHORIZED",
+          errorMessage: "refreshToken이 없습니다.",
           data: null,
         });
       }
 
       try {
         const { data: refreshResponse } = await axios.post(
-          '/api/v2/auth/refresh',
+          "/api/v2/auth/refresh",
           {},
           { headers: { Authorization: `Bearer ${refreshToken}` } },
         );
 
-        localStorage.setItem('accessToken', refreshResponse.data.accessToken);
-        localStorage.setItem('refreshToken', refreshResponse.data.refreshToken);
+        localStorage.setItem("accessToken", refreshResponse.data.accessToken);
+        localStorage.setItem("refreshToken", refreshResponse.data.refreshToken);
 
         failedQueue.forEach(({ resolve }) => resolve());
         failedQueue.length = 0;
@@ -82,11 +89,11 @@ apiClient.interceptors.response.use(
       } catch (refreshError) {
         failedQueue.forEach(({ reject }) => reject());
         failedQueue.length = 0;
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('me');
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("me");
         if (showAlert) {
-          await showAlert('로그인 정보가 만료되었습니다. 다시 로그인해주세요.');
+          await showAlert("로그인 정보가 만료되었습니다. 다시 로그인해주세요.");
         }
         window.location.href = `/login?destination=${window.location.pathname}`;
         return await Promise.reject(refreshError);
@@ -94,6 +101,8 @@ apiClient.interceptors.response.use(
         isRefreshing = false;
       }
     }
+
+    if (!error.response) return Promise.reject(error);
 
     return error.response;
   },

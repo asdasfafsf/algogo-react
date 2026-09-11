@@ -1,37 +1,52 @@
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@lib/utils";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 type HeaderMenuItem = {
   title: string;
-  subTitle: string;
-  pathList: string[];
-  subMenuList: { title: string; pathList: string[]; canAccess: boolean }[];
+  pathList: readonly string[];
+  subMenuList: readonly {
+    title: string;
+    pathList: readonly string[];
+    canAccess: boolean;
+  }[];
 };
 export default function HeaderMenu({ menuItem }: { menuItem: HeaderMenuItem }) {
   const { pathname } = useLocation();
+  const isActive = menuItem.pathList.some((path) =>
+    path === "/" ? pathname === path : pathname.startsWith(path),
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="my-auto gap-2">
+        <Button
+          variant="ghost"
+          aria-current={isActive ? "page" : undefined}
+          className={cn(
+            "my-auto h-9 gap-1 px-3 text-muted-foreground hover:text-foreground active:bg-accent/80 [&[data-state=open]>svg]:rotate-180",
+            isActive && "bg-accent text-accent-foreground",
+          )}
+        >
           {menuItem.title}
-          <ChevronDown className="size-4" />
+          <ChevronDown aria-hidden className="size-3.5 transition-transform" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-56">
-        <DropdownMenuLabel>{menuItem.subTitle}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent align="start" className="w-52">
         {menuItem.subMenuList.map((item) =>
           item.canAccess ? (
-            <DropdownMenuItem key={item.title} asChild>
+            <DropdownMenuItem
+              key={item.title}
+              asChild
+              className="cursor-pointer py-2 active:bg-accent/80"
+            >
               <Link
                 to={item.pathList[0]}
                 aria-current={
@@ -42,8 +57,13 @@ export default function HeaderMenu({ menuItem }: { menuItem: HeaderMenuItem }) {
               </Link>
             </DropdownMenuItem>
           ) : (
-            <DropdownMenuItem key={item.title} disabled>
-              {item.title}
+            <DropdownMenuItem
+              key={item.title}
+              disabled
+              className="justify-between"
+            >
+              <span>{item.title}</span>
+              <span className="text-xs font-normal">곧</span>
             </DropdownMenuItem>
           ),
         )}
