@@ -9,12 +9,16 @@ import {
 import useExecuteResultListStore from "@zustand/ExecuteResultListStore";
 import useProblemStore from "@zustand/ProblemStore";
 import useTestCaseListStore from "@zustand/TestCaseListStore";
+import {
+  normalizeProblemPageError,
+  type ProblemPageError,
+} from "@/domain/problems/problemPageError";
 
 export default function useProblemPage() {
   const problem = useProblemStore((state) => state.problem);
   const setProblem = useProblemStore((state) => state.setProblem);
   const { problemUuid } = useParams<"problemUuid">();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<ProblemPageError | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
   const setTestCaseList = useTestCaseListStore(
@@ -33,7 +37,7 @@ export default function useProblemPage() {
       setIsLoading(true);
 
       if (!problemUuid) {
-        setError("문제 주소가 올바르지 않습니다.");
+        setError(normalizeProblemPageError(404));
         setIsLoading(false);
         return;
       }
@@ -43,11 +47,7 @@ export default function useProblemPage() {
         if (cancelled) return;
 
         if (response.statusCode !== 200 || !response.data) {
-          setError(
-            response.statusCode === 404
-              ? "요청한 문제를 찾을 수 없습니다. 삭제되었거나 주소가 변경되었을 수 있습니다."
-              : response.errorMessage || "문제를 불러오지 못했습니다.",
-          );
+          setError(normalizeProblemPageError(response.statusCode));
           setIsLoading(false);
           return;
         }
@@ -66,11 +66,7 @@ export default function useProblemPage() {
         const isNotFound =
           axios.isAxiosError(requestError) &&
           requestError.response?.status === 404;
-        setError(
-          isNotFound
-            ? "요청한 문제를 찾을 수 없습니다. 삭제되었거나 주소가 변경되었을 수 있습니다."
-            : "문제를 불러오지 못했습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요.",
-        );
+        setError(normalizeProblemPageError(isNotFound ? 404 : undefined));
         setIsLoading(false);
       }
     };
