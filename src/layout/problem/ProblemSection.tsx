@@ -4,8 +4,8 @@ import { useProblemWidthStore } from "@zustand/ProblemWidthStore";
 import { useCodeEditorHeightStore } from "@zustand/CodeResultHeightStore";
 import { useProblemScreenStore } from "@zustand/ProblemScreenStore";
 import useMeStore from "@zustand/MeStore";
-import { Button } from "@components/Button";
-import { useNavigate } from "react-router-dom";
+import { Button } from "@components/ui/button";
+import { Link, useLocation } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { useScreenSize } from "../../context/ScreenSizeContext";
 import ProblemSidebar from "./ProblemSidebar";
@@ -13,10 +13,44 @@ import ProblemSidebarSkeleton from "./ProblemSidebarSkeleton";
 import Problem from "./Problem";
 import { Problem as ProblemType } from "@/type/Problem.type";
 import ProblemFooter from "./ProblemFooter";
-import { LockKeyhole } from "lucide-react";
+import {
+  createAuthDestination,
+  createAuthRedirectPath,
+} from "@/domain/account/authDestination";
 
 interface ProblemSectionProps {
   problem: ProblemType | undefined;
+}
+
+interface LoginRequiredNoticeProps {
+  destination: string;
+  message: string;
+}
+
+function LoginRequiredNotice({
+  destination,
+  message,
+}: LoginRequiredNoticeProps) {
+  return (
+    <aside
+      aria-label="로그인 필요"
+      className="absolute inset-x-0 top-0 z-20 flex min-h-12 flex-wrap items-center gap-x-3 gap-y-2 border-b border-border/70 bg-background px-3 py-2 sm:px-4"
+    >
+      <p className="min-w-0 flex-1 text-xs font-medium text-muted-foreground sm:text-sm">
+        {message}
+      </p>
+      <div className="flex shrink-0 items-center gap-1" aria-label="인증 이동">
+        <Button asChild size="sm" variant="ghost">
+          <Link to={createAuthRedirectPath("/signup", destination)}>
+            회원가입
+          </Link>
+        </Button>
+        <Button asChild size="sm">
+          <Link to={createAuthRedirectPath("/login", destination)}>로그인</Link>
+        </Button>
+      </div>
+    </aside>
+  );
 }
 
 export default function ProblemSection({ problem }: ProblemSectionProps) {
@@ -26,7 +60,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
   );
   const { isMobile } = useScreenSize();
   const selectedIndex = useProblemScreenStore((state) => state.selectedIndex);
-  const navigate = useNavigate();
+  const location = useLocation();
   const me = useMeStore((state) => state.me);
   const [openSidebar, setOpenSidebar] = useState(true);
   const setProblemWidth = useProblemWidthStore(
@@ -34,6 +68,11 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
   );
 
   const [prevProblemWidth, setPrevProblemWidth] = useState(problemWidth);
+  const destination = createAuthDestination(
+    location.pathname,
+    location.search,
+    location.hash,
+  );
 
   const handleClickOpen = useCallback(() => {
     setOpenSidebar((prev) => !prev);
@@ -59,37 +98,11 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
     </>
   );
 
-  const loginOverlay = !me && (
-    <div className="absolute inset-0 z-20 grid place-items-center bg-background/80 p-5 backdrop-blur-sm">
-      <div className="max-w-sm rounded-2xl border border-border bg-card p-6 text-center shadow-xl">
-        <div className="mx-auto mb-4 grid size-11 place-items-center rounded-full bg-primary/10 text-primary">
-          <LockKeyhole className="size-5" />
-        </div>
-        <h2 className="text-lg font-semibold">로그인하고 코드를 실행하세요</h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          로그인하면 코드 작성, 테스트 실행과 제출 기능을 사용할 수 있습니다.
-        </p>
-        <div className="mt-5 flex justify-center gap-2">
-          <Button
-            variant="outlined"
-            color="gray"
-            onClick={() =>
-              navigate(`/signup?destination=${window.location.pathname}`)
-            }
-          >
-            회원가입
-          </Button>
-          <Button
-            color="blue"
-            onClick={() =>
-              navigate(`/login?destination=${window.location.pathname}`)
-            }
-          >
-            로그인
-          </Button>
-        </div>
-      </div>
-    </div>
+  const codeLoginNotice = !me && (
+    <LoginRequiredNotice destination={destination} message="코드 작성 · 실행" />
+  );
+  const resultLoginNotice = !me && (
+    <LoginRequiredNotice destination={destination} message="실행 결과" />
   );
 
   return (
@@ -153,7 +166,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
               <div inert={!me} className="h-full">
                 <CodeEditor />
               </div>
-              {loginOverlay}
+              {codeLoginNotice}
             </div>
             <div
               inert={selectedIndex !== 2}
@@ -166,7 +179,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
               <div inert={!me} className="h-full">
                 <CodeResultPannel />
               </div>
-              {loginOverlay}
+              {resultLoginNotice}
             </div>
           </>
         ) : (
@@ -186,7 +199,7 @@ export default function ProblemSection({ problem }: ProblemSectionProps) {
             <div inert={!me} className="flex h-full min-h-0 flex-col">
               {workspace}
             </div>
-            {loginOverlay}
+            {codeLoginNotice}
           </div>
         )}
       </div>
