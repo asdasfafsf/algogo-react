@@ -4,6 +4,7 @@ import useAlertModal from "@hook/useAlertModal";
 import useModal from "@plugins/modal/useModal";
 import useCodeEditorStore from "@zustand/CodeEditorStore";
 import { groupTemplatesByLanguage } from "@/domain/editor/templates";
+import { templateLoadFailureMessage } from "@/domain/editor/templateForm";
 import type { FunctionComponent } from "react";
 import type { CodeTemplateAddModalProps } from "@components/problem/CodeTemplateAddModal";
 
@@ -74,13 +75,18 @@ export default function useCodeTemplateDropdown(
     async (uuid: string) => {
       const cached = templateMap[uuid];
       if (cached) return cached;
-      const response = await getTemplate(uuid);
-      if (response.statusCode !== 200) {
-        await alert(response.errorMessage);
+      try {
+        const response = await getTemplate(uuid);
+        if (response.statusCode !== 200) {
+          await alert(templateLoadFailureMessage);
+          return null;
+        }
+        setTemplateMap((previous) => ({ ...previous, [uuid]: response.data }));
+        return response.data;
+      } catch {
+        await alert(templateLoadFailureMessage);
         return null;
       }
-      setTemplateMap((previous) => ({ ...previous, [uuid]: response.data }));
-      return response.data;
     },
     [alert, templateMap],
   );
