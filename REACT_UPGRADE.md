@@ -2,13 +2,15 @@
 
 작업 브랜치: `ALGOGO-76`
 
-2026-09-09 npm registry의 stable latest와 설치 버전을 비교했습니다. 유지한 직접 의존성 47개 중 43개는 latest이며, 아래 개발 도구 4개는 공식 호환 범위와 실행 환경에 맞췄습니다.
+2026-09-12 npm registry의 stable latest와 설치 버전을 비교했습니다. 직접 의존성 50개 중 47개는 latest이며, 나머지 개발 도구 3개(TypeScript, ESLint, @eslint/js)는 공식 peer 호환 범위에 맞췄습니다.
 
 ## 호환 버전 예외
 
-- TypeScript 6.0.3: typescript-eslint 8.70.0의 지원 범위가 `<6.1.0`이므로 7.0.2 보류.
-- ESLint / @eslint/js 9.39.5: eslint-plugin-react 7.37.5의 peer 범위가 ESLint 9까지이므로 10 보류. ESLint 9 자체는 deprecated 상태이며 플러그인의 10 지원 시 함께 갱신해야 합니다.
-- @types/node 24.13.3: Node 24 실행 환경에 맞춤. Node 26 타입 사용을 피함.
+2026-09-12 npm registry의 stable과 prerelease 배포 태그를 다시 확인했습니다.
+
+- TypeScript 6.0.3: typescript-eslint 8.70.0 stable과 8.70.1-alpha.0 canary의 peer 범위가 모두 `>=4.8.4 <6.1.0`이므로 7.0.2 보류.
+- ESLint / @eslint/js 9.39.5: typescript-eslint 8.70.0, eslint-plugin-react-hooks 7.1.1, eslint-plugin-react-refresh 0.5.6은 ESLint 10을 지원하지만 eslint-plugin-react 7.37.5의 peer 범위는 `^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7`입니다. `next` 태그인 7.8.0-rc.0도 ESLint 3/4만 지원하므로 ESLint 10.10.0을 보류합니다.
+- @types/node 24.13.4: Node 24 실행 환경에 맞춤. Node 26 타입 사용을 피함.
 
 ## 주요 변경
 
@@ -23,13 +25,13 @@
 
 ## 실행
 
-Node 24 (`.nvmrc`), pnpm 9.15.9 (`packageManager`) 사용.
+Node 24 (`.nvmrc`), pnpm 11.19.0 (`packageManager`) 사용.
 
 ```sh
-rtk proxy npx --yes pnpm@9.15.9 install --frozen-lockfile --strict-peer-dependencies
-rtk proxy npx --yes pnpm@9.15.9 run build
-rtk proxy npx --yes pnpm@9.15.9 run lint
-rtk proxy npx --yes pnpm@9.15.9 run dev
+rtk pnpm install --frozen-lockfile --strict-peer-dependencies
+rtk pnpm build
+rtk pnpm lint
+rtk pnpm dev
 ```
 
 현재 확인용 개발 서버: http://127.0.0.1:5175/
@@ -48,55 +50,55 @@ rtk proxy npx --yes pnpm@9.15.9 run dev
 
 ## 버전 목록
 
-| 패키지 | 원본 | 마이그레이션 |
-|---|---|---|
-| `@fortawesome/fontawesome-svg-core` | ^6.5.1 | ^7.3.1 |
-| `@fortawesome/free-brands-svg-icons` | ^6.5.1 | ^7.3.1 |
-| `@fortawesome/free-regular-svg-icons` | ^6.5.1 | ^7.3.1 |
-| `@fortawesome/free-solid-svg-icons` | ^6.5.1 | ^7.3.1 |
-| `@fortawesome/react-fontawesome` | ^0.2.0 | ^3.5.0 |
-| `@heroicons/react` | ^2.1.1 | ^2.2.0 |
-| `@monaco-editor/react` | ^4.6.0 | ^4.7.0 |
-| `@radix-ui/react-dropdown-menu` | ^2.1.6 | ^2.1.24 |
-| `@radix-ui/react-navigation-menu` | ^1.2.5 | ^1.2.22 |
-| `@radix-ui/react-scroll-area` | ^1.2.3 | ^1.2.18 |
-| `@radix-ui/react-slot` | ^1.1.2 | ^1.3.3 |
-| `@radix-ui/react-toggle` | ^1.1.1 | ^1.1.18 |
-| `@tanstack/react-query` | ^5.80.7 | ^5.102.8 |
-| `axios` | ^1.7.2 | ^1.20.0 |
-| `better-react-mathjax` | 신규 | ^3.0.2 |
-| `class-variance-authority` | ^0.7.1 | ^0.7.1 |
-| `clsx` | ^2.1.1 | ^2.1.1 |
-| `lucide-react` | ^0.474.0 | ^1.43.0 |
-| `monaco-editor` | ^0.47.0 | ^0.56.0 |
-| `qs` | ^6.13.0 | ^6.16.0 |
-| `react` | ^18.2.0 | ^19.2.8 |
-| `react-dom` | ^18.2.0 | ^19.2.8 |
-| `react-hotkeys-hook` | ^4.6.1 | ^5.3.3 |
-| `react-router-dom` | ^6.22.2 | ^7.18.3 |
-| `react-tooltip` | ^5.28.0 | ^6.0.8 |
-| `socket.io-client` | ^4.8.0 | ^4.8.3 |
-| `tailwind-merge` | ^3.0.1 | ^3.6.0 |
-| `tailwindcss-animate` | ^1.0.7 | ^1.0.7 |
-| `zustand` | ^4.5.2 | ^5.0.15 |
-| `@eslint/js` | 신규 | ^9.39.5 |
-| `@tailwindcss/vite` | 신규 | ^4.3.3 |
-| `@types/node` | ^22.8.5 | ^24.13.3 |
-| `@types/qs` | ^6.9.16 | ^6.15.1 |
-| `@types/react` | 18.2.19 | ^19.2.18 |
-| `@types/react-dom` | ^18.2.19 | ^19.2.7 |
-| `@vitejs/plugin-react` | ^4.2.1 | ^6.1.1 |
-| `eslint` | ^8.57.0 | ^9.39.5 |
-| `eslint-plugin-react` | 신규 | ^7.37.5 |
-| `eslint-plugin-react-hooks` | ^4.6.0 | ^7.1.1 |
-| `eslint-plugin-react-refresh` | ^0.4.12 | ^0.5.6 |
-| `globals` | 신규 | ^17.12.0 |
-| `prettier` | ^3.2.5 | ^3.9.6 |
-| `tailwindcss` | ^3.4.1 | ^4.3.3 |
-| `typescript` | ^5.2.2 | ~6.0.3 |
-| `typescript-eslint` | 신규 | ^8.70.0 |
-| `vite` | ^5.4.10 | ^8.2.2 |
-| `vite-plugin-svgr` | ^4.2.0 | ^5.2.0 |
+| 패키지                                | 원본     | 마이그레이션 |
+| ------------------------------------- | -------- | ------------ |
+| `@fortawesome/fontawesome-svg-core`   | ^6.5.1   | ^7.3.1       |
+| `@fortawesome/free-brands-svg-icons`  | ^6.5.1   | ^7.3.1       |
+| `@fortawesome/free-regular-svg-icons` | ^6.5.1   | ^7.3.1       |
+| `@fortawesome/free-solid-svg-icons`   | ^6.5.1   | ^7.3.1       |
+| `@fortawesome/react-fontawesome`      | ^0.2.0   | ^3.5.0       |
+| `@heroicons/react`                    | ^2.1.1   | ^2.2.0       |
+| `@monaco-editor/react`                | ^4.6.0   | ^4.7.0       |
+| `@radix-ui/react-dropdown-menu`       | ^2.1.6   | ^2.1.24      |
+| `@radix-ui/react-navigation-menu`     | ^1.2.5   | ^1.2.22      |
+| `@radix-ui/react-scroll-area`         | ^1.2.3   | ^1.2.18      |
+| `@radix-ui/react-slot`                | ^1.1.2   | ^1.3.3       |
+| `@radix-ui/react-toggle`              | ^1.1.1   | ^1.1.18      |
+| `@tanstack/react-query`               | ^5.80.7  | ^5.102.8     |
+| `axios`                               | ^1.7.2   | ^1.20.0      |
+| `better-react-mathjax`                | 신규     | ^3.0.2       |
+| `class-variance-authority`            | ^0.7.1   | ^0.7.1       |
+| `clsx`                                | ^2.1.1   | ^2.1.1       |
+| `lucide-react`                        | ^0.474.0 | ~1.44.0      |
+| `monaco-editor`                       | ^0.47.0  | ^0.56.0      |
+| `qs`                                  | ^6.13.0  | ^6.16.0      |
+| `react`                               | ^18.2.0  | ^19.3.0      |
+| `react-dom`                           | ^18.2.0  | ^19.3.0      |
+| `react-hotkeys-hook`                  | ^4.6.1   | ^5.3.3       |
+| `react-router-dom`                    | ^6.22.2  | ^7.18.3      |
+| `react-tooltip`                       | ^5.28.0  | ^6.0.8       |
+| `socket.io-client`                    | ^4.8.0   | ^4.8.3       |
+| `tailwind-merge`                      | ^3.0.1   | ^3.6.0       |
+| `tailwindcss-animate`                 | ^1.0.7   | ^1.0.7       |
+| `zustand`                             | ^4.5.2   | ^5.0.15      |
+| `@eslint/js`                          | 신규     | ^9.39.5      |
+| `@tailwindcss/vite`                   | 신규     | ^4.3.3       |
+| `@types/node`                         | ^22.8.5  | ^24.13.4     |
+| `@types/qs`                           | ^6.9.16  | ^6.15.1      |
+| `@types/react`                        | 18.2.19  | ^19.3.0      |
+| `@types/react-dom`                    | ^18.2.19 | ^19.3.0      |
+| `@vitejs/plugin-react`                | ^4.2.1   | ^6.1.1       |
+| `eslint`                              | ^8.57.0  | ^9.39.5      |
+| `eslint-plugin-react`                 | 신규     | ^7.37.5      |
+| `eslint-plugin-react-hooks`           | ^4.6.0   | ^7.1.1       |
+| `eslint-plugin-react-refresh`         | ^0.4.12  | ^0.5.6       |
+| `globals`                             | 신규     | ^17.12.0     |
+| `prettier`                            | ^3.2.5   | ^3.9.6       |
+| `tailwindcss`                         | ^3.4.1   | ^4.3.3       |
+| `typescript`                          | ^5.2.2   | ~6.0.3       |
+| `typescript-eslint`                   | 신규     | ^8.70.0      |
+| `vite`                                | ^5.4.10  | ^8.3.0       |
+| `vite-plugin-svgr`                    | ^4.2.0   | ^5.2.0       |
 
 ## 공식 참고 문서
 
