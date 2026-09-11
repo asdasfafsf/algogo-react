@@ -1,8 +1,7 @@
-import { create } from 'zustand';
-import { createSelectors } from './selector';
+import { create } from "zustand";
 
 type ProblemScreenStore = {
-  selectedIndex: number,
+  selectedIndex: number;
   setSelectedIndex: (selectedInex: number) => void;
 };
 
@@ -11,5 +10,4 @@ export const useProblemScreenStore = create<ProblemScreenStore>((set) => ({
   setSelectedIndex: (selectedIndex: number) => set({ selectedIndex }),
 }));
 
-export const ProblmeScreenStore = createSelectors(useProblemScreenStore);
 export default useProblemScreenStore;

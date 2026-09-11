@@ -1,17 +1,18 @@
-import { create } from 'zustand';
-import { createSelectors } from './selector';
+import { create } from "zustand";
 
 type ExecuteResultListStore = {
-  executeResultList: ExecuteResult[],
+  executeResultList: ExecuteResult[];
   setExecuteResultList: (executeResultList: ExecuteResult[]) => void;
 };
 
-export const useExecuteResultListStore = create<ExecuteResultListStore>((set) => ({
-  executeResultList: [],
-  setExecuteResultList: (newExecuteResultList) => set(() => ({
-    executeResultList: newExecuteResultList,
-  })),
-}));
+export const useExecuteResultListStore = create<ExecuteResultListStore>(
+  (set) => ({
+    executeResultList: [],
+    setExecuteResultList: (newExecuteResultList) =>
+      set(() => ({
+        executeResultList: newExecuteResultList,
+      })),
+  }),
+);
 
-export const ExecuteResultListSelector = createSelectors(useExecuteResultListStore);
 export default useExecuteResultListStore;
