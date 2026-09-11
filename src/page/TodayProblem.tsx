@@ -20,6 +20,7 @@ export default function TodayProblem() {
     isLoading,
     isError,
     isDetailLoading,
+    retryTodayProblems,
   } = useTodayProblem();
 
   return (
@@ -32,7 +33,10 @@ export default function TodayProblem() {
             <TodayProblemHeader problems={todayProblems} />
 
             {isError ? (
-              <TodayProblemEmptyState variant="error" />
+              <TodayProblemEmptyState
+                variant="error"
+                onRetry={retryTodayProblems}
+              />
             ) : todayProblems.length === 0 ? (
               <TodayProblemEmptyState />
             ) : (

@@ -94,6 +94,7 @@ export const useTodayProblem = () => {
     isLoading: todayProblemsQuery.isLoading,
     isError: todayProblemsQuery.isError,
     isDetailLoading: selectedProblemQuery.isLoading,
+    retryTodayProblems: todayProblemsQuery.refetch,
   };
 };
 
