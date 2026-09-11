@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Typography, Tooltip } from "@components/common/index";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
 import {
   Check,
   Copy,
@@ -96,56 +101,51 @@ export default function ClipboardWithTooltip({
 
   return (
     <>
-      <Tooltip
-        content={tooltipContent}
-        open={tooltipOpen}
-        onOpenChange={setTooltipOpen}
-      >
-        <Button
-          variant="ghost"
-          onClick={handleClick}
-          aria-label={ariaLabel}
-          aria-busy={copyStatus === "copying"}
-          disabled={copyStatus === "copying"}
-          className={`h-auto whitespace-normal flex justify-start items-center gap-x-3 px-4 py-2.5 w-full cursor-pointer focus:outline-hidden bg-black text-white border rounded-md ${className}`}
-        >
-          <div className="w-full">
-            {content.split(/\r?\n/).map((elem, contentIndex, contentArr) => (
-              <div
-                key={`${elem}-${contentIndex}`}
-                className="flex flex-wrap whitespace-normal wrap-break-word w-[calc(100%-10px)]"
-              >
-                {elem.split(" ").map((text, index, arr) => (
-                  <React.Fragment key={`${text}-${index}`}>
-                    <Typography
-                      className="text-base text-white font-D2Coding"
-                      variant="paragraph"
-                    >
-                      {text}
-                    </Typography>
-
-                    {index < arr.length - 1 ? (
-                      <div className="flex items-center justify-center text-blue-500">
-                        <SpaceIcon className="w-4 h-4 font-bold" />
-                      </div>
+      <TooltipProvider delayDuration={300}>
+        <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              onClick={handleClick}
+              aria-label={ariaLabel}
+              aria-busy={copyStatus === "copying"}
+              disabled={copyStatus === "copying"}
+              className={`h-auto w-full cursor-pointer items-center justify-start gap-x-3 whitespace-normal rounded-md border bg-black px-4 py-2.5 text-white hover:bg-black/85 hover:text-white focus-visible:ring-2 focus-visible:ring-ring ${className}`}
+            >
+              <code className="w-full text-left text-base font-D2Coding text-white">
+                {content.split(/\r?\n/).map((line, lineIndex, lines) => (
+                  <span
+                    key={`${line}-${lineIndex}`}
+                    className="flex w-[calc(100%-10px)] flex-wrap items-center wrap-break-word"
+                  >
+                    {line.split(" ").map((text, index, words) => (
+                      <React.Fragment key={`${text}-${index}`}>
+                        <span>{text}</span>
+                        {index < words.length - 1 ? (
+                          <span className="inline-flex items-center justify-center text-blue-500">
+                            <SpaceIcon className="size-4" aria-hidden="true" />
+                          </span>
+                        ) : null}
+                      </React.Fragment>
+                    ))}
+                    {lineIndex < lines.length - 1 ? (
+                      <span className="inline-flex items-center justify-center text-blue-500">
+                        <EnterIcon className="size-4" aria-hidden="true" />
+                      </span>
                     ) : null}
-                  </React.Fragment>
+                  </span>
                 ))}
-                {contentIndex < contentArr.length - 1 ? (
-                  <div className="flex items-center justify-center text-blue-500">
-                    <EnterIcon className="w-4 h-4" />
-                  </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-          {copyStatus === "success" ? (
-            <Check className="w-4 h-4 text-white" />
-          ) : (
-            <Copy className="w-4 h-4 text-white" />
-          )}
-        </Button>
-      </Tooltip>
+              </code>
+              {copyStatus === "success" ? (
+                <Check className="size-4 text-white" aria-hidden="true" />
+              ) : (
+                <Copy className="size-4 text-white" aria-hidden="true" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{tooltipContent}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <span className="sr-only" aria-live="polite">
         {liveMessage}
       </span>

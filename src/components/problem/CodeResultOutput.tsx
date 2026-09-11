@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Clipboard, Play, Trash2 } from "lucide-react";
 import React from "react";
-import { Typography, Tooltip } from "@components/common/index";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface CodeResultOutputProps {
   output: ResponseExecuteResult;
@@ -18,64 +23,79 @@ export default function CodeResultOutput({
 }: CodeResultOutputProps) {
   return (
     <div className="relative h-full">
-      <nav className="flex justify-between w-full gap-0 overflow-x-hidden">
+      <nav
+        aria-label="실행 결과 동작"
+        className="flex w-full justify-between gap-0 overflow-x-hidden"
+      >
         <div className="absolute z-10 flex flex-wrap gap-1 ml-3 top-2 text-xs">
-          <Typography
-            weight="regular"
-            variant="medium"
-            className="text-emerald-600 dark:text-emerald-400"
-          >
+          <span className="text-sm font-medium leading-snug text-emerald-600 dark:text-emerald-400">
             실행 시간 : &nbsp;
             {output.processTime}
             ms
-          </Typography>
+          </span>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <Typography
-            weight="regular"
-            variant="medium"
-            className="text-emerald-600 dark:text-emerald-400"
-          >
+          <span className="text-sm font-medium leading-snug text-emerald-600 dark:text-emerald-400">
             메모리 사용량 : &nbsp;
             {output.memory}
             MB
-          </Typography>
+          </span>
         </div>
 
-        <div className="absolute right-3 z-10 flex gap-1 bg-background">
-          <Tooltip content="실행">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="다시 실행"
-              className="size-8"
-              onClick={handleClickRun}
-            >
-              <Play className="size-5 text-emerald-600 dark:text-emerald-400" />
-            </Button>
-          </Tooltip>
-          <Tooltip content="복사">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="출력 복사"
-              className="size-8"
-              onClick={handleClickCopy}
-            >
-              <Clipboard className="size-5 text-foreground" />
-            </Button>
-          </Tooltip>
-          <Tooltip content="지우기">
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="출력 지우기"
-              className="size-8"
-              onClick={handleClickReset}
-            >
-              <Trash2 className="size-5 text-destructive" />
-            </Button>
-          </Tooltip>
-        </div>
+        <TooltipProvider delayDuration={300}>
+          <div className="absolute right-3 z-10 flex gap-1 bg-background">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="다시 실행"
+                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+                  onClick={handleClickRun}
+                >
+                  <Play
+                    className="size-5 text-emerald-600 dark:text-emerald-400"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>실행</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="출력 복사"
+                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+                  onClick={handleClickCopy}
+                >
+                  <Clipboard
+                    className="size-5 text-foreground"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>복사</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="출력 지우기"
+                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+                  onClick={handleClickReset}
+                >
+                  <Trash2
+                    className="size-5 text-destructive"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>지우기</TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
       </nav>
       <div
         data-content={output.result}
