@@ -10,11 +10,12 @@ import { useProblemContentSizeStore } from "@zustand/ProblemContentSizeStore";
 import ProblemContentWrapper from "@components/problem/ProblemContentWrapper";
 import { Problem as ProblemType } from "@/type/Problem.type";
 import ProblemBreadcrumbs from "@components/problem/ProblemBreadcrumbs";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import useProblemUpdate from "@hook/problem/useProblemUpdate";
 import { formatProblemNumber } from "@/domain/problems/problemPresentation";
+import ProblemTabsList from "@components/problem/ProblemTabsList";
 
 interface ProblemProps {
   problem: ProblemType;
@@ -63,30 +64,7 @@ function Problem({ problem }: ProblemProps) {
         />
       </div>
       <Tabs defaultValue="description" className="flex min-h-0 flex-1 flex-col">
-        <TabsList className="h-auto w-full shrink-0 justify-start overflow-x-auto rounded-none border-b border-border/60 bg-transparent p-0">
-          <TabsTrigger
-            value="description"
-            className="rounded-none border-b-2 border-transparent px-5 py-2.5 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-          >
-            문제
-          </TabsTrigger>
-          <TabsTrigger
-            value="solution"
-            disabled
-            title="풀이 기능은 준비 중입니다"
-            className="rounded-none px-5 py-2.5"
-          >
-            풀이 <span className="ml-1 text-[11px]">준비 중</span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="submission"
-            disabled
-            title="제출 내역 기능은 준비 중입니다"
-            className="rounded-none px-5 py-2.5"
-          >
-            제출 내역 <span className="ml-1 text-[11px]">준비 중</span>
-          </TabsTrigger>
-        </TabsList>
+        <ProblemTabsList />
         <TabsContent
           value="description"
           className="m-0 min-h-0 flex-1 overflow-y-auto"
