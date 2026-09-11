@@ -1,3 +1,10 @@
+import { executionFailureMessage } from "./userMessage.ts";
+
+export {
+  executionFailureMessage,
+  isExecutionOutputCode,
+} from "./userMessage.ts";
+
 export const EXECUTE_SOCKET_ERROR_CODE = {
   connectionTimeout: "SOCKET_CONNECTION_TIMEOUT",
   disconnected: "SOCKET_DISCONNECTED",
@@ -25,17 +32,13 @@ export const toExecutionFailureResult = (
     error instanceof ExecuteSocketError
       ? error.code
       : EXECUTE_SOCKET_ERROR_CODE.unknown;
-  const result =
-    error instanceof Error && error.message
-      ? error.message
-      : "코드 실행 중 알 수 없는 오류가 발생했습니다.";
 
   return {
     seq: 0,
     processTime: 0,
     memory: 0,
     code,
-    result,
+    result: executionFailureMessage(code),
     detail: "",
   };
 };

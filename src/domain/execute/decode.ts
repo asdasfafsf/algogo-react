@@ -1,4 +1,7 @@
-const INVALID_EXECUTION_RESPONSE = "실행 응답 형식이 올바르지 않습니다.";
+import {
+  executionFailureMessage,
+  isExecutionOutputCode,
+} from "./userMessage.ts";
 
 type ExecuteResultRecord = Record<string, unknown>;
 
@@ -55,21 +58,34 @@ export const decodeExecuteResult = (
   payload: unknown,
 ): ResponseExecuteResult => {
   const flatResult = toExecutionResult(payload);
-  if (flatResult) return flatResult;
+  if (flatResult) {
+    return isExecutionOutputCode(flatResult.code)
+      ? flatResult
+      : failureResult(
+          flatResult.code,
+          executionFailureMessage(flatResult.code),
+        );
+  }
 
   if (!isRecord(payload) || typeof payload.errorCode !== "string") {
-    return failureResult("9999", INVALID_EXECUTION_RESPONSE);
+    return failureResult("9999", executionFailureMessage("9999"));
   }
 
   if (payload.errorCode !== "0000") {
     return failureResult(
       payload.errorCode,
-      typeof payload.errorMessage === "string" && payload.errorMessage
-        ? payload.errorMessage
-        : INVALID_EXECUTION_RESPONSE,
+      executionFailureMessage(payload.errorCode),
     );
   }
 
   const envelopeResult = toExecutionResult(payload.data);
-  return envelopeResult ?? failureResult("9999", INVALID_EXECUTION_RESPONSE);
+  if (!envelopeResult) {
+    return failureResult("9999", executionFailureMessage("9999"));
+  }
+  return isExecutionOutputCode(envelopeResult.code)
+    ? envelopeResult
+    : failureResult(
+        envelopeResult.code,
+        executionFailureMessage(envelopeResult.code),
+      );
 };

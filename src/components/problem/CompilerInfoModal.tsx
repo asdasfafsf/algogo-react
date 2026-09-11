@@ -6,8 +6,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
-import { Typography } from "@components/common/index";
-import { Button } from "@components/Button/index";
+import { Button } from "@/components/ui/button";
 import { Card } from "@components/ui/card";
 
 interface CompilerInfo {
@@ -95,9 +94,7 @@ export default function CompilerInfoModal({
                 className="p-6 shadow-none transition-shadow duration-200 hover:shadow-md"
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <Typography variant="h5" weight="semibold">
-                    {compiler.language}
-                  </Typography>
+                  <h3 className="text-lg font-semibold">{compiler.language}</h3>
                   <span
                     className={`px-2 py-1 ${compiler.badge.bg} ${compiler.badge.text} text-xs rounded-full`}
                   >
@@ -107,40 +104,24 @@ export default function CompilerInfoModal({
                 <div className="space-y-3">
                   {compiler.compile && (
                     <div className="space-y-2">
-                      <Typography
-                        variant="paragraph"
-                        weight="semibold"
-                        className="text-foreground"
-                      >
+                      <h4 className="text-sm font-semibold text-foreground">
                         컴파일 명령어
-                      </Typography>
+                      </h4>
                       <div className="rounded-md border border-border bg-muted/40 p-3">
-                        <Typography
-                          variant="medium"
-                          weight="semilight"
-                          className="font-mono text-sm"
-                        >
+                        <code className="font-mono text-sm">
                           {compiler.compile}
-                        </Typography>
+                        </code>
                       </div>
                     </div>
                   )}
                   <div className="space-y-2">
-                    <Typography
-                      variant="paragraph"
-                      weight="semibold"
-                      className="text-foreground"
-                    >
+                    <h4 className="text-sm font-semibold text-foreground">
                       실행 명령어
-                    </Typography>
+                    </h4>
                     <div className="rounded-md border border-border bg-muted/40 p-3">
-                      <Typography
-                        variant="medium"
-                        weight="semilight"
-                        className="font-mono text-sm"
-                      >
+                      <code className="font-mono text-sm">
                         {compiler.execute}
-                      </Typography>
+                      </code>
                     </div>
                   </div>
                 </div>

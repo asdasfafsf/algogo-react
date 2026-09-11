@@ -5,9 +5,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Typography } from "@components/common/index";
-import { Button } from "@components/Button/index";
-import { Checkbox } from "@components/Checkbox";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useCodeEditorSettings } from "@hook/editor/useCodeEditorSettings";
 import CodeEditorFontSizeDropdown from "./CodeEditorFontSizeDropdown";
 import CodeEditorThemeDropdown from "./CodeEditorThemeDropdown";
@@ -56,29 +55,27 @@ export default function CodeEditorSettingsModal({
           <div className="p-6">
             <div className="grid gap-6 sm:grid-cols-2">
               {/* 문제 설정 섹션 */}
-              <div className="flex-1">
-                <Typography
-                  variant="paragraph"
-                  weight="semibold"
-                  className="mb-4 text-foreground"
+              <section className="flex-1" aria-labelledby="problem-settings">
+                <h3
+                  id="problem-settings"
+                  className="mb-4 text-sm font-semibold text-foreground"
                 >
                   문제 설정
-                </Typography>
+                </h3>
                 <CodeEditorProblemResizer
                   selectedIndex={Math.floor((problemContentSize - 100) / 10)}
                   handleSelect={(_, size) => selectProblemContentSize(size)}
                 />
-              </div>
+              </section>
 
               {/* 에디터 설정 섹션 */}
-              <div className="flex-1">
-                <Typography
-                  variant="paragraph"
-                  weight="semibold"
-                  className="mb-4 text-foreground"
+              <section className="flex-1" aria-labelledby="editor-settings">
+                <h3
+                  id="editor-settings"
+                  className="mb-4 text-sm font-semibold text-foreground"
                 >
                   에디터 설정
-                </Typography>
+                </h3>
                 <div className="space-y-4">
                   <CodeEditorThemeDropdown
                     theme={settings.theme}
@@ -104,26 +101,30 @@ export default function CodeEditorSettingsModal({
                       selectDefaultLanguage(language)
                     }
                   />
-                  <div className="flex justify-start">
+                  <div className="flex items-center justify-start gap-2">
                     <Checkbox
+                      id="save-editor-settings"
                       checked={saveToServer}
                       onCheckedChange={toggleSaveToServer}
-                      label="이 설정을 서버에 저장하기"
                     />
+                    <label
+                      htmlFor="save-editor-settings"
+                      className="cursor-pointer text-sm font-medium text-foreground"
+                    >
+                      이 설정을 서버에 저장하기
+                    </label>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
           </div>
 
           {/* 푸터 */}
           <div className="flex justify-end gap-2 border-t border-border px-8 py-6">
-            <Button color="gray" onClick={close}>
+            <Button variant="outline" onClick={close}>
               취소
             </Button>
-            <Button color="blue" onClick={save}>
-              저장
-            </Button>
+            <Button onClick={save}>저장</Button>
           </div>
         </div>
       </DialogContent>

@@ -139,6 +139,22 @@ try {
     templateForm.templateFormErrorMessage["content-required"],
     "템플릿 코드를 입력해주세요.",
   );
+  assert.equal(
+    templateForm.templateLoadFailureMessage,
+    "코드 템플릿을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.",
+  );
+  assert.equal(
+    templateForm.templateMutationFailureMessage("create"),
+    "코드 템플릿을 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+  );
+  assert.equal(
+    templateForm.templateMutationFailureMessage("update"),
+    "코드 템플릿을 수정하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+  );
+  assert.equal(
+    templateForm.templateMutationFailureMessage("delete"),
+    "코드 템플릿을 삭제하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+  );
   assert.deepEqual(templateForm.buildUpdateTemplateRequest(form, "uuid"), {
     ...form,
     uuid: "uuid",
