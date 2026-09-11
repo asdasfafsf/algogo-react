@@ -34,7 +34,7 @@ export default function Logo({
       {showText && (
         <span
           className={cn(
-            "font-Pretendard font-bold leading-none tracking-tight",
+            "font-WavvePADO-Regular font-normal leading-none tracking-[-0.03em]",
             textSizeMap[size],
           )}
         >
