@@ -54,7 +54,7 @@ function ProblemListTableFilter() {
             type="button"
             onClick={() => handleRemoveOption(index)}
             className={cn(
-              "inline-flex h-7 items-center gap-1.5 rounded-full border px-2 text-xs font-medium transition-all active:scale-95",
+              "inline-flex h-7 items-center gap-1.5 rounded-full border px-2 text-xs font-medium transition-colors hover:brightness-95 active:brightness-90 dark:hover:brightness-110 dark:active:brightness-125",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
               type === "난이도"
                 ? "border-tier-gold/25 bg-tier-gold/10 text-tier-gold"
@@ -75,7 +75,7 @@ function ProblemListTableFilter() {
         <button
           type="button"
           onClick={handleReset}
-          className="ml-1 inline-flex h-7 items-center gap-1.5 border-l border-border/50 pl-3 text-xs text-muted-foreground transition-colors hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="ml-1 inline-flex h-7 items-center gap-1.5 border-l border-border/50 pl-3 text-xs text-muted-foreground transition-colors hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:text-destructive/80"
           aria-label="필터 전체 초기화"
         >
           전체 초기화

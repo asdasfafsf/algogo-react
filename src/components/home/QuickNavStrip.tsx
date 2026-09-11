@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import DailyProblemCard from "./DailyProblemCard";
 import useHomeTodayProblems from "@hook/home/useHomeTodayProblems";
 
-function PreparedCard({
+function PlannedNavigationItem({
   kind,
   label,
 }: {
@@ -14,15 +14,13 @@ function PreparedCard({
   const Icon = kind === "random" ? Shuffle : LayoutGrid;
   return (
     <div
-      className="flex flex-1 cursor-not-allowed items-center gap-3 rounded-xl border border-border/40 bg-card p-4 transition-colors duration-200 hover:bg-muted/50"
+      className="flex flex-1 items-center gap-3 px-4 py-3.5 text-muted-foreground"
       aria-disabled="true"
-      aria-label={`${label}: 준비중`}
+      aria-label={`${label}: 개발 예정`}
     >
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-        <Icon size={16} />
-      </div>
-      <span className="text-sm font-medium text-muted-foreground">{label}</span>
-      <span className="ml-auto text-xs text-muted-foreground">준비중</span>
+      <Icon aria-hidden className="size-4 shrink-0 opacity-70" />
+      <span className="text-sm font-medium">{label}</span>
+      <span className="ml-auto text-xs">개발 예정</span>
     </div>
   );
 }
@@ -48,7 +46,7 @@ function DailySlotMessage({ state }: { state: "loading" | "empty" | "error" }) {
         <button
           type="button"
           onClick={() => navigate("/problem/today")}
-          className="inline-flex items-center gap-0.5 rounded-md bg-muted/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+          className="inline-flex items-center gap-0.5 rounded-md bg-muted/40 px-2 py-0.5 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:bg-muted/80"
         >
           전체보기
           <ChevronRight size={11} className="opacity-50" />
@@ -78,9 +76,9 @@ export default function QuickNavStrip() {
       ) : (
         <DailyProblemCard problems={problems} />
       )}
-      <div className="flex h-[170px] flex-col gap-3">
-        <PreparedCard kind="random" label="랜덤 도전" />
-        <PreparedCard kind="category" label="유형별 문제" />
+      <div className="flex h-[170px] flex-col divide-y divide-border/60 overflow-hidden rounded-lg border border-border/60 bg-card">
+        <PlannedNavigationItem kind="random" label="랜덤 도전" />
+        <PlannedNavigationItem kind="category" label="유형별 문제" />
       </div>
     </div>
   );

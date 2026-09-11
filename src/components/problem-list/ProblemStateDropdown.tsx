@@ -68,7 +68,7 @@ function ProblemStateDropdown() {
       <Button
         asChild
         variant="outline"
-        className="h-10 w-full justify-between gap-2 bg-background px-4 text-muted-foreground transition-colors hover:border-foreground/30 hover:bg-accent/60 hover:text-foreground sm:w-[200px]"
+        className="h-10 w-full justify-between gap-2 bg-background px-4 text-muted-foreground transition-colors hover:border-foreground/30 hover:bg-accent/60 hover:text-foreground active:bg-accent sm:w-[200px]"
       >
         <Link
           to="/login?destination=/problem"
@@ -93,9 +93,9 @@ function ProblemStateDropdown() {
           variant="outline"
           className={cn(
             "h-10 w-full justify-between gap-2 px-4 transition-all duration-200 sm:w-[200px]",
-            "hover:border-foreground/30 hover:bg-accent/60",
+            "hover:border-foreground/30 hover:bg-accent/60 active:bg-accent",
             selectedStates.length > 0
-              ? "border-green-600/40 bg-green-600/5 text-foreground shadow-sm hover:border-green-600/60 hover:bg-green-600/10"
+              ? "border-green-600/40 bg-green-600/5 text-foreground shadow-sm hover:border-green-600/60 hover:bg-green-600/10 active:bg-green-600/15"
               : "bg-background",
           )}
           aria-label={
@@ -150,7 +150,7 @@ function ProblemStateDropdown() {
             <button
               type="button"
               onClick={handleReset}
-              className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-destructive/5 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-destructive/5 hover:text-destructive focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:bg-destructive/10"
             >
               초기화
               <X aria-hidden className="size-3.5" />
@@ -173,8 +173,11 @@ function ProblemStateDropdown() {
                   "flex min-h-11 w-full items-center gap-3 rounded-md px-3 text-sm transition-colors",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
                   isSelected
-                    ? cn(style.selectedClassName, "font-medium")
-                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
+                    ? cn(
+                        style.selectedClassName,
+                        "font-medium hover:brightness-95 active:brightness-90 dark:hover:brightness-110 dark:active:brightness-125",
+                      )
+                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground active:bg-accent/70",
                 )}
               >
                 <Icon
