@@ -16,11 +16,11 @@ function PlannedNavigationItem({
     <div
       className="flex flex-1 items-center gap-3 px-4 py-3.5 text-muted-foreground"
       aria-disabled="true"
-      aria-label={`${label}: 개발 예정`}
+      aria-label={`${label}: 곧 이용할 수 있어요`}
     >
       <Icon aria-hidden className="size-4 shrink-0 opacity-70" />
       <span className="text-sm font-medium">{label}</span>
-      <span className="ml-auto text-xs">개발 예정</span>
+      <span className="ml-auto text-xs">곧 열려요</span>
     </div>
   );
 }
@@ -28,9 +28,9 @@ function PlannedNavigationItem({
 function DailySlotMessage({ state }: { state: "loading" | "empty" | "error" }) {
   const navigate = useNavigate();
   const text = {
-    loading: "오늘의 문제를 불러오는 중입니다",
-    empty: "오늘의 문제가 아직 없습니다",
-    error: "오늘의 문제를 불러오지 못했습니다",
+    loading: "오늘의 문제를 고르고 있어요",
+    empty: "오늘은 준비된 문제가 없어요",
+    error: "오늘의 문제를 가져오지 못했어요",
   }[state];
 
   return (

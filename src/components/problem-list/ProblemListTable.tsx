@@ -87,8 +87,10 @@ export default function ProblemListTable() {
         className="flex h-64 flex-col items-center justify-center px-6 text-center"
       >
         <CircleAlert className="size-5 text-destructive" aria-hidden />
-        <p className="mt-3 font-medium">문제 목록을 불러오지 못했습니다</p>
-        <p className="mt-1 text-sm text-muted-foreground">{error}</p>
+        <p className="mt-3 font-medium">문제 목록을 가져오지 못했어요</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          잠시 후 다시 시도해 주세요.
+        </p>
         <Button
           variant="outline"
           size="sm"
@@ -179,9 +181,11 @@ export default function ProblemListTable() {
             <TableBody>
               <TableRow className="h-64 hover:bg-transparent">
                 <TableCell colSpan={8} className="text-center">
-                  <p className="font-medium">조건에 맞는 문제가 없습니다</p>
+                  <p className="font-medium">
+                    조건에 맞는 문제를 찾지 못했어요
+                  </p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    현재 검색어와 필터 조건을 조정해 주세요.
+                    검색어나 선택한 조건을 바꿔 보세요.
                   </p>
                 </TableCell>
               </TableRow>

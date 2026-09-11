@@ -8,6 +8,7 @@ import QuickNavStrip from "@components/home/QuickNavStrip";
 import ProblemListCard from "@components/problem-list/ProblemListCard";
 import { Button } from "@components/ui/button";
 import { PROBLEM_STATE } from "@constant/problem.state.constant";
+import ModalProvider from "@plugins/modal/ModalProvider";
 import useProblemListStore from "@zustand/ProblemListStore";
 import useMeStore from "@zustand/MeStore";
 import type { ProblemSummary, TodayProblem } from "@/type/Problem.type";
@@ -210,7 +211,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <MemoryRouter>
-        <Fixture />
+        <ModalProvider>
+          <Fixture />
+        </ModalProvider>
       </MemoryRouter>
     </QueryClientProvider>
   </StrictMode>,

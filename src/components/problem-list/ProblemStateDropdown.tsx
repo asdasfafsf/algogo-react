@@ -4,7 +4,6 @@ import {
   ChevronDown,
   Circle,
   ListChecks,
-  LogIn,
   X,
   XCircle,
 } from "lucide-react";
@@ -72,15 +71,13 @@ function ProblemStateDropdown() {
       >
         <Link
           to="/login?destination=/problem"
-          aria-label="상태 필터, 로그인 필요"
+          aria-label="내 풀이 상태를 보려면 로그인하세요"
         >
           <span className="flex min-w-0 items-center gap-2">
             <ListChecks aria-hidden className="size-4 shrink-0 opacity-50" />
-            <span className="truncate text-sm font-medium">
-              상태 · 로그인 필요
-            </span>
+            <span className="truncate text-sm font-medium">내 풀이 상태</span>
           </span>
-          <LogIn aria-hidden className="size-3.5 shrink-0 opacity-50" />
+          <span className="text-xs">로그인</span>
         </Link>
       </Button>
     );
