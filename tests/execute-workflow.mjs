@@ -130,8 +130,24 @@ try {
     );
 
     assert.equal(result.code, "SOCKET_ACK_TIMEOUT");
-    assert.match(result.result, /응답하지 않았습니다/);
+    assert.equal(
+      result.result,
+      "코드 실행 서버의 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.",
+    );
     assert.notEqual(result.code, "0000");
+  });
+
+  test("예상하지 못한 예외의 내부 원문을 화면에 노출하지 않는다", () => {
+    const result = errors.toExecutionFailureResult(
+      new Error("ECONNREFUSED 10.0.0.7:3002"),
+    );
+
+    assert.equal(result.code, errors.EXECUTE_SOCKET_ERROR_CODE.unknown);
+    assert.equal(
+      result.result,
+      "코드를 실행하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+    );
+    assert.doesNotMatch(result.result, /ECONNREFUSED|10\.0\.0\.7/);
   });
 
   test("인증 갱신 중 들어온 동시 실행도 거부한다", async () => {

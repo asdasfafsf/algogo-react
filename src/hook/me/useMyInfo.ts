@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import useMeStore from "@zustand/MeStore";
 import useAlertModal from "@hook/useAlertModal";
 import useConfirmModal from "@hook/useConfirmModal";
-import { AxiosError } from "axios";
 import {
   createProfileUpdateRequest,
-  selectProfileImageAfterUpdate,
+  profileSaveOutcome,
+  profileSaveRequestFailure,
 } from "@/domain/account/profile";
 
 export default function useMyInfo() {
@@ -66,20 +66,17 @@ export default function useMyInfo() {
         me.socialList,
       );
       const res = await updateMe(requestUpdateMeDto);
-      if (res.errorCode !== "0000") {
-        await alert(res.errorMessage || "저장 중 오류가 발생했습니다.");
+      const outcome = profileSaveOutcome(res, me.profilePhoto ?? "");
+      if (outcome.type === "failure") {
+        await alert(outcome.message);
         return;
       }
 
-      setImage(selectProfileImageAfterUpdate(res, me.profilePhoto ?? ""));
+      setImage(outcome.profilePhoto);
       setProfilePhoto(undefined);
       setEditMode(false);
-    } catch (error) {
-      const message =
-        error instanceof AxiosError
-          ? "저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-          : "프로필을 저장하지 못했습니다. 다시 시도해주세요.";
-      await alert(message);
+    } catch {
+      await alert(profileSaveRequestFailure().message);
     } finally {
       setIsSaving(false);
     }

@@ -1,7 +1,10 @@
-import { isSameCalendarDay } from '../../domain/problems/problemDetail';
-import type { CalendarDay } from '../../domain/problems/problemDetail';
+import { isSameCalendarDay } from "../../domain/problems/problemDetail";
+import type { CalendarDay } from "../../domain/problems/problemDetail";
 
 type UpdateProblem = { updatedAt: string | Date; sourceUrl: string };
+
+export const problemUpdateFailureMessage =
+  "문제를 업데이트하지 못했습니다. 잠시 후 다시 시도해 주세요.";
 
 type UpdateProblemPorts = {
   confirm: (message: string) => Promise<unknown>;
@@ -22,25 +25,25 @@ export async function updateProblem(
 ) {
   if (!problem) return;
   try {
-    if (!(await ports.confirm('문제를 업데이트 할까요?'))) return;
+    if (!(await ports.confirm("문제를 업데이트 할까요?"))) return;
     if (
       isSameCalendarDay(ports.today(), ports.calendarDay(problem.updatedAt))
     ) {
       await ports.alert(
-        '금일 해당 문제의 업데이트가 이미 수행되었습니다. 다음 날 다시 요청해주세요',
+        "금일 해당 문제의 업데이트가 이미 수행되었습니다. 다음 날 다시 요청해주세요",
       );
       return;
     }
     ports.startLoading();
     const response = await ports.collect({ url: problem.sourceUrl });
-    if (response.errorCode !== '0000') {
-      await ports.alert(response.errorMessage);
+    if (response.errorCode !== "0000") {
+      await ports.alert(problemUpdateFailureMessage);
       ports.endLoading();
       return;
     }
     ports.reload();
   } catch {
-    await ports.alert('예외 오류가 발생하였습니다.');
+    await ports.alert(problemUpdateFailureMessage);
     ports.endLoading();
   } finally {
     ports.endLoading();

@@ -3,10 +3,12 @@ import { getMe, updateMe } from "../api/me";
 import { getToken } from "../api/auth";
 import { refresh } from "../api/auth-v2";
 import {
+  AccountSessionError,
   hasStoredSession,
   isBusinessSuccess,
   isHttpSuccess,
-  requireRefreshToken,
+  refreshTokenOutcome,
+  sessionRequestOutcome,
 } from "@/domain/account/session";
 
 type MeStore = {
@@ -60,26 +62,32 @@ export const useMeStore = create<MeStore>((set, get) => ({
   },
   fetchToken: async () => {
     const response = await getToken();
+    const outcome = sessionRequestOutcome(response, "token");
 
-    if (!isHttpSuccess(response)) {
-      throw new Error(response.errorMessage);
+    if (outcome.type === "failure") {
+      throw new AccountSessionError(outcome.code);
     }
 
-    const { accessToken, refreshToken } = response.data;
+    const { accessToken, refreshToken } = outcome.data;
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
   },
   refresh: async () => {
-    const oldRefreshToken = localStorage.getItem("refreshToken");
+    const storedRefreshToken = refreshTokenOutcome(
+      localStorage.getItem("refreshToken"),
+    );
 
-    requireRefreshToken(oldRefreshToken);
+    if (storedRefreshToken.type === "failure") {
+      throw new AccountSessionError(storedRefreshToken.code);
+    }
     const response = await refresh();
+    const outcome = sessionRequestOutcome(response, "refresh");
 
-    if (!isHttpSuccess(response)) {
-      throw new Error(response.errorMessage);
+    if (outcome.type === "failure") {
+      throw new AccountSessionError(outcome.code);
     }
 
-    const { accessToken, refreshToken } = response.data;
+    const { accessToken, refreshToken } = outcome.data;
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
   },
