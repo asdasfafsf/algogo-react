@@ -12,6 +12,9 @@ const dropdownMenuSource = await readProjectFile(
   "src/components/ui/dropdown-menu.tsx",
 );
 const checkboxSource = await readProjectFile("src/components/ui/checkbox.tsx");
+const controlsFixtureSource = await readProjectFile(
+  "tests/fixtures/controls.tsx",
+);
 const buttonSource = await readProjectFile("src/components/ui/button.tsx");
 const tabsSource = await readProjectFile("src/components/ui/tabs.tsx");
 const toggleSource = await readProjectFile("src/components/ui/toggle.tsx");
@@ -102,6 +105,28 @@ assert.match(
   checkboxSource,
   /data-\[disabled\]:cursor-not-allowed/,
   "Checkbox must expose a disabled cursor",
+);
+
+for (const [id, expectedCursor] of [
+  ["checkboxLabel", "pointer"],
+  ["disabledCheckboxLabel", "not-allowed"],
+]) {
+  assert.match(
+    fixtureSource,
+    new RegExp(`${id}: "${expectedCursor}"`),
+    `${id} must be included in the computed cursor report`,
+  );
+}
+
+assert.match(
+  controlsFixtureSource,
+  /<label[\s\S]*className="inline-flex cursor-pointer items-center gap-2"[\s\S]*htmlFor="fixture-checkbox"[\s\S]*aria-label="레이블로 토글"/,
+  "the active checkbox label must align its pointer cursor and click target",
+);
+assert.match(
+  controlsFixtureSource,
+  /<label[\s\S]*className="inline-flex cursor-not-allowed items-center gap-2 opacity-50"[\s\S]*htmlFor="fixture-disabled-checkbox"[\s\S]*aria-label="선택된 비활성 체크박스"/,
+  "the disabled checkbox label must align its cursor, opacity, and click target",
 );
 
 for (const [name, source] of [

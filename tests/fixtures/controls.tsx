@@ -1,7 +1,6 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter, useLocation } from "react-router-dom";
-import { Checkbox } from "@components/Checkbox";
 import { ProfileMenu } from "@components/Dropdown";
 import ThemeToggle from "@components/ThemeToggle";
 import ProblemLevelDropdown from "@components/problem-list/ProblemLevelDropdown";
@@ -11,6 +10,7 @@ import ProblemTypeDropdown from "@components/problem-list/ProblemTypeDropdown";
 import CodeTemplateDropdown from "@components/problem/CodeTemplateDropdown";
 import LanguageDropdown from "@components/problem/LanguageDropdown";
 import { Button } from "@components/ui/button";
+import { Checkbox } from "@components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -193,15 +193,33 @@ function CheckboxAndButtonFixture() {
   return (
     <section className="grid gap-3 rounded-lg border p-4">
       <h2 className="font-semibold">Checkbox와 Button</h2>
-      <Checkbox
-        label="레이블로 토글"
-        checked={checked}
-        onCheckedChange={(nextChecked) => {
-          setChecked(nextChecked);
-          setCheckboxChanges((count) => count + 1);
-        }}
-      />
-      <Checkbox label="선택된 비활성 체크박스" checked disabled />
+      <label
+        className="inline-flex cursor-pointer items-center gap-2"
+        htmlFor="fixture-checkbox"
+      >
+        <Checkbox
+          id="fixture-checkbox"
+          aria-label="레이블로 토글"
+          checked={checked}
+          onCheckedChange={(nextChecked) => {
+            setChecked(nextChecked === true);
+            setCheckboxChanges((count) => count + 1);
+          }}
+        />
+        <span>레이블로 토글</span>
+      </label>
+      <label
+        className="inline-flex cursor-not-allowed items-center gap-2 opacity-50"
+        htmlFor="fixture-disabled-checkbox"
+      >
+        <Checkbox
+          id="fixture-disabled-checkbox"
+          aria-label="선택된 비활성 체크박스"
+          checked
+          disabled
+        />
+        <span>선택된 비활성 체크박스</span>
+      </label>
       <output aria-label="체크박스 상태">
         {checked ? "선택" : "해제"}, 변경 {checkboxChanges}회
       </output>
