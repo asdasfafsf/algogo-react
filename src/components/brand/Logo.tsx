@@ -34,7 +34,7 @@ export default function Logo({
       {showText && (
         <span
           className={cn(
-            "font-Pretendard font-bold leading-none tracking-tight",
+            "font-Tenada font-bold leading-none tracking-tight",
             textSizeMap[size],
           )}
         >
