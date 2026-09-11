@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import React, { useState, useRef, useEffect } from "react";
-import { PencilIcon } from "@heroicons/react/24/outline";
+import { Pencil } from "lucide-react";
 
 interface ProfilePhotoProps {
   size?: "default" | "mini" | "large";
@@ -86,7 +86,7 @@ export default function ProfilePhoto({
         </Button>
         {isEditable && (
           <div className="absolute z-10 p-2 text-white bg-gray-900 rounded-full bottom-4 right-2">
-            <PencilIcon className="w-5 h-5" />
+            <Pencil className="w-5 h-5" />
           </div>
         )}
       </div>

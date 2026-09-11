@@ -9,7 +9,7 @@ import {
 import useExecuteTestCase from "@hook/useExecuteTestCase";
 import useModal from "@plugins/modal/useModal";
 import { Button } from "@components/Button";
-import { Card } from "@components/Card";
+import { Card } from "@components/ui/card";
 import { Typography } from "@components/common";
 import TestCaseModal from "./TestCaseModal";
 import { summarizeTestCases } from "@/domain/editor/testCases";

@@ -8,7 +8,7 @@ import {
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Typography } from "@components/common/index";
 import { Button } from "@components/Button/index";
-import { Card } from "@components/Card";
+import { Card } from "@components/ui/card";
 
 interface CompilerInfo {
   language: string;
@@ -92,7 +92,7 @@ export default function CompilerInfoModal({
             {compilerData.map((compiler, index) => (
               <Card
                 key={index}
-                className="p-6 transition-shadow duration-200 hover:shadow-md"
+                className="p-6 shadow-none transition-shadow duration-200 hover:shadow-md"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <Typography variant="h5" weight="semibold">

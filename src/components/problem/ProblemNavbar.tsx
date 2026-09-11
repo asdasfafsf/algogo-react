@@ -1,9 +1,5 @@
 import useProblemUpdate from "@hook/problem/useProblemUpdate";
-import {
-  ArrowPathIcon,
-  Cog6ToothIcon,
-  DocumentTextIcon,
-} from "@heroicons/react/24/outline";
+import { FileText, RefreshCw, Settings } from "lucide-react";
 import useModal from "@plugins/modal/useModal";
 import { IconButton } from "@components/Button/index";
 import CodeEditorSettingsModal from "./CodeEditorSettingsModal";
@@ -32,7 +28,7 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
               onClick={handleClickUpdate}
               className="text-white bg-gray-900 w-9 h-9"
             >
-              <ArrowPathIcon className="w-6 h-6 text-white" color="white" />
+              <RefreshCw className="w-6 h-6 text-white" color="white" />
             </IconButton>
           </div>
         </Tooltip>
@@ -49,7 +45,7 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
                 modal.push("CompilerInfo", CompilerInfoModal, {});
               }}
             >
-              <DocumentTextIcon className="w-6 h-6 text-white" color="white" />
+              <FileText className="w-6 h-6 text-white" color="white" />
             </IconButton>
           </div>
         </Tooltip>
@@ -64,7 +60,7 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
                 modal.push("CODE_EDITOR_SETTINGS", CodeEditorSettingsModal, {});
               }}
             >
-              <Cog6ToothIcon className="w-6 h-6 text-white" color="white" />
+              <Settings className="w-6 h-6 text-white" color="white" />
             </IconButton>
           </div>
         </Tooltip>
