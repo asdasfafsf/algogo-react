@@ -64,12 +64,7 @@ apiClient.interceptors.response.use(
         failedQueue.forEach(({ reject }) => reject(error));
         failedQueue.length = 0;
         isRefreshing = false;
-        return Promise.resolve({
-          status: 401,
-          errorCode: "UNAUTHORIZED",
-          errorMessage: "refreshToken이 없습니다.",
-          data: null,
-        });
+        return Promise.reject(error);
       }
 
       try {
@@ -84,8 +79,6 @@ apiClient.interceptors.response.use(
 
         failedQueue.forEach(({ resolve }) => resolve());
         failedQueue.length = 0;
-
-        return await apiClient.request(config);
       } catch (refreshError) {
         failedQueue.forEach(({ reject }) => reject());
         failedQueue.length = 0;
@@ -96,15 +89,15 @@ apiClient.interceptors.response.use(
           await showAlert("로그인 정보가 만료되었습니다. 다시 로그인해주세요.");
         }
         window.location.href = `/login?destination=${window.location.pathname}`;
-        return await Promise.reject(refreshError);
+        return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }
+
+      return apiClient.request(config);
     }
 
-    if (!error.response) return Promise.reject(error);
-
-    return error.response;
+    return Promise.reject(error);
   },
 );
 
