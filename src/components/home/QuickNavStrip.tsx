@@ -14,13 +14,15 @@ function PlannedNavigationItem({
   const Icon = kind === "random" ? Shuffle : LayoutGrid;
   return (
     <div
-      className="flex flex-1 items-center gap-3 px-4 py-3.5 text-muted-foreground"
+      className="flex min-w-0 flex-1 cursor-default items-center gap-3 px-4 py-3.5 text-muted-foreground"
       aria-disabled="true"
-      aria-label={`${label}: 곧 이용할 수 있어요`}
+      aria-label={`${label}: 준비 중`}
     >
       <Icon aria-hidden className="size-4 shrink-0 opacity-70" />
-      <span className="text-sm font-medium">{label}</span>
-      <span className="ml-auto text-xs">곧 열려요</span>
+      <span className="min-w-0 flex-1 whitespace-nowrap text-sm font-medium">
+        {label}
+      </span>
+      <span className="shrink-0 whitespace-nowrap text-xs">준비 중</span>
     </div>
   );
 }
