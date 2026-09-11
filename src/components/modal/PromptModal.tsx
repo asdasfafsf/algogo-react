@@ -9,14 +9,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
+import { DialogDescription } from "@components/ui/dialog";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@components/ui/dialog";
+  ModalBody,
+  ModalFooter,
+  ModalSurface,
+} from "@components/ui/modal-surface";
 import {
   pasteTextWithFeedback,
   type ClipboardFeedback,
@@ -57,21 +55,25 @@ export default function PromptModal({
     setPasteFeedback(result.feedback);
   };
   return (
-    <Dialog
+    <ModalSurface
       open
       onOpenChange={(open) => {
         if (!open) finish(false);
       }}
+      size="sm"
+      title={title}
     >
-      <DialogContent className="max-w-[400px]">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{content}</DialogDescription>
-        </DialogHeader>
+      <ModalBody className="space-y-4">
+        <DialogDescription className="break-words leading-6">
+          {content}
+        </DialogDescription>
         <div className="relative">
+          <label htmlFor="prompt-value" className="sr-only">
+            {title} 입력
+          </label>
           <Input
+            id="prompt-value"
             autoFocus
-            aria-label={content}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
@@ -116,18 +118,13 @@ export default function PromptModal({
             {pasteFeedback.message}
           </p>
         ) : null}
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => finish(false)}>
-            취소
-          </Button>
-          <Button
-            className="bg-blue-600 hover:bg-blue-700"
-            onClick={() => finish(value || defaultValue)}
-          >
-            확인
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="outline" onClick={() => finish(false)}>
+          취소
+        </Button>
+        <Button onClick={() => finish(value || defaultValue)}>확인</Button>
+      </ModalFooter>
+    </ModalSurface>
   );
 }

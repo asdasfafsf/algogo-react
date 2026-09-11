@@ -53,7 +53,14 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
     await runExclusiveTemplateMutation(mutationLock, async () => {
       setPendingAction("delete");
       try {
-        if (!(await confirm("정말 삭제하시겠습니까?"))) return;
+        if (
+          !(await confirm("삭제한 템플릿은 복구할 수 없습니다.", {
+            title: "템플릿 삭제",
+            confirmText: "삭제",
+            variant: "destructive",
+          }))
+        )
+          return;
 
         const response = await deleteTemplate(uuid);
         const decision = decideTemplateMutation("delete", response.statusCode);
