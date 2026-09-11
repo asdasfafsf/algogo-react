@@ -104,10 +104,11 @@ export function TodayProblemHeader({ problems }: TodayProblemHeaderProps) {
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="inline-flex size-5 cursor-pointer items-center justify-center rounded text-muted-foreground/40 transition-colors hover:bg-muted/30 hover:text-foreground/60"
+                className="inline-flex h-7 cursor-pointer items-center gap-1 rounded px-1.5 text-xs font-medium text-muted-foreground/65 transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
                 aria-label="날짜 선택"
               >
                 <CalendarDays size={13} />
+                날짜
               </button>
             </PopoverTrigger>
             <PopoverContent className="w-56 p-3" align="center">
@@ -146,7 +147,7 @@ export function TodayProblemHeader({ problems }: TodayProblemHeaderProps) {
             size="icon"
             onClick={() => moveToDay(previousDayOffset(day))}
             disabled={day <= TODAY_PROBLEM_MIN_DAY}
-            className="size-9 shrink-0 cursor-pointer text-muted-foreground/25 transition-colors hover:bg-transparent hover:text-muted-foreground/50"
+            className="size-9 shrink-0 text-muted-foreground/35 transition-colors enabled:cursor-pointer enabled:hover:bg-muted enabled:hover:text-foreground enabled:active:scale-95 disabled:cursor-default disabled:text-muted-foreground/20"
             aria-label="이전 날짜"
           >
             <ChevronLeft size={18} />
@@ -159,7 +160,7 @@ export function TodayProblemHeader({ problems }: TodayProblemHeaderProps) {
             size="icon"
             onClick={() => moveToDay(nextDayOffset(day))}
             disabled={!canNavigateToNextDay(day)}
-            className="size-9 shrink-0 text-muted-foreground/25 transition-colors hover:bg-transparent hover:text-muted-foreground/50 disabled:cursor-not-allowed"
+            className="size-9 shrink-0 text-muted-foreground/35 transition-colors enabled:cursor-pointer enabled:hover:bg-muted enabled:hover:text-foreground enabled:active:scale-95 disabled:cursor-default disabled:text-muted-foreground/20"
             aria-label="다음 날짜"
           >
             <ChevronRight size={18} />
@@ -170,7 +171,7 @@ export function TodayProblemHeader({ problems }: TodayProblemHeaderProps) {
           <button
             type="button"
             onClick={() => moveToDay(0)}
-            className="mt-2.5 cursor-pointer text-xs font-medium text-primary/70 transition-colors hover:text-primary"
+            className="mt-2.5 cursor-pointer rounded-sm text-xs font-medium text-primary/70 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:scale-[0.98]"
           >
             오늘로 이동
           </button>
@@ -183,11 +184,11 @@ export function TodayProblemHeader({ problems }: TodayProblemHeaderProps) {
             {solvedCount}
           </span>
           <span className="font-mono tabular-nums">/{problems.length}</span>{" "}
-          완료
+          풀이
         </span>
         {!isToday && <span>{Math.abs(day)}일 전</span>}
         <span className="font-mono tabular-nums">
-          다음 갱신 <Countdown />
+          새 문제까지 <Countdown />
         </span>
       </div>
     </header>

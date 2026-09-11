@@ -16,12 +16,12 @@ function getContentPreview(
   content: string | undefined,
   isLoading: boolean,
 ): string {
-  if (isLoading) return "문제 설명을 불러오는 중입니다.";
-  if (!content) return "문제 설명이 제공되지 않았습니다.";
+  if (isLoading) return "문제 내용을 불러오는 중이에요.";
+  if (!content) return "문제 설명이 아직 없어요.";
 
   const document = new DOMParser().parseFromString(content, "text/html");
   const text = document.body.textContent?.replace(/\s+/g, " ").trim();
-  return text || "문제 설명이 제공되지 않았습니다.";
+  return text || "문제 설명이 아직 없어요.";
 }
 
 function problemPath(uuid: string): string {
@@ -41,10 +41,10 @@ export function TodayProblemCard({
       href={problemPath(problem.uuid)}
       target="_blank"
       rel="noopener noreferrer"
-      className="block overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      className="group block overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       aria-label={`${problem.title} 문제 새 창에서 열기`}
     >
-      <article className="cursor-pointer rounded-lg border border-primary/10 bg-card px-5 py-4 shadow-sm transition-all duration-150 hover:border-primary/20 hover:shadow-md sm:px-6 sm:py-5">
+      <article className="cursor-pointer rounded-lg border border-primary/10 bg-card px-5 py-4 shadow-sm transition-[border-color,box-shadow,transform] duration-150 group-hover:-translate-y-px group-hover:border-primary/30 group-hover:shadow-md group-active:translate-y-0 sm:px-6 sm:py-5">
         <div className="flex items-baseline gap-2">
           <span className="shrink-0 font-mono text-sm font-bold tabular-nums text-foreground/25">
             {String(index + 1).padStart(2, "0")}
@@ -70,19 +70,25 @@ export function TodayProblemCard({
           {preview}
         </p>
 
-        <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <span>
-            <span className="font-medium tabular-nums text-foreground/70">
-              {problem.answerRate}%
-            </span>{" "}
-            정답률
-          </span>
-          <span aria-hidden="true">·</span>
-          <span>
-            <span className="font-medium tabular-nums text-foreground/70">
-              {problem.submitCount.toLocaleString()}
-            </span>{" "}
-            제출
+        <div className="mt-4 flex items-center justify-between gap-3 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <span>
+              <span className="font-medium tabular-nums text-foreground/70">
+                {problem.answerRate}%
+              </span>{" "}
+              정답률
+            </span>
+            <span aria-hidden="true">·</span>
+            <span>
+              <span className="font-medium tabular-nums text-foreground/70">
+                {problem.submitCount.toLocaleString()}
+              </span>{" "}
+              제출
+            </span>
+          </div>
+          <span className="inline-flex shrink-0 items-center gap-1 font-medium text-primary/75 transition-colors group-hover:text-primary">
+            문제 보기
+            <ArrowRight size={14} aria-hidden="true" />
           </span>
         </div>
       </article>
@@ -103,8 +109,8 @@ export function TodayProblemRoster({
 }: TodayProblemRosterProps) {
   return (
     <div>
-      <p className="mb-2 px-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-        전체 문제
+      <p className="mb-2 px-3 text-xs font-medium text-muted-foreground">
+        오늘의 문제 목록
       </p>
       <div
         className="rounded-lg border border-border/50 p-1.5"
@@ -151,7 +157,9 @@ function ProblemRosterRow({
       aria-selected={selected}
       tabIndex={selected ? 0 : -1}
       className={`group/row flex w-full items-center gap-3 rounded-md px-3 py-3 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-        selected ? "bg-primary/10" : "cursor-pointer hover:bg-muted/40"
+        selected
+          ? "cursor-pointer bg-primary/10 hover:bg-primary/15"
+          : "cursor-pointer hover:bg-muted/40"
       }`}
       onClick={onSelect}
       onKeyDown={(event) => {
