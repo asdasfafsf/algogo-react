@@ -8,9 +8,8 @@ import {
 import { Trash2 } from "lucide-react";
 import useTestCase from "@hook/useTestCase";
 import useExecuteTestCase from "@hook/useExecuteTestCase";
-import { Line, Typography, Textarea } from "@components/common/index";
-import { Button } from "@components/Button/index";
-import { Chip } from "@components/Chip/index";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 
 export default function TestCaseModal({
@@ -47,22 +46,26 @@ export default function TestCaseModal({
               testCaseList.map(({ input, expected, readOnly }, index, arr) => (
                 <div key={index} className="w-full">
                   <div className="relative flex w-full mb-2">
-                    <Chip
-                      value={`입력 ${index + 1}`}
-                      variant="ghost"
-                      className="flex items-center whitespace-nowrap"
-                      color={readOnly ? "red" : "blue"}
-                    />
+                    <span
+                      className={`animate-fadeIn inline-flex items-center whitespace-nowrap rounded-md border border-transparent px-2.5 py-1 text-xs font-bold shadow-xs ${
+                        readOnly
+                          ? "bg-red-100 text-red-600"
+                          : "bg-blue-100 text-blue-600"
+                      }`}
+                    >
+                      입력 {index + 1}
+                    </span>
                     {readOnly ? (
                       ""
                     ) : (
                       <Button
-                        variant="text"
+                        variant="ghost"
+                        size="icon"
                         aria-label={`테스트 케이스 ${index + 1} 삭제`}
                         onClick={() => removeTestCase(index)}
-                        className="flex h-6 w-full cursor-pointer items-center justify-end bg-background"
+                        className="ml-auto size-8 text-muted-foreground hover:text-destructive"
                       >
-                        <Trash2 className="w-5 h-5 text-gray-600" />
+                        <Trash2 aria-hidden className="size-5 text-gray-600" />
                       </Button>
                     )}
                   </div>
@@ -71,64 +74,63 @@ export default function TestCaseModal({
                       aria-label={`입력 ${index + 1}`}
                       value={input}
                       readOnly
+                      className="min-h-[100px] resize-none"
                     />
                   ) : (
                     <Textarea
                       aria-label={`입력 ${index + 1}`}
                       value={input}
-                      className="font-D2Coding"
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                      className="min-h-[100px] resize-none font-D2Coding"
+                      onChange={(e) => {
                         handleChangeInput(index, e.target.value);
                       }}
                       placeholder="입력을 입력하세요"
                     />
                   )}
-                  <Chip
-                    value={`출력 ${index + 1}`}
-                    variant="ghost"
-                    className="flex items-center mb-2 whitespace-nowrap"
-                    color={readOnly ? "red" : "blue"}
-                  />{" "}
+                  <span
+                    className={`animate-fadeIn mb-2 inline-flex items-center whitespace-nowrap rounded-md border border-transparent px-2.5 py-1 text-xs font-bold shadow-xs ${
+                      readOnly
+                        ? "bg-red-100 text-red-600"
+                        : "bg-blue-100 text-blue-600"
+                    }`}
+                  >
+                    출력 {index + 1}
+                  </span>
                   {readOnly ? (
                     <Textarea
                       aria-label={`예상 출력 ${index + 1}`}
                       value={expected}
                       readOnly
+                      className="min-h-[100px] resize-none"
                     />
                   ) : (
                     <Textarea
                       aria-label={`예상 출력 ${index + 1}`}
                       value={expected}
-                      className="font-D2Coding"
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                      className="min-h-[100px] resize-none font-D2Coding"
+                      onChange={(e) => {
                         handleChangeOutput(index, e.target.value);
                       }}
                       placeholder="출력을 입력하세요"
                     />
                   )}
-                  {index + 1 < arr.length ? (
-                    <Line className="my-4 bg-border" />
-                  ) : (
-                    ""
+                  {index + 1 < arr.length && (
+                    <hr className="my-4 border-border" />
                   )}
                 </div>
               ))
             ) : (
               <div className="flex items-center justify-center h-24">
-                <Typography variant="h6" className="text-gray-600">
+                <p className="text-base font-semibold text-gray-600">
                   테스트 케이스가 없습니다.
-                </Typography>
+                </p>
               </div>
             )}
           </div>
 
           {testCaseList.length < 10 ? (
             <div className="flex justify-center px-8 mb-5">
-              <Button
-                onClick={handleClickAddTestCase}
-                className="w-full"
-                color="blue"
-              >
+              <Button onClick={handleClickAddTestCase} className="w-full">
                 테스트 케이스 추가
               </Button>
             </div>
@@ -136,10 +138,8 @@ export default function TestCaseModal({
             ""
           )}
           <div className="flex justify-end gap-1 px-8 mb-4">
-            <Button onClick={handleTest} color="blue">
-              테스트
-            </Button>
-            <Button onClick={handleClickClose} className="bg-gray-600">
+            <Button onClick={handleTest}>테스트</Button>
+            <Button variant="secondary" onClick={handleClickClose}>
               완료
             </Button>
           </div>

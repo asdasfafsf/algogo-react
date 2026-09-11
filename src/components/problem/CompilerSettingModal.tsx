@@ -5,10 +5,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { IconButton } from "@components/Button/index";
+import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
-import { Typography } from "@components/common/index";
 
 export default function CompilerSettingModal({
   resolve,
@@ -27,13 +26,17 @@ export default function CompilerSettingModal({
         </DialogHeader>
         <div className="min-h-64 h-auto rounded-md bg-gray-900 w-full">
           <header className="flex items-center w-full p-4">
-            <div className="w-1/2">
-              <Typography variant="h6">컴파일러 세팅</Typography>
-            </div>
+            <h2 className="w-1/2 text-base font-semibold">컴파일러 세팅</h2>
             <div className="flex items-start justify-end w-1/2">
-              <IconButton onClick={() => resolve(false)} className="w-5 h-5">
-                <X className="w-5 h-5 text-white" />
-              </IconButton>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="컴파일러 설정 닫기"
+                onClick={() => resolve(false)}
+                className="size-8 text-white hover:bg-white/10 hover:text-white"
+              >
+                <X aria-hidden className="size-5 text-white" />
+              </Button>
             </div>
           </header>
           <section />
