@@ -145,7 +145,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
+              className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background active:bg-background/80 disabled:hover:bg-background/80"
               onClick={() => api?.scrollPrev()}
               disabled={!canScrollPrev}
               aria-label="이전 슬라이드"
@@ -156,7 +156,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
               type="button"
               variant="ghost"
               size="icon"
-              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background"
+              className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-background/80 text-foreground shadow-sm backdrop-blur hover:bg-background active:bg-background/80 disabled:hover:bg-background/80"
               onClick={() => api?.scrollNext()}
               disabled={!canScrollNext}
               aria-label="다음 슬라이드"
@@ -179,7 +179,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "size-5 rounded-full p-1 hover:bg-transparent",
+                  "size-5 rounded-full p-1 hover:bg-white/10 active:bg-white/20",
                   current === index
                     ? "text-foreground"
                     : "text-muted-foreground",
