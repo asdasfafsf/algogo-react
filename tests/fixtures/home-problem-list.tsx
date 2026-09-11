@@ -87,8 +87,8 @@ function fixtureResponse(mode: FixtureMode, today: boolean) {
       statusCode: 503,
       errorCode: "FIXTURE_ERROR",
       errorMessage: today
-        ? "오늘의 문제 응답을 확인할 수 없습니다."
-        : "문제 목록 응답을 확인할 수 없습니다.",
+        ? "today-problem cache key fixture-user could not be read"
+        : "database connection failed at problem-service.internal",
       data: null,
     };
   }
