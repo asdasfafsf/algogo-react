@@ -1,4 +1,4 @@
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { Plus } from "lucide-react";
 import { useCallback, useState } from "react";
 
 interface DropUpProps {
@@ -30,7 +30,7 @@ export default function DropUp({ children, className = "" }: DropUpProps) {
           className="z-30 block size-14 rounded-full bg-blue-500 transition-transform hover:bg-blue-600 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:hidden"
         >
           <div className="flex items-center justify-center w-full h-full">
-            <PlusIcon
+            <Plus
               className={`size-6 text-white transition-transform ${isOpen ? "rotate-45" : ""}`}
             />
           </div>

@@ -6,7 +6,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { IconButton } from "@components/Button/index";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { X } from "lucide-react";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Typography } from "@components/common/index";
 
@@ -32,7 +32,7 @@ export default function CompilerSettingModal({
             </div>
             <div className="flex items-start justify-end w-1/2">
               <IconButton onClick={() => resolve(false)} className="w-5 h-5">
-                <XMarkIcon className="w-5 h-5 text-white" />
+                <X className="w-5 h-5 text-white" />
               </IconButton>
             </div>
           </header>

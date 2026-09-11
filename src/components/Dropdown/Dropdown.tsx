@@ -1,6 +1,6 @@
 import { Children, type ReactNode, useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { cn } from "@lib/utils";
 interface DropdownProps {
@@ -66,7 +66,7 @@ export default function Dropdown({
         >
           {header}
           {showArrow && (
-            <ChevronDownIcon
+            <ChevronDown
               aria-hidden
               className={cn(
                 "size-4 transition-transform",

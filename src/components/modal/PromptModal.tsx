@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
+import { ClipboardList } from "lucide-react";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -71,7 +71,7 @@ export default function PromptModal({
                     setValue(await navigator.clipboard.readText())
                   }
                 >
-                  <ClipboardDocumentListIcon />
+                  <ClipboardList />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>붙여넣기</TooltipContent>

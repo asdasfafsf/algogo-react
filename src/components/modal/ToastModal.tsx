@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
-import {
-  CheckCircleIcon,
-  XCircleIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/solid";
-import { X } from "lucide-react";
+import { CircleAlert, CircleCheck, CircleX, X } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 
@@ -47,17 +42,17 @@ export default function ToastModal({
 
   switch (variant) {
     case "success":
-      iconElement = <CheckCircleIcon className="w-5 h-5" />;
+      iconElement = <CircleCheck className="w-5 h-5" />;
       iconContainerClass =
         "inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200";
       break;
     case "fail":
-      iconElement = <XCircleIcon className="w-5 h-5" />;
+      iconElement = <CircleX className="w-5 h-5" />;
       iconContainerClass =
         "inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200";
       break;
     default:
-      iconElement = <ExclamationCircleIcon className="w-5 h-5" />;
+      iconElement = <CircleAlert className="w-5 h-5" />;
       iconContainerClass =
         "inline-flex items-center justify-center shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200";
       break;

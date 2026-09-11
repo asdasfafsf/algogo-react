@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { Trash2 } from "lucide-react";
 import useTestCase from "@hook/useTestCase";
 import useExecuteTestCase from "@hook/useExecuteTestCase";
 import { Line, Typography, Textarea } from "@components/common/index";
@@ -62,7 +62,7 @@ export default function TestCaseModal({
                         onClick={() => removeTestCase(index)}
                         className="flex h-6 w-full cursor-pointer items-center justify-end bg-background"
                       >
-                        <TrashIcon className="w-5 h-5 text-gray-600" />
+                        <Trash2 className="w-5 h-5 text-gray-600" />
                       </Button>
                     )}
                   </div>

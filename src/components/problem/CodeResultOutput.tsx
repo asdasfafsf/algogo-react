@@ -1,9 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  ClipboardIcon,
-  TrashIcon,
-  PlayIcon,
-} from "@heroicons/react/24/outline";
+import { Clipboard, Play, Trash2 } from "lucide-react";
 import React from "react";
 import { Typography, Tooltip } from "@components/common/index";
 
@@ -54,7 +50,7 @@ export default function CodeResultOutput({
               className="size-8"
               onClick={handleClickRun}
             >
-              <PlayIcon className="size-5 text-emerald-600 dark:text-emerald-400" />
+              <Play className="size-5 text-emerald-600 dark:text-emerald-400" />
             </Button>
           </Tooltip>
           <Tooltip content="복사">
@@ -65,7 +61,7 @@ export default function CodeResultOutput({
               className="size-8"
               onClick={handleClickCopy}
             >
-              <ClipboardIcon className="size-5 text-foreground" />
+              <Clipboard className="size-5 text-foreground" />
             </Button>
           </Tooltip>
           <Tooltip content="지우기">
@@ -76,7 +72,7 @@ export default function CodeResultOutput({
               className="size-8"
               onClick={handleClickReset}
             >
-              <TrashIcon className="size-5 text-destructive" />
+              <Trash2 className="size-5 text-destructive" />
             </Button>
           </Tooltip>
         </div>

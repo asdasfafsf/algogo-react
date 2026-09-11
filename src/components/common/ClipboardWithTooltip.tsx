@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Typography, Tooltip } from "@components/common/index";
-import { CheckIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { CornerDownLeft as EnterIcon, Space as SpaceIcon } from "lucide-react";
+import {
+  Check,
+  Copy,
+  CornerDownLeft as EnterIcon,
+  Space as SpaceIcon,
+} from "lucide-react";
 import { writeTextToClipboard, type ClipboardWriteText } from "@lib/clipboard";
 
 const FEEDBACK_DURATION_MS = 2500;
@@ -136,9 +140,9 @@ export default function ClipboardWithTooltip({
             ))}
           </div>
           {copyStatus === "success" ? (
-            <CheckIcon className="w-4 h-4 text-white" />
+            <Check className="w-4 h-4 text-white" />
           ) : (
-            <DocumentDuplicateIcon className="w-4 h-4 text-white" />
+            <Copy className="w-4 h-4 text-white" />
           )}
         </Button>
       </Tooltip>
