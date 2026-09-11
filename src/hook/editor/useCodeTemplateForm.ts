@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { createTemplate, deleteTemplate, updateTemplate } from "@api/code";
 import useAlertModal from "@hook/useAlertModal";
 import useConfirmModal from "@hook/useConfirmModal";
-import useModal from "@plugins/modal/useModal";
 import useCodeEditorStore from "@zustand/CodeEditorStore";
 import {
   buildCreateTemplateRequest,
@@ -17,21 +16,19 @@ export type CodeTemplateFormOptions = {
   language: Language;
   uuid: string;
   isEdit: boolean;
-  modalKey: string;
   name: string;
   description: string;
   content: string;
+  resolve: (value: boolean) => void;
 };
 
 export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
-  const { language, uuid, isEdit, modalKey, name, description, content } =
+  const { language, uuid, isEdit, name, description, content, resolve } =
     options;
   const settings = useCodeEditorStore((state) => state.settings);
   const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
-  const modal = useModal();
   const [confirm] = useConfirmModal();
   const [alert] = useAlertModal();
-  const [isVisible, setIsVisible] = useState(false);
   const [templateName, setTemplateName] = useState(name);
   const [templateDescription, setTemplateDescription] = useState(description);
   const [templateLanguage, setTemplateLanguage] = useState<Language>(language);
@@ -43,24 +40,13 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
   const mutationLock = useRef(false);
 
   const closeModal = useCallback(() => {
-    setIsVisible(false);
-    modal.remove(modalKey);
-  }, [modal, modalKey]);
+    resolve(false);
+  }, [resolve]);
 
   const handleClose = useCallback(() => {
     if (mutationLock.current) return;
     closeModal();
   }, [closeModal]);
-
-  useEffect(() => {
-    setIsVisible(true);
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && modal?.top()?.key === modalKey)
-        handleClose();
-    };
-    window.addEventListener("keydown", handleEscKey);
-    return () => window.removeEventListener("keydown", handleEscKey);
-  }, [handleClose, modal, modalKey]);
 
   const handleDelete = useCallback(async () => {
     await runExclusiveTemplateMutation(mutationLock, async () => {
@@ -142,7 +128,6 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
 
   return {
     settings,
-    isVisible,
     templateName,
     setTemplateName,
     templateDescription,

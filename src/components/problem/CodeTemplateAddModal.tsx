@@ -13,13 +13,13 @@ import { languageList, monocoLanguageMap } from "@constant/Language";
 import Editor from "@monaco-editor/react";
 import { Checkbox } from "../Checkbox";
 import useCodeTemplateForm from "@hook/editor/useCodeTemplateForm";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 
-export interface CodeTemplateAddModalProps {
+export interface CodeTemplateAddModalProps extends ModalComponentProps<boolean> {
   title?: string;
   language?: Language;
   uuid?: string;
   isEdit?: boolean;
-  modalKey: string;
   description?: string;
   content?: string;
   name?: string;
@@ -30,10 +30,10 @@ export default function CodeTemplateAddModal({
   language = "Python",
   uuid = "",
   isEdit = false,
-  modalKey,
   name = "",
   description = "",
   content = "",
+  resolve,
 }: CodeTemplateAddModalProps) {
   const {
     settings,
@@ -57,10 +57,10 @@ export default function CodeTemplateAddModal({
     language,
     uuid,
     isEdit,
-    modalKey,
     name,
     description,
     content,
+    resolve,
   });
 
   return (

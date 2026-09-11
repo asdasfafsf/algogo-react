@@ -107,7 +107,6 @@ export default function useCodeTemplateDropdown(
         language,
         uuid,
         isEdit: true,
-        modalKey: "CODE_TEMPLATE_EDIT_MODAL",
         title: "코드 템플릿 수정/삭제",
         description: template.description,
         content: template.content,
@@ -121,7 +120,6 @@ export default function useCodeTemplateDropdown(
     const { code } = useCodeEditorStore.getState();
     modal.push("CODE_TEMPLATE_ADD_MODAL", templateModal, {
       language,
-      modalKey: "CODE_TEMPLATE_ADD_MODAL",
       content: code,
     });
   }, [language, modal, templateModal]);

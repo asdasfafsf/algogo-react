@@ -4,7 +4,6 @@ import useCodeEditorStore from "../zustand/CodeEditorStore";
 import useTestCaseListStore from "../zustand/TestCaseListStore";
 import { useExecuteSocketStore } from "../zustand/ExecuteSocketStore";
 import useAlertModal from "./useAlertModal";
-import useModal from "../plugins/modal/useModal";
 import useCodeResultPanelStore from "../zustand/CodeResultPanelStore";
 import { buildExecutionRequest } from "@/domain/editor/execution";
 import {
@@ -13,7 +12,7 @@ import {
 } from "@/application/editor/execute";
 import { toExecutionFailureResult } from "@/domain/execute/error";
 
-export default function useExecuteTestCase() {
+export default function useExecuteTestCase(onExecutionStarted?: () => void) {
   const setRunning = useTestCaseListStore((state) => state.setRunning);
   const handleExecute = useTestCaseListStore((state) => state.handleExecute);
   const handleRun = useTestCaseListStore((state) => state.handleRun);
@@ -24,7 +23,6 @@ export default function useExecuteTestCase() {
   );
   const refresh = useMeStore((state) => state.refresh);
   const [alert] = useAlertModal();
-  const modal = useModal();
 
   const handleTest = useCallback(async () => {
     const { connect } = useExecuteSocketStore.getState();
@@ -63,7 +61,7 @@ export default function useExecuteTestCase() {
           run,
         },
         () => {
-          if (modal?.top()?.key === "TESTCASE") modal.pop();
+          onExecutionStarted?.();
           setSelectedIndex(2);
           setRunning();
         },
@@ -80,7 +78,16 @@ export default function useExecuteTestCase() {
       showFailure(failure);
       await alert(failure.result);
     }
-  }, [state]);
+  }, [
+    alert,
+    handleExecute,
+    handleRun,
+    onExecutionStarted,
+    refresh,
+    setRunning,
+    setSelectedIndex,
+    state,
+  ]);
 
   return {
     state,

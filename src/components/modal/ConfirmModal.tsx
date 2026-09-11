@@ -1,4 +1,4 @@
-import useModal from "@plugins/modal/useModal";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Button } from "@components/ui/button";
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog";
-interface Props {
+interface Props extends ModalComponentProps<boolean> {
   content: string;
   title?: string;
   cancelText?: string;
@@ -19,9 +19,9 @@ export default function ConfirmModal({
   title = "확인",
   cancelText = "취소",
   confirmText = "확인",
+  resolve,
 }: Props) {
-  const modal = useModal();
-  const finish = (value: boolean) => modal.top()?.resolve(value);
+  const finish = (value: boolean) => resolve(value);
   return (
     <Dialog
       open

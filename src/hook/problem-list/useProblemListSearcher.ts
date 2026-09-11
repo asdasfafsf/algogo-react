@@ -1,13 +1,12 @@
-import { useProblemTableFilterStore } from '@zustand/ProblemTableFilterStore';
-import { useCallback, useRef, useState } from 'react';
-import { useProblemListStore } from '@zustand/ProblemListStore';
-import useModal from '@plugins/modal/useModal';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { resetProblemPage } from '@/domain/problems';
+import { useProblemTableFilterStore } from "@zustand/ProblemTableFilterStore";
+import { useCallback, useRef, useState } from "react";
+import { useProblemListStore } from "@zustand/ProblemListStore";
+import { useHotkeys } from "react-hotkeys-hook";
+import { resetProblemPage } from "@/domain/problems";
 
 export default function useProblemListSearcher() {
   const setProblemTitle = useProblemTableFilterStore(
-    state => state.setProblemTitle,
+    (state) => state.setProblemTitle,
   );
 
   const handleChangeProblemTitle = useCallback(
@@ -17,48 +16,48 @@ export default function useProblemListSearcher() {
     [setProblemTitle],
   );
 
-  const setPagingInfo = useProblemListStore(state => state.setPagingInfo);
+  const setPagingInfo = useProblemListStore((state) => state.setPagingInfo);
 
   const handleClickSearch = useCallback(() => {
     setPagingInfo(resetProblemPage);
   }, [setPagingInfo]);
 
-  const modal = useModal();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [focus, setFocus] = useState(false);
 
-  const handleFocus = useCallback(async () => {
+  const handleFocus = useCallback(() => {
     setFocus(true);
-    modal.push('PROBLEM_SEARCH_INPUT', null, {});
-  }, [setFocus]);
+  }, []);
 
-  const handleBlur = useCallback(async () => {
+  const handleBlur = useCallback(() => {
     setFocus(false);
-    modal.remove('PROBLEM_SEARCH_INPUT');
-  }, [setFocus]);
+  }, []);
 
   const handleKeyUp = useCallback(
     async (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         inputRef.current?.blur();
-      } else if (e.key === 'Enter') {
+      } else if (e.key === "Enter") {
         setPagingInfo(resetProblemPage);
         inputRef.current?.blur();
       }
     },
-    [modal, focus, setPagingInfo],
+    [setPagingInfo],
   );
 
   useHotkeys(
-    'mod+k',
-    e => {
+    "mod+k",
+    (e) => {
       e.preventDefault();
-      if (!modal?.top()?.Component && !focus) {
+      if (
+        !document.querySelector('[role="dialog"][data-state="open"]') &&
+        !focus
+      ) {
         inputRef.current?.focus();
       }
     },
-    [modal, focus],
+    [focus],
   );
 
   return {
