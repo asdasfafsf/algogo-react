@@ -1,3 +1,4 @@
+import "../loader/MonacoLoader";
 import ProblemSection from "@layout/problem/ProblemSection";
 import useProblemPage from "@hook/problem/useProblemPage";
 import Header from "@layout/Header";
