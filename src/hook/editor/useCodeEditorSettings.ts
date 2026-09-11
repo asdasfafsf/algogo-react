@@ -3,9 +3,13 @@ import {
   saveEditorSettings,
 } from "@/application/editor/settings";
 import { parseEditorTabSize } from "@/domain/editor/settingsForm";
+import {
+  getEditorSettingsSaveFailureMessage,
+  runExclusiveEditorSettingsSave,
+} from "@/domain/editor/settingsSave";
 import useCodeEditorStore from "@zustand/CodeEditorStore";
 import { useProblemContentSizeStore } from "@zustand/ProblemContentSizeStore";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
   const initialProblemContentSize = useProblemContentSizeStore(
@@ -26,26 +30,45 @@ export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
     initialProblemContentSize,
   );
   const [saveToServer, setSaveToServer] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const saveLock = useRef(false);
 
-  const close = useCallback(() => {
+  const closeModal = useCallback(() => {
     return cancelEditorSettings({
       close: () => resolve(false),
     });
   }, [resolve]);
 
+  const close = useCallback(() => {
+    if (saveLock.current) return;
+    return closeModal();
+  }, [closeModal]);
+
   const save = useCallback(
     () =>
-      saveEditorSettings(
-        { settings, problemContentSize, saveToServer },
-        {
-          setProblemContentSize,
-          setCodeEditorSettings,
-          updateCodeEditorSettings,
-          close,
-        },
-      ),
+      runExclusiveEditorSettingsSave(saveLock, async () => {
+        setIsSaving(true);
+        setSaveError(null);
+        try {
+          const result = await saveEditorSettings(
+            { settings, problemContentSize, saveToServer },
+            {
+              setProblemContentSize,
+              setCodeEditorSettings,
+              updateCodeEditorSettings,
+              close: closeModal,
+            },
+          );
+          if (result.type !== "success") {
+            setSaveError(getEditorSettingsSaveFailureMessage(result));
+          }
+        } finally {
+          setIsSaving(false);
+        }
+      }),
     [
-      close,
+      closeModal,
       problemContentSize,
       saveToServer,
       setCodeEditorSettings,
@@ -59,6 +82,8 @@ export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
     settings,
     problemContentSize,
     saveToServer,
+    isSaving,
+    saveError,
     close,
     save,
     selectProblemContentSize: setProblemContentSizeDraft,

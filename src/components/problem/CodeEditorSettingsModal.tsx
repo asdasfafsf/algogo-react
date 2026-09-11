@@ -23,6 +23,8 @@ export default function CodeEditorSettingsModal({
     settings,
     problemContentSize,
     saveToServer,
+    isSaving,
+    saveError,
     close,
     save,
     selectProblemContentSize,
@@ -53,7 +55,11 @@ export default function CodeEditorSettingsModal({
 
           {/* 본문 */}
           <div className="p-6">
-            <div className="grid gap-6 sm:grid-cols-2">
+            <fieldset
+              disabled={isSaving}
+              aria-busy={isSaving}
+              className="grid gap-6 sm:grid-cols-2"
+            >
               {/* 문제 설정 섹션 */}
               <section className="flex-1" aria-labelledby="problem-settings">
                 <h3
@@ -105,26 +111,45 @@ export default function CodeEditorSettingsModal({
                     <Checkbox
                       id="save-editor-settings"
                       checked={saveToServer}
+                      disabled={isSaving}
                       onCheckedChange={toggleSaveToServer}
                     />
                     <label
                       htmlFor="save-editor-settings"
-                      className="cursor-pointer text-sm font-medium text-foreground"
+                      className={`text-sm font-medium ${
+                        isSaving
+                          ? "cursor-not-allowed text-muted-foreground"
+                          : "cursor-pointer text-foreground"
+                      }`}
                     >
                       이 설정을 서버에 저장하기
                     </label>
                   </div>
                 </div>
               </section>
-            </div>
+            </fieldset>
+            {saveError && (
+              <p
+                role="alert"
+                className="mt-5 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+              >
+                {saveError}
+              </p>
+            )}
           </div>
 
           {/* 푸터 */}
           <div className="flex justify-end gap-2 border-t border-border px-8 py-6">
-            <Button variant="outline" onClick={close}>
+            <Button variant="outline" disabled={isSaving} onClick={close}>
               취소
             </Button>
-            <Button onClick={save}>저장</Button>
+            <Button
+              disabled={isSaving}
+              aria-busy={isSaving}
+              onClick={() => void save()}
+            >
+              {isSaving ? "저장 중..." : saveError ? "다시 저장" : "저장"}
+            </Button>
           </div>
         </div>
       </DialogContent>

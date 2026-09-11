@@ -58,6 +58,21 @@ assert.match(
   "settings checkbox must retain a clickable label",
 );
 assert.match(
+  sources.CodeEditorSettingsModal,
+  /<fieldset[\s\S]*disabled=\{isSaving\}[\s\S]*aria-busy=\{isSaving\}/,
+  "all settings inputs must be disabled while their snapshot is saving",
+);
+assert.match(
+  sources.CodeEditorSettingsModal,
+  /role="alert"/,
+  "settings save failures must remain visible for retry",
+);
+assert.match(
+  sources.CodeEditorSettingsModal,
+  /cursor-not-allowed[\s\S]*다시 저장/,
+  "settings pending and retry affordances must match their state",
+);
+assert.match(
   sources.CodeTemplateAddModal,
   /htmlFor="isDefault"/,
   "template checkbox must retain a clickable label",
