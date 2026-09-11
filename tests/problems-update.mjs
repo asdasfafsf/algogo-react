@@ -32,7 +32,7 @@ try {
   assert.deepEqual(f.events, []);
   f = fixture({ confirm: async () => false });
   await updateProblem(problem, f.ports);
-  assert.deepEqual(f.events, ["end"]);
+  assert.deepEqual(f.events, []);
   f = fixture({ calendarDay: () => ({ year: 2026, month: 8, date: 10 }) });
   await updateProblem(problem, f.ports);
   assert.deepEqual(f.events, [
@@ -40,7 +40,15 @@ try {
       "alert",
       "금일 해당 문제의 업데이트가 이미 수행되었습니다. 다음 날 다시 요청해주세요",
     ],
-    "end",
+  ]);
+  f = fixture({
+    confirm: async () => {
+      throw new Error("confirm failed");
+    },
+  });
+  await updateProblem(problem, f.ports);
+  assert.deepEqual(f.events, [
+    ["alert", "문제를 업데이트하지 못했습니다. 잠시 후 다시 시도해 주세요."],
   ]);
   f = fixture();
   await updateProblem(problem, f.ports);
@@ -61,7 +69,6 @@ try {
     "start",
     ["alert", "문제를 업데이트하지 못했습니다. 잠시 후 다시 시도해 주세요."],
     "end",
-    "end",
   ]);
   f = fixture({
     collect: async () => {
@@ -73,10 +80,9 @@ try {
     "start",
     ["alert", "문제를 업데이트하지 못했습니다. 잠시 후 다시 시도해 주세요."],
     "end",
-    "end",
   ]);
   console.log(
-    "PASS: 문제 갱신 없음/취소/당일 제한/성공/업무 오류/통신 오류의 기존 흐름",
+    "PASS: 문제 갱신 없음/취소/확인 오류/당일 제한/성공/업무 오류/통신 오류의 로딩 균형",
   );
 } finally {
   await server.close();

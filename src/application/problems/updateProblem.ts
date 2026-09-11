@@ -24,6 +24,7 @@ export async function updateProblem(
   ports: UpdateProblemPorts,
 ) {
   if (!problem) return;
+
   try {
     if (!(await ports.confirm("문제를 업데이트 할까요?"))) return;
     if (
@@ -34,17 +35,21 @@ export async function updateProblem(
       );
       return;
     }
-    ports.startLoading();
+  } catch {
+    await ports.alert(problemUpdateFailureMessage);
+    return;
+  }
+
+  ports.startLoading();
+  try {
     const response = await ports.collect({ url: problem.sourceUrl });
     if (response.errorCode !== "0000") {
       await ports.alert(problemUpdateFailureMessage);
-      ports.endLoading();
       return;
     }
     ports.reload();
   } catch {
     await ports.alert(problemUpdateFailureMessage);
-    ports.endLoading();
   } finally {
     ports.endLoading();
   }
