@@ -14,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@components/ui/table";
-import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import {
   Tooltip,
@@ -22,7 +21,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
-import { ProblemLevelChip } from "@components/Chip";
+import {
+  ProblemCategoryBadgeList,
+  ProblemCategoryChip,
+  ProblemLevelChip,
+} from "@components/Chip";
 import useProblemListTable from "@hook/problem-list/useProblemListTable";
 import ProblemThSort from "./ProblemListThSort";
 import ProblemListTableSkeleton from "./ProblemListTableSkeleton";
@@ -37,7 +40,6 @@ import {
 import { PROBLEM_STATE } from "@constant/problem.state.constant";
 import type { ProblemState } from "@/type/Problem.type";
 import {
-  formatProblemCategory,
   formatProblemLevel,
   formatProblemNumber,
 } from "@/domain/problems/problemPresentation";
@@ -195,7 +197,6 @@ export default function ProblemListTable() {
           ) : (
             <TableBody>
               {problemList.map((problem) => {
-                const category = formatProblemCategory(problem.typeList);
                 return (
                   <TableRow
                     key={problem.uuid}
@@ -242,16 +243,14 @@ export default function ProblemListTable() {
                       title={problem.typeList?.join(", ")}
                     >
                       {problemHidden["카테고리"] ? (
-                        <Badge variant="secondary">카테고리 숨김</Badge>
-                      ) : category === "-" ? (
+                        <ProblemCategoryChip category="알고리즘 유형 숨김" />
+                      ) : !problem.typeList?.length ? (
                         <span className="text-muted-foreground">-</span>
                       ) : (
-                        <Badge
-                          variant="secondary"
-                          className="max-w-full truncate"
-                        >
-                          {category}
-                        </Badge>
+                        <ProblemCategoryBadgeList
+                          categories={problem.typeList}
+                          className="max-w-full"
+                        />
                       )}
                     </TableCell>
                     <TableCell className="text-center text-muted-foreground">

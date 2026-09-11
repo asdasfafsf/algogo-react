@@ -1,4 +1,5 @@
-import Chip from "./Chip";
+import { badgeVariants } from "@components/ui/badge";
+import { cn } from "@lib/utils";
 
 interface ProblemLevelChipProps {
   level: ProblemLevel;
@@ -24,24 +25,26 @@ export function getBackgroundClassName(level: ProblemLevel) {
   if (level.indexOf("루비") > -1) {
     return "border-tier-ruby/20 bg-tier-ruby/10 text-tier-ruby hover:bg-tier-ruby/15";
   }
-  if (level.indexOf("숨김") > -1) {
-    return "bg-muted text-muted-foreground";
-  }
 
-  return "bg-muted text-muted-foreground";
+  return "border-border bg-muted text-muted-foreground hover:bg-muted/80";
 }
 
 export default function ProblemLevelChip({
   level,
-  className = "",
+  className,
 }: ProblemLevelChipProps) {
   const label = level.replace("다이아 ", "다이아몬드 ");
 
   return (
-    <Chip
-      variant="ghost"
-      className={`${className} rounded-full px-2.5 py-0.5 text-xs font-medium shadow-none ${getBackgroundClassName(level)}`}
-      value={level === "숨김" ? "난이도 숨김" : label}
-    />
+    <span
+      className={cn(
+        badgeVariants({ variant: "secondary" }),
+        "rounded-full border px-2.5 py-0.5 text-xs font-medium shadow-none whitespace-nowrap",
+        getBackgroundClassName(level),
+        className,
+      )}
+    >
+      {level === "숨김" ? "가려짐" : label}
+    </span>
   );
 }
