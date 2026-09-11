@@ -1,53 +1,53 @@
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Button } from "@components/ui/button";
+import { DialogDescription } from "@components/ui/dialog";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@components/ui/dialog";
-interface Props extends ModalComponentProps<boolean> {
-  content: string;
+  ModalBody,
+  ModalFooter,
+  ModalSurface,
+} from "@components/ui/modal-surface";
+
+export interface ConfirmModalOptions {
   title?: string;
   cancelText?: string;
   confirmText?: string;
+  variant?: "default" | "destructive";
+}
+
+interface Props extends ModalComponentProps<boolean>, ConfirmModalOptions {
+  content: string;
 }
 export default function ConfirmModal({
   content,
   title = "확인",
   cancelText = "취소",
   confirmText = "확인",
+  variant = "default",
   resolve,
 }: Props) {
   const finish = (value: boolean) => resolve(value);
   return (
-    <Dialog
+    <ModalSurface
       open
       onOpenChange={(open) => {
         if (!open) finish(false);
       }}
+      size="sm"
+      title={title}
     >
-      <DialogContent className="max-w-[400px]">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription className="min-h-16 pt-3 text-[15px] leading-relaxed">
-            {content}
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => finish(false)}>
-            {cancelText}
-          </Button>
-          <Button
-            className="bg-blue-600 hover:bg-blue-700"
-            onClick={() => finish(true)}
-          >
-            {confirmText}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      <ModalBody>
+        <DialogDescription className="break-words text-[15px] leading-6 text-foreground/80">
+          {content}
+        </DialogDescription>
+      </ModalBody>
+      <ModalFooter>
+        <Button variant="outline" onClick={() => finish(false)}>
+          {cancelText}
+        </Button>
+        <Button variant={variant} onClick={() => finish(true)}>
+          {confirmText}
+        </Button>
+      </ModalFooter>
+    </ModalSurface>
   );
 }

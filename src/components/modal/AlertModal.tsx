@@ -1,13 +1,11 @@
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Button } from "@components/ui/button";
+import { DialogDescription } from "@components/ui/dialog";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@components/ui/dialog";
+  ModalBody,
+  ModalFooter,
+  ModalSurface,
+} from "@components/ui/modal-surface";
 interface Props extends ModalComponentProps<boolean> {
   content: string;
   title?: string;
@@ -21,28 +19,22 @@ export default function AlertModal({
 }: Props) {
   const close = () => resolve(false);
   return (
-    <Dialog
+    <ModalSurface
       open
       onOpenChange={(open) => {
         if (!open) close();
       }}
+      size="sm"
+      title={title}
     >
-      <DialogContent className="max-w-[400px]">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription className="pt-3 text-[15px] leading-relaxed">
-            {content}
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button
-            onClick={close}
-            className="min-w-20 bg-blue-600 hover:bg-blue-700"
-          >
-            {confirmText}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      <ModalBody>
+        <DialogDescription className="break-words text-[15px] leading-6 text-foreground/80">
+          {content}
+        </DialogDescription>
+      </ModalBody>
+      <ModalFooter>
+        <Button onClick={close}>{confirmText}</Button>
+      </ModalFooter>
+    </ModalSurface>
   );
 }
