@@ -17,6 +17,13 @@ interface CodeTestCaseTableProps {
   executeResultList: TestCase[];
 }
 
+const testCaseColumns = [
+  { label: "입력", width: "28%" },
+  { label: "출력", width: "28%" },
+  { label: "예상 결과", width: "28%" },
+  { label: "일치 여부", width: "16%" },
+] as const;
+
 export default function CodeTestCaseTable({
   executeResultList,
 }: CodeTestCaseTableProps) {
@@ -58,21 +65,24 @@ export default function CodeTestCaseTable({
         </div>
       </div>
       <Card className="h-[calc(100%-52px)] w-full overflow-auto rounded-none border-0 bg-background shadow-none">
-        <ShadcnTable className="min-w-max table-fixed bg-background text-center">
+        <ShadcnTable className="min-w-[640px] table-fixed bg-background text-center">
+          <colgroup>
+            {testCaseColumns.map((column) => (
+              <col key={column.label} style={{ width: column.width }} />
+            ))}
+          </colgroup>
           <ShadcnTableHeader>
             <ShadcnTableRow>
-              {["입력", "출력", "예상 결과", "일치 여부"].map(
-                (head, index, arr) => (
-                  <ShadcnTableHead
-                    key={head}
-                    className={`${index + 1 !== arr.length ? "w-[28%]" : "w-[16%]"} border-b border-border bg-muted/20 p-4`}
-                  >
-                    <span className="text-sm font-normal leading-none text-muted-foreground">
-                      {head}
-                    </span>
-                  </ShadcnTableHead>
-                ),
-              )}
+              {testCaseColumns.map((column) => (
+                <ShadcnTableHead
+                  key={column.label}
+                  className="border-b border-border bg-muted/20 p-4"
+                >
+                  <span className="text-sm font-normal leading-none text-muted-foreground">
+                    {column.label}
+                  </span>
+                </ShadcnTableHead>
+              ))}
             </ShadcnTableRow>
           </ShadcnTableHeader>
           <ShadcnTableBody className="bg-background">
@@ -83,22 +93,22 @@ export default function CodeTestCaseTable({
 
                 return (
                   <ShadcnTableRow className="h-12" key={index}>
-                    <ShadcnTableCell className={`${classes} w-[28%]`}>
+                    <ShadcnTableCell className={classes}>
                       <span className="wrap-break-word text-center text-sm font-normal">
                         {input}
                       </span>
                     </ShadcnTableCell>
-                    <ShadcnTableCell className={`${classes} w-[28%]`}>
+                    <ShadcnTableCell className={classes}>
                       <span className="wrap-break-word text-center text-sm font-normal">
                         {output}
                       </span>
                     </ShadcnTableCell>
-                    <ShadcnTableCell className={`${classes} w-[28%]`}>
+                    <ShadcnTableCell className={classes}>
                       <span className="wrap-break-word text-center text-sm font-normal">
                         {expected}
                       </span>
                     </ShadcnTableCell>
-                    <ShadcnTableCell className={`${classes} w-16%`}>
+                    <ShadcnTableCell className={classes}>
                       <span
                         className={`wrap-break-word text-sm font-normal ${
                           state === "불일치"
