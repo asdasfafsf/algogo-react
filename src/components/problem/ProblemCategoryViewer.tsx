@@ -17,11 +17,23 @@ export function ProblemCategoryViewer({
   const [categoryState, tooltipContent, handleClick] =
     useProblemCategoryViewer(initialState);
 
+  if (categoryList.length === 0) {
+    return (
+      <section className="space-y-2">
+        <h2 className="flex items-center gap-1.5 text-sm font-semibold uppercase leading-none tracking-wide text-muted-foreground">
+          <Tag className="size-3.5 shrink-0" aria-hidden="true" />
+          <span>태그</span>
+        </h2>
+        <p className="text-sm text-muted-foreground">등록된 태그가 없습니다.</p>
+      </section>
+    );
+  }
+
   return (
     <section className="space-y-2">
-      <h2 className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-        <Tag className="size-3.5" />
-        태그
+      <h2 className="flex items-center gap-1.5 text-sm font-semibold uppercase leading-none tracking-wide text-muted-foreground">
+        <Tag className="size-3.5 shrink-0" aria-hidden="true" />
+        <span>태그</span>
       </h2>
       <div>
         <Tooltip content={tooltipContent} placement="top-start">
@@ -33,8 +45,6 @@ export function ProblemCategoryViewer({
             <span className="flex flex-wrap gap-2">
               {categoryState === "hide" ? (
                 <ProblemCategoryChip category="알고리즘 유형 숨김" />
-              ) : categoryState === "none" ? (
-                <ProblemCategoryChip category="알 수 없음" />
               ) : (
                 categoryList.map((category) => (
                   <ProblemCategoryChip key={category} category={category} />
