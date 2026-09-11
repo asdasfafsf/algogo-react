@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import useModal from "@plugins/modal/useModal";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import {
@@ -17,7 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog";
-interface Props {
+interface Props extends ModalComponentProps<string | boolean> {
   content: string;
   defaultValue?: string | boolean;
   title?: string;
@@ -26,12 +26,12 @@ export default function PromptModal({
   title = "입력",
   defaultValue = "",
   content,
+  resolve,
 }: Props) {
-  const modal = useModal();
   const [value, setValue] = useState(
     typeof defaultValue === "string" ? defaultValue : "",
   );
-  const finish = (result: string | boolean) => modal.top()?.resolve(result);
+  const finish = (result: string | boolean) => resolve(result);
   return (
     <Dialog
       open

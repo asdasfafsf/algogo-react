@@ -46,9 +46,7 @@ export default function CodeTestCaseTable({
         </div>
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
           <Button
-            onClick={() =>
-              modal.push("TESTCASE", TestCaseModal, {}) as Promise<void>
-            }
+            onClick={() => modal.push("TESTCASE", TestCaseModal, {})}
             color="blue"
             disabled={state === "PENDING"}
             className={

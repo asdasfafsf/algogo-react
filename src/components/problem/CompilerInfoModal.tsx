@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import useModal from "@plugins/modal/useModal";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Typography } from "@components/common/index";
 import { Button } from "@components/Button/index";
 import { Card } from "@components/Card";
@@ -64,11 +64,10 @@ const compilerData: CompilerInfo[] = [
   },
 ];
 
-export default function CompilerInfoModal() {
-  const modal = useModal();
-  const handleClose = () => {
-    modal.top()?.resolve(false);
-  };
+export default function CompilerInfoModal({
+  resolve,
+}: ModalComponentProps<boolean>) {
+  const handleClose = () => resolve(false);
 
   return (
     <Dialog

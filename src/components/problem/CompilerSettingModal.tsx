@@ -7,17 +7,17 @@ import {
 } from "@/components/ui/dialog";
 import { IconButton } from "@components/Button/index";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import useModal from "@plugins/modal/useModal";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Typography } from "@components/common/index";
 
-export default function CompilerSettingModal() {
-  const modal = useModal();
-
+export default function CompilerSettingModal({
+  resolve,
+}: ModalComponentProps<boolean>) {
   return (
     <Dialog
       open={true}
       onOpenChange={(open) => {
-        if (!open) (() => modal.top().resolve(false))();
+        if (!open) resolve(false);
       }}
     >
       <DialogContent className="max-h-[90dvh] max-w-2xl overflow-y-auto p-0">
@@ -31,10 +31,7 @@ export default function CompilerSettingModal() {
               <Typography variant="h6">컴파일러 세팅</Typography>
             </div>
             <div className="flex items-start justify-end w-1/2">
-              <IconButton
-                onClick={() => modal.top().resolve(false)}
-                className="w-5 h-5"
-              >
+              <IconButton onClick={() => resolve(false)} className="w-5 h-5">
                 <XMarkIcon className="w-5 h-5 text-white" />
               </IconButton>
             </div>

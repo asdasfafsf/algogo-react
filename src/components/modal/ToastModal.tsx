@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback } from "react";
-import useModal from "@plugins/modal/useModal";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import {
   CheckCircleIcon,
   XCircleIcon,
@@ -9,55 +9,38 @@ import { X } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 
-interface ToastModalProps {
+interface ToastModalProps extends ModalComponentProps<boolean> {
   content: string;
   duration?: number;
   variant?: "default" | "success" | "fail";
-  modalKey: string;
 }
 
 export default function ToastModal({
   content,
   duration = 3000,
   variant = "default",
-  modalKey,
+  resolve,
 }: ToastModalProps) {
-  const modal = useModal();
   const [isVisible, setIsVisible] = useState(false);
+  const isClosing = useRef(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClose = useCallback(() => {
-    if (modal?.top().key === `Toast-${modalKey}`) {
-      setIsVisible(false);
-      setTimeout(() => {
-        modal.top().resolve(true);
-      }, 300);
-    }
-  }, [modal]);
+    if (isClosing.current) return;
+
+    isClosing.current = true;
+    setIsVisible(false);
+    closeTimer.current = setTimeout(() => resolve(true), 300);
+  }, [resolve]);
 
   useEffect(() => {
     setIsVisible(true);
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        modal.remove(`Toast-${modalKey}`);
-        setIsVisible(false);
-      }, 300);
-    }, duration);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleClose();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeydown);
+    const timer = setTimeout(handleClose, duration);
     return () => {
-      window.removeEventListener("keydown", handleKeydown);
+      clearTimeout(timer);
+      if (closeTimer.current) clearTimeout(closeTimer.current);
     };
-  }, [modal]);
+  }, [duration, handleClose]);
 
   let iconElement;
   let iconContainerClass = "";

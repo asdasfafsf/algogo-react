@@ -15,8 +15,11 @@ import CodeEditorTabSizer from "./CodeEditorTabSizer";
 import CodeEditorLineNumberDropdown from "./CodeEditorLineNumberDropdown";
 import CodeEditorProblemResizer from "./CodeEditorProblemResizer";
 import CodeEditorDefaultLanguageDropdown from "./CodeEditorDefaultLanguageDropdown";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 
-export default function CodeEditorSettingsModal() {
+export default function CodeEditorSettingsModal({
+  resolve,
+}: ModalComponentProps<boolean>) {
   const {
     settings,
     problemContentSize,
@@ -30,7 +33,7 @@ export default function CodeEditorSettingsModal() {
     selectLineNumber,
     selectDefaultLanguage,
     toggleSaveToServer,
-  } = useCodeEditorSettings();
+  } = useCodeEditorSettings(resolve);
 
   return (
     <Dialog

@@ -1,4 +1,4 @@
-import useModal from "@plugins/modal/useModal";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 import { Button } from "@components/ui/button";
 import {
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog";
-interface Props {
+interface Props extends ModalComponentProps<boolean> {
   content: string;
   title?: string;
   confirmText?: string;
@@ -17,9 +17,9 @@ export default function AlertModal({
   content,
   title = "알림",
   confirmText = "확인",
+  resolve,
 }: Props) {
-  const modal = useModal();
-  const close = () => modal.top()?.resolve(false);
+  const close = () => resolve(false);
   return (
     <Dialog
       open
@@ -27,10 +27,7 @@ export default function AlertModal({
         if (!open) close();
       }}
     >
-      <DialogContent
-        className="max-w-[400px]"
-        onEscapeKeyDown={(e) => e.stopPropagation()}
-      >
+      <DialogContent className="max-w-[400px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription className="pt-3 text-[15px] leading-relaxed">

@@ -3,13 +3,11 @@ import {
   saveEditorSettings,
 } from "@/application/editor/settings";
 import { parseEditorTabSize } from "@/domain/editor/settingsForm";
-import useModal from "@plugins/modal/useModal";
 import useCodeEditorStore from "@zustand/CodeEditorStore";
 import { useProblemContentSizeStore } from "@zustand/ProblemContentSizeStore";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
-export const useCodeEditorSettings = () => {
-  const modal = useModal();
+export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
   const initialProblemContentSize = useProblemContentSizeStore(
     (state) => state.size,
   );
@@ -31,17 +29,9 @@ export const useCodeEditorSettings = () => {
 
   const close = useCallback(() => {
     return cancelEditorSettings({
-      close: () => modal.top().resolve(false),
+      close: () => resolve(false),
     });
-  }, [modal]);
-
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
-    };
-    window.addEventListener("keydown", handleKeydown);
-    return () => window.removeEventListener("keydown", handleKeydown);
-  }, [close]);
+  }, [resolve]);
 
   const save = useCallback(
     () =>

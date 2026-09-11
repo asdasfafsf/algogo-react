@@ -1,5 +1,4 @@
-import { useCallback, useEffect } from "react";
-import useModal from "../plugins/modal/useModal";
+import { useCallback } from "react";
 import { useTestCaseListStore } from "../zustand/TestCaseListStore";
 import {
   addTestCase,
@@ -7,36 +6,11 @@ import {
   updateTestCase,
 } from "@/domain/editor/testCases";
 
-export default function useTestCase() {
-  const modal = useModal();
+export default function useTestCase(resolve: (value: boolean) => void) {
   const testCaseList = useTestCaseListStore((state) => state.testCaseList);
   const setTestCaseList = useTestCaseListStore(
     (state) => state.setTestCaseList,
   );
-
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "Escape":
-          modal.top()?.resolve(false);
-          break;
-        default:
-          break;
-      }
-    };
-
-    if (!modal.top()) {
-      return () => {
-        window.removeEventListener("keydown", handleKeydown);
-      };
-    }
-
-    window.addEventListener("keydown", handleKeydown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeydown);
-    };
-  }, [modal]);
 
   const handleClickAddTestCase = useCallback(() => {
     setTestCaseList(addTestCase(testCaseList));
@@ -50,8 +24,8 @@ export default function useTestCase() {
   );
 
   const handleClickClose = useCallback(() => {
-    modal.top()?.resolve(false);
-  }, [modal]);
+    resolve(false);
+  }, [resolve]);
 
   const handleChangeInput = useCallback(
     (index: number, value: string) => {

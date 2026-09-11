@@ -64,8 +64,14 @@ const DialogContent = React.forwardRef<
             const opener = openerRef.current;
             if (!opener?.isConnected || opener.matches(":disabled")) return;
 
-            event.preventDefault();
-            opener.focus({ preventScroll: true });
+            queueMicrotask(() => {
+              if (
+                document.activeElement === document.body ||
+                document.activeElement === document.documentElement
+              ) {
+                opener.focus({ preventScroll: true });
+              }
+            });
           }}
           {...props}
         >

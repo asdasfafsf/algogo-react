@@ -11,8 +11,11 @@ import useExecuteTestCase from "@hook/useExecuteTestCase";
 import { Line, Typography, Textarea } from "@components/common/index";
 import { Button } from "@components/Button/index";
 import { Chip } from "@components/Chip/index";
+import type { ModalComponentProps } from "@plugins/modal/ModalController";
 
-export default function TestCaseModal() {
+export default function TestCaseModal({
+  resolve,
+}: ModalComponentProps<boolean>) {
   const {
     testCaseList,
     handleClickAddTestCase,
@@ -20,9 +23,9 @@ export default function TestCaseModal() {
     handleClickClose,
     handleChangeInput,
     handleChangeOutput,
-  } = useTestCase();
+  } = useTestCase(resolve);
 
-  const { handleTest } = useExecuteTestCase();
+  const { handleTest } = useExecuteTestCase(() => resolve(false));
 
   return (
     <Dialog
