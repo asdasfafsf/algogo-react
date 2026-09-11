@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ProblemCategoryChip } from "@components/Chip/index";
-import { Tooltip } from "@components/common/index";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import useProblemCategoryViewer from "@hook/useProblemCategoryViewer";
 import { Tag } from "lucide-react";
 import React from "react";
@@ -36,23 +41,31 @@ export function ProblemCategoryViewer({
         <span>태그</span>
       </h2>
       <div>
-        <Tooltip content={tooltipContent} placement="top-start">
-          <Button
-            variant="ghost"
-            onClick={handleClick}
-            className="h-auto cursor-pointer p-0 hover:bg-transparent"
-          >
-            <span className="flex flex-wrap gap-2">
-              {categoryState === "hide" ? (
-                <ProblemCategoryChip category="알고리즘 유형 숨김" />
-              ) : (
-                categoryList.map((category) => (
-                  <ProblemCategoryChip key={category} category={category} />
-                ))
-              )}
-            </span>
-          </Button>
-        </Tooltip>
+        <TooltipProvider delayDuration={300}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                onClick={handleClick}
+                aria-label={tooltipContent}
+                className="h-auto cursor-pointer p-0 hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <span className="flex flex-wrap gap-2">
+                  {categoryState === "hide" ? (
+                    <ProblemCategoryChip category="알고리즘 유형 숨김" />
+                  ) : (
+                    categoryList.map((category) => (
+                      <ProblemCategoryChip key={category} category={category} />
+                    ))
+                  )}
+                </span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top" align="start">
+              {tooltipContent}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </section>
   );

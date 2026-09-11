@@ -1,11 +1,4 @@
-import Dropdown from './Dropdown';
-import ProfileMenu from './ProfileMenu';
-import DropUp from './DropUp';
-import DropUpItem from './DropUpItem';
+import Dropdown from "./Dropdown";
+import ProfileMenu from "./ProfileMenu";
 
-export {
-  Dropdown,
-  ProfileMenu,
-  DropUp,
-  DropUpItem,
-};
+export { Dropdown, ProfileMenu };
