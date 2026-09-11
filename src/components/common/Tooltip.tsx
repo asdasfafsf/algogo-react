@@ -9,6 +9,8 @@ interface WrappedTooltipProps {
   className?: string;
   children: ReactElement;
   content: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   placement?:
     | "top"
     | "top-start"
@@ -28,6 +30,8 @@ export default function Tooltip({
   content,
   className = "",
   placement = "top",
+  open,
+  onOpenChange,
 }: WrappedTooltipProps) {
   const [side, edge] = placement.split("-") as [
     "top" | "bottom" | "left" | "right",
@@ -35,7 +39,7 @@ export default function Tooltip({
   ];
   return (
     <TooltipProvider delayDuration={300}>
-      <Root>
+      <Root open={open} onOpenChange={onOpenChange}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           side={side}
