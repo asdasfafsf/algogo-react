@@ -8,9 +8,8 @@ import {
 } from "@/components/ui/table";
 import useExecuteTestCase from "@hook/useExecuteTestCase";
 import useModal from "@plugins/modal/useModal";
-import { Button } from "@components/Button";
+import { Button } from "@/components/ui/button";
 import { Card } from "@components/ui/card";
-import { Typography } from "@components/common";
 import TestCaseModal from "./TestCaseModal";
 import { summarizeTestCases } from "@/domain/editor/testCases";
 
@@ -30,38 +29,29 @@ export default function CodeTestCaseTable({
         <div className="flex items-center gap-2 ml-2">
           <div className="flex items-center gap-1 rounded bg-emerald-500/10 px-3 py-1">
             <div className="w-2 h-2 rounded-full bg-green-500" />
-            <Typography
-              variant="small"
-              className="font-medium text-emerald-600 dark:text-emerald-400"
-            >
+            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
               성공 {summary.success}
-            </Typography>
+            </span>
           </div>
           <div className="flex items-center gap-1 rounded bg-red-500/10 px-3 py-1">
             <div className="w-2 h-2 rounded-full bg-red-500" />
-            <Typography variant="small" className="text-red-500 font-medium">
+            <span className="text-sm font-medium text-red-500">
               실패 {summary.failure}
-            </Typography>
+            </span>
           </div>
         </div>
         <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
           <Button
             onClick={() => modal.push("TESTCASE", TestCaseModal, {})}
-            color="blue"
             disabled={state === "PENDING"}
-            className={
-              state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
-            }
+            className="shrink-0"
           >
             테스트 케이스 추가
           </Button>
           <Button
             onClick={handleTest}
-            color="blue"
             disabled={state === "PENDING"}
-            className={
-              state === "PENDING" ? "bg-gray-600 cursor-not-allowed" : ""
-            }
+            className="shrink-0"
           >
             테스트
           </Button>
@@ -77,12 +67,9 @@ export default function CodeTestCaseTable({
                     key={head}
                     className={`${index + 1 !== arr.length ? "w-[28%]" : "w-[16%]"} border-b border-border bg-muted/20 p-4`}
                   >
-                    <Typography
-                      variant="small"
-                      className="font-normal leading-none text-muted-foreground"
-                    >
+                    <span className="text-sm font-normal leading-none text-muted-foreground">
                       {head}
-                    </Typography>
+                    </span>
                   </ShadcnTableHead>
                 ),
               )}
@@ -96,44 +83,33 @@ export default function CodeTestCaseTable({
 
                 return (
                   <ShadcnTableRow className="h-12" key={index}>
-                    <ShadcnTableCell className={`${classes} w-28%`}>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-center wrap-break-word"
-                      >
+                    <ShadcnTableCell className={`${classes} w-[28%]`}>
+                      <span className="wrap-break-word text-center text-sm font-normal">
                         {input}
-                      </Typography>
+                      </span>
                     </ShadcnTableCell>
-                    <ShadcnTableCell className={`${classes} w-28%`}>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-center wrap-break-word"
-                      >
+                    <ShadcnTableCell className={`${classes} w-[28%]`}>
+                      <span className="wrap-break-word text-center text-sm font-normal">
                         {output}
-                      </Typography>
+                      </span>
                     </ShadcnTableCell>
-                    <ShadcnTableCell className={`${classes} w-28%`}>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-center wrap-break-word"
-                      >
+                    <ShadcnTableCell className={`${classes} w-[28%]`}>
+                      <span className="wrap-break-word text-center text-sm font-normal">
                         {expected}
-                      </Typography>
+                      </span>
                     </ShadcnTableCell>
                     <ShadcnTableCell className={`${classes} w-16%`}>
-                      <Typography
-                        variant="small"
-                        color={
+                      <span
+                        className={`wrap-break-word text-sm font-normal ${
                           state === "불일치"
-                            ? "red"
+                            ? "text-red-500"
                             : state === "일치"
-                              ? "green"
-                              : "gray"
-                        }
-                        className="font-normal wrap-break-word"
+                              ? "text-green-600"
+                              : "text-muted-foreground"
+                        }`}
                       >
                         {state}
-                      </Typography>
+                      </span>
                     </ShadcnTableCell>
                   </ShadcnTableRow>
                 );

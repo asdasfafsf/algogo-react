@@ -1,10 +1,15 @@
 import useProblemUpdate from "@hook/problem/useProblemUpdate";
 import { FileText, RefreshCw, Settings } from "lucide-react";
 import useModal from "@plugins/modal/useModal";
-import { IconButton } from "@components/Button/index";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import CodeEditorSettingsModal from "./CodeEditorSettingsModal";
 import CompilerInfoModal from "./CompilerInfoModal";
-import { Tooltip } from "../common";
 import { Problem } from "@/type/Problem.type";
 
 interface ProblemNavbarProps {
@@ -16,55 +21,80 @@ export default function ProblemNavbar({ problem }: ProblemNavbarProps) {
 
   return (
     <nav aria-label="문제 도구" className="flex shrink-0">
-      <div className="flex items-center justify-end w-full h-full gap-0 p-0 px-2 text-white">
-        <Tooltip
-          className="bg-slate-500"
-          content="문제 새로고침"
-          placement="bottom"
-        >
-          <div className="flex items-center justify-center w-10 h-full">
-            <IconButton
-              aria-label="문제 새로고침"
-              onClick={handleClickUpdate}
-              className="text-white bg-gray-900 w-9 h-9"
+      <TooltipProvider delayDuration={300}>
+        <div className="flex h-full w-full items-center justify-end gap-0 px-2 text-white">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex h-full w-10 items-center justify-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="문제 새로고침"
+                  onClick={handleClickUpdate}
+                  className="size-9 text-white hover:bg-white/10 hover:text-white"
+                >
+                  <RefreshCw aria-hidden className="size-6 text-white" />
+                </Button>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent
+              side="bottom"
+              align="center"
+              className="bg-slate-500"
             >
-              <RefreshCw className="w-6 h-6 text-white" color="white" />
-            </IconButton>
-          </div>
-        </Tooltip>
-        <Tooltip
-          className="bg-slate-500"
-          content="컴파일러 정보"
-          placement="bottom"
-        >
-          <div className="flex items-center justify-center w-10 h-full">
-            <IconButton
-              aria-label="컴파일러 정보"
-              className="text-white bg-gray-900 w-9 h-9"
-              onClick={() => {
-                modal.push("CompilerInfo", CompilerInfoModal, {});
-              }}
+              문제 새로고침
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex h-full w-10 items-center justify-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="컴파일러 정보"
+                  className="size-9 text-white hover:bg-white/10 hover:text-white"
+                  onClick={() => {
+                    modal.push("CompilerInfo", CompilerInfoModal, {});
+                  }}
+                >
+                  <FileText aria-hidden className="size-6 text-white" />
+                </Button>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent
+              side="bottom"
+              align="center"
+              className="bg-slate-500"
             >
-              <FileText className="w-6 h-6 text-white" color="white" />
-            </IconButton>
-          </div>
-        </Tooltip>
-
-        <Tooltip className="bg-slate-500" content="설정" placement="bottom-end">
-          <div className="flex items-center justify-center w-10 h-full">
-            <IconButton
-              aria-label="화면 설정"
-              // ripple
-              className="text-white bg-gray-900 w-9 h-9"
-              onClick={async () => {
-                modal.push("CODE_EDITOR_SETTINGS", CodeEditorSettingsModal, {});
-              }}
-            >
-              <Settings className="w-6 h-6 text-white" color="white" />
-            </IconButton>
-          </div>
-        </Tooltip>
-      </div>
+              컴파일러 정보
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex h-full w-10 items-center justify-center">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="화면 설정"
+                  className="size-9 text-white hover:bg-white/10 hover:text-white"
+                  onClick={() => {
+                    modal.push(
+                      "CODE_EDITOR_SETTINGS",
+                      CodeEditorSettingsModal,
+                      {},
+                    );
+                  }}
+                >
+                  <Settings aria-hidden className="size-6 text-white" />
+                </Button>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" align="end" className="bg-slate-500">
+              설정
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
     </nav>
   );
 }

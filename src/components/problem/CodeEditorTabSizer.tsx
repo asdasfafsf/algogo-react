@@ -1,5 +1,4 @@
-import { Typography } from "@components/common";
-import { Input } from "@components/Input";
+import { Input } from "@/components/ui/input";
 
 interface CodeEditorTabSizerProps {
   tabSize: number;
@@ -13,19 +12,18 @@ export default function CodeEditorTabSizer({
   handleChange,
 }: CodeEditorTabSizerProps) {
   return (
-    <div className="flex">
-      <div className="flex w-20 py-2">
-        <Typography weight="semibold" variant="medium">
-          탭 사이즈
-        </Typography>
-      </div>
+    <div className="flex items-center gap-3">
+      <label htmlFor="editor-tab-size" className="w-20 text-sm font-semibold">
+        탭 사이즈
+      </label>
       <div>
         <Input
+          id="editor-tab-size"
           aria-label="탭 사이즈"
           type="number"
           min={1}
           max={50}
-          className="w-32! h-10"
+          className="h-10 w-32"
           value={tabSize}
           onChange={(e) => handleChange(e)}
         />
