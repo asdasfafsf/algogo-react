@@ -17,16 +17,17 @@ import {
   templateRequestFailed,
 } from "@/domain/editor/templateInitialization";
 import type { TemplateInitializationDecision } from "@/domain/editor/templateInitialization";
-import {
-  mergeEditorSettings,
-  selectEditorLanguage,
-  setEditorCode,
-} from "@/domain/editor/state";
+import { selectEditorLanguage, setEditorCode } from "@/domain/editor/state";
 import {
   classifyCodeSaveResponse,
   codeSaveRequestFailed,
 } from "@/domain/editor/codeSave";
 import type { CodeSaveResult } from "@/domain/editor/codeSave";
+import {
+  classifyEditorSettingsSaveResponse,
+  editorSettingsSaveRequestFailed,
+} from "@/domain/editor/settingsSave";
+import type { EditorSettingsSaveResult } from "@/domain/editor/settingsSave";
 
 type EditorStore = {
   language: Language;
@@ -47,9 +48,7 @@ type EditorStore = {
   setTemplates: (updator: Updater<ResponseTemplates>) => void | Promise<void>;
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>;
   updateCode: (problemUuid: string) => Promise<CodeSaveResult>;
-  updateSetting: (
-    data: RequestSetting & { saveToServer: boolean },
-  ) => void | Promise<void>;
+  updateSetting: (data: RequestSetting) => Promise<EditorSettingsSaveResult>;
   loadSetting: () =>
     Promise<ApiResponse<ResponseSetting>> | ApiResponse<ResponseSetting>;
   loadTemplates: () =>
@@ -139,14 +138,12 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     }
   },
 
-  updateSetting: async (data: RequestSetting & { saveToServer: boolean }) => {
-    const { saveToServer } = data;
-
-    const { setSettings, settings } = get();
-    if (saveToServer) {
-      await setSetting(data);
+  updateSetting: async (data) => {
+    try {
+      return classifyEditorSettingsSaveResponse(await setSetting(data));
+    } catch {
+      return editorSettingsSaveRequestFailed();
     }
-    setSettings(mergeEditorSettings(settings, data));
   },
   loadSetting: async () => {
     const { setLanguage } = get();
