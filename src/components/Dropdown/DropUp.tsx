@@ -1,41 +1,41 @@
-import { PlusIcon } from '@heroicons/react/24/outline';
-import { useCallback, useState } from 'react';
+import { PlusIcon } from "@heroicons/react/24/outline";
+import { useCallback, useState } from "react";
 
 interface DropUpProps {
   children: React.ReactNode;
-  className?: string
+  className?: string;
 }
 
-export default function DropUp({
-  children,
-  className = '',
-} : DropUpProps) {
+export default function DropUp({ children, className = "" }: DropUpProps) {
   const [isOpen, setOpen] = useState(false);
   const handleClickOpen = useCallback(() => {
-    setOpen(!isOpen);
-  }, [isOpen]);
+    setOpen((open) => !open);
+  }, []);
 
   return (
     <div className={`${className} fixed transition-height`}>
       <div className="flex items-center justify-end transition-height ease-in-out duration-500">
         <ul
-          className={`${isOpen ? '' : 'h-0'} list-none overflow-y-hidden transition-height ease-in-out duration-500 pr-1`}
+          className={`${isOpen ? "" : "h-0"} list-none overflow-y-hidden transition-height ease-in-out duration-500 pr-1`}
         >
           {children}
         </ul>
       </div>
       <div className="flex justify-end">
-        <div
+        <button
+          type="button"
           onClick={handleClickOpen}
-          className="z-30 items-center justify-center block bg-blue-500 rounded-full sm:hidden w-14 h-14 cursor-crosshair"
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "빠른 메뉴 닫기" : "빠른 메뉴 열기"}
+          className="z-30 block size-14 rounded-full bg-blue-500 transition-transform hover:bg-blue-600 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:hidden"
         >
           <div className="flex items-center justify-center w-full h-full">
-            <PlusIcon className="w-6 h-6 text-white" />
-
+            <PlusIcon
+              className={`size-6 text-white transition-transform ${isOpen ? "rotate-45" : ""}`}
+            />
           </div>
-        </div>
+        </button>
       </div>
-
     </div>
   );
 }

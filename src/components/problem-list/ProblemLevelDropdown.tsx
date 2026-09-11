@@ -84,9 +84,9 @@ function ProblemLevelDropdown() {
           variant="outline"
           className={cn(
             "h-10 w-full justify-between gap-2 rounded-md px-4 transition-all duration-200 sm:w-[200px]",
-            "hover:border-foreground/30 hover:bg-accent/60",
+            "hover:border-foreground/30 hover:bg-accent/60 active:bg-accent",
             appliedSelectedCount > 0
-              ? "border-tier-gold/50 bg-tier-gold/5 text-foreground shadow-sm hover:border-tier-gold/70 hover:bg-tier-gold/10"
+              ? "border-tier-gold/50 bg-tier-gold/5 text-foreground shadow-sm hover:border-tier-gold/70 hover:bg-tier-gold/10 active:bg-tier-gold/15"
               : "bg-background",
           )}
           aria-label={
@@ -142,7 +142,7 @@ function ProblemLevelDropdown() {
               variant="ghost"
               size="sm"
               onClick={handleReset}
-              className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-destructive/5 hover:text-destructive"
+              className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-destructive/5 hover:text-destructive active:bg-destructive/10"
             >
               초기화
               <X aria-hidden className="size-3.5" />
@@ -159,11 +159,11 @@ function ProblemLevelDropdown() {
               aria-label="알 수 없음 난이도"
               onClick={() => handleSelect("0")}
               className={cn(
-                "rounded-md border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
-                "hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+                "rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors duration-200",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                 unknownOption?.isSelected
-                  ? "border-foreground/20 bg-muted text-foreground shadow-sm"
-                  : "border-border/40 bg-transparent text-muted-foreground/70 hover:border-border hover:bg-muted/30 hover:text-foreground",
+                  ? "border-foreground/20 bg-muted text-foreground shadow-sm hover:bg-muted/80 active:bg-muted"
+                  : "border-border/40 bg-transparent text-muted-foreground/70 hover:border-border hover:bg-muted/30 hover:text-foreground active:bg-muted/60",
               )}
             >
               알 수 없음
@@ -231,15 +231,15 @@ function ProblemLevelDropdown() {
                         aria-label={`${tier.label} ${getProblemLevelRank(value)}`}
                         onClick={() => handleSelect(value)}
                         className={cn(
-                          "size-7 rounded-md border border-transparent text-[11px] font-bold transition-all duration-200 sm:size-8 sm:text-xs",
-                          "hover:scale-105 active:scale-95 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
+                          "size-7 rounded-md border border-transparent text-[11px] font-bold transition-colors duration-200 sm:size-8 sm:text-xs",
+                          "focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                           isSelected
                             ? cn(
                                 tier.activeBackground,
                                 tier.color,
-                                "border-current shadow-sm",
+                                "border-current shadow-sm hover:brightness-95 active:brightness-90 dark:hover:brightness-110 dark:active:brightness-125",
                               )
-                            : "bg-muted/40 text-muted-foreground/60 hover:bg-muted hover:text-foreground",
+                            : "bg-muted/40 text-muted-foreground/60 hover:bg-muted hover:text-foreground active:bg-muted/80",
                         )}
                       >
                         {getProblemLevelRank(value)}
@@ -254,13 +254,20 @@ function ProblemLevelDropdown() {
                     aria-label={`${tier.label} 전체 선택`}
                     onClick={() => handleSelectTier(tier.values)}
                     className={cn(
-                      "ml-auto shrink-0 rounded-md border border-transparent px-1.5 py-1 text-[11px] font-semibold transition-all duration-200 sm:px-2.5 sm:text-xs",
-                      "hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      "ml-auto shrink-0 rounded-md border border-transparent px-1.5 py-1 text-[11px] font-semibold transition-colors duration-200 sm:px-2.5 sm:text-xs",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       isEntireTierSelected
-                        ? cn(tier.background, tier.color, "border-current")
+                        ? cn(
+                            tier.background,
+                            tier.color,
+                            "border-current hover:brightness-95 active:brightness-90 dark:hover:brightness-110 dark:active:brightness-125",
+                          )
                         : hasTierSelection
-                          ? cn(tier.color, "opacity-50 hover:opacity-100")
-                          : "text-muted-foreground/50 hover:bg-muted/50 hover:text-foreground",
+                          ? cn(
+                              tier.color,
+                              "opacity-50 hover:bg-muted/40 hover:opacity-100 active:bg-muted/70",
+                            )
+                          : "text-muted-foreground/50 hover:bg-muted/50 hover:text-foreground active:bg-muted/80",
                     )}
                   >
                     전체
@@ -272,7 +279,11 @@ function ProblemLevelDropdown() {
         </div>
 
         <div className="flex shrink-0 items-center justify-end border-t border-border/40 bg-popover px-4 py-3">
-          <Button size="sm" onClick={handleOk} className="h-8 px-4 text-xs">
+          <Button
+            size="sm"
+            onClick={handleOk}
+            className="h-8 px-4 text-xs active:bg-primary/80"
+          >
             적용
           </Button>
         </div>

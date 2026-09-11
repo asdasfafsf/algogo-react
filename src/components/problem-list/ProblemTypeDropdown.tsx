@@ -61,9 +61,9 @@ function ProblemTypeDropdown() {
           variant="outline"
           className={cn(
             "h-10 w-full justify-between gap-2 px-4 transition-all duration-200 sm:w-[200px]",
-            "hover:border-foreground/30 hover:bg-accent/60",
+            "hover:border-foreground/30 hover:bg-accent/60 active:bg-accent",
             appliedSelectedCount > 0
-              ? "border-primary/50 bg-primary/5 text-foreground shadow-sm hover:border-primary/70 hover:bg-primary/10"
+              ? "border-primary/50 bg-primary/5 text-foreground shadow-sm hover:border-primary/70 hover:bg-primary/10 active:bg-primary/15"
               : "bg-background",
           )}
           aria-label={
@@ -123,7 +123,7 @@ function ProblemTypeDropdown() {
               variant="ghost"
               size="sm"
               onClick={handleReset}
-              className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-destructive/5 hover:text-destructive"
+              className="h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-destructive/5 hover:text-destructive active:bg-destructive/10"
             >
               초기화
               <X aria-hidden className="size-3.5" />
@@ -144,14 +144,14 @@ function ProblemTypeDropdown() {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="유형 검색..."
-              className="h-8 w-full rounded-md border border-border/50 bg-muted/40 pl-8 pr-8 text-sm outline-none placeholder:text-muted-foreground/50 focus:border-ring focus:ring-1 focus:ring-ring"
+              className="h-8 w-full rounded-md border border-border/50 bg-muted/40 pl-8 pr-8 text-sm outline-none transition-colors placeholder:text-muted-foreground/50 hover:border-foreground/25 focus:border-ring focus:ring-1 focus:ring-ring"
             />
             {search && (
               <button
                 type="button"
                 aria-label="검색어 지우기"
                 onClick={() => setSearch("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm text-muted-foreground/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm text-muted-foreground/60 transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:bg-muted/80"
               >
                 <X aria-hidden className="size-3.5" />
               </button>
@@ -162,7 +162,7 @@ function ProblemTypeDropdown() {
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-2">
           {visibleProblemTypes.length > 0 ? (
             <>
-              <label className="flex min-h-10 shrink-0 cursor-pointer items-center gap-3 rounded-md border-b border-border/40 px-2 text-sm font-medium hover:bg-accent/50">
+              <label className="flex min-h-10 shrink-0 cursor-pointer items-center gap-3 rounded-md border-b border-border/40 px-2 text-sm font-medium transition-colors hover:bg-accent/50 active:bg-accent/70">
                 <Checkbox
                   checked={visibleSelectionState}
                   onCheckedChange={() =>
@@ -171,6 +171,7 @@ function ProblemTypeDropdown() {
                     )
                   }
                   aria-label={search ? "검색 결과 전체 선택" : "유형 전체 선택"}
+                  className="hover:border-foreground/40 active:bg-muted"
                 />
                 <span>{search ? "검색 결과 전체" : "전체 선택"}</span>
                 <span className="ml-auto text-xs tabular-nums text-muted-foreground">
@@ -193,8 +194,8 @@ function ProblemTypeDropdown() {
                       "flex min-h-9 w-full items-center gap-3 rounded-md px-2 text-left text-xs transition-colors",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
                       isSelected
-                        ? "bg-primary/10 font-medium text-foreground"
-                        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
+                        ? "bg-primary/10 font-medium text-foreground hover:bg-primary/15 active:bg-primary/20"
+                        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground active:bg-accent/70",
                     )}
                   >
                     <span
@@ -227,7 +228,7 @@ function ProblemTypeDropdown() {
               handleOk(event);
               setSearch("");
             }}
-            className="h-8 px-4 text-xs"
+            className="h-8 px-4 text-xs active:bg-primary/80"
           >
             적용
           </Button>

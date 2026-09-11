@@ -557,6 +557,70 @@
   }
 }
 
+@layer base {
+  :where(
+    a[href],
+    button:not(:disabled):not([aria-disabled="true"]),
+    input:is(
+        [type="button"],
+        [type="submit"],
+        [type="reset"],
+        [type="checkbox"],
+        [type="radio"],
+        [type="file"],
+        [type="color"],
+        [type="range"]
+      ):not(:disabled),
+    select:not(:disabled),
+    [role="button"]:not([aria-disabled="true"]),
+    [role="checkbox"]:not([aria-disabled="true"]),
+    [role="combobox"]:not([aria-disabled="true"]),
+    [role="link"]:not([aria-disabled="true"]),
+    [role="menuitem"]:not([aria-disabled="true"]),
+    [role="menuitemcheckbox"]:not([aria-disabled="true"]),
+    [role="menuitemradio"]:not([aria-disabled="true"]),
+    [role="option"]:not([aria-disabled="true"]),
+    [role="radio"]:not([aria-disabled="true"]),
+    [role="switch"]:not([aria-disabled="true"]),
+    [role="tab"]:not([aria-disabled="true"])
+  ) {
+    cursor: pointer;
+  }
+
+  :where(
+    input:not([type]),
+    input:is(
+      [type="text"],
+      [type="search"],
+      [type="email"],
+      [type="password"],
+      [type="tel"],
+      [type="url"],
+      [type="number"],
+      [type="date"],
+      [type="datetime-local"],
+      [type="month"],
+      [type="time"],
+      [type="week"]
+    ),
+    textarea,
+    [contenteditable]:not([contenteditable="false"])
+  ):not(:disabled) {
+    cursor: text;
+  }
+
+  :where(
+    button:disabled,
+    input:disabled,
+    select:disabled,
+    textarea:disabled,
+    [aria-disabled="true"],
+    [data-disabled]
+  ) {
+    cursor: not-allowed;
+  }
+}
+
 html {
   font-family: "Pretendard", "Noto Sans KR", sans-serif;
   color-scheme: light;

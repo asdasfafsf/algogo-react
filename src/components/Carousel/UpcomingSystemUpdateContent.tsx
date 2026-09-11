@@ -17,35 +17,14 @@ export default function UpcomingSystemUpdateContent() {
             "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.25) 100%)",
         }}
       />
-      <div className="relative z-10 flex w-full items-center justify-between gap-8">
-        <div className="max-w-xl">
-          <span className="mb-3 inline-flex text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
-            추천
-          </span>
-          <h2 className="font-billboard text-2xl font-normal leading-[1.1] tracking-tight text-white sm:text-3xl lg:text-4xl">
-            백준 계정 연동 준비중
-          </h2>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70 sm:text-base">
-            백준(BOJ) 계정을 연동하여 풀이 현황을 자동으로 동기화할 수 있도록
-            준비하고 있습니다.
-          </p>
-          <span
-            role="button"
-            aria-disabled="true"
-            className="mt-6 inline-flex cursor-not-allowed rounded-full bg-white/10 px-7 py-2.5 text-[15px] font-medium text-white/40"
-          >
-            준비중
-          </span>
-        </div>
-        <div
-          aria-hidden="true"
-          className="relative hidden h-64 w-72 shrink-0 items-center justify-center lg:flex xl:w-96"
-        >
-          <div className="absolute size-48 rounded-full bg-white/[0.03] blur-[60px]" />
-          <div className="absolute size-44 rounded-full border border-white/10" />
-          <div className="absolute size-28 translate-x-8 -translate-y-4 rounded-full border border-white/[0.07]" />
-          <div className="absolute size-3 -translate-x-16 translate-y-12 rounded-full bg-white/15" />
-        </div>
+      <div className="relative z-10 max-w-2xl">
+        <h2 className="font-billboard text-2xl font-normal leading-[1.1] tracking-tight text-white sm:text-3xl lg:text-4xl">
+          백준 풀이 기록, 곧 한 곳에서
+        </h2>
+        <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70 sm:text-base">
+          계정만 연결하면 푼 문제와 풀이 현황을 알고고에서 바로 확인할 수
+          있어요.
+        </p>
       </div>
     </div>
   );
