@@ -118,7 +118,7 @@ export default function useCodeTemplateDropdown(
 
   const handleAddTemplate = useCallback(() => {
     const { code } = useCodeEditorStore.getState();
-    modal.push("CODE_TEMPLATE_ADD_MODAL", templateModal, {
+    void modal.push("CODE_TEMPLATE_ADD_MODAL", templateModal, {
       language,
       content: code,
     });
@@ -127,7 +127,7 @@ export default function useCodeTemplateDropdown(
   return {
     language,
     open,
-    toggleOpen: () => setOpen((current) => !current),
+    handleOpenChange: setOpen,
     templateList,
     title: titleByLanguage[language] || "템플릿 선택",
     handleChangeTemplate,

@@ -1,4 +1,5 @@
 import { ChevronDown, Plus, Pencil } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,24 +14,32 @@ import useCodeTemplateDropdown from "@hook/editor/useCodeTemplateDropdown";
 export default function CodeTemplateDropdown() {
   const {
     open,
-    toggleOpen,
+    handleOpenChange,
     templateList,
     title,
     handleChangeTemplate,
     handleEditTemplate,
     handleAddTemplate,
   } = useCodeTemplateDropdown(CodeTemplateAddModal);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const pendingModalActionRef = useRef<null | (() => void)>(null);
+  const modalTimerRef = useRef<number | null>(null);
   const displayedTitle =
     templateList.find((item) => item.uuid === title)?.name ?? title;
+
+  useEffect(() => {
+    return () => {
+      if (modalTimerRef.current !== null) {
+        window.clearTimeout(modalTimerRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <DropdownMenu
-      open={open}
-      onOpenChange={(next) => {
-        if (next !== open) toggleOpen();
-      }}
-    >
+    <DropdownMenu open={open} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
         <Button
+          ref={triggerRef}
           variant="outline"
           size="sm"
           className="h-8 w-36 justify-between gap-2 bg-background text-xs"
@@ -40,7 +49,22 @@ export default function CodeTemplateDropdown() {
           <ChevronDown className="size-4 shrink-0" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-60" align="start">
+      <DropdownMenuContent
+        className="w-60"
+        align="start"
+        onCloseAutoFocus={(event) => {
+          const openModal = pendingModalActionRef.current;
+          if (!openModal) return;
+
+          event.preventDefault();
+          pendingModalActionRef.current = null;
+          triggerRef.current?.focus();
+          modalTimerRef.current = window.setTimeout(() => {
+            modalTimerRef.current = null;
+            openModal();
+          });
+        }}
+      >
         <DropdownMenuLabel>저장한 템플릿</DropdownMenuLabel>
         {templateList.length === 0 && (
           <DropdownMenuItem disabled>저장한 템플릿이 없습니다</DropdownMenuItem>
@@ -59,7 +83,9 @@ export default function CodeTemplateDropdown() {
               aria-label={`${item.name} 수정`}
               className="shrink-0"
               onSelect={() => {
-                void handleEditTemplate(item.uuid);
+                pendingModalActionRef.current = () => {
+                  void handleEditTemplate(item.uuid);
+                };
               }}
             >
               <Pencil className="size-4" />
@@ -67,7 +93,11 @@ export default function CodeTemplateDropdown() {
           </div>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={handleAddTemplate}>
+        <DropdownMenuItem
+          onSelect={() => {
+            pendingModalActionRef.current = handleAddTemplate;
+          }}
+        >
           <Plus className="size-4" />
           추가하기
         </DropdownMenuItem>
