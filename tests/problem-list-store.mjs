@@ -107,7 +107,10 @@ try {
   assert.deepEqual(useProblemListStore.getState().problemList, []);
   assert.equal(useProblemListStore.getState().totalCount, 0);
   assert.equal(useProblemListStore.getState().maxPageNo, 0);
-  assert.equal(useProblemListStore.getState().error, "목록 조회 실패");
+  assert.equal(
+    useProblemListStore.getState().error,
+    "문제 목록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.",
+  );
   assert.equal(useProblemListStore.getState().isFetching, false);
 
   responses.push({
@@ -129,7 +132,7 @@ try {
   assert.equal(useProblemListStore.getState().maxPageNo, 0);
   assert.equal(
     useProblemListStore.getState().error,
-    "네트워크 상태를 확인한 뒤 다시 시도해 주세요.",
+    "문제 목록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.",
   );
   assert.equal(useProblemListStore.getState().isFetching, false);
 
@@ -156,7 +159,10 @@ try {
   staleSuccess.resolve(successResponse());
   await staleSuccessRequest;
   assert.deepEqual(useProblemListStore.getState().problemList, []);
-  assert.equal(useProblemListStore.getState().error, "최신 요청 실패");
+  assert.equal(
+    useProblemListStore.getState().error,
+    "문제 목록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.",
+  );
   assert.equal(useProblemListStore.getState().isFetching, false);
 
   const staleFailure = createDeferredResponse();
