@@ -9,6 +9,7 @@ import {
 } from "@components/ui/popover";
 import useProblemTypeDropdown from "@hook/problem-list/useProblemTypeDropdown";
 import { cn } from "@lib/utils";
+import { filterProblemTypesBySearch } from "@/domain/problems";
 
 function ProblemTypeDropdown() {
   const {
@@ -26,15 +27,9 @@ function ProblemTypeDropdown() {
   const draftSelectedCount = problemTypeList.filter(
     ({ isSelected }) => isSelected,
   ).length;
-  const normalizedSearch = search.trim().toLocaleLowerCase("ko-KR");
   const visibleProblemTypes = useMemo(
-    () =>
-      normalizedSearch.length === 0
-        ? problemTypeList
-        : problemTypeList.filter(({ name }) =>
-            name.toLocaleLowerCase("ko-KR").includes(normalizedSearch),
-          ),
-    [normalizedSearch, problemTypeList],
+    () => filterProblemTypesBySearch(problemTypeList, search),
+    [problemTypeList, search],
   );
   const selectedVisibleCount = visibleProblemTypes.filter(
     ({ isSelected }) => isSelected,
@@ -143,7 +138,7 @@ function ProblemTypeDropdown() {
               aria-label="유형 검색"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="유형 검색..."
+              placeholder="유형 또는 초성 검색..."
               className="h-8 w-full rounded-md border border-border/50 bg-muted/40 pl-8 pr-8 text-sm outline-none transition-colors placeholder:text-muted-foreground/50 hover:border-foreground/25 focus:border-ring focus:ring-1 focus:ring-ring"
             />
             {search && (
