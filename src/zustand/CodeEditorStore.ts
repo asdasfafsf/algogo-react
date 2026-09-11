@@ -11,7 +11,12 @@ import {
   editorCodeStorageKey,
   selectInitialCode,
 } from "@/domain/editor/persistence";
-import { getDefaultTemplateContent } from "@/domain/editor/templates";
+import {
+  decideTemplateInitialization,
+  isResponseTemplates,
+  templateRequestFailed,
+} from "@/domain/editor/templateInitialization";
+import type { TemplateInitializationDecision } from "@/domain/editor/templateInitialization";
 import {
   mergeEditorSettings,
   selectEditorLanguage,
@@ -45,8 +50,13 @@ type EditorStore = {
   loadTemplates: () =>
     Promise<ApiResponse<ResponseTemplates>> | ApiResponse<ResponseTemplates>;
   setCodeFromTemplate: () => void | Promise<void>;
-  initialize: () => Promise<void>;
+  initialize: () => Promise<EditorInitializationResult>;
 };
+
+type EditorInitializationResult =
+  | TemplateInitializationDecision
+  | { type: "setting-request-failed" }
+  | { type: "code-request-failed" };
 
 export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   code: defaultCodeFromLanguage["C++"],
@@ -145,7 +155,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
   },
   loadTemplates: async () => {
     const response = await getTemplates();
-    if (response.statusCode === 200) {
+    if (response.statusCode === 200 && isResponseTemplates(response.data)) {
       set({ templates: response.data });
     }
     return response;
@@ -162,30 +172,49 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
 
   initialize: async () => {
     const problemUuid = location.pathname.split("/")[2];
-    const settingResponse = await getSetting();
+    let settingResponse: ApiResponse<ResponseSetting>;
+    try {
+      settingResponse = await getSetting();
+    } catch {
+      return { type: "setting-request-failed" };
+    }
 
     let initLanguage: Language = "C++";
 
-    if (settingResponse.statusCode === 200) {
+    if (settingResponse.statusCode === 401) {
+      return { type: "unauthenticated" };
+    }
+
+    if (settingResponse.statusCode === 200 && settingResponse.data) {
       set({ settings: settingResponse.data });
       initLanguage = settingResponse.data.defaultLanguage;
     }
 
-    const templatesResponse = await getTemplates();
-    if (templatesResponse.statusCode === 200) {
-      set({ templates: templatesResponse.data });
+    let templateDecision: TemplateInitializationDecision;
+    try {
+      templateDecision = decideTemplateInitialization(
+        await getTemplates(),
+        initLanguage,
+      );
+    } catch {
+      templateDecision = templateRequestFailed();
     }
 
-    const defaultTemplate = getDefaultTemplateContent(
-      templatesResponse.data.defaultList,
-      initLanguage,
-    );
+    if (templateDecision.type !== "loaded") return templateDecision;
 
-    const codeResponse = await loadCode(problemUuid, initLanguage);
+    set({ templates: templateDecision.templates });
+    const { defaultTemplate } = templateDecision;
+
+    let codeResponse: ApiResponse<ResponseCode[]>;
+    try {
+      codeResponse = await loadCode(problemUuid, initLanguage);
+    } catch {
+      return { type: "code-request-failed" };
+    }
 
     let needDefaultTemplate = true;
 
-    if (codeResponse.statusCode === 200) {
+    if (codeResponse.statusCode === 200 && Array.isArray(codeResponse.data)) {
       const codeList = codeResponse.data;
       const codeMap: Record<Language, string> = { ...defaultCodeFromLanguage };
       codeList.forEach(({ language, content }) => {
@@ -237,6 +266,8 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
         },
       });
     }
+
+    return templateDecision;
   },
 }));
 

@@ -86,15 +86,15 @@ export default function ProblemListTable() {
         role="alert"
         className="flex h-64 flex-col items-center justify-center px-6 text-center"
       >
-        <div className="grid size-10 place-items-center rounded-full bg-destructive/10 text-destructive">
-          <CircleAlert className="size-5" />
-        </div>
-        <p className="mt-4 font-medium">문제 목록을 불러오지 못했습니다</p>
-        <p className="mt-1 text-sm text-muted-foreground">{error}</p>
+        <CircleAlert className="size-5 text-destructive" aria-hidden />
+        <p className="mt-3 font-medium">문제 목록을 가져오지 못했어요</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          잠시 후 다시 시도해 주세요.
+        </p>
         <Button
           variant="outline"
           size="sm"
-          className="mt-4"
+          className="mt-4 hover:border-foreground/30 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring active:bg-accent/80"
           onClick={handleRetryProblemList}
         >
           <RefreshCw />
@@ -125,7 +125,7 @@ export default function ProblemListTable() {
                 번호
               </TableHead>
               <ProblemThSort
-                onClick={(event) => handleClickProblemTh(event, "제목")}
+                onClick={() => handleClickProblemTh("제목")}
                 sort={
                   problemSort === PROBLEM_SORT_TITLE_ASC
                     ? 1
@@ -137,7 +137,7 @@ export default function ProblemListTable() {
                 제목
               </ProblemThSort>
               <ProblemThSort
-                onClick={(event) => handleClickProblemTh(event, "난이도")}
+                onClick={() => handleClickProblemTh("난이도")}
                 className="text-center"
                 align="center"
                 sort={
@@ -152,7 +152,7 @@ export default function ProblemListTable() {
               </ProblemThSort>
               <TableHead className="text-center">카테고리</TableHead>
               <ProblemThSort
-                onClick={(event) => handleClickProblemTh(event, "정답률")}
+                onClick={() => handleClickProblemTh("정답률")}
                 className="text-center"
                 align="center"
                 sort={
@@ -166,7 +166,7 @@ export default function ProblemListTable() {
                 정답률
               </ProblemThSort>
               <ProblemThSort
-                onClick={(event) => handleClickProblemTh(event, "제출")}
+                onClick={() => handleClickProblemTh("제출")}
                 className="hidden text-center sm:table-cell"
                 align="center"
                 sort={problemSort === 40 ? 1 : problemSort === 41 ? 2 : 0}
@@ -181,16 +181,12 @@ export default function ProblemListTable() {
             <TableBody>
               <TableRow className="h-64 hover:bg-transparent">
                 <TableCell colSpan={8} className="text-center">
-                  <p className="text-sm text-muted-foreground">
-                    조건에 맞는 문제가 없습니다.
+                  <p className="font-medium">
+                    조건에 맞는 문제를 찾지 못했어요
                   </p>
-                  <button
-                    type="button"
-                    disabled
-                    className="mt-3 text-sm text-muted-foreground"
-                  >
-                    문제 추가 준비 중
-                  </button>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    검색어나 선택한 조건을 바꿔 보세요.
+                  </p>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -200,8 +196,19 @@ export default function ProblemListTable() {
                 return (
                   <TableRow
                     key={problem.uuid}
-                    className="cursor-pointer hover:bg-muted/50"
-                    onClick={(event) => handleClickProblem(event, problem.uuid)}
+                    tabIndex={0}
+                    aria-label={`${problem.title} 문제 열기`}
+                    className="cursor-pointer transition-colors hover:bg-muted/50 focus-visible:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring active:bg-muted/70"
+                    onClick={() => handleClickProblem(problem.uuid)}
+                    onKeyDown={(event) => {
+                      if (
+                        event.currentTarget === event.target &&
+                        event.key === "Enter"
+                      ) {
+                        event.preventDefault();
+                        handleClickProblem(problem.uuid);
+                      }
+                    }}
                   >
                     <TableCell className="text-center">
                       <ProblemStateIcon state={problem.state} />
@@ -213,16 +220,7 @@ export default function ProblemListTable() {
                       {formatProblemNumber(problem.sourceId)}
                     </TableCell>
                     <TableCell className="break-keep whitespace-normal">
-                      <button
-                        type="button"
-                        className="w-full text-left focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          handleClickProblem(event, problem.uuid);
-                        }}
-                      >
-                        {problem.title}
-                      </button>
+                      <span className="font-medium">{problem.title}</span>
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="inline-flex min-w-[88px] justify-center">
@@ -266,7 +264,7 @@ export default function ProblemListTable() {
                             type="button"
                             disabled={!problem.sourceUrl}
                             aria-label={`${problem.source} 출처 새 창에서 열기`}
-                            className="inline-flex items-center justify-center text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+                            className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:bg-muted/80 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-muted-foreground"
                             onClick={(event) => {
                               event.stopPropagation();
                               window.open(
