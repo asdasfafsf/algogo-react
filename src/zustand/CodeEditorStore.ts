@@ -22,6 +22,11 @@ import {
   selectEditorLanguage,
   setEditorCode,
 } from "@/domain/editor/state";
+import {
+  classifyCodeSaveResponse,
+  codeSaveRequestFailed,
+} from "@/domain/editor/codeSave";
+import type { CodeSaveResult } from "@/domain/editor/codeSave";
 
 type EditorStore = {
   language: Language;
@@ -41,7 +46,7 @@ type EditorStore = {
   templates: ResponseTemplates;
   setTemplates: (updator: Updater<ResponseTemplates>) => void | Promise<void>;
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>;
-  updateCode: () => Promise<ApiResponse<null>> | ApiResponse<null>;
+  updateCode: (problemUuid: string) => Promise<CodeSaveResult>;
   updateSetting: (
     data: RequestSetting & { saveToServer: boolean },
   ) => void | Promise<void>;
@@ -50,7 +55,7 @@ type EditorStore = {
   loadTemplates: () =>
     Promise<ApiResponse<ResponseTemplates>> | ApiResponse<ResponseTemplates>;
   setCodeFromTemplate: () => void | Promise<void>;
-  initialize: () => Promise<EditorInitializationResult>;
+  initialize: (problemUuid: string) => Promise<EditorInitializationResult>;
 };
 
 type EditorInitializationResult =
@@ -120,15 +125,18 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       set({ templates: updator });
     }
   },
-  updateCode: async () => {
-    const problemUuid = location.pathname.split("/")[2];
+  updateCode: async (problemUuid) => {
     const { code, language } = get();
-    const response = await saveCode({
-      problemUuid,
-      content: code,
-      language,
-    });
-    return response;
+    try {
+      const response = await saveCode({
+        problemUuid,
+        content: code,
+        language,
+      });
+      return classifyCodeSaveResponse(response);
+    } catch {
+      return codeSaveRequestFailed();
+    }
   },
 
   updateSetting: async (data: RequestSetting & { saveToServer: boolean }) => {
@@ -170,8 +178,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     }
   },
 
-  initialize: async () => {
-    const problemUuid = location.pathname.split("/")[2];
+  initialize: async (problemUuid) => {
     let settingResponse: ApiResponse<ResponseSetting>;
     try {
       settingResponse = await getSetting();
