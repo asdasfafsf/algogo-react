@@ -14,3 +14,7 @@ export function createAuthRedirectPath(
 ): string {
   return `${authPagePath}?destination=${encodeURIComponent(destination)}`;
 }
+
+export function createPreservedAuthSearch(destination: string | null): string {
+  return destination ? `?destination=${encodeURIComponent(destination)}` : "";
+}

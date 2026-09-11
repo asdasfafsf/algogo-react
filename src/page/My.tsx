@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AlertCircle, Loader2, LogIn, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   BasicMyInfo,
@@ -10,7 +10,6 @@ import ContributionGraph from "@components/me/ContributionGraph";
 import RecentActivity from "@components/me/RecentActivity";
 import StatsCards from "@components/me/StatsCards";
 import { Button } from "@components/ui/button";
-import { Card, CardContent } from "@components/ui/card";
 import useMeStore from "@zustand/MeStore";
 import DefaultLayout from "../layout/DefaultLayout";
 
@@ -59,65 +58,49 @@ function My() {
             role="status"
           >
             <Loader2 className="size-8 animate-spin text-primary" />
-            <div>
-              <p className="font-display text-lg font-semibold">
-                프로필을 불러오는 중입니다
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                로그인 정보를 확인하고 있어요.
-              </p>
-            </div>
+            <p className="font-display text-lg font-semibold">
+              내 정보를 확인하고 있어요
+            </p>
           </div>
         )}
 
         {visibleStatus === "guest" && (
-          <Card className="mx-auto max-w-xl overflow-hidden border-border/60 shadow-lg">
-            <div className="h-2 bg-linear-to-r from-primary via-blue-500 to-primary/60" />
-            <CardContent className="flex flex-col items-center px-6 py-14 text-center sm:px-12">
-              <div className="mb-6 flex size-16 items-center justify-center rounded-full bg-primary/10">
-                <LogIn className="size-7 text-primary" />
-              </div>
-              <h1 className="font-display text-2xl font-bold">
-                로그인이 필요한 페이지입니다
-              </h1>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                로그인하면 프로필과 연결된 계정을 안전하게 관리할 수 있습니다.
-              </p>
-              <Button asChild size="lg" className="mt-8 rounded-full px-8">
-                <Link to="/login?destination=%2Fme">로그인하고 돌아오기</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          <section className="mx-auto max-w-xl border-y border-border py-14 text-center sm:py-16">
+            <h1 className="font-display text-2xl font-bold">
+              로그인이 필요해요
+            </h1>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+              내 정보와 연결한 계정은 로그인한 뒤 볼 수 있어요.
+            </p>
+            <Button asChild size="lg" className="mt-8 active:translate-y-px">
+              <Link to="/login?destination=%2Fme">로그인</Link>
+            </Button>
+          </section>
         )}
 
         {visibleStatus === "error" && (
-          <Card className="mx-auto max-w-xl overflow-hidden border-border/60 shadow-lg">
-            <div className="h-2 bg-linear-to-r from-amber-500 via-orange-400 to-amber-500/60" />
-            <CardContent className="flex flex-col items-center px-6 py-14 text-center sm:px-12">
-              <div className="mb-6 flex size-16 items-center justify-center rounded-full bg-amber-500/10">
-                <AlertCircle className="size-7 text-amber-600 dark:text-amber-300" />
-              </div>
-              <h1 className="font-display text-2xl font-bold">
-                프로필을 불러오지 못했어요
-              </h1>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                잠시 후 다시 시도하거나 로그인 정보를 새로 확인해주세요.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => void loadProfile()}
-                >
-                  <RefreshCw />
-                  다시 시도
-                </Button>
-                <Button asChild size="lg">
-                  <Link to="/login?destination=%2Fme">다시 로그인</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <section className="mx-auto max-w-xl border-y border-border py-14 text-center sm:py-16">
+            <h1 className="font-display text-2xl font-bold">
+              내 정보를 불러오지 못했어요
+            </h1>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
+              잠시 후 다시 시도하거나 로그인해 주세요.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Button
+                variant="outline"
+                size="lg"
+                className="active:translate-y-px"
+                onClick={() => void loadProfile()}
+              >
+                <RefreshCw />
+                다시 시도
+              </Button>
+              <Button asChild size="lg" className="active:translate-y-px">
+                <Link to="/login?destination=%2Fme">로그인</Link>
+              </Button>
+            </div>
+          </section>
         )}
 
         {visibleStatus === "authenticated" && me && (

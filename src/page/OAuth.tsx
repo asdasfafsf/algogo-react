@@ -25,9 +25,7 @@ export default function OAuth() {
         fetchMe,
       });
       if (outcome.type === "failure") {
-        await alert(
-          "토큰 발급 중 오류가 발생했습니다. 처음부터 다시 시도해주세요!",
-        );
+        await alert("로그인을 마치지 못했어요. 처음부터 다시 시도해 주세요.");
       }
       navigate(outcome.destination);
     };
@@ -37,8 +35,8 @@ export default function OAuth() {
 
   return (
     <OAuthCallbackStatus
-      title="로그인을 확인하고 있습니다"
-      description="인증이 완료되면 요청하신 페이지로 이동합니다."
+      title="로그인을 마치고 있어요"
+      description="잠시만 기다려 주세요."
     />
   );
 }

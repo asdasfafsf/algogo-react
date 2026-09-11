@@ -6,8 +6,8 @@ export default function OAuthV2DisconnectCallback() {
   useOAuthCallback("disconnect", oauthDisconnectV2);
   return (
     <OAuthCallbackStatus
-      title="연결 해제를 확인하고 있습니다"
-      description="처리가 완료되면 계정 상태를 새로 확인합니다."
+      title="계정 연결을 해제하고 있어요"
+      description="잠시만 기다려 주세요."
     />
   );
 }
