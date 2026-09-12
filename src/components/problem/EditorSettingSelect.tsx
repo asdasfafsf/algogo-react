@@ -12,6 +12,7 @@ interface EditorSettingSelectProps<T extends string | number> {
   options: readonly T[];
   onValueChange: (value: T) => void | Promise<void>;
   getOptionLabel?: (value: T) => string;
+  triggerClassName?: string;
 }
 export default function EditorSettingSelect<T extends string | number>({
   label,
@@ -19,6 +20,7 @@ export default function EditorSettingSelect<T extends string | number>({
   options,
   onValueChange,
   getOptionLabel = String,
+  triggerClassName = "w-36",
 }: EditorSettingSelectProps<T>) {
   return (
     <div className="flex items-center gap-3">
@@ -30,7 +32,10 @@ export default function EditorSettingSelect<T extends string | number>({
           if (option !== undefined) void onValueChange(option);
         }}
       >
-        <SelectTrigger aria-label={`에디터 ${label}`} className="w-36">
+        <SelectTrigger
+          aria-label={`에디터 ${label}`}
+          className={triggerClassName}
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

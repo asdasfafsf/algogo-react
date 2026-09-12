@@ -16,6 +16,7 @@ export default function useCodeEditor() {
   const setCode = useCodeEditorStore((state) => state.setCode);
   const language = useCodeEditorStore((state) => state.language);
   const settings = useCodeEditorStore((state) => state.settings);
+  const themePreference = useCodeEditorStore((state) => state.themePreference);
   const updateCode = useCodeEditorStore((state) => state.updateCode);
   const [, setFocus] = useState(false);
   const { handleExecute } = useExecute();
@@ -152,6 +153,7 @@ export default function useCodeEditor() {
   return {
     code,
     settings,
+    themePreference,
     language,
     handleEditorMount,
     handleEditorChange,

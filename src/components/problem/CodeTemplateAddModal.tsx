@@ -11,6 +11,7 @@ import { languageList, monocoLanguageMap } from "@constant/Language";
 import Editor from "@monaco-editor/react";
 import useCodeTemplateForm from "@hook/editor/useCodeTemplateForm";
 import type { ModalComponentProps } from "@plugins/modal/ModalController";
+import { useResolvedEditorTheme } from "@hook/editor/useResolvedEditorTheme";
 
 export interface CodeTemplateAddModalProps extends ModalComponentProps<boolean> {
   title?: string;
@@ -34,6 +35,7 @@ export default function CodeTemplateAddModal({
 }: CodeTemplateAddModalProps) {
   const {
     settings,
+    themePreference,
     templateName,
     setTemplateName,
     templateDescription,
@@ -59,6 +61,7 @@ export default function CodeTemplateAddModal({
     content,
     resolve,
   });
+  const editorTheme = useResolvedEditorTheme(themePreference);
 
   return (
     <ModalSurface
@@ -137,7 +140,7 @@ export default function CodeTemplateAddModal({
                 height="100%"
                 language={monocoLanguageMap[templateLanguage]}
                 className="h-full"
-                theme={settings.theme}
+                theme={editorTheme}
                 value={templateContent}
                 onChange={(value) => setTemplateContent(value ?? "")}
                 options={{

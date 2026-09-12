@@ -1,19 +1,29 @@
 import EditorSettingSelect from "./EditorSettingSelect";
 
 interface Props {
-  theme: CodeEditorTheme;
-  handleSelect: (_: unknown, value: CodeEditorTheme) => void | Promise<void>;
+  theme: CodeEditorThemePreference;
+  handleSelect: (
+    _: unknown,
+    value: CodeEditorThemePreference,
+  ) => void | Promise<void>;
 }
 export default function CodeEditorThemeDropdown({
   theme,
   handleSelect,
 }: Props) {
   return (
-    <EditorSettingSelect<CodeEditorTheme>
+    <EditorSettingSelect<CodeEditorThemePreference>
       label="테마"
       value={theme}
-      options={["vs-dark", "light"]}
-      getOptionLabel={(value) => (value === "vs-dark" ? "어둡게" : "밝게")}
+      options={["site", "light", "vs-dark"]}
+      triggerClassName="w-40"
+      getOptionLabel={(value) =>
+        value === "site"
+          ? "사이트 설정 따르기"
+          : value === "vs-dark"
+            ? "어둡게"
+            : "밝게"
+      }
       onValueChange={(value) => handleSelect(undefined, value)}
     />
   );

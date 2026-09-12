@@ -1,10 +1,18 @@
 import Editor from "@monaco-editor/react";
 import useCodeEditor from "@hook/useCodeEditor";
 import { monocoLanguageMap } from "@constant/Language";
+import { useResolvedEditorTheme } from "@hook/editor/useResolvedEditorTheme";
 
 export default function CodeEditorBody() {
-  const { code, settings, language, handleEditorMount, handleEditorChange } =
-    useCodeEditor();
+  const {
+    code,
+    settings,
+    themePreference,
+    language,
+    handleEditorMount,
+    handleEditorChange,
+  } = useCodeEditor();
+  const editorTheme = useResolvedEditorTheme(themePreference);
 
   return (
     <Editor
@@ -14,7 +22,7 @@ export default function CodeEditorBody() {
       language={monocoLanguageMap[language]}
       defaultLanguage={monocoLanguageMap[language]}
       defaultValue=""
-      theme={settings.theme}
+      theme={editorTheme}
       value={code}
 
       onMount={handleEditorMount}

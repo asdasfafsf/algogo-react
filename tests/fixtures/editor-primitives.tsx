@@ -6,6 +6,7 @@ import CodeControlPanel from "@/components/problem/CodeControlPanel";
 import CodeEditorSettingsModal from "@/components/problem/CodeEditorSettingsModal";
 import CodeTemplateAddModal from "@/components/problem/CodeTemplateAddModal";
 import CodeTestCaseTable from "@/components/problem/CodeTestCaseTable";
+import MonacoEditor from "@/components/problem/MonacoEditor";
 import CompilerInfoModal from "@/components/problem/CompilerInfoModal";
 import ProblemHeader from "@/layout/problem/ProblemHeader";
 import TestCaseModal from "@/components/problem/TestCaseModal";
@@ -51,6 +52,7 @@ function EditorPrimitivesFixture() {
   const [isPending, setIsPending] = useState(false);
   const [lastToolbarAction, setLastToolbarAction] =
     useState("아직 실행한 동작이 없습니다");
+  const themePreference = useCodeEditorStore((state) => state.themePreference);
 
   useEffect(() => {
     useExecuteSocketStore.setState({
@@ -123,7 +125,7 @@ function EditorPrimitivesFixture() {
 
         <section className="grid gap-3 rounded-lg border p-5">
           <h2 className="font-semibold">실제 문제 도구</h2>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Button
               variant="outline"
               aria-pressed={isPending}
@@ -134,6 +136,19 @@ function EditorPrimitivesFixture() {
             <output aria-live="polite">
               {isPending ? "테스트 버튼 비활성" : "테스트 버튼 활성"}
             </output>
+            <Button
+              variant="outline"
+              onClick={() => document.documentElement.classList.remove("dark")}
+            >
+              사이트 라이트
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => document.documentElement.classList.add("dark")}
+            >
+              사이트 다크
+            </Button>
+            <output aria-live="polite">에디터 테마: {themePreference}</output>
           </div>
           <CodeControlPanel
             isPending={isPending}
@@ -155,6 +170,9 @@ function EditorPrimitivesFixture() {
           <output aria-live="polite">
             최근 도구 동작: {lastToolbarAction}
           </output>
+          <div className="h-64 overflow-hidden rounded-lg border">
+            <MonacoEditor />
+          </div>
           <CodeTestCaseTable executeResultList={executeResultList} />
         </section>
       </main>

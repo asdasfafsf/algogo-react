@@ -55,9 +55,19 @@ const settings = {
   defaultLanguage: "C++",
 };
 
+const saveInput = (overrides = {}) => ({
+  settings,
+  themePreference: "vs-dark",
+  problemContentSize: 120,
+  saveToServer: true,
+  ...overrides,
+});
+
 const createPorts = (events, update) => ({
   setProblemContentSize: async (size) => events.push(`size:${size}`),
   setCodeEditorSettings: async () => events.push("settings"),
+  setThemePreference: async (theme) => events.push(`theme:${theme}`),
+  persistThemePreference: async (theme) => events.push(`persist:${theme}`),
   updateCodeEditorSettings: async (input) => {
     events.push(`update:${input.fontSize}`);
     return update(input);
@@ -87,7 +97,7 @@ try {
 
   const successEvents = [];
   const success = await saveEditorSettings(
-    { settings, problemContentSize: 120, saveToServer: true },
+    saveInput(),
     createPorts(successEvents, async () => ({ type: "success" })),
   );
   assert.deepEqual(success, { type: "success" });
@@ -95,22 +105,60 @@ try {
     "update:16",
     "size:120",
     "settings",
+    "theme:vs-dark",
+    "persist:vs-dark",
     "close",
   ]);
 
   const localOnlyEvents = [];
   const localOnly = await saveEditorSettings(
-    { settings, problemContentSize: 90, saveToServer: false },
+    saveInput({
+      themePreference: "site",
+      problemContentSize: 90,
+      saveToServer: false,
+    }),
     createPorts(localOnlyEvents, async () => {
       throw new Error("local save must not request the server");
     }),
   );
   assert.deepEqual(localOnly, { type: "success" });
-  assert.deepEqual(localOnlyEvents, ["size:90", "settings", "close"]);
+  assert.deepEqual(localOnlyEvents, [
+    "size:90",
+    "settings",
+    "theme:site",
+    "persist:site",
+    "close",
+  ]);
+
+  const followSiteEvents = [];
+  let followSiteRequest;
+  const followSite = await saveEditorSettings(
+    saveInput({ themePreference: "site" }),
+    createPorts(followSiteEvents, async (input) => {
+      followSiteRequest = input;
+      return { type: "success" };
+    }),
+  );
+  assert.deepEqual(followSite, { type: "success" });
+  assert.deepEqual(followSiteRequest, {
+    fontSize: 16,
+    tabSize: 4,
+    lineNumber: "on",
+    defaultLanguage: "C++",
+  });
+  assert.equal(Object.values(followSiteRequest).includes("site"), false);
+  assert.deepEqual(followSiteEvents, [
+    "update:16",
+    "size:120",
+    "settings",
+    "theme:site",
+    "persist:site",
+    "close",
+  ]);
 
   const responseFailureEvents = [];
   const responseFailure = await saveEditorSettings(
-    { settings, problemContentSize: 110, saveToServer: true },
+    saveInput({ problemContentSize: 110 }),
     createPorts(responseFailureEvents, async () => ({
       type: "failure",
       statusCode: 500,
@@ -121,7 +169,7 @@ try {
 
   const requestFailureEvents = [];
   const requestFailure = await saveEditorSettings(
-    { settings, problemContentSize: 110, saveToServer: true },
+    saveInput({ problemContentSize: 110 }),
     createPorts(requestFailureEvents, async () => {
       throw new Error("save failed");
     }),

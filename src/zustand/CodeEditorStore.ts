@@ -28,6 +28,7 @@ import {
   editorSettingsSaveRequestFailed,
 } from "@/domain/editor/settingsSave";
 import type { EditorSettingsSaveResult } from "@/domain/editor/settingsSave";
+import { getInitialEditorThemePreference } from "@/lib/editorThemePreferenceStorage";
 
 type EditorStore = {
   language: Language;
@@ -44,9 +45,11 @@ type EditorStore = {
   output: ResponseExecuteResult;
   setOutput: (output: ResponseExecuteResult) => void | Promise<void>;
   settings: CodeEditorSettings;
+  themePreference: CodeEditorThemePreference;
   templates: ResponseTemplates;
   setTemplates: (updator: Updater<ResponseTemplates>) => void | Promise<void>;
   setSettings: (updator: Updater<CodeEditorSettings>) => void | Promise<void>;
+  setThemePreference: (theme: CodeEditorThemePreference) => void;
   updateCode: (problemUuid: string) => Promise<CodeSaveResult>;
   updateSetting: (data: RequestSetting) => Promise<EditorSettingsSaveResult>;
   loadSetting: () =>
@@ -101,6 +104,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     lineNumber: "on",
     defaultLanguage: "C++",
   },
+  themePreference: getInitialEditorThemePreference(),
 
   setSettings: (updator) => {
     if (typeof updator === "function") {
@@ -111,6 +115,7 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       set({ settings: updator });
     }
   },
+  setThemePreference: (themePreference) => set({ themePreference }),
   templates: {
     defaultList: [],
     summaryList: [],
@@ -154,6 +159,9 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
       const language = response.data.defaultLanguage;
       setLanguage(language);
       setSettings(response.data);
+      set({
+        themePreference: getInitialEditorThemePreference(response.data.theme),
+      });
     }
 
     return response;
@@ -190,7 +198,12 @@ export const useCodeEditorStore = create<EditorStore>((set, get) => ({
     }
 
     if (settingResponse.statusCode === 200 && settingResponse.data) {
-      set({ settings: settingResponse.data });
+      set({
+        settings: settingResponse.data,
+        themePreference: getInitialEditorThemePreference(
+          settingResponse.data.theme,
+        ),
+      });
       initLanguage = settingResponse.data.defaultLanguage;
     }
 

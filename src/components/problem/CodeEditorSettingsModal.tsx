@@ -19,6 +19,7 @@ export default function CodeEditorSettingsModal({
 }: ModalComponentProps<boolean>) {
   const {
     settings,
+    themePreference,
     problemContentSize,
     saveToServer,
     isSaving,
@@ -75,7 +76,7 @@ export default function CodeEditorSettingsModal({
             </h3>
             <div className="space-y-4">
               <CodeEditorThemeDropdown
-                theme={settings.theme}
+                theme={themePreference}
                 handleSelect={(_, theme) => selectTheme(theme)}
               />
               <CodeEditorFontSizeDropdown
