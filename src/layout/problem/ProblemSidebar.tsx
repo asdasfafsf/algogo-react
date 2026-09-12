@@ -1,5 +1,6 @@
 import { Button as ShadcnButton } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { GripVertical } from "lucide-react";
 import React from "react";
 import { MathJaxContext } from "better-react-mathjax";
 
@@ -17,8 +18,13 @@ export function ProblemSidebar({
   open,
   handleClickOpen,
 }: ProblemSidebarProps) {
-  const { problemWidth, maxProblemWidth, handlePointerDown, handleKeyDown } =
-    useProblemSidebar();
+  const {
+    problemWidth,
+    maxProblemWidth,
+    isResizing,
+    handlePointerDown,
+    handleKeyDown,
+  } = useProblemSidebar();
   const { isMobile } = useScreenSize();
 
   return (
@@ -48,29 +54,36 @@ export function ProblemSidebar({
         className="relative z-10 flex w-full border-r border-border bg-background"
       >
         {children}
-        <div className="group relative">
-          <Separator
-            decorative={false}
-            orientation="vertical"
-            aria-label="문제와 코드 패널 크기 조절"
-            aria-valuemin={100}
-            aria-valuemax={maxProblemWidth}
-            aria-valuenow={open ? problemWidth : undefined}
-            aria-valuetext={
-              open ? `문제 패널 너비 ${problemWidth}px` : undefined
-            }
-            tabIndex={open ? 0 : -1}
-            onPointerDown={open ? handlePointerDown : undefined}
-            onKeyDown={open ? handleKeyDown : undefined}
-            className="absolute -right-2.5 z-10 h-full w-5 touch-none cursor-col-resize bg-transparent outline-none focus-visible:bg-primary/30 focus-visible:ring-2 focus-visible:ring-ring"
-          />
-          <div
-            className={`absolute top-1/2 -right-4 z-20 -translate-y-1/2 transition-opacity ${
-              open
-                ? "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100 [@media(hover:none)]:opacity-100"
-                : "opacity-100"
-            }`}
-          >
+        <div className="group relative h-full w-0 shrink-0">
+          {!isMobile && open && (
+            <Separator
+              decorative={false}
+              orientation="vertical"
+              aria-label="문제와 코드 패널 크기 조절"
+              aria-valuemin={100}
+              aria-valuemax={maxProblemWidth}
+              aria-valuenow={problemWidth}
+              aria-valuetext={`문제 패널 너비 ${problemWidth}px`}
+              tabIndex={0}
+              onPointerDown={handlePointerDown}
+              onKeyDown={handleKeyDown}
+              className={`group/resizer absolute -right-2.5 z-10 h-full w-5 touch-none cursor-col-resize bg-transparent outline-none before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 before:transition-colors hover:before:bg-primary focus-visible:before:bg-primary focus-visible:ring-2 focus-visible:ring-ring active:before:bg-primary ${
+                isResizing ? "before:bg-primary" : "before:bg-border"
+              }`}
+            >
+              <span
+                aria-hidden="true"
+                className={`absolute left-1/2 top-[calc(50%-44px)] flex size-5 -translate-x-1/2 items-center justify-center rounded-full border shadow-sm transition-colors group-hover/resizer:border-primary/60 group-hover/resizer:text-primary group-focus-visible/resizer:border-primary group-focus-visible/resizer:text-primary ${
+                  isResizing
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-background text-muted-foreground"
+                }`}
+              >
+                <GripVertical className="size-3" />
+              </span>
+            </Separator>
+          )}
+          <div className="absolute top-1/2 -right-4 z-20 -translate-y-1/2">
             <ShadcnButton
               variant="ghost"
               size="sm"
