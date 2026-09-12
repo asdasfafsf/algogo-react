@@ -9,11 +9,7 @@ import ProblemContentResizer from "@components/problem/ProblemContentSizeResizer
 import { useProblemContentSizeStore } from "@zustand/ProblemContentSizeStore";
 import ProblemContentWrapper from "@components/problem/ProblemContentWrapper";
 import { Problem as ProblemType } from "@/type/Problem.type";
-import ProblemBreadcrumbs from "@components/problem/ProblemBreadcrumbs";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { RefreshCw } from "lucide-react";
-import useProblemUpdate from "@hook/problem/useProblemUpdate";
 import { formatProblemNumber } from "@/domain/problems/problemPresentation";
 import ProblemTabsList from "@components/problem/ProblemTabsList";
 
@@ -51,18 +47,11 @@ function Problem({ problem }: ProblemProps) {
   } = problem;
 
   const problemContentSize = useProblemContentSizeStore((state) => state.size);
-  const handleProblemUpdate = useProblemUpdate(problem);
   const formattedProblemNumber = formatProblemNumber(sourceId);
   const problemNumber =
     formattedProblemNumber === "-" ? undefined : formattedProblemNumber;
   return (
     <div className="flex h-full min-h-0 w-full flex-col bg-background">
-      <div className="shrink-0 border-b border-border/60 px-2 py-2">
-        <ProblemBreadcrumbs
-          pathList={[{ path: "전체 문제", to: "/problem" }]}
-          current={problemNumber ? `문제 ${problemNumber}` : title}
-        />
-      </div>
       <Tabs defaultValue="description" className="flex min-h-0 flex-1 flex-col">
         <ProblemTabsList />
         <TabsContent
@@ -77,19 +66,7 @@ function Problem({ problem }: ProblemProps) {
                 number={problemNumber}
                 state={state}
               />
-              <div className="flex items-center gap-1">
-                <ProblemContentResizer />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="size-9"
-                  aria-label="문제 데이터 새로고침"
-                  title="문제 데이터 새로고침"
-                  onClick={handleProblemUpdate}
-                >
-                  <RefreshCw />
-                </Button>
-              </div>
+              <ProblemContentResizer />
             </div>
 
             <ProblemInfo
