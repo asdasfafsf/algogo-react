@@ -450,6 +450,52 @@
 /* 스크롤바 호버 시 */
 
 /* 스크롤바 활성화 시 (드래그 중) */
+@layer utilities {
+  .sample-code-scrollbar {
+    --sample-scrollbar-thumb: rgb(148 163 184 / 0.65);
+    --sample-scrollbar-thumb-hover: rgb(203 213 225 / 0.82);
+    --sample-scrollbar-thumb-active: rgb(241 245 249 / 0.92);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--sample-scrollbar-thumb) transparent;
+  }
+
+  .sample-code-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .sample-code-scrollbar::-webkit-scrollbar-track,
+  .sample-code-scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  .sample-code-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--sample-scrollbar-thumb);
+    border-radius: 999px;
+  }
+
+  .sample-code-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--sample-scrollbar-thumb-hover);
+  }
+
+  .sample-code-scrollbar::-webkit-scrollbar-thumb:active {
+    background: var(--sample-scrollbar-thumb-active);
+  }
+
+  .sample-code-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .dark .sample-code-scrollbar {
+    --sample-scrollbar-thumb: rgb(148 163 184 / 0.72);
+    --sample-scrollbar-thumb-hover: rgb(226 232 240 / 0.88);
+    --sample-scrollbar-thumb-active: rgb(248 250 252 / 0.96);
+  }
+}
+
 @layer base {
   :root {
     --background: 220 10% 99%;
