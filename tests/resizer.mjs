@@ -67,7 +67,10 @@ try {
   const separatorEnd = sidebarSource.indexOf("/>", separatorStart);
   const buttonStart = sidebarSource.indexOf("<ShadcnButton");
 
-  assert.match(sidebarSource, /<div className="group relative">/);
+  assert.match(
+    sidebarSource,
+    /<div className="group relative h-full w-0 shrink-0">/,
+  );
   assert.notEqual(separatorStart, -1);
   assert.notEqual(separatorEnd, -1);
   assert.notEqual(buttonStart, -1);
@@ -76,8 +79,34 @@ try {
     sidebarSource.slice(separatorStart, separatorEnd),
     /<ShadcnButton/,
   );
+  assert.match(sidebarSource, /!isMobile &&\s+open && \(/);
+  assert.match(sidebarSource, /hover:before:bg-primary/);
+  assert.match(sidebarSource, /focus-visible:before:bg-primary/);
+  assert.match(sidebarSource, /cursor-col-resize/);
+  assert.match(
+    sidebarSource,
+    /isResizing \? "before:bg-primary" : "before:bg-border"/,
+  );
+  assert.match(sidebarSource, /<GripVertical className="size-3"/);
+  assert.match(sidebarSource, /top-\[calc\(50%-44px\)\]/);
+  assert.match(sidebarSource, /className="absolute top-1\/2 -right-4 z-20/);
 
-  console.log("ALGOGO-137 resizer limits tests passed");
+  const sidebarHookSource = await readFile(
+    new URL("../src/hook/useProblemSidebar.ts", import.meta.url),
+    "utf8",
+  );
+  assert.match(sidebarHookSource, /event\.key === "Home"/);
+  assert.match(sidebarHookSource, /event\.key === "End"/);
+
+  const fixtureSource = await readFile(
+    new URL("./fixtures/problem-sidebar-resizer.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(fixtureSource, /<ProblemSidebar open=\{open\}/);
+  assert.match(fixtureSource, /aria-label="코드 패널"/);
+  assert.match(fixtureSource, /문제 패널 너비: \{problemWidth\}px/);
+
+  console.log("problem sidebar resizer regression tests passed");
 } finally {
   await server.close();
 }

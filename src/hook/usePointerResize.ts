@@ -14,6 +14,8 @@ interface UsePointerResizeOptions {
   value: number;
   clampValue: (value: number) => number;
   onResize: (value: number) => void;
+  onResizeStart?: () => void;
+  onResizeEnd?: () => void;
 }
 
 function getCoordinate(event: PointerEvent, axis: ResizeAxis) {
@@ -26,6 +28,8 @@ export default function usePointerResize({
   value,
   clampValue,
   onResize,
+  onResizeStart,
+  onResizeEnd,
 }: UsePointerResizeOptions) {
   const cleanupRef = useRef<(() => void) | null>(null);
 
@@ -66,6 +70,7 @@ export default function usePointerResize({
         window.removeEventListener("pointercancel", endHandler);
         window.removeEventListener("blur", cleanup);
         if (cleanupRef.current === cleanup) cleanupRef.current = null;
+        onResizeEnd?.();
       };
       const endHandler = (endEvent: PointerEvent) => {
         if (endEvent.pointerId === pointerId) cleanup();
@@ -79,8 +84,9 @@ export default function usePointerResize({
       window.addEventListener("pointercancel", endHandler);
       window.addEventListener("blur", cleanup);
       cleanupRef.current = cleanup;
+      onResizeStart?.();
     },
-    [axis, clampValue, cursor, onResize, value],
+    [axis, clampValue, cursor, onResize, onResizeEnd, onResizeStart, value],
   );
 
   return handlePointerDown;
