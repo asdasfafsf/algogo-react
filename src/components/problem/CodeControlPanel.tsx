@@ -6,6 +6,12 @@ import LanguageDropdown from "./LanguageDropdown";
 import CodeTemplateDropdown from "./CodeTemplateDropdown";
 import CodeEditorSettingsModal from "./CodeEditorSettingsModal";
 import CompilerInfoModal from "./CompilerInfoModal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function CodeControlPanel({
   isPending,
@@ -20,6 +26,45 @@ export default function CodeControlPanel({
       <div className="flex min-w-max items-center gap-2">
         <LanguageDropdown />
         <CodeTemplateDropdown />
+        <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
+        <TooltipProvider delayDuration={150}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-8 cursor-pointer text-muted-foreground hover:text-foreground"
+                aria-label="컴파일러 정보"
+                onClick={() =>
+                  modal.push("CompilerInfo", CompilerInfoModal, {})
+                }
+              >
+                <FileText aria-hidden="true" className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">컴파일러 정보</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-8 cursor-pointer text-muted-foreground hover:text-foreground"
+                aria-label="화면 설정"
+                onClick={() =>
+                  modal.push(
+                    "CODE_EDITOR_SETTINGS",
+                    CodeEditorSettingsModal,
+                    {},
+                  )
+                }
+              >
+                <Settings aria-hidden="true" className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">화면 설정</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       <div className="flex min-w-max items-center gap-1">
         <Button
@@ -27,33 +72,10 @@ export default function CodeControlPanel({
           size="sm"
           disabled={isPending}
           onClick={handleClickReset}
-          className="h-8 px-2 text-xs"
-          title="작성 중인 코드를 초기화합니다"
+          className="h-8 cursor-pointer px-2 text-xs disabled:cursor-not-allowed"
         >
           <RotateCcw />
           초기화
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-8"
-          aria-label="컴파일러 정보"
-          title="컴파일러 정보"
-          onClick={() => modal.push("CompilerInfo", CompilerInfoModal, {})}
-        >
-          <FileText />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-8"
-          aria-label="화면 설정"
-          title="화면 설정"
-          onClick={() =>
-            modal.push("CODE_EDITOR_SETTINGS", CodeEditorSettingsModal, {})
-          }
-        >
-          <Settings />
         </Button>
       </div>
     </div>

@@ -11,10 +11,10 @@ const sources = Object.fromEntries(
     [
       "CodeEditorSettingsModal",
       "CodeEditorTabSizer",
+      "CodeControlPanel",
       "CodeTemplateAddModal",
       "CodeTestCaseTable",
       "CompilerInfoModal",
-      "ProblemNavbar",
       "TestCaseModal",
     ].map(async (name) => [name, await readComponent(name)]),
   ),
@@ -23,10 +23,10 @@ const sources = Object.fromEntries(
 const expectedPrimitives = {
   CodeEditorSettingsModal: ["ui/button", "ui/checkbox"],
   CodeEditorTabSizer: ["ui/input"],
+  CodeControlPanel: ["ui/button", "ui/tooltip"],
   CodeTemplateAddModal: ["ui/button", "ui/checkbox", "ui/input"],
   CodeTestCaseTable: ["ui/button"],
   CompilerInfoModal: ["ui/button"],
-  ProblemNavbar: ["ui/button", "ui/tooltip"],
   TestCaseModal: ["ui/button", "ui/textarea"],
 };
 
@@ -106,11 +106,20 @@ assert.doesNotMatch(
   "test case controls must use valid shadcn props and Tailwind width utilities",
 );
 assert.match(
-  sources.ProblemNavbar,
-  /TooltipContent side="bottom" align="end"/,
-  "settings tooltip must retain its bottom-end placement",
+  sources.CodeControlPanel,
+  /<LanguageDropdown \/>[\s\S]*<CodeTemplateDropdown \/>[\s\S]*aria-label="컴파일러 정보"[\s\S]*aria-label="화면 설정"/,
+  "compiler information and editor settings must be grouped with language and template controls",
 );
-
+assert.match(
+  sources.CodeControlPanel,
+  /TooltipContent side="bottom">컴파일러 정보<\/TooltipContent>/,
+  "compiler information needs a hover and keyboard hint in the editor toolbar",
+);
+assert.match(
+  sources.CodeControlPanel,
+  /TooltipContent side="bottom">화면 설정<\/TooltipContent>/,
+  "editor settings needs a hover and keyboard hint in the editor toolbar",
+);
 for (const [component, closeHandler] of [
   ["CodeEditorSettingsModal", "close"],
   ["CodeTemplateAddModal", "handleClose"],
@@ -133,9 +142,9 @@ const fixture = await readFile(
 for (const component of [
   "CodeEditorSettingsModal",
   "CodeTemplateAddModal",
+  "CodeControlPanel",
   "CodeTestCaseTable",
   "CompilerInfoModal",
-  "ProblemNavbar",
   "TestCaseModal",
 ]) {
   assert.match(

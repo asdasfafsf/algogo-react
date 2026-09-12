@@ -1,5 +1,5 @@
 import ProblemBreadcrumbs from "@components/problem/ProblemBreadcrumbs";
-import ProblemNavbar from "@components/problem/ProblemNavbar";
+import ThemeToggle from "@components/ThemeToggle";
 import { PROBLEM_HEADER_HEIGHT } from "../../constant/Size";
 import { formatProblemNumber } from "@/domain/problems/problemPresentation";
 import type { Problem } from "@/type/Problem.type";
@@ -24,7 +24,9 @@ export default function ProblemHeader({ problem }: ProblemHeaderProps) {
           number={problemNumber === "-" ? undefined : problemNumber}
           title={title}
         />
-        <ProblemNavbar problem={problem} />
+        <div className="shrink-0 [&_button]:size-8 [&_button]:rounded-md">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

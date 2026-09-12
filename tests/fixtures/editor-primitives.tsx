@@ -2,11 +2,11 @@ import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import CodeControlPanel from "@/components/problem/CodeControlPanel";
 import CodeEditorSettingsModal from "@/components/problem/CodeEditorSettingsModal";
 import CodeTemplateAddModal from "@/components/problem/CodeTemplateAddModal";
 import CodeTestCaseTable from "@/components/problem/CodeTestCaseTable";
 import CompilerInfoModal from "@/components/problem/CompilerInfoModal";
-import ProblemNavbar from "@/components/problem/ProblemNavbar";
 import ProblemHeader from "@/layout/problem/ProblemHeader";
 import TestCaseModal from "@/components/problem/TestCaseModal";
 import ModalProvider from "@/plugins/modal/ModalProvider";
@@ -133,9 +133,7 @@ function EditorPrimitivesFixture() {
               {isPending ? "테스트 버튼 비활성" : "테스트 버튼 활성"}
             </output>
           </div>
-          <div className="h-12 bg-gray-900">
-            <ProblemNavbar />
-          </div>
+          <CodeControlPanel isPending={isPending} />
           <CodeTestCaseTable executeResultList={executeResultList} />
         </section>
       </main>
