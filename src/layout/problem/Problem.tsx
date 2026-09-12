@@ -12,6 +12,15 @@ import { Problem as ProblemType } from "@/type/Problem.type";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { formatProblemNumber } from "@/domain/problems/problemPresentation";
 import ProblemTabsList from "@components/problem/ProblemTabsList";
+import useProblemUpdate from "@hook/problem/useProblemUpdate";
+import { RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ProblemProps {
   problem: ProblemType;
@@ -50,6 +59,8 @@ function Problem({ problem }: ProblemProps) {
   const formattedProblemNumber = formatProblemNumber(sourceId);
   const problemNumber =
     formattedProblemNumber === "-" ? undefined : formattedProblemNumber;
+  const handleClickUpdate = useProblemUpdate(problem);
+
   return (
     <div className="flex h-full min-h-0 w-full flex-col bg-background">
       <Tabs defaultValue="description" className="flex min-h-0 flex-1 flex-col">
@@ -66,7 +77,27 @@ function Problem({ problem }: ProblemProps) {
                 number={problemNumber}
                 state={state}
               />
-              <ProblemContentResizer />
+              <div className="flex shrink-0 items-center gap-1.5">
+                <ProblemContentResizer />
+                <TooltipProvider delayDuration={150}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="문제 새로고침"
+                        onClick={handleClickUpdate}
+                        className="size-8 cursor-pointer rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed"
+                      >
+                        <RefreshCw aria-hidden="true" className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" align="end">
+                      문제 새로고침
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
             </div>
 
             <ProblemInfo
