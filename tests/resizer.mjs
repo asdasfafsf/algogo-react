@@ -89,7 +89,12 @@ try {
   );
   assert.match(sidebarSource, /<GripVertical className="size-3"/);
   assert.match(sidebarSource, /top-\[calc\(50%-44px\)\]/);
-  assert.match(sidebarSource, /className="absolute top-1\/2 -right-4 z-20/);
+  assert.match(
+    sidebarSource,
+    /className="relative flex w-full border-r border-border bg-background"/,
+  );
+  assert.match(sidebarSource, /group\/resizer absolute -right-2\.5 z-30/);
+  assert.match(sidebarSource, /className="absolute top-1\/2 -right-4 z-30/);
 
   const sidebarHookSource = await readFile(
     new URL("../src/hook/useProblemSidebar.ts", import.meta.url),
@@ -104,6 +109,8 @@ try {
   );
   assert.match(fixtureSource, /<ProblemSidebar open=\{open\}/);
   assert.match(fixtureSource, /aria-label="코드 패널"/);
+  assert.match(fixtureSource, /<LoginRequiredOverlay/);
+  assert.match(fixtureSource, /fixture-code-login/);
   assert.match(fixtureSource, /문제 패널 너비: \{problemWidth\}px/);
 
   console.log("problem sidebar resizer regression tests passed");

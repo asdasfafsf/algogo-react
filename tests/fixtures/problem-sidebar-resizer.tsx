@@ -1,6 +1,8 @@
 import { StrictMode, useCallback, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { MemoryRouter } from "react-router-dom";
 import ProblemSidebar from "@layout/problem/ProblemSidebar";
+import { LoginRequiredOverlay } from "@layout/problem/ProblemSection";
 import ThemeToggle from "@/components/ThemeToggle";
 import { ScreenSizeProvider } from "@/context/ScreenSizeContext";
 import { useProblemWidthStore } from "@zustand/ProblemWidthStore";
@@ -34,7 +36,8 @@ function ProblemSidebarResizerFixture() {
               문제 패널 리사이저 fixture
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              세로 손잡이, 키보드 조절, 접기와 펼치기 동작을 확인합니다.
+              오른쪽 로그인 오버레이에서도 세로 손잡이, 키보드 조절, 접기와
+              펼치기 동작을 확인합니다.
             </p>
           </div>
           <ThemeToggle />
@@ -58,10 +61,14 @@ function ProblemSidebarResizerFixture() {
             </ProblemSidebar>
           </div>
           <section
-            className="min-w-0 flex-1 bg-muted/20 p-6"
+            className="relative min-w-0 flex-1 bg-muted/20 p-6"
             aria-label="코드 패널"
           >
             <h2 className="text-lg font-semibold">코드 패널</h2>
+            <LoginRequiredOverlay
+              destination="/problem/fixture-sidebar-resizer"
+              id="fixture-code-login"
+            />
           </section>
         </div>
 
@@ -73,8 +80,10 @@ function ProblemSidebarResizerFixture() {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ScreenSizeProvider>
-      <ProblemSidebarResizerFixture />
-    </ScreenSizeProvider>
+    <MemoryRouter initialEntries={["/problem/fixture-sidebar-resizer"]}>
+      <ScreenSizeProvider>
+        <ProblemSidebarResizerFixture />
+      </ScreenSizeProvider>
+    </MemoryRouter>
   </StrictMode>,
 );

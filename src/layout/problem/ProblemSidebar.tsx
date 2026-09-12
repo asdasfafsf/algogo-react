@@ -51,7 +51,7 @@ export function ProblemSidebar({
                 gridColumn: 1,
               }
         }
-        className="relative z-10 flex w-full border-r border-border bg-background"
+        className="relative flex w-full border-r border-border bg-background"
       >
         {children}
         <div className="group relative h-full w-0 shrink-0">
@@ -67,7 +67,7 @@ export function ProblemSidebar({
               tabIndex={0}
               onPointerDown={handlePointerDown}
               onKeyDown={handleKeyDown}
-              className={`group/resizer absolute -right-2.5 z-10 h-full w-5 touch-none cursor-col-resize bg-transparent outline-none before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 before:transition-colors hover:before:bg-primary focus-visible:before:bg-primary focus-visible:ring-2 focus-visible:ring-ring active:before:bg-primary ${
+              className={`group/resizer absolute -right-2.5 z-30 h-full w-5 touch-none cursor-col-resize bg-transparent outline-none before:absolute before:inset-y-0 before:left-1/2 before:w-px before:-translate-x-1/2 before:transition-colors hover:before:bg-primary focus-visible:before:bg-primary focus-visible:ring-2 focus-visible:ring-ring active:before:bg-primary ${
                 isResizing ? "before:bg-primary" : "before:bg-border"
               }`}
             >
@@ -83,7 +83,7 @@ export function ProblemSidebar({
               </span>
             </Separator>
           )}
-          <div className="absolute top-1/2 -right-4 z-20 -translate-y-1/2">
+          <div className="absolute top-1/2 -right-4 z-30 -translate-y-1/2">
             <ShadcnButton
               variant="ghost"
               size="sm"
