@@ -16,7 +16,7 @@ export default function LanguageDropdown() {
         <Button
           variant="outline"
           size="sm"
-          className="h-8 w-32 justify-between bg-background text-xs"
+          className="h-8 min-w-0 flex-1 justify-between bg-background text-xs @[30rem]/editor-toolbar:w-24 @[30rem]/editor-toolbar:flex-none @[48rem]/editor-toolbar:w-32"
           aria-label="코드 언어"
         >
           {languageList[selectedIndex]}

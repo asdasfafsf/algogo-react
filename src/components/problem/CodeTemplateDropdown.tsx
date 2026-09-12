@@ -42,7 +42,7 @@ export default function CodeTemplateDropdown() {
           ref={triggerRef}
           variant="outline"
           size="sm"
-          className="h-8 w-36 justify-between gap-2 bg-background text-xs"
+          className="h-8 min-w-0 flex-1 justify-between gap-2 bg-background text-xs @[30rem]/editor-toolbar:w-28 @[30rem]/editor-toolbar:flex-none @[48rem]/editor-toolbar:w-36"
           aria-label="코드 템플릿"
         >
           <span className="truncate">{displayedTitle}</span>
