@@ -49,6 +49,8 @@ const headerProblem = {
 function EditorPrimitivesFixture() {
   const modal = useModal();
   const [isPending, setIsPending] = useState(false);
+  const [lastToolbarAction, setLastToolbarAction] =
+    useState("아직 실행한 동작이 없습니다");
 
   useEffect(() => {
     useExecuteSocketStore.setState({
@@ -133,7 +135,26 @@ function EditorPrimitivesFixture() {
               {isPending ? "테스트 버튼 비활성" : "테스트 버튼 활성"}
             </output>
           </div>
-          <CodeControlPanel isPending={isPending} />
+          <CodeControlPanel
+            isPending={isPending}
+            onReset={() => setLastToolbarAction("초기화")}
+            onExecute={() => setLastToolbarAction("실행")}
+            onTest={() => setLastToolbarAction("테스트")}
+            onSubmit={() => setLastToolbarAction("제출")}
+            onOpenCompilerInfo={() =>
+              void modal.push("CompilerInfo", CompilerInfoModal, {})
+            }
+            onOpenSettings={() =>
+              void modal.push(
+                "CODE_EDITOR_SETTINGS",
+                CodeEditorSettingsModal,
+                {},
+              )
+            }
+          />
+          <output aria-live="polite">
+            최근 도구 동작: {lastToolbarAction}
+          </output>
           <CodeTestCaseTable executeResultList={executeResultList} />
         </section>
       </main>

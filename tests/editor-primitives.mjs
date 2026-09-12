@@ -12,6 +12,7 @@ const sources = Object.fromEntries(
       "CodeEditorSettingsModal",
       "CodeEditorTabSizer",
       "CodeControlPanel",
+      "CodeEditor",
       "CodeTemplateAddModal",
       "CodeTestCaseTable",
       "CompilerInfoModal",
@@ -24,6 +25,7 @@ const expectedPrimitives = {
   CodeEditorSettingsModal: ["ui/button", "ui/checkbox"],
   CodeEditorTabSizer: ["ui/input"],
   CodeControlPanel: ["ui/button", "ui/tooltip"],
+  CodeEditor: [],
   CodeTemplateAddModal: ["ui/button", "ui/checkbox", "ui/input"],
   CodeTestCaseTable: ["ui/button"],
   CompilerInfoModal: ["ui/button"],
@@ -107,9 +109,36 @@ assert.doesNotMatch(
 );
 assert.match(
   sources.CodeControlPanel,
-  /<LanguageDropdown \/>[\s\S]*<CodeTemplateDropdown \/>[\s\S]*aria-label="컴파일러 정보"[\s\S]*aria-label="화면 설정"/,
-  "compiler information and editor settings must be grouped with language and template controls",
+  /<LanguageDropdown \/>[\s\S]*<CodeTemplateDropdown \/>[\s\S]*초기화[\s\S]*실행[\s\S]*테스트[\s\S]*제출[\s\S]*aria-label="컴파일러 정보"[\s\S]*aria-label="화면 설정"/,
+  "editor toolbar must keep language and template on the left, primary actions in the middle, and utility controls on the right",
 );
+assert.match(
+  sources.CodeControlPanel,
+  /aria-hidden="true" className="mx-1 h-5 w-px bg-border"[\s\S]*실행[\s\S]*제출[\s\S]*aria-hidden="true" className="mx-1 h-5 w-px bg-border"/,
+  "primary editor actions must be visually separated from reset and utility controls",
+);
+assert.match(
+  sources.CodeControlPanel,
+  /overflow-x-auto[\s\S]*min-w-max/,
+  "narrow editor toolbars must scroll horizontally instead of hiding controls",
+);
+assert.doesNotMatch(
+  sources.CodeEditor,
+  /테스트 추가|border-t border-border/,
+  "editor actions must live in the toolbar instead of the duplicated bottom action bar",
+);
+for (const [prop, handler] of [
+  ["onReset", "handleClickReset"],
+  ["onExecute", "handleExecute"],
+  ["onTest", "handleTest"],
+  ["onSubmit", "handleSubmit"],
+]) {
+  assert.match(
+    sources.CodeEditor,
+    new RegExp(`${prop}=\\{${handler}\\}`),
+    `${prop} must preserve its existing editor handler`,
+  );
+}
 assert.match(
   sources.CodeControlPanel,
   /TooltipContent side="bottom">컴파일러 정보<\/TooltipContent>/,
