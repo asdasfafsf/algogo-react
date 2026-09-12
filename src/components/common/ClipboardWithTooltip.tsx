@@ -146,7 +146,7 @@ export default function ClipboardWithTooltip({
               disabled={isCopyPending}
               className={`relative block h-auto min-w-0 w-full cursor-pointer overflow-hidden whitespace-nowrap rounded-md border border-slate-800 bg-slate-950 p-0 text-slate-100 hover:bg-slate-900 hover:text-white focus-visible:ring-2 focus-visible:ring-ring ${className}`}
             >
-              <span className="block w-full overflow-x-auto pr-11 text-left">
+              <span className="sample-code-scrollbar block w-full overflow-x-auto pr-11 text-left">
                 <code
                   className="block min-w-max py-2 font-D2Coding text-sm leading-6 text-slate-100 sm:text-base"
                   aria-hidden="true"
