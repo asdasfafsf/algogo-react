@@ -109,7 +109,7 @@ assert.doesNotMatch(
 );
 assert.match(
   sources.CodeControlPanel,
-  /<LanguageDropdown \/>[\s\S]*<CodeTemplateDropdown \/>[\s\S]*초기화[\s\S]*실행[\s\S]*테스트[\s\S]*제출[\s\S]*aria-label="컴파일러 정보"[\s\S]*aria-label="화면 설정"/,
+  /<LanguageDropdown \/>[\s\S]*<CodeTemplateDropdown \/>[\s\S]*aria-label="코드 초기화"[\s\S]*aria-label="코드 실행"[\s\S]*aria-label="테스트 실행"[\s\S]*aria-label="코드 제출"[\s\S]*aria-label="컴파일러 정보"[\s\S]*aria-label="화면 설정"/,
   "editor toolbar must keep language and template on the left, primary actions in the middle, and utility controls on the right",
 );
 assert.match(
@@ -119,8 +119,18 @@ assert.match(
 );
 assert.match(
   sources.CodeControlPanel,
-  /overflow-x-auto[\s\S]*min-w-max/,
-  "narrow editor toolbars must scroll horizontally instead of hiding controls",
+  /@container\/editor-toolbar[\s\S]*role="toolbar"[\s\S]*grid-rows-2[\s\S]*@\[30rem\]\/editor-toolbar:grid-rows-1/,
+  "editor toolbar must use its own width to switch between compact two-row and desktop one-row layouts",
+);
+assert.match(
+  sources.CodeControlPanel,
+  /role="toolbar"[\s\S]*overflow-hidden/,
+  "editor toolbar must clip incidental paint without becoming a scroll container",
+);
+assert.doesNotMatch(
+  sources.CodeControlPanel,
+  /overflow-x-auto|min-w-max/,
+  "editor toolbar must not introduce horizontal scrolling or a minimum-content width",
 );
 assert.doesNotMatch(
   sources.CodeEditor,
@@ -167,6 +177,11 @@ for (const [component, closeHandler] of [
 const fixture = await readFile(
   new URL("./fixtures/editor-primitives.tsx", import.meta.url),
   "utf8",
+);
+assert.match(
+  fixture,
+  /data-testid="responsive-code-toolbar"[\s\S]*min-w-0 overflow-hidden/,
+  "editor fixture must expose a bounded toolbar for responsive browser checks",
 );
 for (const component of [
   "CodeEditorSettingsModal",

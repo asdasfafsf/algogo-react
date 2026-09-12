@@ -150,23 +150,28 @@ function EditorPrimitivesFixture() {
             </Button>
             <output aria-live="polite">에디터 테마: {themePreference}</output>
           </div>
-          <CodeControlPanel
-            isPending={isPending}
-            onReset={() => setLastToolbarAction("초기화")}
-            onExecute={() => setLastToolbarAction("실행")}
-            onTest={() => setLastToolbarAction("테스트")}
-            onSubmit={() => setLastToolbarAction("제출")}
-            onOpenCompilerInfo={() =>
-              void modal.push("CompilerInfo", CompilerInfoModal, {})
-            }
-            onOpenSettings={() =>
-              void modal.push(
-                "CODE_EDITOR_SETTINGS",
-                CodeEditorSettingsModal,
-                {},
-              )
-            }
-          />
+          <div
+            data-testid="responsive-code-toolbar"
+            className="min-w-0 overflow-hidden rounded-lg border"
+          >
+            <CodeControlPanel
+              isPending={isPending}
+              onReset={() => setLastToolbarAction("초기화")}
+              onExecute={() => setLastToolbarAction("실행")}
+              onTest={() => setLastToolbarAction("테스트")}
+              onSubmit={() => setLastToolbarAction("제출")}
+              onOpenCompilerInfo={() =>
+                void modal.push("CompilerInfo", CompilerInfoModal, {})
+              }
+              onOpenSettings={() =>
+                void modal.push(
+                  "CODE_EDITOR_SETTINGS",
+                  CodeEditorSettingsModal,
+                  {},
+                )
+              }
+            />
+          </div>
           <output aria-live="polite">
             최근 도구 동작: {lastToolbarAction}
           </output>
