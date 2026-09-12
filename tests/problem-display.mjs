@@ -63,19 +63,60 @@ try {
         seq: 1,
         processTime: 12,
         memory: 256,
-        code: "0",
+        code: "0000",
         result: "실행 결과",
         detail: "추가 정보",
       },
       handleClickRun: () => undefined,
       handleClickCopy: () => undefined,
       handleClickReset: () => undefined,
+      isPending: false,
     }),
   );
+  assert.match(resultMarkup, />완료</);
+  assert.doesNotMatch(resultMarkup, />실패</);
   assert.match(resultMarkup, /aria-label="실행 결과 동작"/);
   assert.match(resultMarkup, /aria-label="다시 실행"/);
   assert.match(resultMarkup, /aria-label="출력 복사"/);
   assert.match(resultMarkup, /aria-label="출력 지우기"/);
+
+  const pendingResultMarkup = renderToStaticMarkup(
+    React.createElement(CodeResultOutput, {
+      output: {
+        seq: 0,
+        processTime: 0,
+        memory: 0,
+        code: "",
+        result: "",
+        detail: "",
+      },
+      handleClickRun: () => undefined,
+      handleClickCopy: () => undefined,
+      handleClickReset: () => undefined,
+      isPending: true,
+    }),
+  );
+  assert.match(pendingResultMarkup, /코드를 실행하고 있습니다/);
+  assert.equal(pendingResultMarkup.match(/disabled=""/g)?.length, 3);
+
+  const zeroMetricFailureMarkup = renderToStaticMarkup(
+    React.createElement(CodeResultOutput, {
+      output: {
+        seq: 0,
+        processTime: 0,
+        memory: 0,
+        code: "SOCKET_UNAVAILABLE",
+        result: "코드 실행 서버에 연결하지 못했습니다.",
+        detail: "네트워크 연결을 확인해 주세요.",
+      },
+      handleClickRun: () => undefined,
+      handleClickCopy: () => undefined,
+      handleClickReset: () => undefined,
+      isPending: false,
+    }),
+  );
+  assert.match(zeroMetricFailureMarkup, />실패</);
+  assert.doesNotMatch(zeroMetricFailureMarkup, /0ms|0MB/);
 
   const componentFiles = [
     "src/components/problem/ProblemCategoryViewer.tsx",

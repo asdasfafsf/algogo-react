@@ -67,6 +67,7 @@ function ErrorCopyFixture() {
         </h2>
         <Card className="mt-3 h-64 overflow-hidden">
           <CodeResultOutput
+            isPending={false}
             output={compilerFailure}
             handleClickReset={() => undefined}
             handleClickCopy={() => undefined}

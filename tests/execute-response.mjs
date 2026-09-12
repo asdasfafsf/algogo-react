@@ -117,5 +117,12 @@ test("평탄한 서비스 오류도 내부 원문과 세부 정보를 숨긴다"
     result.result,
     "코드를 실행하지 못했습니다. 잠시 후 다시 시도해 주세요.",
   );
-  assert.equal(result.detail, "");
+  assert.equal(
+    result.detail,
+    "문제가 계속되면 잠시 후 페이지를 새로고침해 다시 시도해 주세요.",
+  );
+  assert.doesNotMatch(
+    `${result.result}\n${result.detail}`,
+    /TypeError|Cannot read properties|\/app\/dist|executor\.js/,
+  );
 });

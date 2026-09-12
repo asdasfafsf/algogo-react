@@ -57,6 +57,11 @@ assert.doesNotMatch(
 );
 assert.match(
   component,
+  /wrap-break-word whitespace-pre-wrap text-center text-sm font-normal[\s\S]*\{output\}/,
+  "test failure details must preserve line breaks while long output continues wrapping",
+);
+assert.match(
+  component,
   /onClick=\{\(\) => modal\.push\("TESTCASE", TestCaseModal, \{\}\)\}/,
   "adding test cases must retain its existing modal action",
 );

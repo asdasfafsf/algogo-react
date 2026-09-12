@@ -2,6 +2,6 @@ type TestCase = {
   input: string;
   output: string;
   expected: string;
-  state: '실행 전' | '일치' | '불일치' | '실행 중',
+  state: "실행 전" | "일치" | "불일치" | "실행 중" | "실패";
   readOnly?: boolean;
 };

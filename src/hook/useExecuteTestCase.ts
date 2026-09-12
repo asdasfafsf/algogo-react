@@ -3,12 +3,12 @@ import useMeStore from "@zustand/MeStore";
 import useCodeEditorStore from "../zustand/CodeEditorStore";
 import useTestCaseListStore from "../zustand/TestCaseListStore";
 import { useExecuteSocketStore } from "../zustand/ExecuteSocketStore";
-import useAlertModal from "./useAlertModal";
 import useCodeResultPanelStore from "../zustand/CodeResultPanelStore";
 import { buildExecutionRequest } from "@/domain/editor/execution";
 import {
   canStartExecution,
   executeWithAuthenticationRetry,
+  isExecutionBusyError,
 } from "@/application/editor/execute";
 import { toExecutionFailureResult } from "@/domain/execute/error";
 
@@ -22,14 +22,10 @@ export default function useExecuteTestCase(onExecutionStarted?: () => void) {
     (state) => state.setSelectedIndex,
   );
   const refresh = useMeStore((state) => state.refresh);
-  const [alert] = useAlertModal();
 
   const handleTest = useCallback(async () => {
-    const { connect } = useExecuteSocketStore.getState();
-    if (!canStartExecution(state)) {
-      await alert("실행 중 입니다. 잠시만 기다려주세요");
-      return;
-    }
+    const { state: currentState, connect } = useExecuteSocketStore.getState();
+    if (!canStartExecution(currentState)) return;
 
     const { run, execute } = useExecuteSocketStore.getState();
 
@@ -40,9 +36,13 @@ export default function useExecuteTestCase(onExecutionStarted?: () => void) {
       });
     };
 
+    onExecutionStarted?.();
+    setSelectedIndex(2);
+    setRunning();
+
     try {
       const result = await executeWithAuthenticationRetry(
-        state,
+        currentState,
         () => {
           const { testCaseList } = useTestCaseListStore.getState();
           const { code, language } = useCodeEditorStore.getState();
@@ -54,16 +54,8 @@ export default function useExecuteTestCase(onExecutionStarted?: () => void) {
         {
           connect,
           refreshAuthentication: refresh,
-          subscribe: (isRetry) => {
-            if (isRetry) setRunning();
-            execute(handleExecute);
-          },
+          subscribe: () => execute(handleExecute),
           run,
-        },
-        () => {
-          onExecutionStarted?.();
-          setSelectedIndex(2);
-          setRunning();
         },
       );
 
@@ -71,15 +63,15 @@ export default function useExecuteTestCase(onExecutionStarted?: () => void) {
         handleRun(result);
       } else if (result.code !== "0000") {
         showFailure(result);
-        await alert(result.result);
       }
     } catch (error) {
+      if (isExecutionBusyError(error)) return;
+
       const failure = toExecutionFailureResult(error);
+      setSelectedIndex(2);
       showFailure(failure);
-      await alert(failure.result);
     }
   }, [
-    alert,
     handleExecute,
     handleRun,
     onExecutionStarted,

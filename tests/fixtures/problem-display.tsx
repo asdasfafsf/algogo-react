@@ -41,11 +41,12 @@ function ProblemDisplayFixture() {
 
       <section className="h-64 overflow-hidden rounded-xl border bg-card">
         <CodeResultOutput
+          isPending={false}
           output={{
             seq: 1,
             processTime: 12,
             memory: 256,
-            code: "0",
+            code: "0000",
             result: "실행 결과",
             detail: "추가 정보",
           }}

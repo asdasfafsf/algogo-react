@@ -1,6 +1,10 @@
-import { executionFailureMessage } from "./userMessage.ts";
+import {
+  executionFailureDetail,
+  executionFailureMessage,
+} from "./userMessage.ts";
 
 export {
+  executionFailureDetail,
   executionFailureMessage,
   isExecutionOutputCode,
 } from "./userMessage.ts";
@@ -39,6 +43,6 @@ export const toExecutionFailureResult = (
     memory: 0,
     code,
     result: executionFailureMessage(code),
-    detail: "",
+    detail: executionFailureDetail(code),
   };
 };

@@ -2,7 +2,6 @@ import { useCallback, useMemo } from "react";
 import useMeStore from "@zustand/MeStore";
 import useCodeEditorStore from "../zustand/CodeEditorStore";
 import { useExecuteSocketStore } from "../zustand/ExecuteSocketStore";
-import useAlertModal from "./useAlertModal";
 import useCodeResultPanelStore from "../zustand/CodeResultPanelStore";
 import {
   buildExecutionRequest,
@@ -11,6 +10,7 @@ import {
 import {
   canStartExecution,
   executeWithAuthenticationRetry,
+  isExecutionBusyError,
 } from "@/application/editor/execute";
 import { toExecutionFailureResult } from "@/domain/execute/error";
 
@@ -19,18 +19,9 @@ export default function useExecute() {
     (state) => state.setSelectedIndex,
   );
   const setOutput = useCodeEditorStore((state) => state.setOutput);
-  const socketState = useExecuteSocketStore((state) => state.state);
-  const run = useExecuteSocketStore((state) => state.run);
-  const execute = useExecuteSocketStore((state) => state.execute);
-  const connect = useExecuteSocketStore((state) => state.connect);
-
-  const [alert] = useAlertModal();
-
   const handleExecute = useCallback(async () => {
-    if (!canStartExecution(socketState)) {
-      await alert("실행 중 입니다. 잠시만 기다려주세요");
-      return;
-    }
+    const { state, run, execute, connect } = useExecuteSocketStore.getState();
+    if (!canStartExecution(state)) return;
 
     const { language, code, input } = useCodeEditorStore.getState();
     setSelectedIndex(1);
@@ -38,7 +29,7 @@ export default function useExecute() {
 
     try {
       const result = await executeWithAuthenticationRetry(
-        socketState,
+        state,
         () => requestData,
         {
           connect,
@@ -55,21 +46,20 @@ export default function useExecute() {
 
       if (result.code !== "0000") {
         setOutput(result);
-        if (result.code === "9999") {
-          await alert("실행 중 오류가 발생했습니다.");
-        }
       }
     } catch (error) {
+      if (isExecutionBusyError(error)) return;
+
       const failure = toExecutionFailureResult(error);
+      setSelectedIndex(1);
       setOutput(failure);
-      await alert(failure.result);
     }
-  }, [socketState]);
+  }, [setOutput, setSelectedIndex]);
 
   return useMemo(
     () => ({
       handleExecute,
     }),
-    [socketState, handleExecute],
+    [handleExecute],
   );
 }

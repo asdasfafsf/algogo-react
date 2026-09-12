@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Clipboard, Play, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  CheckCircle2,
+  CircleAlert,
+  Clipboard,
+  Loader2,
+  Play,
+  Trash2,
+} from "lucide-react";
 import React from "react";
 import {
   Tooltip,
@@ -13,6 +21,7 @@ interface CodeResultOutputProps {
   handleClickReset: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
   handleClickCopy: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
   handleClickRun: (e: React.MouseEvent<HTMLElement>) => void | Promise<void>;
+  isPending: boolean;
   copyPending?: boolean;
 }
 
@@ -21,26 +30,49 @@ export default function CodeResultOutput({
   handleClickReset,
   handleClickCopy,
   handleClickRun,
+  isPending,
   copyPending = false,
 }: CodeResultOutputProps) {
+  const hasResult = Boolean(output.code);
+  const isFailure = hasResult && output.code !== "0000";
+  const hasMetrics = output.processTime > 0 || output.memory > 0;
+
   return (
     <div className="relative h-full">
       <nav
         aria-label="실행 결과 동작"
         className="flex w-full justify-between gap-0 overflow-x-hidden"
       >
-        <div className="absolute z-10 flex flex-wrap gap-1 ml-3 top-2 text-xs">
-          <span className="text-sm font-medium leading-snug text-emerald-600 dark:text-emerald-400">
-            실행 시간 : &nbsp;
-            {output.processTime}
-            ms
-          </span>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <span className="text-sm font-medium leading-snug text-emerald-600 dark:text-emerald-400">
-            메모리 사용량 : &nbsp;
-            {output.memory}
-            MB
-          </span>
+        <div
+          aria-live="polite"
+          className="absolute left-3 top-2 z-10 flex min-w-0 items-center gap-2 text-xs"
+        >
+          {isPending ? (
+            <Badge variant="secondary" role="status" className="gap-1.5">
+              <Loader2 className="size-3 animate-spin" aria-hidden="true" />
+              실행 중
+            </Badge>
+          ) : hasResult ? (
+            <Badge
+              variant={isFailure ? "destructive" : "secondary"}
+              className="gap-1.5"
+            >
+              {isFailure ? (
+                <CircleAlert className="size-3" aria-hidden="true" />
+              ) : (
+                <CheckCircle2
+                  className="size-3 text-emerald-600"
+                  aria-hidden="true"
+                />
+              )}
+              {isFailure ? "실패" : "완료"}
+            </Badge>
+          ) : null}
+          {!isPending && hasResult && hasMetrics && (
+            <span className="truncate text-muted-foreground">
+              {output.processTime}ms · {output.memory}MB
+            </span>
+          )}
         </div>
 
         <TooltipProvider delayDuration={300}>
@@ -51,7 +83,9 @@ export default function CodeResultOutput({
                   variant="ghost"
                   size="icon"
                   aria-label="다시 실행"
-                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-busy={isPending}
+                  disabled={isPending}
+                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed"
                   onClick={handleClickRun}
                 >
                   <Play
@@ -69,8 +103,8 @@ export default function CodeResultOutput({
                   size="icon"
                   aria-label="출력 복사"
                   aria-busy={copyPending}
-                  disabled={copyPending}
-                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+                  disabled={isPending || copyPending}
+                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed"
                   onClick={handleClickCopy}
                 >
                   <Clipboard
@@ -87,7 +121,8 @@ export default function CodeResultOutput({
                   variant="ghost"
                   size="icon"
                   aria-label="출력 지우기"
-                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring"
+                  disabled={isPending}
+                  className="size-8 cursor-pointer focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed"
                   onClick={handleClickReset}
                 >
                   <Trash2
@@ -105,7 +140,21 @@ export default function CodeResultOutput({
         data-content={output.result}
         className="absolute inset-0 top-10 h-[calc(100%-40px)] overflow-auto bg-background px-3 pb-6 pt-2 font-mono leading-normal text-foreground"
       >
-        {output.result ? (
+        {isPending ? (
+          <div
+            role="status"
+            className="flex h-full min-h-24 flex-col items-center justify-center gap-2 text-center"
+          >
+            <Loader2
+              className="size-5 animate-spin text-primary"
+              aria-hidden="true"
+            />
+            <p className="text-sm font-medium">코드를 실행하고 있습니다</p>
+            <p className="text-xs text-muted-foreground">
+              완료되면 이곳에서 결과를 확인할 수 있습니다.
+            </p>
+          </div>
+        ) : output.result || output.detail ? (
           <>
             <div
               className={`whitespace-pre ${
@@ -115,9 +164,9 @@ export default function CodeResultOutput({
                     ? "text-red-500" // 런타임 에러
                     : output.code === "9002"
                       ? "text-red-500" // 컴파일 에러
-                      : output.code === "9999"
-                        ? "text-red-600" // 예외 오류
-                        : "text-foreground" // 정상 출력
+                      : output.code !== "0000"
+                        ? "text-destructive"
+                        : "text-foreground"
               }`}
             >
               {output.result}
