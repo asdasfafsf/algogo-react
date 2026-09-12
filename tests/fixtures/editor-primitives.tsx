@@ -40,7 +40,7 @@ const executeResultList: TestCase[] = [
 
 const headerProblem = {
   title:
-    "아주 긴 문제 제목에서도 현재 문제를 놓치지 않는 반응형 작업공간 헤더 검증",
+    "아주 긴 문제 제목에서도 현재 경로를 놓치지 않는 반응형 breadcrumb 헤더 검증",
   sourceId: "12015",
   sourceUrl: "https://www.acmicpc.net/problem/12015",
   updatedAt: new Date(0),
