@@ -6,11 +6,13 @@ import apiClient from "@api/apiClient";
 import { MainCarousel } from "@components/Carousel";
 import QuickNavStrip from "@components/home/QuickNavStrip";
 import ProblemListCard from "@components/problem-list/ProblemListCard";
+import ThemeToggle from "@components/ThemeToggle";
 import { Button } from "@components/ui/button";
 import { PROBLEM_STATE } from "@constant/problem.state.constant";
 import ModalProvider from "@plugins/modal/ModalProvider";
 import useProblemListStore from "@zustand/ProblemListStore";
 import useMeStore from "@zustand/MeStore";
+import { useProblemTableFilterStore } from "@zustand/ProblemTableFilterStore";
 import type { ProblemSummary, TodayProblem } from "@/type/Problem.type";
 import "../../src/index.css";
 
@@ -137,6 +139,9 @@ apiClient.interceptors.request.use((config) => {
 });
 
 useMeStore.setState({ me: sampleMe });
+useProblemTableFilterStore.setState({
+  problemHidden: { 난이도: true, 카테고리: true },
+});
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: false, staleTime: 0 } },
@@ -186,6 +191,7 @@ function FixtureToolbar() {
             {mode}
           </Button>
         ))}
+        <ThemeToggle />
       </div>
     </aside>
   );

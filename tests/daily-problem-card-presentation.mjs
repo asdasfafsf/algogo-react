@@ -18,6 +18,16 @@ assert.doesNotMatch(
   /hover:bg-muted\/45/,
   "the problem body must not create a separate hover stripe",
 );
+assert.doesNotMatch(
+  dailyProblemCard,
+  /ProblemCategoryBadgeList|problem\.typeList/,
+  "today problem cards must not reveal problem categories",
+);
+assert.match(
+  dailyProblemCard,
+  /ProblemLevelChip[\s\S]*formatProblemLevel[\s\S]*ProblemStateChip[\s\S]*정답률 \{problem\.answerRate\}%/,
+  "today problem cards must keep difficulty, state, and answer rate",
+);
 assert.match(
   dailyProblemCard,
   /tabIndex=\{index === activeSlide \? 0 : -1\}/,
