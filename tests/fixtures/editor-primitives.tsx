@@ -6,7 +6,6 @@ import CodeEditorSettingsModal from "@/components/problem/CodeEditorSettingsModa
 import CodeTemplateAddModal from "@/components/problem/CodeTemplateAddModal";
 import CodeTestCaseTable from "@/components/problem/CodeTestCaseTable";
 import CompilerInfoModal from "@/components/problem/CompilerInfoModal";
-import CompilerSettingModal from "@/components/problem/CompilerSettingModal";
 import ProblemNavbar from "@/components/problem/ProblemNavbar";
 import ProblemHeader from "@/layout/problem/ProblemHeader";
 import TestCaseModal from "@/components/problem/TestCaseModal";
@@ -112,14 +111,6 @@ function EditorPrimitivesFixture() {
             }
           >
             컴파일러 정보 열기
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() =>
-              void modal.push("COMPILER_SETTINGS", CompilerSettingModal, {})
-            }
-          >
-            컴파일러 설정 열기
           </Button>
           <Button
             onClick={() => void modal.push("TESTCASE", TestCaseModal, {})}
