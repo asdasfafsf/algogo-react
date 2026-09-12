@@ -31,40 +31,40 @@ export default function CodeTestCaseTable({
   const { state, handleTest } = useExecuteTestCase();
   const summary = summarizeTestCases(executeResultList);
   return (
-    <div className="h-full w-full bg-background">
-      <div className="flex w-full justify-between overflow-x-auto border-b border-border px-2 py-2">
-        <div className="flex items-center gap-2 ml-2">
-          <div className="flex items-center gap-1 rounded bg-emerald-500/10 px-3 py-1">
+    <div className="flex h-full w-full flex-col bg-background">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2">
+        <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded bg-emerald-500/10 px-3 py-1">
             <div className="w-2 h-2 rounded-full bg-green-500" />
-            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            <span className="whitespace-nowrap text-sm font-medium text-emerald-600 dark:text-emerald-400">
               성공 {summary.success}
             </span>
           </div>
-          <div className="flex items-center gap-1 rounded bg-red-500/10 px-3 py-1">
+          <div className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded bg-red-500/10 px-3 py-1">
             <div className="w-2 h-2 rounded-full bg-red-500" />
-            <span className="text-sm font-medium text-red-500">
+            <span className="whitespace-nowrap text-sm font-medium text-red-500">
               실패 {summary.failure}
             </span>
           </div>
         </div>
-        <div className="flex items-center justify-end gap-1 overflow-x-hidden min-w-[215px]">
+        <div className="ml-auto flex shrink-0 items-center justify-end gap-1">
           <Button
             onClick={() => modal.push("TESTCASE", TestCaseModal, {})}
             disabled={state === "PENDING"}
-            className="shrink-0"
+            className="shrink-0 cursor-pointer disabled:cursor-not-allowed"
           >
             테스트 케이스 추가
           </Button>
           <Button
             onClick={handleTest}
             disabled={state === "PENDING"}
-            className="shrink-0"
+            className="shrink-0 cursor-pointer disabled:cursor-not-allowed"
           >
             테스트
           </Button>
         </div>
       </div>
-      <Card className="h-[calc(100%-52px)] w-full overflow-auto rounded-none border-0 bg-background shadow-none">
+      <Card className="min-h-0 w-full flex-1 overflow-auto rounded-none border-0 bg-background shadow-none">
         <ShadcnTable className="min-w-[640px] table-fixed bg-background text-center">
           <colgroup>
             {testCaseColumns.map((column) => (
@@ -76,7 +76,7 @@ export default function CodeTestCaseTable({
               {testCaseColumns.map((column) => (
                 <ShadcnTableHead
                   key={column.label}
-                  className="border-b border-border bg-muted/20 p-4"
+                  className="border-b border-border bg-muted/20 p-4 text-center"
                 >
                   <span className="text-sm font-normal leading-none text-muted-foreground">
                     {column.label}
@@ -89,7 +89,7 @@ export default function CodeTestCaseTable({
             {executeResultList.map(
               ({ input, output, expected, state }, index, arr) => {
                 const isLast = index === arr.length - 1;
-                const classes = `bg-background p-4 ${isLast ? "" : "border-b border-border"}`;
+                const classes = `bg-background p-4 text-center ${isLast ? "" : "border-b border-border"}`;
 
                 return (
                   <ShadcnTableRow className="h-12" key={index}>
