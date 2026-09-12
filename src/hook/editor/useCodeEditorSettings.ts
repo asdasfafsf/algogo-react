@@ -10,6 +10,7 @@ import {
 import useCodeEditorStore from "@zustand/CodeEditorStore";
 import { useProblemContentSizeStore } from "@zustand/ProblemContentSizeStore";
 import { useCallback, useRef, useState } from "react";
+import { persistEditorThemePreference } from "@/lib/editorThemePreferenceStorage";
 
 export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
   const initialProblemContentSize = useProblemContentSizeStore(
@@ -19,13 +20,20 @@ export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
     (state) => state.setSize,
   );
   const initialSettings = useCodeEditorStore((state) => state.settings);
+  const initialThemePreference = useCodeEditorStore(
+    (state) => state.themePreference,
+  );
   const setCodeEditorSettings = useCodeEditorStore(
     (state) => state.setSettings,
   );
   const updateCodeEditorSettings = useCodeEditorStore(
     (state) => state.updateSetting,
   );
+  const setThemePreference = useCodeEditorStore(
+    (state) => state.setThemePreference,
+  );
   const [settings, setSettings] = useState(initialSettings);
+  const [themePreference, selectTheme] = useState(initialThemePreference);
   const [problemContentSize, setProblemContentSizeDraft] = useState(
     initialProblemContentSize,
   );
@@ -52,10 +60,17 @@ export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
         setSaveError(null);
         try {
           const result = await saveEditorSettings(
-            { settings, problemContentSize, saveToServer },
+            {
+              settings,
+              themePreference,
+              problemContentSize,
+              saveToServer,
+            },
             {
               setProblemContentSize,
               setCodeEditorSettings,
+              setThemePreference,
+              persistThemePreference: persistEditorThemePreference,
               updateCodeEditorSettings,
               close: closeModal,
             },
@@ -74,12 +89,15 @@ export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
       setCodeEditorSettings,
       setProblemContentSize,
       settings,
+      setThemePreference,
+      themePreference,
       updateCodeEditorSettings,
     ],
   );
 
   return {
     settings,
+    themePreference,
     problemContentSize,
     saveToServer,
     isSaving,
@@ -87,8 +105,7 @@ export const useCodeEditorSettings = (resolve: (value: boolean) => void) => {
     close,
     save,
     selectProblemContentSize: setProblemContentSizeDraft,
-    selectTheme: (theme: CodeEditorTheme) =>
-      setSettings((current) => ({ ...current, theme })),
+    selectTheme,
     selectFontSize: (fontSize: number) =>
       setSettings((current) => ({ ...current, fontSize })),
     changeTabSize: (value: string) =>

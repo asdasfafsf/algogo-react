@@ -27,6 +27,7 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
   const { language, uuid, isEdit, name, description, content, resolve } =
     options;
   const settings = useCodeEditorStore((state) => state.settings);
+  const themePreference = useCodeEditorStore((state) => state.themePreference);
   const loadTemplates = useCodeEditorStore((state) => state.loadTemplates);
   const [confirm] = useConfirmModal();
   const [alert] = useAlertModal();
@@ -135,6 +136,7 @@ export default function useCodeTemplateForm(options: CodeTemplateFormOptions) {
 
   return {
     settings,
+    themePreference,
     templateName,
     setTemplateName,
     templateDescription,

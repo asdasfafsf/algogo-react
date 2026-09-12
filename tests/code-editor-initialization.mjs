@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { createServer } from "../node_modules/vite/dist/node/index.js";
 
 const projectRoot = fileURLToPath(new URL("..", import.meta.url));
+const themePreferenceKey = "algogo-editor-theme-preference";
 const calls = [];
 const storage = new Map();
 globalThis.__codeEditorApi = {};
@@ -96,6 +97,7 @@ try {
   const { useCodeEditorStore } = await server.ssrLoadModule(
     "/src/zustand/CodeEditorStore.ts",
   );
+  assert.equal(useCodeEditorStore.getState().themePreference, "site");
 
   configureApi({
     getSetting: () => setting,
@@ -108,6 +110,16 @@ try {
   assert.equal(initialized.type, "loaded");
   assert.deepEqual(calls, ["setting", "templates", "code"]);
   assert.equal(useCodeEditorStore.getState().code, "#include <bits/stdc++.h>");
+  assert.equal(useCodeEditorStore.getState().themePreference, "vs-dark");
+
+  storage.set(themePreferenceKey, "site");
+  await useCodeEditorStore.getState().initialize("problem-uuid");
+  assert.equal(useCodeEditorStore.getState().themePreference, "site");
+
+  storage.set(themePreferenceKey, "light");
+  await useCodeEditorStore.getState().initialize("problem-uuid");
+  assert.equal(useCodeEditorStore.getState().themePreference, "light");
+  storage.delete(themePreferenceKey);
 
   calls.length = 0;
   configureApi({

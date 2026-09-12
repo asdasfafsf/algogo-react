@@ -172,6 +172,7 @@ for (const component of [
   "CodeEditorSettingsModal",
   "CodeTemplateAddModal",
   "CodeControlPanel",
+  "MonacoEditor",
   "CodeTestCaseTable",
   "CompilerInfoModal",
   "TestCaseModal",
