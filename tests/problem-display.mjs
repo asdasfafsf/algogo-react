@@ -51,7 +51,11 @@ try {
     }),
   );
   assert.match(inputOutputMarkup, /<code/);
-  assert.match(inputOutputMarkup, /aria-label="입출력 예시 복사"/);
+  assert.match(inputOutputMarkup, /aria-label="입력 예시 1 복사"/);
+  assert.match(inputOutputMarkup, /aria-label="출력 예시 1 복사"/);
+  assert.match(inputOutputMarkup, />·<\/span>/);
+  assert.match(inputOutputMarkup, />1<\/span>/);
+  assert.doesNotMatch(inputOutputMarkup, /grid-cols-2/);
 
   const resultMarkup = renderToStaticMarkup(
     React.createElement(CodeResultOutput, {

@@ -6,14 +6,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
-import {
-  Check,
-  Copy,
-  CornerDownLeft as EnterIcon,
-  Space as SpaceIcon,
-} from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { copyTextWithFeedback, type ClipboardWriteText } from "@lib/clipboard";
 import useExclusiveAsync from "@hook/useExclusiveAsync";
+import {
+  analyzeSampleWhitespace,
+  type SampleWhitespaceToken,
+} from "@lib/sampleWhitespace";
 
 const FEEDBACK_DURATION_MS = 2500;
 
@@ -25,6 +24,27 @@ interface ClipboardWithTooltipProps {
   className?: string; // 추가적인 Tailwind 클래스명을 전달받기 위한 props
   clipboardWriter?: ClipboardWriteText | null;
   ariaLabel?: string;
+  ariaDescribedBy?: string;
+}
+
+function WhitespaceToken({ token }: { token: SampleWhitespaceToken }) {
+  if (token.type === "text") {
+    return token.value;
+  }
+
+  const marker = token.type === "space" ? "·" : "⇥";
+  const className = token.trailing
+    ? "inline-flex justify-center bg-amber-400/15 text-amber-300 underline decoration-amber-300/70 decoration-1 underline-offset-4"
+    : "inline-flex justify-center text-sky-300";
+
+  return (
+    <span
+      className={className}
+      style={token.type === "tab" ? { width: `${token.width}ch` } : undefined}
+    >
+      {marker}
+    </span>
+  );
 }
 
 export default function ClipboardWithTooltip({
@@ -33,12 +53,18 @@ export default function ClipboardWithTooltip({
   className = "",
   clipboardWriter,
   ariaLabel = "입출력 예시 복사",
+  ariaDescribedBy,
 }: ClipboardWithTooltipProps) {
   const [copyStatus, setCopyStatus] = useState<CopyStatus>("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const contentDescriptionId = React.useId();
   const { isPending: isCopyPending, runExclusive } = useExclusiveAsync();
+  const lines = analyzeSampleWhitespace(content);
+  const describedBy = [ariaDescribedBy, contentDescriptionId]
+    .filter(Boolean)
+    .join(" ");
 
   const clearFeedbackTimer = useCallback(() => {
     if (feedbackTimerRef.current) {
@@ -115,44 +141,58 @@ export default function ClipboardWithTooltip({
               variant="ghost"
               onClick={handleClick}
               aria-label={ariaLabel}
+              aria-describedby={describedBy}
               aria-busy={isCopyPending}
               disabled={isCopyPending}
-              className={`h-auto w-full cursor-pointer items-center justify-start gap-x-3 whitespace-normal rounded-md border bg-black px-4 py-2.5 text-white hover:bg-black/85 hover:text-white focus-visible:ring-2 focus-visible:ring-ring ${className}`}
+              className={`relative block h-auto min-w-0 w-full cursor-pointer overflow-hidden whitespace-nowrap rounded-md border border-slate-800 bg-slate-950 p-0 text-slate-100 hover:bg-slate-900 hover:text-white focus-visible:ring-2 focus-visible:ring-ring ${className}`}
             >
-              <code className="w-full text-left text-base font-D2Coding text-white">
-                {content.split(/\r?\n/).map((line, lineIndex, lines) => (
-                  <span
-                    key={`${line}-${lineIndex}`}
-                    className="flex w-[calc(100%-10px)] flex-wrap items-center wrap-break-word"
-                  >
-                    {line.split(" ").map((text, index, words) => (
-                      <React.Fragment key={`${text}-${index}`}>
-                        <span>{text}</span>
-                        {index < words.length - 1 ? (
-                          <span className="inline-flex items-center justify-center text-blue-500">
-                            <SpaceIcon className="size-4" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </React.Fragment>
-                    ))}
-                    {lineIndex < lines.length - 1 ? (
-                      <span className="inline-flex items-center justify-center text-blue-500">
-                        <EnterIcon className="size-4" aria-hidden="true" />
+              <span className="block w-full overflow-x-auto pr-11 text-left">
+                <code
+                  className="block min-w-max py-2 font-D2Coding text-sm leading-6 text-slate-100 sm:text-base"
+                  aria-hidden="true"
+                >
+                  {lines.map((line) => (
+                    <span
+                      key={line.number}
+                      className="grid min-w-full grid-cols-[2.75rem_max-content]"
+                    >
+                      <span className="sticky left-0 border-r border-slate-700/80 bg-slate-900 px-2 text-right text-xs leading-6 text-slate-400 select-none sm:text-sm">
+                        {line.number}
                       </span>
-                    ) : null}
-                  </span>
-                ))}
-              </code>
-              {copyStatus === "success" ? (
-                <Check className="size-4 text-white" aria-hidden="true" />
-              ) : (
-                <Copy className="size-4 text-white" aria-hidden="true" />
-              )}
+                      <span className="min-w-max px-3">
+                        {line.isEmpty ? (
+                          <span className="text-slate-500 italic">빈 줄</span>
+                        ) : (
+                          line.tokens.map((token, index) => (
+                            <WhitespaceToken
+                              key={`${line.number}-${index}`}
+                              token={token}
+                            />
+                          ))
+                        )}
+                        {line.hasLineBreak ? (
+                          <span className="ml-1 text-sky-300">↵</span>
+                        ) : null}
+                      </span>
+                    </span>
+                  ))}
+                </code>
+              </span>
+              <span className="pointer-events-none absolute top-2.5 right-2.5 inline-flex size-7 items-center justify-center rounded border border-slate-700 bg-slate-900/95 text-slate-200 shadow-sm">
+                {copyStatus === "success" ? (
+                  <Check className="size-4" aria-hidden="true" />
+                ) : (
+                  <Copy className="size-4" aria-hidden="true" />
+                )}
+              </span>
             </Button>
           </TooltipTrigger>
           <TooltipContent>{tooltipContent}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      <span id={contentDescriptionId} className="sr-only">
+        원본 내용: {content.length > 0 ? content : "빈 문자열"}
+      </span>
       <span className="sr-only" aria-live="polite">
         {liveMessage}
       </span>
