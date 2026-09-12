@@ -80,6 +80,16 @@ assert.match(
   /<\/button>[\s\S]*<a[\s\S]*target="_blank"/,
   "the new-window link must be outside the selection button",
 );
+assert.doesNotMatch(
+  rosterSource,
+  /ProblemCategoryBadgeList|problem\.typeList/,
+  "today problem cards and roster rows must not reveal problem categories",
+);
+assert.match(
+  rosterSource,
+  /ProblemLevelChip[\s\S]*ProblemStateChip[\s\S]*정답률[\s\S]*제출/,
+  "today problem cards must retain difficulty, state, answer rate, and submissions",
+);
 assert.match(
   todayProblemPageSource,
   /<\/TabsContent>\s*\)\)}\s*<div className="mt-5">[\s\S]*<TodayProblemRoster/,

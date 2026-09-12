@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useLayoutEffect, useRef } from "react";
-import { ProblemCategoryBadgeList, ProblemLevelChip } from "@/components/Chip";
+import { ProblemLevelChip } from "@/components/Chip";
 import ProblemStateChip from "@/components/Chip/ProblemStateChip";
 import { PROBLEM_STATE } from "@/constant/problem.state.constant";
 import { formatProblemLevel } from "@/domain/problems/problemPresentation";
@@ -63,9 +63,6 @@ export function TodayProblemCard({
           <ProblemLevelChip
             level={formatProblemLevel(problem.level, problem.levelText)}
           />
-          {problem.typeList?.length ? (
-            <ProblemCategoryBadgeList categories={problem.typeList} />
-          ) : null}
           {problem.state !== PROBLEM_STATE.NONE && (
             <ProblemStateChip state={problem.state} showIcon={false} />
           )}
@@ -220,12 +217,6 @@ function ProblemRosterRow({
           level={formatProblemLevel(problem.level, problem.levelText)}
           className="shrink-0"
         />
-        {problem.typeList?.length ? (
-          <ProblemCategoryBadgeList
-            categories={problem.typeList}
-            className="shrink-0"
-          />
-        ) : null}
       </button>
       <a
         href={problemPath(problem.uuid)}
