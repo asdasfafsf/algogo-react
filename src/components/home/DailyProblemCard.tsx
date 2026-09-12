@@ -66,7 +66,7 @@ export default function DailyProblemCard({ problems }: DailyProblemCardProps) {
 
   return (
     <div
-      className="group/daily h-[170px] overflow-hidden rounded-lg border border-primary/15 bg-card shadow-sm transition-[border-color,box-shadow] duration-200 hover:border-primary/25 hover:shadow-md sm:col-span-2"
+      className="group/daily h-[170px] overflow-hidden rounded-lg border border-primary/15 bg-card shadow-sm transition-[background-color,border-color,box-shadow] duration-200 hover:border-primary/30 hover:bg-muted/30 hover:shadow-md sm:col-span-2"
       aria-label="오늘의 문제"
       onMouseEnter={() => {
         pauseAutoplay.current = true;
@@ -111,7 +111,7 @@ export default function DailyProblemCard({ problems }: DailyProblemCardProps) {
                   tabIndex={index === activeSlide ? 0 : -1}
                   onClick={() => openProblem(problem.uuid)}
                   aria-label={`오늘의 문제 ${index + 1}/${problems.length}: ${problem.title}`}
-                  className="flex w-full flex-col gap-2 px-4 py-3 text-left transition-colors hover:bg-muted/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring active:bg-muted/70 sm:px-5 sm:py-4"
+                  className="flex w-full flex-col gap-2 px-4 py-3 text-left transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring active:opacity-75 sm:px-5 sm:py-4"
                 >
                   <h3 className="line-clamp-1 text-base font-semibold leading-snug sm:text-lg">
                     {problem.title}
