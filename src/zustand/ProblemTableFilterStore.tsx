@@ -26,8 +26,8 @@ export const useProblemTableFilterStore = create<ProblemTableFilterStore>(
     problemSort: 0 as ProblemSort,
     problemTitle: "",
     problemHidden: {
-      난이도: false,
-      카테고리: false,
+      난이도: true,
+      카테고리: true,
     },
     setProblemOptionList: (problemOptionList) =>
       set((state) => ({

@@ -7,11 +7,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@components/ui/carousel";
-import {
-  ProblemCategoryBadgeList,
-  ProblemLevelChip,
-  ProblemStateChip,
-} from "@components/Chip";
+import { ProblemLevelChip, ProblemStateChip } from "@components/Chip";
 import type { TodayProblem } from "@/type/Problem.type";
 import { formatProblemLevel } from "@/domain/problems/problemPresentation";
 
@@ -123,9 +119,6 @@ export default function DailyProblemCard({ problems }: DailyProblemCardProps) {
                         problem.levelText,
                       )}
                     />
-                    {problem.typeList?.length ? (
-                      <ProblemCategoryBadgeList categories={problem.typeList} />
-                    ) : null}
                     {problem.state !== "NONE" && (
                       <ProblemStateChip state={problem.state} showNoneState />
                     )}

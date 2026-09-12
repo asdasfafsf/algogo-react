@@ -238,7 +238,11 @@ export default function ProblemListTable() {
                     </TableCell>
                     <TableCell
                       className="text-center"
-                      title={problem.typeList?.join(", ")}
+                      title={
+                        problemHidden["카테고리"]
+                          ? undefined
+                          : problem.typeList?.join(", ")
+                      }
                     >
                       {problemHidden["카테고리"] ? (
                         <ProblemCategoryChip category="알고리즘 유형 숨김" />
