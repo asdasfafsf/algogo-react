@@ -22,8 +22,33 @@ assert.match(
 );
 assert.match(
   component,
+  /<ShadcnTableHead[\s\S]*className="border-b border-border bg-muted\/20 p-4 text-center"/,
+  "table headers must override the shadcn left alignment to match centered cells",
+);
+assert.match(
+  component,
+  /const classes = `bg-background p-4 text-center \$\{isLast \? "" : "border-b border-border"\}`/,
+  "data cell classes must directly define centered text alignment",
+);
+assert.match(
+  component,
   /min-w-\[640px\] table-fixed/,
   "narrow panels must keep a scrollable table width",
+);
+assert.match(
+  component,
+  /flex flex-wrap items-center justify-between gap-2 border-b/,
+  "the summary and actions must wrap as groups on narrow panels",
+);
+assert.match(
+  component,
+  /shrink-0 items-center gap-1 whitespace-nowrap rounded bg-emerald-500\/10/,
+  "success summary must not split its label vertically",
+);
+assert.match(
+  component,
+  /shrink-0 items-center gap-1 whitespace-nowrap rounded bg-red-500\/10/,
+  "failure summary must not split its label vertically",
 );
 assert.doesNotMatch(
   component,
@@ -39,6 +64,13 @@ assert.match(
   component,
   /onClick=\{handleTest\}/,
   "running test cases must retain its existing action",
+);
+assert.equal(
+  component.match(
+    /className="shrink-0 cursor-pointer disabled:cursor-not-allowed"/g,
+  )?.length,
+  2,
+  "both test case actions must expose active and disabled cursor affordances",
 );
 assert.match(
   fixture,
@@ -56,4 +88,4 @@ assert.match(
   "the fixture must keep result rendering observable after execution",
 );
 
-console.log("ALGOGO-146 code test case table regression checks passed");
+console.log("ALGOGO-155 code test case table regression checks passed");
