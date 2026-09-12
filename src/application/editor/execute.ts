@@ -10,10 +10,14 @@ export type ExecutionPorts = {
   run: (request: RequestExecuteList) => Promise<ResponseExecuteResult>;
 };
 
-export const canStartExecution = (state: SocketState) =>
-  state !== "PENDING" && state !== "CONNECTING";
-
 let executionInProgress = false;
+
+export const canStartExecution = (state: SocketState) =>
+  !executionInProgress && state !== "PENDING" && state !== "CONNECTING";
+
+export const isExecutionBusyError = (error: unknown) =>
+  error instanceof ExecuteSocketError &&
+  error.code === EXECUTE_SOCKET_ERROR_CODE.busy;
 
 const connectWithAuthenticationRefresh = async (
   initialState: SocketState,

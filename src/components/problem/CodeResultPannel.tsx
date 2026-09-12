@@ -20,6 +20,7 @@ function CodeResultPannel() {
     testCaseList,
     isInputPastePending,
     isOutputCopyPending,
+    isExecutionPending,
   } = useCodeResultPanel();
   const { handleExecute } = useExecute();
   return (
@@ -70,6 +71,7 @@ function CodeResultPannel() {
             handleClickCopy={handleClickCopyOutput}
             handleClickReset={handleClickResetOutput}
             copyPending={isOutputCopyPending}
+            isPending={isExecutionPending}
           />
         </TabsContent>
         <TabsContent value="2" className="m-0 min-h-0 flex-1">

@@ -99,8 +99,8 @@ assert.match(
 );
 assert.match(
   sources.CodeTestCaseTable,
-  /disabled=\{state === "PENDING"\}/,
-  "test case controls must remain unavailable while execution is pending",
+  /const isPending = state === "CONNECTING" \|\| state === "PENDING"[\s\S]*disabled=\{isPending\}/,
+  "test case controls must remain unavailable while execution is connecting or pending",
 );
 assert.doesNotMatch(
   sources.CodeTestCaseTable,

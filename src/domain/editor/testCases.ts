@@ -33,6 +33,9 @@ export const markTestCasesRunning = (
 ): TestCase[] =>
   testCases.map((testCase) => ({ ...testCase, state: "실행 중" }));
 
+const formatExecutionResult = (result: ResponseExecuteResult) =>
+  [result.result, result.detail].filter(Boolean).join("\n");
+
 export const applyCompilationError = (
   testCases: readonly TestCase[],
   result: ResponseExecuteResult,
@@ -40,8 +43,8 @@ export const applyCompilationError = (
   result.code === "9002"
     ? testCases.map((testCase) => ({
         ...testCase,
-        state: "불일치",
-        output: "컴파일 에러",
+        state: "실패",
+        output: formatExecutionResult(result),
       }))
     : testCases.map((testCase) => ({ ...testCase }));
 
@@ -53,16 +56,21 @@ export const applyTestCaseResult = (
     index === result.seq
       ? {
           ...testCase,
-          output: result.result,
+          output: formatExecutionResult(result),
           state:
-            testCase.expected?.trim() === result.result?.trim()
-              ? "일치"
-              : "불일치",
+            result.code !== "0000"
+              ? "실패"
+              : testCase.expected?.trim() === result.result?.trim()
+                ? "일치"
+                : "불일치",
         }
       : { ...testCase },
   );
 
 export const summarizeTestCases = (testCases: readonly TestCase[]) => ({
   success: testCases.filter((testCase) => testCase.state === "일치").length,
-  failure: testCases.filter((testCase) => testCase.state === "불일치").length,
+  failure: testCases.filter(
+    (testCase) => testCase.state === "불일치" || testCase.state === "실패",
+  ).length,
+  running: testCases.filter((testCase) => testCase.state === "실행 중").length,
 });

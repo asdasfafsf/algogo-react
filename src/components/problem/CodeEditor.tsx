@@ -15,7 +15,7 @@ export function CodeEditor() {
   const { handleSubmit } = useSubmit();
   const { handleClickReset } = useCodeControlPanel();
   const modal = useModal();
-  const isPending = state === "PENDING";
+  const isPending = state === "CONNECTING" || state === "PENDING";
 
   return (
     <div className="flex h-full w-full flex-col overflow-hidden bg-background">

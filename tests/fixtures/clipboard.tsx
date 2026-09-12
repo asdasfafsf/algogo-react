@@ -79,6 +79,7 @@ function CodeResultClipboardFixture() {
           pastePending={isInputPastePending}
         />
         <CodeResultOutput
+          isPending={false}
           copyPending={isOutputCopyPending}
           handleClickCopy={handleClickCopyOutput}
           handleClickReset={handleClickResetOutput}

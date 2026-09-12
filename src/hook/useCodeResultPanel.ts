@@ -12,6 +12,8 @@ import {
   type ClipboardWriteText,
 } from "@lib/clipboard";
 import useExclusiveAsync from "@hook/useExclusiveAsync";
+import { emptyExecutionResult } from "@/domain/editor/execution";
+import { useExecuteSocketStore } from "@/zustand/ExecuteSocketStore";
 
 interface UseCodeResultPanelOptions {
   clipboardReader?: ClipboardReadText | null;
@@ -105,19 +107,14 @@ export default function useCodeResultPanel({
   }, [clipboardWriter, output, runExclusiveOutputCopy, showClipboardFeedback]);
 
   const handleClickResetOutput = useCallback(
-    () =>
-      setOutput({
-        seq: 0,
-        processTime: 0,
-        memory: 0,
-        code: "",
-        result: "실행 결과가 출력됩니다",
-        detail: "",
-      }),
-    [],
+    () => setOutput(emptyExecutionResult()),
+    [setOutput],
   );
 
   const testCaseList = useTestCaseListStore((state) => state.testCaseList);
+  const socketState = useExecuteSocketStore((state) => state.state);
+  const isExecutionPending =
+    socketState === "CONNECTING" || socketState === "PENDING";
 
   return {
     input,
@@ -128,6 +125,7 @@ export default function useCodeResultPanel({
     testCaseList,
     isInputPastePending,
     isOutputCopyPending,
+    isExecutionPending,
     handleClickTab,
     handleClickPasteInput,
     handleChangeInput,

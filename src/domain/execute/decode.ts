@@ -1,4 +1,5 @@
 import {
+  executionFailureDetail,
   executionFailureMessage,
   isExecutionOutputCode,
 } from "./userMessage.ts";
@@ -47,7 +48,7 @@ const failureResult = (
   memory: 0,
   code,
   result,
-  detail: "",
+  detail: executionFailureDetail(code),
 });
 
 /**

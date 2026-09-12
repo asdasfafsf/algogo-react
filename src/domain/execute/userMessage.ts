@@ -26,3 +26,23 @@ export const executionFailureMessage = (code: string) => {
 
   return "코드를 실행하지 못했습니다. 잠시 후 다시 시도해 주세요.";
 };
+
+export const executionFailureDetail = (code: string) => {
+  if (
+    code === "AUTH_FAILED" ||
+    code === "UNAUTHORIZED" ||
+    code.startsWith("JWT_")
+  ) {
+    return "로그인 상태를 확인한 뒤 다시 실행해 주세요.";
+  }
+
+  if (code === "SOCKET_CONNECTION_TIMEOUT" || code === "SOCKET_ACK_TIMEOUT") {
+    return "잠시 기다린 뒤 실행 버튼을 다시 눌러 주세요.";
+  }
+
+  if (code === "SOCKET_DISCONNECTED" || code === "SOCKET_UNAVAILABLE") {
+    return "네트워크 연결을 확인한 뒤 다시 실행해 주세요.";
+  }
+
+  return "문제가 계속되면 잠시 후 페이지를 새로고침해 다시 시도해 주세요.";
+};
