@@ -14,26 +14,32 @@ const defaultLayout = await readFile(
 const landing = await readFile(`${projectRoot}src/page/Landing.tsx`, "utf8");
 
 assert.match(footer, /<Logo size="sm" \/>/);
-assert.match(footer, /여러 온라인 저지의 문제를 한 곳에서 찾아 풀어보세요/);
-assert.match(footer, /© \{new Date\(\)\.getFullYear\(\)\} Algogo/);
-assert.match(footer, /\{ label: "문제", href: "\/" \}/);
-assert.match(footer, /\{ label: "오늘의 문제", href: "\/problem\/today" \}/);
-assert.match(footer, /aria-labelledby="footer-navigation-title"/);
-assert.match(footer, /id="footer-navigation-title"[\s\S]*둘러보기/);
+assert.match(footer, /알고리즘 문제를 한곳에서 찾고 풀어보세요/);
 assert.match(
   footer,
-  /md:grid-cols-\[minmax\(0,1fr\)_auto\]/,
-  "desktop footer should separate brand and navigation hierarchy",
+  /© \{new Date\(\)\.getFullYear\(\)\} Algogo\. All rights reserved\./,
+);
+assert.match(footer, /\{ label: "전체 문제", href: "\/problem" \}/);
+assert.match(footer, /\{ label: "오늘의 문제", href: "\/problem\/today" \}/);
+assert.match(footer, /\{ label: "서비스 소개", href: "\/landing" \}/);
+assert.match(footer, /aria-label=\{section\.title\}/);
+assert.match(footer, /title: "문제"/);
+assert.match(footer, /title: "서비스"/);
+assert.match(
+  footer,
+  /grid-cols-2[\s\S]*md:grid-cols-4/,
+  "footer should use a familiar multi-column information hierarchy",
 );
 assert.match(
   footer,
-  /border-t border-border\/80 py-3/,
+  /border-t border-border py-3/,
   "copyright should remain in a distinct closing row",
 );
-assert.match(footer, /hover:-translate-y-0\.5/);
-assert.match(footer, /hover:bg-muted/);
+assert.match(footer, /underline decoration-transparent underline-offset-4/);
+assert.match(footer, /hover:decoration-current/);
+assert.doesNotMatch(footer, /hover:-translate|hover:bg-muted/);
 assert.match(footer, /focus-visible:ring-2/);
-assert.match(footer, /active:translate-y-0/);
+assert.match(footer, /active:text-primary/);
 assert.match(footer, /<small[^>]*>[\s\S]*©/);
 assert.doesNotMatch(
   footer,
@@ -45,4 +51,4 @@ assert.match(footer, /aria-label="알고고 홈"/);
 assert.match(defaultLayout, /<LandingFooter \/>/);
 assert.match(landing, /<LandingFooter \/>/);
 
-console.log("ALGOGO-154 footer presentation tests passed");
+console.log("ALGOGO-156 footer presentation tests passed");
