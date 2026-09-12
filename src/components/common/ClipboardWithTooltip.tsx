@@ -144,7 +144,7 @@ export default function ClipboardWithTooltip({
               aria-describedby={describedBy}
               aria-busy={isCopyPending}
               disabled={isCopyPending}
-              className={`relative block h-auto min-w-0 w-full cursor-pointer overflow-hidden whitespace-nowrap rounded-md border border-slate-800 bg-slate-950 p-0 text-slate-100 hover:bg-slate-900 hover:text-white focus-visible:ring-2 focus-visible:ring-ring ${className}`}
+              className={`group relative block h-auto min-w-0 w-full cursor-pointer overflow-hidden whitespace-nowrap rounded-md border border-slate-800 bg-slate-950 p-0 text-slate-100 shadow-sm transition-[background-color,border-color,box-shadow] duration-150 hover:border-sky-400/70 hover:bg-slate-900 hover:text-white hover:shadow-[0_0_0_1px_rgb(56_189_248_/_0.16),0_8px_20px_rgb(15_23_42_/_0.28)] focus-visible:border-sky-400 focus-visible:bg-slate-900 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${className}`}
             >
               <span className="sample-code-scrollbar block w-full overflow-x-auto pr-11 text-left">
                 <code
@@ -178,7 +178,7 @@ export default function ClipboardWithTooltip({
                   ))}
                 </code>
               </span>
-              <span className="pointer-events-none absolute top-2.5 right-2.5 inline-flex size-7 items-center justify-center rounded border border-slate-700 bg-slate-900/95 text-slate-200 shadow-sm">
+              <span className="pointer-events-none absolute top-2.5 right-2.5 inline-flex size-7 items-center justify-center rounded border border-slate-700 bg-slate-900/95 text-slate-200 shadow-sm transition-colors duration-150 group-hover:border-sky-300/80 group-hover:bg-sky-400/15 group-hover:text-sky-100 group-focus-visible:border-sky-300 group-focus-visible:bg-sky-400/15 group-focus-visible:text-sky-100">
                 {copyStatus === "success" ? (
                   <Check className="size-4" aria-hidden="true" />
                 ) : (
