@@ -14,7 +14,6 @@ const sources = Object.fromEntries(
       "CodeTemplateAddModal",
       "CodeTestCaseTable",
       "CompilerInfoModal",
-      "CompilerSettingModal",
       "ProblemNavbar",
       "TestCaseModal",
     ].map(async (name) => [name, await readComponent(name)]),
@@ -27,7 +26,6 @@ const expectedPrimitives = {
   CodeTemplateAddModal: ["ui/button", "ui/checkbox", "ui/input"],
   CodeTestCaseTable: ["ui/button"],
   CompilerInfoModal: ["ui/button"],
-  CompilerSettingModal: ["ui/button"],
   ProblemNavbar: ["ui/button", "ui/tooltip"],
   TestCaseModal: ["ui/button", "ui/textarea"],
 };
@@ -137,7 +135,6 @@ for (const component of [
   "CodeTemplateAddModal",
   "CodeTestCaseTable",
   "CompilerInfoModal",
-  "CompilerSettingModal",
   "ProblemNavbar",
   "TestCaseModal",
 ]) {

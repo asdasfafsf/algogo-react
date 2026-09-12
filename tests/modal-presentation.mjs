@@ -37,13 +37,11 @@ try {
     { default: ConfirmModal },
     { default: LoadingModal },
     { default: CompilerInfoModal },
-    { default: CompilerSettingModal },
   ] = await Promise.all([
     server.ssrLoadModule("/src/components/modal/AlertModal.tsx"),
     server.ssrLoadModule("/src/components/modal/ConfirmModal.tsx"),
     server.ssrLoadModule("/src/components/modal/LoadingModal.tsx"),
     server.ssrLoadModule("/src/components/problem/CompilerInfoModal.tsx"),
-    server.ssrLoadModule("/src/components/problem/CompilerSettingModal.tsx"),
   ]);
 
   const alertResults = [];
@@ -72,7 +70,6 @@ try {
 
   for (const [Component, title, buttonText] of [
     [CompilerInfoModal, "컴파일러 정보", "확인"],
-    [CompilerSettingModal, "컴파일러 설정", "닫기"],
   ]) {
     const results = [];
     const tree = Component({

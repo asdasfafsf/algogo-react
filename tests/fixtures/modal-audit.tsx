@@ -10,7 +10,6 @@ import ToastModal from "@components/modal/ToastModal";
 import CodeEditorSettingsModal from "@components/problem/CodeEditorSettingsModal";
 import CodeTemplateAddModal from "@components/problem/CodeTemplateAddModal";
 import CompilerInfoModal from "@components/problem/CompilerInfoModal";
-import CompilerSettingModal from "@components/problem/CompilerSettingModal";
 import ModalProvider from "@plugins/modal/ModalProvider";
 import type { ModalHandle } from "@plugins/modal/ModalController";
 import useModal from "@plugins/modal/useModal";
@@ -182,16 +181,6 @@ function ModalAuditLauncher() {
             }}
           >
             컴파일러 정보 열기
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              void modal
-                .push("fixture-compiler-settings", CompilerSettingModal, {})
-                .then((value) => record("컴파일러 설정", value));
-            }}
-          >
-            컴파일러 설정 열기
           </Button>
         </div>
 
