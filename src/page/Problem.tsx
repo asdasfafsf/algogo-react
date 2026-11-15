@@ -9,7 +9,7 @@ export default function ProblemPage() {
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
-      {problem?.style && <style>{problem.style}</style>}
+      {!problem?.document && problem?.style && <style>{problem.style}</style>}
       <ProblemHeader problem={isLoading ? undefined : problem} />
       <main className="min-h-0 flex-1 overflow-hidden">
         {error ? (

@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "sections": [
+    {
+      "kind": "content",
+      "id": "content",
+      "title": "문제 설명",
+      "nodes": [
+        {
+          "type": "element",
+          "tag": "p",
+          "attributes": {},
+          "children": [
+            {
+              "type": "text",
+              "text": "A & B의 합 $A+B$를 계산한다. "
+            },
+            {
+              "type": "element",
+              "tag": "strong",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "text",
+                  "text": "중요"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "math",
+          "tex": "\\sum_{i=1}^n i",
+          "display": true
+        },
+        {
+          "type": "element",
+          "tag": "table",
+          "attributes": {},
+          "children": [
+            {
+              "type": "element",
+              "tag": "thead",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "element",
+                  "tag": "tr",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "type": "element",
+                      "tag": "th",
+                      "attributes": {
+                        "colSpan": 2
+                      },
+                      "children": [
+                        {
+                          "type": "text",
+                          "text": "범위"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tag": "tbody",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "element",
+                  "tag": "tr",
+                  "attributes": {},
+                  "children": [
+                    {
+                      "type": "element",
+                      "tag": "td",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "type": "text",
+                          "text": "1"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "element",
+                      "tag": "td",
+                      "attributes": {},
+                      "children": [
+                        {
+                          "type": "text",
+                          "text": "10"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tag": "ol",
+          "attributes": {
+            "start": 2
+          },
+          "children": [
+            {
+              "type": "element",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "text",
+                  "text": "입력을 읽는다"
+                }
+              ]
+            },
+            {
+              "type": "element",
+              "tag": "li",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "text",
+                  "text": "합을 구한다"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tag": "img",
+          "attributes": {
+            "src": "https://www.acmicpc.net/upload/example.png",
+            "alt": "도형",
+            "width": "240"
+          },
+          "children": []
+        },
+        {
+          "type": "element",
+          "tag": "a",
+          "attributes": {
+            "href": "https://www.acmicpc.net/problem/1000"
+          },
+          "children": [
+            {
+              "type": "text",
+              "text": "원문"
+            }
+          ]
+        },
+        {
+          "type": "element",
+          "tag": "p",
+          "attributes": {},
+          "children": [
+            {
+              "type": "text",
+              "text": "안전한 텍스트"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "content",
+      "id": "input",
+      "title": "입력",
+      "nodes": [
+        {
+          "type": "element",
+          "tag": "p",
+          "attributes": {},
+          "children": [
+            {
+              "type": "text",
+              "text": "두 정수 $A$, $B$"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "content",
+      "id": "output",
+      "title": "출력",
+      "nodes": [
+        {
+          "type": "element",
+          "tag": "p",
+          "attributes": {},
+          "children": [
+            {
+              "type": "text",
+              "text": "합을 출력한다."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "sample",
+      "id": "sample-1",
+      "order": 1,
+      "input": " 1\t2  \n\n",
+      "output": "3\n",
+      "explanation": [
+        {
+          "type": "element",
+          "tag": "p",
+          "attributes": {},
+          "children": [
+            {
+              "type": "text",
+              "text": "$1+2=3$"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "content",
+      "id": "hint",
+      "title": "힌트",
+      "nodes": [
+        {
+          "type": "element",
+          "tag": "pre",
+          "attributes": {},
+          "children": [
+            {
+              "type": "element",
+              "tag": "code",
+              "attributes": {},
+              "children": [
+                {
+                  "type": "text",
+                  "text": "print(a + b)\n"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

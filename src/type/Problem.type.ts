@@ -1,3 +1,4 @@
+import type { ProblemDocument } from "@/domain/problems/problemDocument";
 import { PROBLEM_SORT_MAP } from "@constant/ProblemSort";
 import { PROBLEM_TYPE_MAP } from "@constant/ProblemType.constant";
 import { PROBLEM_STATE } from "@/constant/problem.state.constant";
@@ -37,6 +38,7 @@ export type ProblemSummary = {
 };
 
 export type Problem = {
+  document?: ProblemDocument;
   uuid: string;
   title: string;
   level: number;
