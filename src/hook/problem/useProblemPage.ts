@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { getProblem } from "@api/problems-v2";
+import { getProblem } from "@api/problems-v3";
 import {
   createInitialExecuteResultList,
   createInitialTestCaseList,

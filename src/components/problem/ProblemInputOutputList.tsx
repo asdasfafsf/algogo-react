@@ -6,10 +6,14 @@ import ProblemContent from "./ProblemContent";
 
 interface ProblemInputOutputProps {
   inputOutputList: ProblemInputOutput[];
+  startIndex?: number;
+  renderExplanation?: (example: ProblemInputOutput) => React.ReactNode;
 }
 
 export function ProblemInputOutputList({
   inputOutputList,
+  startIndex = 0,
+  renderExplanation,
 }: ProblemInputOutputProps) {
   const setSelectedIndex = useCodeResultPanelStore(
     (state) => state.setSelectedIndex,
@@ -64,7 +68,7 @@ export function ProblemInputOutputList({
             className="min-w-0 rounded-xl border border-border bg-muted/25 p-4"
           >
             <p className="mb-3 text-xs font-bold leading-snug text-muted-foreground">
-              예시 {index + 1}
+              예시 {startIndex + index + 1}
             </p>
             <div className="grid min-w-0 gap-4">
               <div className="min-w-0">
@@ -74,7 +78,7 @@ export function ProblemInputOutputList({
                 <ClipboardWithTooltip
                   handleCopyCallback={() => setSelectedIndex(0)}
                   content={example.input}
-                  ariaLabel={`입력 예시 ${index + 1} 복사`}
+                  ariaLabel={`입력 예시 ${startIndex + index + 1} 복사`}
                   ariaDescribedBy={legendId}
                 />
               </div>
@@ -84,15 +88,19 @@ export function ProblemInputOutputList({
                 </p>
                 <ClipboardWithTooltip
                   content={example.output}
-                  ariaLabel={`출력 예시 ${index + 1} 복사`}
+                  ariaLabel={`출력 예시 ${startIndex + index + 1} 복사`}
                   ariaDescribedBy={legendId}
                 />
               </div>
             </div>
-            {example.content && (
-              <div className="mt-4">
-                <ProblemContent content={example.content} />
-              </div>
+            {renderExplanation ? (
+              <div className="mt-4">{renderExplanation(example)}</div>
+            ) : (
+              example.content && (
+                <div className="mt-4">
+                  <ProblemContent content={example.content} />
+                </div>
+              )
             )}
           </article>
         ))}

@@ -1,3 +1,4 @@
+import ProblemDocumentView from "@components/problem/ProblemDocumentView";
 import ProblemInputOutputList from "@components/problem/ProblemInputOutputList";
 import ProblemInputOutput from "@components/problem/ProblemInputOutput";
 import ProblemTitle from "@components/problem/ProblemTitle";
@@ -110,70 +111,85 @@ function Problem({ problem }: ProblemProps) {
               memoryLimit={memoryLimit}
               answerPeopleCount={answerPeopleCount}
             />
-            <ProblemContentWrapper
-              title="문제 설명"
-              scale={problemContentSize / 100}
-              content={content}
-            />
-
-            {customExample && (
-              <ProblemContentWrapper title="예시" content={customExample} />
-            )}
-
-            {customImplementation && (
-              <ProblemContentWrapper
-                title="구현"
-                content={customImplementation}
-              />
-            )}
-
-            {customGrader && (
-              <ProblemContentWrapper title="채점 방식" content={customGrader} />
-            )}
-
-            {limit && <ProblemContentWrapper title="제한" content={limit} />}
-
-            {(input || output) && (
-              <ProblemInputOutput
-                input={input ?? ""}
-                output={output ?? ""}
+            {problem.document ? (
+              <ProblemDocumentView
+                document={problem.document}
                 scale={problemContentSize / 100}
               />
-            )}
-            <ProblemInputOutputList inputOutputList={inputOutputList} />
+            ) : (
+              <>
+                <ProblemContentWrapper
+                  title="문제 설명"
+                  scale={problemContentSize / 100}
+                  content={content}
+                />
 
-            {subTaskList.map((subTask) => (
-              <ProblemContentWrapper
-                key={`${subTask.order}-${subTask.title}`}
-                title={subTask.title}
-                content={subTask.content}
-              />
-            ))}
+                {customExample && (
+                  <ProblemContentWrapper title="예시" content={customExample} />
+                )}
 
-            {customNotes && (
-              <ProblemContentWrapper
-                title="테스트용 입력 형식"
-                content={customNotes}
-              />
-            )}
+                {customImplementation && (
+                  <ProblemContentWrapper
+                    title="구현"
+                    content={customImplementation}
+                  />
+                )}
 
-            {customAttachment && (
-              <ProblemContentWrapper
-                title="첨부파일"
-                content={customAttachment}
-              />
+                {customGrader && (
+                  <ProblemContentWrapper
+                    title="채점 방식"
+                    content={customGrader}
+                  />
+                )}
+
+                {limit && (
+                  <ProblemContentWrapper title="제한" content={limit} />
+                )}
+
+                {(input || output) && (
+                  <ProblemInputOutput
+                    input={input ?? ""}
+                    output={output ?? ""}
+                    scale={problemContentSize / 100}
+                  />
+                )}
+                <ProblemInputOutputList inputOutputList={inputOutputList} />
+
+                {subTaskList.map((subTask) => (
+                  <ProblemContentWrapper
+                    key={`${subTask.order}-${subTask.title}`}
+                    title={subTask.title}
+                    content={subTask.content}
+                  />
+                ))}
+
+                {customNotes && (
+                  <ProblemContentWrapper
+                    title="테스트용 입력 형식"
+                    content={customNotes}
+                  />
+                )}
+
+                {customAttachment && (
+                  <ProblemContentWrapper
+                    title="첨부파일"
+                    content={customAttachment}
+                  />
+                )}
+                {hint && <ProblemContentWrapper title="힌트" content={hint} />}
+              </>
             )}
-            {hint && <ProblemContentWrapper title="힌트" content={hint} />}
 
             <ProblemCategoryViewer
               initialState={typeList.length === 0 ? "none" : "hide"}
               categoryList={typeList}
             />
-            {problemSource ? (
-              <ProblemContentWrapper title="출처" content={problemSource} />
-            ) : (
-              <ProblemSource />
-            )}
+            {!problem.document &&
+              (problemSource ? (
+                <ProblemContentWrapper title="출처" content={problemSource} />
+              ) : (
+                <ProblemSource />
+              ))}
           </div>
         </TabsContent>
       </Tabs>

@@ -1,3 +1,4 @@
+import { problemMathJaxConfig } from "@components/problem/problemMathJaxConfig";
 import { Button as ShadcnButton } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { GripVertical } from "lucide-react";
@@ -28,18 +29,7 @@ export function ProblemSidebar({
   const { isMobile } = useScreenSize();
 
   return (
-    <MathJaxContext
-      version={3}
-      config={{
-        startup: { typeset: false },
-        tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
-        },
-      }}
-    >
+    <MathJaxContext version={3} config={problemMathJaxConfig}>
       <aside
         style={
           isMobile
