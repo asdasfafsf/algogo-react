@@ -47,14 +47,14 @@ UI는 shadcn을 기반으로 새로 디자인할 예정이지만 문제 조회·
 
 ## 회귀 검증
 
-Node 24 환경에서 저장소 루트 기준으로 다음 스크립트를 실행한다. 각 명령에는 프로젝트 규칙대로 `rtk`를 붙인다.
+Node 24 환경에서 저장소 루트 기준으로 다음 스크립트를 실행한다.
 
-- `rtk proxy node tests/domain-boundaries.mjs`: 도메인과 전이 의존성의 React/외부 패키지/브라우저/현재 시각 접근 검사
-- `rtk proxy node tests/problems-domain.mjs` 및 `tests/problems-update.mjs`: 문제 규칙과 갱신 흐름
-- `rtk proxy node tests/editor-domain.mjs`: 코드 선택 우선순위, 템플릿 응답, 실행 재시도
-- `rtk proxy node tests/editor-settings.mjs`: 설정 적용 순서·저장 여부·실패·취소
-- `rtk proxy node tests/problem-initialization.mjs`: 예시 입력 초기 상태·코드 초기화 불변성
-- `rtk proxy node tests/account-core.mjs`: 계정 요청, OAuth 결과, 윤년·기간·기여도 경계
+- `node tests/domain-boundaries.mjs`: 도메인과 전이 의존성의 React/외부 패키지/브라우저/현재 시각 접근 검사
+- `node tests/problems-domain.mjs` 및 `node tests/problems-update.mjs`: 문제 규칙과 갱신 흐름
+- `node tests/editor-domain.mjs`: 코드 선택 우선순위, 템플릿 응답, 실행 재시도
+- `node tests/editor-settings.mjs`: 설정 적용 순서·저장 여부·실패·취소
+- `node tests/problem-initialization.mjs`: 예시 입력 초기 상태·코드 초기화 불변성
+- `node tests/account-core.mjs`: 계정 요청, OAuth 결과, 윤년·기간·기여도 경계
 
 의존 경계 검사는 정적 회귀 방지 장치이며 수학적 순수성을 증명하지 않는다. 별칭을 통한 간접 호출, 입력 변경, 시간대 정책은 코드 리뷰와 동작 테스트에서도 확인한다. 날짜 계산은 기존의 로컬 달력 또는 UTC 기준을 그대로 유지하고 현재 시각만 입력으로 전달한다.
 
