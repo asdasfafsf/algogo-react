@@ -28,10 +28,10 @@
 Node 24 (`.nvmrc`), pnpm 11.19.0 (`packageManager`) 사용.
 
 ```sh
-rtk pnpm install --frozen-lockfile --strict-peer-dependencies
-rtk pnpm build
-rtk pnpm lint
-rtk pnpm dev
+pnpm install --frozen-lockfile --strict-peer-dependencies
+pnpm build
+pnpm lint
+pnpm dev
 ```
 
 현재 확인용 개발 서버: http://127.0.0.1:5175/
